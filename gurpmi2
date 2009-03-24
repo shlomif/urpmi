@@ -207,11 +207,11 @@ sub ask_continue {
     my ($msg, $nextclosure) = @_;
     my $vbox = Gtk2::VBox->new(0, 5);
     $vbox->pack_start(new_label($msg), 1, 1, 0);
-    printf "%s\n", $msg;
+    $urpm->{log}($msg);
     my $continue_button = Gtk2::Button->new(but(N("_Ok")));
     my $quit_button = Gtk2::Button->new(but(N("_Abort")));
-    $quit_button->signal_connect(clicked => sub { print("=> cancel\n"); &quit(@_); } );
-    $continue_button->signal_connect(clicked => sub { print("=> ok\n"); goto &$nextclosure });
+    $quit_button->signal_connect(clicked => sub { $urpm->{log}("=> cancel"); &quit(@_); } );
+    $continue_button->signal_connect(clicked => sub { $urpm->{log}("=> ok"); goto &$nextclosure });
     add_button_box($vbox, $quit_button, $continue_button);
     change_mainw($vbox);
     # default is to continue, but according to some HIG, warning should reverse the choise and defaults to abort
@@ -221,7 +221,8 @@ sub ask_continue {
 sub ask_continue_if_no_auto {
     my ($msg, $nextclosure) = @_;
     if ($gurpmi::options{auto}) {
-	printf "%s\n=> ok(auto)\n", $msg;
+	$urpm->{log}($msg);
+	$urpm->{log}("=> ok(auto)");
 	goto &$nextclosure;
     } else {
 	ask_continue($msg, $nextclosure);
@@ -233,7 +234,7 @@ sub ask_continue_blocking {
     my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'question', 'yes-no', $msg);
     my $answer = $w->run;
     $w->destroy;
-    printf "%s => %s\n", $msg, $answer;
+    $urpm->{log}($msg . " => " . $answer);
     exit(1) if $answer eq 'no';
     1;
 }
