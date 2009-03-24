@@ -149,6 +149,7 @@ sub configure_urpm() {
 	    $sw->set_border_width(2);
 	    $f->add($sw);
 	    $text->get_buffer->set_text($message);
+	    $text->set_editable(0);
 	    $_->show foreach $f, $sw, $text;
 	    $w->set_size_request(400, 400);
 	    $w->set_default_response('ok');
