@@ -224,17 +224,21 @@ sub install {
 	my $fh;
 	#- assume default value for some parameter.
 	$options{delta} ||= 1000;
+
+	#- ensure perl does not create a circular reference below, otherwise all this won't be collected,
+	#  and rpmdb won't be closed:
+	my ($callback_open_helper, $callback_close_helper) = ($options{callback_open_helper}, $options{callback_close_helper});
 	$options{callback_open} = sub {
 	    my ($_data, $_type, $id) = @_;
 	    $index++;
-	    $options{callback_open_helper} and $options{callback_open_helper}->(@_);
+	    $callback_open_helper and $callback_open_helper->(@_);
 	    $fh = urpm::sys::open_safe($urpm, '<', $install->{$id} || $upgrade->{$id});
 	    $fh ? fileno $fh : undef;
 	};
 	$options{callback_close} = sub {
 	    my ($urpm, undef, $pkgid) = @_;
 	    return unless defined $pkgid;
-	    $options{callback_close_helper} and $options{callback_close_helper}->($db, @_);
+	    $callback_close_helper and $callback_close_helper->($db, @_);
 	    get_README_files($urpm, $trans, $urpm->{depslist}[$pkgid]);
 	    close $fh if defined $fh;
 	};
