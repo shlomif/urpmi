@@ -207,14 +207,25 @@ sub ask_continue {
     my ($msg, $nextclosure) = @_;
     my $vbox = Gtk2::VBox->new(0, 5);
     $vbox->pack_start(new_label($msg), 1, 1, 0);
+    printf "%s\n", $msg;
     my $continue_button = Gtk2::Button->new(but(N("_Ok")));
     my $quit_button = Gtk2::Button->new(but(N("_Abort")));
-    $quit_button->signal_connect(clicked => \&quit);
-    $continue_button->signal_connect(clicked => sub { goto &$nextclosure });
+    $quit_button->signal_connect(clicked => sub { print("=> cancel\n"); &quit(@_); } );
+    $continue_button->signal_connect(clicked => sub { print("=> ok\n"); goto &$nextclosure });
     add_button_box($vbox, $quit_button, $continue_button);
     change_mainw($vbox);
     # default is to continue, but according to some HIG, warning should reverse the choise and defaults to abort
     $mainw->set_focus($continue_button); # also set_default should be called but it gives a warning!
+}
+
+sub ask_continue_if_no_auto {
+    my ($msg, $nextclosure) = @_;
+    if ($gurpmi::options{auto}) {
+	printf "%s\n=> ok(auto)\n", $msg;
+	goto &$nextclosure;
+    } else {
+	ask_continue($msg, $nextclosure);
+    }
 }
 
 sub ask_continue_blocking {
@@ -222,6 +233,7 @@ sub ask_continue_blocking {
     my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'question', 'yes-no', $msg);
     my $answer = $w->run;
     $w->destroy;
+    printf "%s => %s\n", $msg, $answer;
     exit(1) if $answer eq 'no';
     1;
 }
@@ -229,8 +241,8 @@ sub ask_continue_blocking {
 sub do_install {
     wait_label();
     my @ask_remove = urpm::select::removed_packages($urpm, $state);
-    @ask_remove && !$gurpmi::options{auto}
-	? ask_continue(N(
+    @ask_remove
+	? ask_continue_if_no_auto(N(
 	    "The following packages have to be removed for others to be upgraded:\n%s\nContinue installation anyway?",
 	    urpm::select::translate_why_removed($urpm, $state, @ask_remove)
 	), \&do_install_2)
@@ -247,8 +259,8 @@ sub do_install_2 () {
         }
     }
     $urpm->{nb_install} = @to_install;
-    @to_install > 1 && !$gurpmi::options{auto}
-	? ask_continue(
+    @to_install > 1
+	? ask_continue_if_no_auto(
 		(scalar(@to_install) == 1 ?
 		N("To satisfy dependencies, the following package is going to be installed:")
 		: N("To satisfy dependencies, the following packages are going to be installed:"))
