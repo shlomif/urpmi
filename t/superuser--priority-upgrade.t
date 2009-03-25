@@ -103,7 +103,7 @@ sub urpmi_expected {
 
 	my $ok = $expect->expect(2, # timeout in seconds 
 				 [ $msg => sub { $expect->send($to_send); } ]);
-	print "$to_send";
+	print "$to_send\n";
 	ok($ok, qq(expecting "$msg"));
 	$ok or return;
     }
