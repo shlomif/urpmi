@@ -1,3 +1,9 @@
+- log user interactions to stdout in gurpmi2
+- exit with non 0 error code when failing to add a media, fixes bug #47952
+- when using urpme -a, properly report when no packages could be removed,
+  fixes bug #48506
+- return a non 0 error code when the user stops the install when an upgrade
+  would remove some packages (because of dependencies issues)
 - fix a circular reference that was causing rpmdb to be opened many
   times in installer
 
