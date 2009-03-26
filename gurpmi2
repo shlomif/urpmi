@@ -383,6 +383,7 @@ sub do_install_3 () {
             my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok',
                                              join("\n", values %$need_restart_formatted)
                                          );
+            $w->run;
             $w->destroy;
         },
         missing_files_summary => sub {
