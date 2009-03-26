@@ -211,7 +211,7 @@ sub ask_continue {
     $urpm->{log}($msg);
     my $continue_button = Gtk2::Button->new(but(N("_Ok")));
     my $quit_button = Gtk2::Button->new(but(N("_Abort")));
-    $quit_button->signal_connect(clicked => sub { $urpm->{log}("=> cancel"); &quit(); exit 1});
+    $quit_button->signal_connect(clicked => sub { $urpm->{log}("=> cancel"); &quit(); exit 1 });
     $continue_button->signal_connect(clicked => sub { $urpm->{log}("=> ok"); goto &$nextclosure });
     add_button_box($vbox, $quit_button, $continue_button);
     change_mainw($vbox);
