@@ -73,7 +73,7 @@ sub parse_command_line() {
     # keep a copy for gurpmi2
     {
         local @ARGV = @ARGV;
-        urpm::args::parse_cmdline(urpm => { options => \%options});
+        urpm::args::parse_cmdline(urpm => { options => \%options });
     }
 
     # Expand *.urpmi arguments
@@ -101,9 +101,9 @@ sub parse_command_line() {
     return @all_rpms;
 }
 
-sub but ($) { "    $_[0]    " }
+sub but($) { "    $_[0]    " }
 
-sub quit () {
+sub quit() {
     if (Gtk2->main_level) {
         Gtk2->main_quit;
     } else {
@@ -112,7 +112,7 @@ sub quit () {
     }
 }
 
-sub cancel_n_quit () {
+sub cancel_n_quit() {
     Gtk2->main_quit;
     exit(1);
 }
