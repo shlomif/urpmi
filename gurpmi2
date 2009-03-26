@@ -338,7 +338,7 @@ sub do_install_3 () {
             1;
         },
         trans_log => sub {
-	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
+	    my ($mode, $file, $percent, $_total, $_eta, $_speed) = @_;
 
             urpm::download::sync_logger(@_);
 
@@ -383,7 +383,6 @@ sub do_install_3 () {
             my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok',
                                              join("\n", values %$need_restart_formatted)
                                          );
-            my $response = $w->run;
             $w->destroy;
         },
         missing_files_summary => sub {
@@ -422,7 +421,8 @@ sub do_install_3 () {
 }
 
 sub ask_yes_or_no {
-    my ($title, $msg) = @_;
+    my ($_title, $msg) = @_;
+    # MessageDialogs have no titles unless using 'secondary-text'
     my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'yes-no', $msg);
     my $response = $w->run;
     $w->destroy;
