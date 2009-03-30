@@ -643,7 +643,7 @@ sub parse_media {
 
 	if ($_->{searchmedia}) {
 	    $urpm->{searchmedia} = 1;
-	    $urpm->{log}(N("Search start: %s end: %s", $_->{start}, $_->{end}));
+	    $urpm->{debug}("Search start: %s end: %s", $_->{start}, $_->{end});
 	}
 
         $< == 0 and _generate_medium_names($urpm, $_);
