@@ -273,6 +273,9 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    }
 	}
     }
+    if ($callbacks->{is_canceled}) {
+        last if $callbacks->{is_canceled}->();
+    }
 }
 
 if ($migrate_back_rpmdb_db_version) {
