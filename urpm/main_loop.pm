@@ -118,7 +118,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	if (@missing) {
 	    push @msgs, N("Installation failed, some files are missing:\n%s", 
 			  join("\n", map { "    $_->[0]" } @missing))
-	      . "\n" . N("You may want to update your urpmi database.");
+	      . "\n" . N("You may need to update your urpmi database.");
 	}
 	if (@bad) {
 	    push @msgs, N("Installation failed, bad rpms:\n%s",
@@ -130,7 +130,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	} else {
 	    $go_on = $callbacks->{ask_yes_or_no}->(
 		N("Installation failed"), 
-		join("\n\n", @msgs, N("Try to go on anyway?")));
+		join("\n\n", @msgs, N("Try to continue anyway?")));
 	}
 	if (!$go_on) {
 	    if (@missing) {
