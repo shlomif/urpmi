@@ -31,9 +31,10 @@ merge:
 	done
 
 $(PGOAL).pot: $(PL_FILES)
+	intltool-update --gettext-package desktopstuff --pot
 	perl_checker -q --generate-pot $(PGOAL)_tmp.pot $(PL_FILES)
-	[ ! -e $(PGOAL)_tmp.pot ] || msgcat --use-first $(PGOAL)_tmp.pot > $@
-	rm -f $(PGOAL)_tmp.pot
+	[ ! -e $(PGOAL)_tmp.pot ] || msgcat --use-first $(PGOAL)_tmp.pot desktopstuff.pot > $@
+	rm -f desktopstuff.pot $(PGOAL)_tmp.pot 
 
 install: all
 	for l in $(LANGS); do \
