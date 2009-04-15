@@ -880,14 +880,20 @@ msgstr ""
 msgid "Retry?"
 msgstr "Νέα προσπάθεια ;"
 
-#: ../urpm/main_loop.pm:119, c-format
+#: ../urpm/main_loop.pm:119
+#, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
 "%s"
-msgstr "Η εγκατάσταση απέτυχε, λείπουν μερικά αρχεία : \n %s"
+msgstr ""
+"Η εγκατάσταση απέτυχε, λείπουν μερικά αρχεία : \n"
+" %s"
 
-#: ../urpm/main_loop.pm:121, c-format
-msgid "You may want to update your urpmi database."
+#. -PO: we silently update the string from "You may want to..." to "You may need to..".
+#. -PO: so that translations do not got fuzzy-ed just before the release:
+#: ../urpm/main_loop.pm:121
+#, c-format
+msgid "You may need to update your urpmi database."
 msgstr "Θα πρέπει να ενημερώσετε τη βάση δεδομένων urpmi."
 
 #: ../urpm/main_loop.pm:124
@@ -1342,7 +1348,8 @@ msgid "Marking %s as manually installed, it won't be auto-orphaned"
 msgstr ""
 "Σημείωση του %s ως εγκατεστημένο χειροκίνητα, δεν θα θεωρείται ορφανό πακέτο"
 
-#: ../urpm/orphans.pm:362, c-format
+#: ../urpm/orphans.pm:362
+#, c-format
 msgid ""
 "The following package is now orphaned, if you wish to remove it, you can use "
 "\"urpme --auto-orphans\"."

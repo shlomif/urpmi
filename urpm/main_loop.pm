@@ -118,7 +118,10 @@ foreach my $set (@{$state->{transaction} || []}) {
 	if (@missing) {
 	    push @msgs, N("Installation failed, some files are missing:\n%s", 
 			  join("\n", map { "    $_->[0]" } @missing))
-	      . "\n" . N("You may need to update your urpmi database.");
+	      . "\n" .
+	      #-PO: we silently update the string from "You may want to..." to "You may need to..".
+	      #-PO: so that translations do not got fuzzy-ed just before the release:
+	      N("You may need to update your urpmi database.");
 	}
 	if (@bad) {
 	    push @msgs, N("Installation failed, bad rpms:\n%s",
