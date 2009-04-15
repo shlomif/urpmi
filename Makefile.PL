@@ -120,6 +120,10 @@ testall:
 	make test
 	sudo make test TEST_FILES='t/superuser--*.t'
 
+%.desktop:   %.desktop.in
+	intltool-merge --utf8 po \$< \$@ -d -u -c intltool-merge-cache
+
+
 **MM**
 }
 
