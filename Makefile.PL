@@ -106,7 +106,7 @@ installstatedir:
 	install -d \$(DESTDIR)/var/cache/urpmi/headers
 	install -d \$(DESTDIR)/var/cache/urpmi/rpms
 
-installgurpmi2: pure_install
+installgurpmi2: pure_install gurpmi.desktop
 	ln -s -f consolehelper \$(DESTINSTALLSCRIPT)/gurpmi2
 
 ChangeLog:
