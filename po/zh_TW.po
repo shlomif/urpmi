@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-30 16:09+0200\n"
+"POT-Creation-Date: 2009-04-15 15:00+0200\n"
 "PO-Revision-Date: 2008-11-01 10:40+0800\n"
 "Last-Translator: Shiva Huang <shivahuang@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -359,7 +359,7 @@ msgstr ""
 "%s\n"
 "您或許要更新您的 urpmi 資料庫"
 
-#: ../gurpmi2:397 ../urpm/main_loop.pm:250 ../urpm/main_loop.pm:290
+#: ../gurpmi2:397 ../urpm/main_loop.pm:253 ../urpm/main_loop.pm:296
 #, c-format
 msgid "Installation failed:"
 msgstr "安裝失敗；"
@@ -613,7 +613,7 @@ msgstr "%s 無法使用，回到 %s"
 #: ../urpm/download.pm:157
 #, c-format
 msgid "can not read proxy settings (not enough rights to read %s)"
-msgstr "無法讀取代理伺服器設定(沒有讀取 %s 的權限)"
+msgstr "無法讀取代理伺服器設定 (沒有讀取 %s 的權限)"
 
 #: ../urpm/download.pm:182
 #, c-format
@@ -852,15 +852,17 @@ msgid ""
 "Installation failed, some files are missing:\n"
 "%s"
 msgstr ""
-"安裝失敗，以下的檔案似乎不存在: \n"
+"安裝失敗，某些檔案遺失：\n"
 "%s"
 
-#: ../urpm/main_loop.pm:121
-#, c-format
-msgid "You may want to update your urpmi database."
-msgstr "您或許需要更新您的 urpmi 資料庫"
-
+#. -PO: we silently update the string from "You may want to..." to "You may need to..".
+#. -PO: so that translations do not got fuzzy-ed just before the release:
 #: ../urpm/main_loop.pm:124
+#, c-format
+msgid "You may need to update your urpmi database."
+msgstr "您或許要更新您的 urpmi 資料庫。"
+
+#: ../urpm/main_loop.pm:127
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -869,68 +871,68 @@ msgstr ""
 "安裝失敗，損毀的套件：\n"
 "%s"
 
-#: ../urpm/main_loop.pm:132 ../urpm/main_loop.pm:171 ../urpm/main_loop.pm:252
-#: ../urpm/main_loop.pm:259
+#: ../urpm/main_loop.pm:135 ../urpm/main_loop.pm:174 ../urpm/main_loop.pm:255
+#: ../urpm/main_loop.pm:262
 #, c-format
 msgid "Installation failed"
 msgstr "安裝失敗"
 
-#: ../urpm/main_loop.pm:133
+#: ../urpm/main_loop.pm:136
 #, c-format
-msgid "Try to go on anyway?"
-msgstr "是否繼續進行？"
+msgid "Try to continue anyway?"
+msgstr "試著強制進行下去？"
 
-#: ../urpm/main_loop.pm:156
+#: ../urpm/main_loop.pm:159
 #, c-format
 msgid "The following package has bad signature"
 msgstr "下列套件有不正確的簽章"
 
-#: ../urpm/main_loop.pm:157
+#: ../urpm/main_loop.pm:160
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "下列套件有不正確的簽章"
 
-#: ../urpm/main_loop.pm:158
+#: ../urpm/main_loop.pm:161
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "您要繼續安裝嗎？"
 
-#: ../urpm/main_loop.pm:175
+#: ../urpm/main_loop.pm:178
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "正在移除已安裝的套件 (%s)"
 
-#: ../urpm/main_loop.pm:195
+#: ../urpm/main_loop.pm:198
 #, c-format
 msgid "distributing %s"
 msgstr "正在發佈 %s"
 
-#: ../urpm/main_loop.pm:210
+#: ../urpm/main_loop.pm:213
 #, c-format
 msgid "installing %s from %s"
 msgstr "正在由 %2$s 安裝 %1$s"
 
-#: ../urpm/main_loop.pm:212
+#: ../urpm/main_loop.pm:215
 #, c-format
 msgid "installing %s"
 msgstr "正在安裝 %s"
 
-#: ../urpm/main_loop.pm:253
+#: ../urpm/main_loop.pm:256
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "嘗試不檢查相依性直接安裝？"
 
-#: ../urpm/main_loop.pm:260
+#: ../urpm/main_loop.pm:263
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "嘗試採用強制安裝的方式 (--force)？"
 
-#: ../urpm/main_loop.pm:300
+#: ../urpm/main_loop.pm:306
 #, c-format
 msgid "Packages are up to date"
 msgstr "套件都已經更新了"
 
-#: ../urpm/main_loop.pm:311 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:317 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "可以安裝"
@@ -1147,7 +1149,7 @@ msgstr "正在比對 %s 與 %s"
 #: ../urpm/media.pm:1354
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
-msgstr "媒體 \"%s\" 的hdlist檔案是無效的"
+msgstr "媒體 \"%s\" 的 hdlist 檔案是無效的"
 
 #: ../urpm/media.pm:1380
 #, c-format
@@ -1157,12 +1159,12 @@ msgstr "正在複製 \"%s\" 的 MD5SUM 檔案..."
 #: ../urpm/media.pm:1420
 #, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
-msgstr "無效的MD5SUM檔案(自 %s 下載)"
+msgstr "無效的MD5SUM檔案 (自 %s 下載)"
 
 #: ../urpm/media.pm:1423
-#, fuzzy, c-format
+#, c-format
 msgid "no metadata found for medium \"%s\""
-msgstr "沒有找到 \"%s\" 媒體的 synthesis 檔案"
+msgstr "沒有找到 \"%s\" 媒體的 metadata"
 
 #: ../urpm/media.pm:1455
 #, c-format
@@ -1197,7 +1199,7 @@ msgstr "已更新媒體 \"%s\""
 #: ../urpm/media.pm:1730
 #, c-format
 msgid "retrieval of [%s] failed"
-msgstr "接收 %s 失敗"
+msgstr "接收 [%s] 失敗"
 
 #: ../urpm/mirrors.pm:19 ../urpm/mirrors.pm:40
 #, c-format
@@ -1309,10 +1311,10 @@ msgstr ""
 #: ../urpm/orphans.pm:362
 #, c-format
 msgid ""
-"The following package is now orphan, if you wish to remove it, you can use "
+"The following package is now orphaned, if you wish to remove it, you can use "
 "\"urpme --auto-orphans\"."
 msgid_plural ""
-"The following packages are now orphans, if you wish to remove them, you can "
+"The following packages are now orphaned, if you wish to remove them, you can "
 "use \"urpme --auto-orphans\"."
 msgstr[0] ""
 
@@ -1397,7 +1399,7 @@ msgstr "urpmi 已經重新啟動，套件的優先順序列表並未改變。"
 #, c-format
 msgid ""
 "urpmi was restarted, and the list of priority packages did change: %s vs %s"
-msgstr ""
+msgstr "urpmi 已經重新啟動，套件的優先順序列表發生改變：%s 與 %s"
 
 #: ../urpm/select.pm:176
 #, c-format
@@ -1619,10 +1621,10 @@ msgid "unknown package"
 msgstr "未知的套件"
 
 #: ../urpme:123
-#, c-format
+#, fuzzy, c-format
 msgid "Removing the following package will break your system:"
 msgid_plural "Removing the following packages will break your system:"
-msgstr[0] ""
+msgstr[0] "移除套件 %s 將破壞您的系統"
 
 #: ../urpme:128
 #, c-format
@@ -1656,7 +1658,7 @@ msgstr[0] "要移除這 %d 個套件嗎？"
 #: ../urpme:168
 #, c-format
 msgid "testing removal of %s"
-msgstr "測試移除 %s "
+msgstr "測試移除 %s"
 
 #: ../urpme:185
 #, c-format
@@ -1664,9 +1666,9 @@ msgid "Removal failed"
 msgstr "移除失敗"
 
 #: ../urpme:187
-#, fuzzy, c-format
+#, c-format
 msgid "Removal is possible"
-msgstr "移除失敗"
+msgstr "無法移除"
 
 #: ../urpmf:29
 #, c-format
@@ -2065,7 +2067,7 @@ msgstr ""
 #: ../urpmi:108
 #, c-format
 msgid "  --allow-suggests - auto select \"suggested\" packages.\n"
-msgstr "-allow-suggests -自動選取建議的套件。\n"
+msgstr "  --allow-suggests - 自動選取 \"建議的\" 套件。\n"
 
 #: ../urpmi:112
 #, c-format
@@ -2750,7 +2752,7 @@ msgstr "  -ff            - 確實的強制更新 synthesis\n"
 #: ../urpmi.update:69
 #, c-format
 msgid "Only superuser is allowed to update media"
-msgstr "只有管理者才能跟新媒體"
+msgstr "只有管理者才能更新媒體"
 
 #: ../urpmi.update:86
 #, c-format
@@ -2961,7 +2963,7 @@ msgstr "  -l             - 列出套件內包含的檔案。\n"
 #: ../urpmq:103
 #, c-format
 msgid "  -m             - equivalent to -du\n"
-msgstr "-m 與 -du 參數效果相同"
+msgstr "  -m             - 與 -du 參數效果相同\n"
 
 #: ../urpmq:104
 #, c-format
@@ -3040,3 +3042,12 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "沒有找到更新紀錄\n"
+
+#: ../gurpmi.desktop.in.h:1
+msgid "Graphical front end to install RPM files"
+msgstr "RPM 檔案安裝的圖形化前端"
+
+#: ../gurpmi.desktop.in.h:2
+msgid "Software Installer"
+msgstr "軟體安裝程式"
+
