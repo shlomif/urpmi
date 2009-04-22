@@ -379,6 +379,7 @@ sub do_install_3 () {
             $mainw->set_focus($quit_button);
         },
         need_restart => sub {
+            return if $gurpmi::options{auto};
             my ($need_restart_formatted) = @_;
             my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok',
                                              join("\n", values %$need_restart_formatted)
