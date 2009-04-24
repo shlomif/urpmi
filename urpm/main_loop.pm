@@ -266,7 +266,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 			goto install;
 		    }
 		}
-		print $msg;
+		$urpm->{log}($msg);
 
 		++$nok;
 		push @errors, @l;
