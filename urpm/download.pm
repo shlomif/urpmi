@@ -500,7 +500,7 @@ sub sync_curl {
 			}
 			#- this checks that download has actually started
 			if ($_ eq "\n"
-			    && !($speed == 0 && $percent == 100 && index($eta, '--') >= 0) #- work around bug 13685
+			    && !($speed eq 0 && $percent == 100 && index($eta, '--') >= 0) #- work around bug 13685
 			) {
 			    propagate_sync_callback($options, 'end', $file);
 			    $file = undef;
