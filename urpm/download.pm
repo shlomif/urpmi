@@ -249,11 +249,12 @@ sub set_proxy {
 	push @res, '-H', 'Pragma:' if @res;
     } elsif ($proxy->{type} =~ /\baria2\b/) {
 	if (my ($http_proxy) = $p->{http_proxy} && parse_http_proxy($p->{http_proxy})) {
-	    push @res, ('--http-proxy', $http_proxy);
+	    my $allproxy = $p->{user}; 
+	    $allproxy .= ":" . $p->{pwd} if $p->{pwd}; 
+	    $allproxy .= "@";
+	    $allproxy .= $http_proxy;
+	    @res = ("--all-proxy=http://$allproxy");
 	}
-	push @res, ('--http-proxy', $p->{ftp_proxy}) if defined $p->{ftp_proxy};
-	push @res, ("--http-proxy-user=$p->{user}", "--http-proxy-passwd=$p->{pwd}")
-	  if defined $p->{user} && defined $p->{pwd};
     } else { 
 	die N("Unknown webfetch `%s' !!!\n", $proxy->{type});
     }
