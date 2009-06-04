@@ -723,7 +723,8 @@ sub _parse_aria2_output {
 				propagate_sync_callback($options, 'start', $file)
 				  if !$options->{is_retry};
 			}
-    		    if ($buf =~ m!^\[#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*/\w)\s\w*:(\d+\w*)\]$!) {
+			#parses aria2c: [#1 SIZE:176.0KiB/2.5MiB(6%) CN:3 SPD:256.22KiBs ETA:09s]
+    		    if ($buf =~ m!^\[#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*)\s\w*:(\d+\w*)\]$!) {
 			    my ($total, $percent, $speed, $eta) = ($2, $3, $5, $6);
 			    #- $1 = current downloaded size, $4 = connections
 		    if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
