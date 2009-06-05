@@ -332,7 +332,7 @@ if ($needed_media_info{hdlist}) {
 		if (m!^<!) { 
 		    ($fn) = /fn="(.*)"/;
 		} elsif (%s) {
-                    $fn or $urpm->{fatal}("fast algorithm is broken, please report a bug");
+                    $fn or $urpm->{fatal}(1, "fast algorithm is broken, please report a bug");
                     my $pkg = urpm::xml_info_pkg->new({ fn => $fn });
 		    print $pkg->name, ':', $_;		    
 		}
