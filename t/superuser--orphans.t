@@ -196,7 +196,7 @@ sub run_and_get_suggested_orphans {
     my $s = run_urpm_cmd($cmd);
     print $s;
 
-    my ($lines) = $s =~ /^The following packages? (?:is|are) now orphans?, use "urpme --auto-orphans" to remove (?:it|them)\.\n(.*)/ms;
+    my ($lines) = $s =~ /^The following packages? (?:is|are) now orphaned, if you wish to remove (?:it|them), you can use "urpme --auto-orphans"\.\n(.*)/ms;
     my @msgs = $lines ? $lines =~ /^  (\S+)\.\S+$/mg : (); # we don't want the arch
 
     my $msg = join(" -- ", sort @msgs);
