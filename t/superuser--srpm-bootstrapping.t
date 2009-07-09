@@ -20,6 +20,7 @@ sub test {
 
     urpmi("--auto $para");
     check_installed_names($name); # check the buildrequires is installed
+    #is(run_urpm_cmd('urpmq --auto-orphans'),''); # test for bug #52169
 
     install_src_rpm($para);
     check_installed_and_remove($name);
