@@ -122,7 +122,7 @@ sub test_auto_select {
 
 sub test_auto_select_raw_urpmq_urpme {
     my ($req_v1, $wanted_v1, $wanted_v2, $orphans_v2) = @_;
-    print "# test_auto_select_raw_urpmq_urpme(@$req_v1, $wanted_v1, $wanted_v2)\n";
+    print "# test_auto_select_raw_urpmq_urpme(@$req_v1, $wanted_v1, $wanted_v2, $orphans_v2)\n";
     urpmi("--media $name-1 --auto $_") foreach @$req_v1;
     check_installed_fullnames(split ' ', $wanted_v1);
     run_and_get_suggested_orphans("urpmi --media $name-2 --auto --auto-select", split(' ', $orphans_v2));
