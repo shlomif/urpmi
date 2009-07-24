@@ -110,6 +110,7 @@ sub _pick_one_ {
 
 	    # the cache will be deemed outdated if network_mtime is more recent than the cache's
 	    $cache->{network_mtime} = _network_mtime() if $set_network_mtime;
+	    $cache->{product_id_mtime} = _product_id_mtime(); 
 	}
 
 	$cache->{chosen} = $cache->{list}[0]{url} or return;
@@ -144,6 +145,9 @@ sub _cache__may_clean_if_outdated {
 	} elsif ($cache->{time} &&
 		   time() > $cache->{time} + 24*60*60 * $urpm->{options}{'days-between-mirrorlist-update'}) {
 	    $urpm->{log}("not using outdated cached mirror list $mirrorlist");
+	    %$cache = ();
+	} elsif ($cache->{product_id_mtime} && _product_id_mtime() != $cache->{product_id_mtime}) {
+	    $urpm->{log}("not using cached mirror list $mirrorlist since product id file changed");
 	    %$cache = ();
 	}
     }
@@ -299,6 +303,7 @@ sub _is_only_one_mirror {
 }
 
 sub _network_mtime() { (stat('/etc/resolv.conf'))[9] }
+sub _product_id_mtime() { (stat('/etc/product.id'))[9] }
 
 sub parse_LDAP_namespace_structure {
     my ($s) = @_;
