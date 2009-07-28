@@ -558,7 +558,9 @@ sub translate_why_unselected_one {
     my $obj = $state->{rejected}{$fullname};
     my $rb = $obj->{backtrack};
     my @unsatisfied = @{$rb->{unsatisfied} || []};
+    my @conflicts = @{$rb->{conflicts} || []};
     my $s = join ", ", (
+	(map { N("due to conflicts with %s", $_) } @conflicts),
 	(map { N("due to unsatisfied %s", $_) } uniq(map {
 	    #- XXX in theory we shouldn't need this, dependencies (and not ids) should
 	    #- already be present in @unsatisfied. But with biarch packages this is
