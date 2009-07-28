@@ -1,12 +1,15 @@
-- properly invalidate mirror cache when the distro version changes 
-  (ie when product.id changes). Fixes bug #52133, patch from Aurélien Lefebvre
-- adjust parsing of aria2 output for aria2 1.4, fixes bug #51354, patch from
-  Funda Wang
-- use urpmi log API for the transaction failed message instead of
-  printing it on the console so that installer can save each error
-  with each transaction log instead of only having a summary at end
+- urpmi.addmedia:
+  o properly invalidate mirror cache when the distro version changes 
+    (ie when product.id changes). Fixes bug #52133, patch from Aurélien Lefebvre
 - urpmi:
   o allow bash-completion to complete to .spec files as well
+  o adjust parsing of aria2 output for aria2 1.4, fixes bug #51354, patch from
+    Funda Wang
+  o use urpmi log API for the transaction failed message instead of
+    printing it on the console so that installer can save each error
+    with each transaction log instead of only having a summary at end
+  o inform user when selected packages conflict instead of silently dropping
+    one (Anssi Hannula)
 
 Version 6.25.5 - 23 April 2009
 
