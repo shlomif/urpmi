@@ -229,7 +229,7 @@ sub store_userpkgs {
     @{$self->{pkgs_user}} = @pkgs;
 }
 
-# Store a list of packages selected bu urpmi to install
+# Store a list of packages selected by urpmi to install
 sub store_toinstall {
     my $self = shift;
     shift;
@@ -244,7 +244,7 @@ sub upload_dudf {
     my ($self, $options) = @_;
 
     (my $cwd) = getcwd() =~ /(.*)/;
-    print N("Compressing file... ");
+    print N("Compressing DUDF data... ");
     # gzip the file to upload
     open(FILE, $self->{dudf_file}) or do { print N("NOT OK\n"); return };
     my $gz = gzopen($self->{dudf_file} . ".gz", "wb") or do { print N("NOT OK\n"); return };
@@ -257,7 +257,7 @@ sub upload_dudf {
     close(FILE);
     print N("OK\n");
 
-    print N("Uploading file:\n");
+    print N("Uploading DUDF data:\n");
     my (@ftp_files, @other_files);
     push @other_files, $self->{dudf_filename};
     my @l = (@ftp_files, @other_files);

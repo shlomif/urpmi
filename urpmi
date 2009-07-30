@@ -529,8 +529,6 @@ if (@ask_unselect) {
     }
 }
 
-    my $msg = N("The installation cannot continue because the following package has to be removed for others to be upgraded:\n%s\n");
-
 if (my @conflicting_pkgs_msgs = 
       $urpm->{options}{'allow-force'} ? () : urpm::select::removed_packages_msgs($urpm, $state)) {
     {
