@@ -462,7 +462,6 @@ sub sync_curl {
 	    (map { m|/| ? ("-O", $_) : @{[]} } @other_files)))
     {
 	my @l = (@ftp_files, @other_files);
-	my ($buf, $file); $buf = '';
 	my $cmd = join(" ", map { "'$_'" } "/usr/bin/curl",
 	    "-q", # don't read .curlrc; some toggle options might interfer
 	    ($options->{'limit-rate'} ? ("--limit-rate", $options->{'limit-rate'}) : ()),
@@ -481,6 +480,17 @@ sub sync_curl {
 	    "--stderr", "-", # redirect everything to stdout
 	    @all_files);
 	$options->{debug} and $options->{debug}($cmd);
+    _curl_action($cmd,$options,@l,"download",$cwd);
+    } else {
+	chdir $cwd;
+    }
+
+}
+
+sub _curl_action {
+    my ($cmd, $options, @l, $updown, $cwd) = @_;
+    
+	my ($buf, $file); $buf = '';
 	my $curl_pid = open(my $curl, "$cmd |");
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	local $_;
@@ -497,7 +507,7 @@ sub sync_curl {
 			if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
 			    kill 15, $curl_pid;
 			    close $curl;
-			    die N("curl failed: download canceled\n");
+			    die N("curl failed: ".$updown." canceled\n");
 			}
 			#- this checks that download has actually started
 			if ($_ eq "\n"
@@ -519,9 +529,6 @@ sub sync_curl {
 	}
 	chdir $cwd;
 	close $curl or _error('curl');
-    } else {
-	chdir $cwd;
-    }
 }
 
 sub _calc_limit_rate {

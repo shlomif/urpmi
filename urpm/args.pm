@@ -351,6 +351,11 @@ my %options_spec = (
     },
 );
 
+eval
+{
+    require urpm::dudf;
+    $options_spec{'urpmi'}{'force-dudf'} = \$::force_dudf;
+};
 
 
 # generate urpmf options callbacks
