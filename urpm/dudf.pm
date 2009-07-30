@@ -59,13 +59,13 @@ BEGIN {}
 (our $VERSION) = q($Revision: 246 $) =~ /(\d+)/;
 
 sub dudf_exit {
-    my ($self, $t, $exit_code) = @_;
+    my ($self, $exit_code, $o_exit_msg) = @_;
     $self->set_exit_code($exit_code);
-    if ($_[3]) {
-        $self->set_exit_msg($_[3]);
+    if ($o_exit_msg) {
+        $self->set_exit_msg($o_exit_msg);
     }
     $self->write_dudf;
-    exit($_[0]);
+    exit($exit_code);
 }
 
 sub get_distribution {
@@ -98,7 +98,7 @@ sub check_package {
 # Find packages selected to be removed due to obsoletes and store them into @{$self->{packages_removed}}
 # or due to upgrade or conflict and store them into @{$self->{packages_upgraded}}
 sub check_removed_upgraded {
-    my ($self, $m, $state) = @_;
+    my ($self, $state) = @_;
     my $urpm = ${$self->{dudf_urpm}};
     my $t = $state->{rejected};
 
@@ -188,16 +188,8 @@ sub new {
     # If there is no log file, we create the default content here
     if (! -f $self->{log_file})
     {
-        my $lf = new IO::File;
-        if ($lf->open(">" . $self->{log_file}))
-        {
-            $lf->write(N("# Here are logs of your DUDF uploads.
-# Line format is : <date time of generation> <uid>
-# You can use uids to see the content of your uploads at this url :
-# http://dudf.forge.mandriva.com/
-"));
-            $lf->close;
-        }
+	output_safe($self->{log_file}, 
+                    N("# Here are logs of your DUDF uploads.\n# Line format is : <date time of generation> <uid>\n# You can use uids to see the content of your uploads at this url :\n# http://dudf.forge.mandriva.com/"));
     }
     my $ug = new Data::UUID;
     $self->{dudf_uid} = $ug->to_string($ug->create_str);
@@ -215,25 +207,21 @@ sub set_exit_msg {
 
 # store the exit code
 sub set_exit_code {
-    my ($self) = shift;
+    my ($self, $exit_code) = @_;
 
-    $self->{exit_code} = "@_";
+    $self->{exit_code} = $exit_code;
 }
 
 # Store the list of packages the user wants to install (given to urpmi)
 sub store_userpkgs {
-    my $self = shift;
-    shift;
-    my @pkgs = @_;
+    my ($self, @pkgs) = @_;
 
     @{$self->{pkgs_user}} = @pkgs;
 }
 
 # Store a list of packages selected by urpmi to install
 sub store_toinstall {
-    my $self = shift;
-    shift;
-    my @pkgs = @_;
+    my ($self, @pkgs) = @_;
 
     @{$self->{pkgs_toinstall}} = @pkgs;
 }
@@ -243,7 +231,6 @@ sub upload_dudf {
     -x "/usr/bin/curl" or do { print N("curl is missing, cannot upload DUDF file.\n"); return };
     my ($self, $options) = @_;
 
-    (my $cwd) = getcwd() =~ /(.*)/;
     print N("Compressing DUDF data... ");
     # gzip the file to upload
     open(FILE, $self->{dudf_file}) or do { print N("NOT OK\n"); return };
@@ -280,12 +267,8 @@ sub upload_dudf {
     unlink $self->{dudf_file};
     print N("\nYou can see your DUDF report at the following URL :\n\t");
     print $self->{access_url} . "?uid=" . $self->{dudf_uid} . "\n";
-    my $lf = new IO::File;
-    if ($lf->open(">>" . $self->{log_file})) {
-        $lf->write($self->{dudf_time} . "\t" . $self->{dudf_uid} . "\n");
-        $lf->close;
-        print N("You can access to a log of your uploads in\n\t") . $self->{log_file} . "\n";
-    }
+    append_to_file($self->{log_file}, $self->{dudf_time} . "\t" . $self->{dudf_uid} . "\n");
+    print N("You can access to a log of your uploads in\n\t") . $self->{log_file} . "\n";
 }
 
 sub xml_pkgs {
