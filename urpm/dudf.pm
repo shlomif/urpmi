@@ -275,7 +275,7 @@ sub upload_dudf {
         "-F id=" . $self->{dudf_uid},
         $self->{upload_url},
         );
-    urpm::download::_curl_action($cmd, $options, @l, "upload", $cwd);
+    urpm::download::_curl_action($cmd, $options, @l, 1);
     unlink $self->{dudf_file} . ".gz";
     unlink $self->{dudf_file};
     print N("\nYou can see your DUDF report at the following URL :\n\t");

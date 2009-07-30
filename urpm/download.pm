@@ -457,6 +457,7 @@ sub sync_curl {
     #- http files (and other files) are correctly managed by curl wrt conditional download.
     #- options for ftp files, -R (-O <file>)*
     #- options for http files, -R (-O <file>)*
+    my $result;
     if (my @all_files = (
 	    (map { ("-O", $_) } @ftp_files),
 	    (map { m|/| ? ("-O", $_) : @{[]} } @other_files)))
@@ -480,15 +481,14 @@ sub sync_curl {
 	    "--stderr", "-", # redirect everything to stdout
 	    @all_files);
 	$options->{debug} and $options->{debug}($cmd);
-    _curl_action($cmd,$options,@l,"download",$cwd);
-    } else {
-	chdir $cwd;
+	$result = _curl_action($cmd,$options,@l);
     }
-
+    chdir $cwd;
+    $result;
 }
 
 sub _curl_action {
-    my ($cmd, $options, @l, $updown, $cwd) = @_;
+    my ($cmd, $options, @l, $o_is_upload) = @_;
     
 	my ($buf, $file); $buf = '';
 	my $curl_pid = open(my $curl, "$cmd |");
@@ -507,7 +507,9 @@ sub _curl_action {
 			if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
 			    kill 15, $curl_pid;
 			    close $curl;
-			    die N("curl failed: ".$updown." canceled\n");
+			    
+			    die N("curl failed: upload canceled\n") if $o_is_upload;
+			    die N("curl failed: download canceled\n");
 			}
 			#- this checks that download has actually started
 			if ($_ eq "\n"
@@ -527,7 +529,6 @@ sub _curl_action {
 		$buf = '';
 	    }
 	}
-	chdir $cwd;
 	close $curl or _error('curl');
 }
 
