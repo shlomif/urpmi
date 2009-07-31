@@ -8,6 +8,7 @@ use Exporter;
 use URPM;
 use urpm;
 use urpm::msg;
+use urpm::util;
 use Cwd;
 use IO::File;
 use Switch;
