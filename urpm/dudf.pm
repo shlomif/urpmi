@@ -313,9 +313,7 @@ sub write_dudf {
 
     if ($self->{force_dudf} != 0 || $self->{exit_code} != 0) {
         my $noexpr = N("Nn");
-        my $msg = N("A problem has been encountered. You can help Mandriva to improve packages installation \n");
-        $msg .= N("by uploading us a DUDF report file. This is a part of the Mancoosi european research project.\n");
-        $msg .= N("More at http://www.mancoosi.org\n");
+        my $msg = N("A problem has been encountered. You can help Mandriva to improve package\ninstallation by uploading a DUDF report file.\nThis is a part of the Mancoosi european research project.\nMore at http://www.mancoosi.org\n");
         $msg .= N("Do you want to upload to Mandriva a DUDF report?");
         if ($self->{force_dudf} || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/) {
             print N("\nGenerating DUDF... ");
