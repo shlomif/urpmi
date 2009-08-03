@@ -245,7 +245,7 @@ sub _will_package_be_unneeded {
 
     if ($required_maybe_loop) {
 	my ($fullname, @provides) = @$required_maybe_loop;
-	$urpm->{debug}("checking wether $fullname is a depency loop") if $urpm->{debug};
+	$urpm->{debug}("checking whether $fullname is a dependency loop") if $urpm->{debug};
 
 	# doing it locally, since we may fail (and so we must backtrack this change)
 	my %ignore = %$toremove;
