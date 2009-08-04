@@ -48,6 +48,8 @@ use fields qw(
     packages_upgraded
     pkgs_toinstall
     pkgs_user
+    pkgs_user_install
+    pkgs_user_upgrade
     version
     xmlns
     xmlnsdudf
@@ -201,9 +203,14 @@ sub new {
     return $self;
 }
 
+sub set_error_msg {
+    my ($self,$m) = @_;
+    $self->{exit_msg} .= $m;
+}
+
 sub set_exit_msg {
     my ($self, $m) = @_;
-    $self->{exit_msg} = $m;
+    $self->{exit_msg} .= $m;
 }
 
 # store the exit code
@@ -275,7 +282,12 @@ sub upload_dudf {
 sub xml_pkgs {
     my ($doc, $pk) = @_;
 
-    $doc->startTag("package", "name" => $pk->name, "version" => $pk->version, "arch" => $pk->arch, "release" => $pk->release);
+    if ($pk->epoch) {
+        $doc->startTag("package", "name" => $pk->name, "version" => $pk->version, "arch" => $pk->arch, "release" => $pk->release, "epoch" => $pk->epoch);
+    }
+    else {
+        $doc->startTag("package", "name" => $pk->name, "version" => $pk->version, "arch" => $pk->arch, "release" => $pk->release);
+    }
     if ($pk->provides) {
         $doc->startTag("provides");
         foreach my $i ($pk->provides) {
@@ -307,6 +319,33 @@ sub xml_pkgs {
     $doc->endTag;
 }
 
+sub compute_pkgs_user {
+    my ($self) = @_;
+    my $in;
+
+    foreach my $p (@{$self->{pkgs_user}}) {
+        $in = 0;
+        foreach my $pk (@package_status) {
+            # packages installed by urpmi are removed from the list 
+            if (@{$self->{pkgs_toinstall}}) {
+                foreach my $pkg (@{$self->{pkgs_toinstall}}) {
+                    if ($p eq $pk->name) {
+                        if ($pkg->name ne $pk->name || $pkg->version ne $pk->version || $pkg->arch ne $pk->arch || $pkg->release ne $pk->release || $pkg->epoch ne $pk->epoch) {
+                            $in = 1;
+                            if (!grep($p, @{$self->{pkgs_user_upgrade}})) {
+                                push(@{$self->{pkgs_user_upgrade}}, $p);
+                            }
+                        }
+                    }                    
+                }
+            }
+        }
+        if (($in == 0) && (!grep($p, @{$self->{pkgs_user_install}}))) {
+            push(@{$self->{pkgs_user_install}}, $p);
+        }
+    }
+}
+
 # Generate DUDF data
 sub write_dudf {
     my ($self) = @_;
@@ -321,6 +360,7 @@ sub write_dudf {
             urpm::db_open_or_die(urpm->new)->traverse_tag("name", [ "rpm" ], sub { my ($p) = @_; $self->{installer_name} = $p->name; $self->{installer_version} = $p->version });
             $self->get_package_status;
             $self->get_package_universe;
+            $self->compute_pkgs_user;
 
             my $output = new IO::File;
             if ($output->open(">" . $self->{dudf_file})) {
@@ -365,22 +405,27 @@ sub write_dudf {
                                 # packages removed by urpmi are added back
                                 foreach my $pkg (@{$self->{packages_removed}}) {
                                     foreach my $pk (@$pkg) {
-                                            xml_pkgs($doc,$pk);
+                                        xml_pkgs($doc,$pk);
                                     }
                                 }
                                 # packages upgraded by urpmi are restored in the list (version before upgrade)
                                 foreach my $pkg (@{$self->{packages_upgraded}}) {
                                     foreach my $pk (@$pkg) {
-                                            xml_pkgs($doc,$pk);
+                                        xml_pkgs($doc,$pk);
                                     }
                                 }
                                 # packages already installed before the launch of urpmi
                                 foreach my $pk (@package_status) {
                                     # packages installed by urpmi are removed from the list 
-                                    foreach my $pkg (@{$self->{pkgs_toinstall}}) {
-                                        if ($pkg->name ne $pk->name || $pkg->version ne $pk->version || $pkg->arch ne $pk->arch || $pkg->release ne $pk->release) {
-                                            xml_pkgs($doc,$pk);
+                                    if (@{$self->{pkgs_toinstall}}) {
+                                        foreach my $pkg (@{$self->{pkgs_toinstall}}) {
+                                            if ($pkg->name ne $pk->name || $pkg->version ne $pk->version || $pkg->arch ne $pk->arch || $pkg->release ne $pk->release || $pkg->epoch ne $pk->epoch) {
+                                                xml_pkgs($doc,$pk);
+                                            }
                                         }
+                                    }
+                                    else {
+                                        xml_pkgs($doc,$pk);
                                     }
                                 }
                             $doc->endTag;
@@ -397,23 +442,21 @@ sub write_dudf {
                             }
                         $doc->endTag;
                         $doc->startTag("action");
-    #                        $doc->startTag("upgrade");
-    #                            foreach my $pkg (@{$self->{pkgs_toinstall}}) {
-    #                                if ($pkg->flag_installed) {
-    #                                    $doc->startTag("package", "name" => $pkg->name, "version" => $pkg->version, "arch" => $pkg->arch, "release" => $pkg->release);
-    #                                    $doc->endTag;
-    #                                }
-    #                            }
-    #                        $doc->endTag;
-    #                        $doc->startTag("install");
+                            $doc->startTag("upgrade");
+                                    foreach my $pkg (@{$self->{pkgs_user_upgrade}}) {
+                                        $doc->startTag("package", "name" => $pkg);
+                                        $doc->endTag;
+                                    }
+                            $doc->endTag;
+                            $doc->startTag("install");
+                                    foreach my $pkg (@{$self->{pkgs_user_install}}) {
+                                        $doc->startTag("package", "name" => $pkg);
+                                        $doc->endTag;
+                                    }
+                            $doc->endTag;
+                            $doc->startTag("command");
                                 $doc->characters($self->{action});
-     #                       $doc->endTag;
-                        $doc->endTag;
-                        $doc->startTag("selected");
-                                foreach my $pkg (@{$self->{pkgs_user}}) {
-                                    $doc->startTag("package", "name" => $pkg);
-                                    $doc->endTag;
-                                }
+                            $doc->endTag;
                         $doc->endTag;
                         $doc->startTag("desiderata");
                         $doc->endTag;
