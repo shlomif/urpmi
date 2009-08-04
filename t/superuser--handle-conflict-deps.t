@@ -41,8 +41,8 @@ sub test_conflict_on_install {
     urpmi('--auto a b');
     check_installed_and_remove('a'); # WARNING: either a or b is chosen, depending on hdlist order
 
-#    urpmi('--auto f g'); # test for bug #52135
-#    check_installed_and_remove('g');
+    urpmi('--auto f g'); # test for bug #52135
+    check_installed_and_remove('g');
 }
 
 sub test_simple {
