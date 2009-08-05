@@ -21,16 +21,16 @@ urpmi_addmedia("$name-1 $::pwd/media/$name-1");
 urpmi_addmedia("$name-2 $::pwd/media/$name-2");
 
 test('--split-length 0');
-test('--split-level 1');
+test('--split-level 1 --split-length 1');
 
 test_d('--split-length 0');
-test_d('--split-level 1');
+test_d('--split-level 1 --split-length 1');
 
 test_e('--split-length 0');
-test_e('--split-level 1');
+test_e('--split-level 1 --split-length 1');
 
 test_ae('--split-length 0');
-test_ae('--split-level 1');
+test_ae('--split-level 1 --split-length 1');
 
 sub test {
     my ($option) = @_;

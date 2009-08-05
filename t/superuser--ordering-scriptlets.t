@@ -19,8 +19,8 @@ test_install_upgrade_rpm("requires_$_") foreach qw(preun postun);
 test_install_remove_urpmi("requires_$_", '') foreach qw(pre post preun postun);
 test_install_upgrade_urpmi("requires_$_", '') foreach qw(preun postun);
 
-test_install_remove_urpmi("requires_$_", '--split-level 1') foreach qw(pre post preun postun);
-test_install_upgrade_urpmi("requires_$_", '--split-level 1') foreach qw(preun postun);
+test_install_remove_urpmi("requires_$_", '--split-level 1 --split-length 1') foreach qw(pre post preun postun);
+test_install_upgrade_urpmi("requires_$_", '--split-level 1 --split-length 1') foreach qw(preun postun);
 
 sub test_install_remove_rpm {
     my ($name) = @_;

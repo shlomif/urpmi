@@ -20,7 +20,7 @@ urpmi_addmedia("$name $::pwd/media/$name");
 
 test1();
 test_with_ad('b c', 'b c d');
-test_with_ad('--split-level 1 b c', 'b c d'); # perl-URPM fix for #31969 fixes this too ("d" used to be removed without asking)
+test_with_ad('--split-level 1 --split-length 1 b c', 'b c d'); # perl-URPM fix for #31969 fixes this too ("d" used to be removed without asking)
 
 # below need promotion of "b" (obsoleting "a") to work
 test_with_ad('--auto c', 'b c d');
