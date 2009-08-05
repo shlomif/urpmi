@@ -16,6 +16,10 @@
 # j2 provides j
 # k1-1 provides k, but not k1-2
 #
+# l-1 and l-2 requires k
+# m-1 requires k but not m-2
+# n requires m
+#
 use strict;
 use lib '.', 't';
 use helper;
@@ -51,6 +55,11 @@ sub test {
 
     #- below need the promotion of "j2" (replacing removed j1) to work
     test_ijk("$split k1");
+
+    #- below tests for bug #52667
+    #- transactions created with only k1 upgrade caused n to be removed
+    #test_klm("$split --auto-select");
+    #test_klm("$split k1");
 }
 sub test_conflict {
     test_conflict_ef();
@@ -105,6 +114,19 @@ sub test_ijk {
 
     urpmi("--media $name-2 --auto $para");
     check_installed_fullnames_and_remove('i-1-1', 'j2-1-1', 'k1-2-1');
+}
+
+sub test_klm {
+    my ($para) = @_;
+    urpmi("--media $name-1 --auto l");
+    urpmi("--media $name-1 --auto n"); # separated in order to force install order
+    check_installed_names('k1', 'l', 'm', 'n');
+
+    my $output = run_urpm_cmd("urpmi --media $name-2 --auto $para 2>&1");
+    ok($output !~ /transaction is too small/, "test_klm transaction validity");
+    ok($output !~ /due to missing m/, "do not ask for removal of n"); # false message
+    # installation was always ok, just transactions and messages above were wrong
+    check_installed_fullnames_and_remove('k1-2-1', 'm-2-1', 'n-1-1');
 }
 
 sub test_conflict_ef {
