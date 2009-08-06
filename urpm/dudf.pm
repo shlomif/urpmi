@@ -330,7 +330,11 @@ sub compute_pkgs_user {
             if (@{$self->{pkgs_toinstall}}) {
                 foreach my $pkg (@{$self->{pkgs_toinstall}}) {
                     if ($p eq $pk->name) {
-                        if ($pkg->name ne $pk->name || $pkg->version ne $pk->version || $pkg->arch ne $pk->arch || $pkg->release ne $pk->release || $pkg->epoch ne $pk->epoch) {
+                        if (($pkg->name ne $pk->name ||
+                             $pkg->version ne $pk->version ||
+                             $pkg->arch ne $pk->arch ||
+                             $pkg->release ne $pk->release ||
+                             $pkg->epoch ne $pk->epoch)) {
                             $in = 1;
                             if (!grep($p, @{$self->{pkgs_user_upgrade}})) {
                                 push(@{$self->{pkgs_user_upgrade}}, $p);
@@ -350,7 +354,7 @@ sub compute_pkgs_user {
 sub write_dudf {
     my ($self) = @_;
 
-    if ($self->{force_dudf} != 0 || $self->{exit_code} != 0) {
+    if ($self->{force_dudf} != 0 || ($self->{exit_code} != 0 && ${$self->{dudf_urpm}}->{options}{auto} != 1)) {
         my $noexpr = N("Nn");
         my $msg = N("A problem has been encountered. You can help Mandriva to improve package\ninstallation by uploading a DUDF report file.\nThis is a part of the Mancoosi european research project.\nMore at http://www.mancoosi.org\n");
         $msg .= N("Do you want to upload to Mandriva a DUDF report?");
@@ -419,7 +423,11 @@ sub write_dudf {
                                     # packages installed by urpmi are removed from the list 
                                     if (@{$self->{pkgs_toinstall}}) {
                                         foreach my $pkg (@{$self->{pkgs_toinstall}}) {
-                                            if ($pkg->name ne $pk->name || $pkg->version ne $pk->version || $pkg->arch ne $pk->arch || $pkg->release ne $pk->release || $pkg->epoch ne $pk->epoch) {
+                                            if (($pkg->name ne $pk->name ||
+                                                 $pkg->version ne $pk->version ||
+                                                 $pkg->arch ne $pk->arch ||
+                                                 $pkg->release ne $pk->release ||
+                                                 $pkg->epoch ne $pk->epoch)) {
                                                 xml_pkgs($doc,$pk);
                                             }
                                         }
