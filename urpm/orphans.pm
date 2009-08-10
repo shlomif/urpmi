@@ -359,10 +359,8 @@ sub get_now_orphans_msg {
     my $orphans = get_orphans($urpm);
     my @orphans = map { scalar $_->fullname } @$orphans or return '';
 
-    P("The following package:\n" . add_leading_spaces(join("\n", sort @orphans) . "\n") .  
-	  "is now orphaned, if you wish to remove it, you can use \"urpme --auto-orphans\"",
-      "The following packages:\n" . add_leading_spaces(join("\n", sort @orphans) . "\n") . 
-	  "are now orphaned, if you wish to remove them, you can use \"urpme --auto-orphans\"",scalar(@orphans));
+    P("The following package:\n%s\nis now orphaned, if you wish to remove it, you can use \"urpme --auto-orphans\"",
+      "The following packages:\n%s\nare now orphaned, if you wish to remove them, you can use \"urpme --auto-orphans\"",scalar(@orphans), add_leading_spaces(join("\n", sort @orphans)));
 }
 
 
