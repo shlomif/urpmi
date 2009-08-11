@@ -260,13 +260,14 @@ if ($options{list_aliases}) {
 	    use_provides => $options{use_provides},
 	    fuzzy => $urpm->{options}{fuzzy},
 	    caseinsensitive => $options{caseinsensitive},
+	    all => $options{all},
             %more_options,
        );
     };
 
     #- search the packages according to the selection given by the user.
     if (@names) {
-	$search_packages->(\@names, all => $options{all}) or $options{force} or exit 1;
+	$search_packages->(\@names) or $options{force} or exit 1;
     }
     if (@src_names) {
 	$search_packages->(\@src_names, src => 1) or $options{force} or exit 1;
