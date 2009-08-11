@@ -1668,7 +1668,10 @@ sub update_those_media {
 	#- don't ever update static media
 	$medium->{static} and next;
 
+	my $unsubstituted_url = $medium->{url};
+	$medium->{url} = urpm::cfg::expand_line($medium->{url});
 	my $rc = _update_medium($urpm, $medium, %options);
+	$medium->{url} = $unsubstituted_url;
 	$rc or return if !$options{allow_failures};
 	$updates_result{$rc || 'error'}++;
     }
