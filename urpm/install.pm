@@ -256,7 +256,7 @@ sub install {
 		    $urpm->{log}("removing upgraded package $fullname");
 		} else {
 		    $callback_report_uninst and $callback_report_uninst->(N("Removing package %s", $fullname));
-		    print N("removing package %s", $fullname), "\n" if $verbose >= 0;
+		    $urpm->{print}(N("removing package %s", $fullname)) if $verbose >= 0;
 		}
 		$index++;
 	    }
@@ -280,9 +280,10 @@ sub install {
 
 	if ($options{verbose} >= 0) {
 	    foreach (keys %{$urpm->{readmes}}) {
-		print "-" x 70, "\n", N("More information on package %s", $urpm->{readmes}{$_}), "\n";
-		print cat_utf8(($urpm->{root} || '') . $_);
-		print "-" x 70, "\n";
+		$urpm->{print}("-" x 70 .  "\n" .
+                                 N("More information on package %s", $urpm->{readmes}{$_}));
+		$urpm->{print}(scalar cat_utf8(($urpm->{root} || '') . $_));
+		$urpm->{print}("-" x 70);
 	    }
 	}
     }

@@ -57,6 +57,7 @@ sub new {
 	error      => sub { printf STDERR "%s\n", $_[0] },
 	info       => sub { printf "%s\n", $_[0] }, #- displayed unless --quiet
 	log        => sub { printf "%s\n", $_[0] }, #- displayed if --verbose
+	print      => sub { printf "%s\n", $_[0] }, #- always displayed, enable to redirect output for eg: installer
 	ui_msg     => sub {
 	    # deprecated
 	    $self->{log}($_[0]);

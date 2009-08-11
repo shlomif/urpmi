@@ -171,7 +171,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    system("rpm", "-i$rpm_opt", @l, ($urpm->{root} ? ("--root", $urpm->{root}) : @{[]}));
 	    #- Warning : the following message is parsed in urpm::parallel_*
 	    if ($?) {
-		print N("Installation failed"), "\n";
+		$urpm->{print}(N("Installation failed"));
 		++$nok;
 	    } elsif ($urpm->{options}{'post-clean'}) {
 		if (my @tmp_srpm = grep { urpm::is_temporary_file($urpm, $_) } @l) {
@@ -195,7 +195,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 
     if (keys(%transaction_sources_install) || keys(%$transaction_sources) || $set->{remove}) {
 	if ($parallel) {
-	    print N("distributing %s", join(' ', values %transaction_sources_install, values %$transaction_sources)), "\n";
+	    $urpm->{print}(N("distributing %s", join(' ', values %transaction_sources_install, values %$transaction_sources)));
 	    #- no remove are handle here, automatically done by each distant node.
 	    $urpm->{log}("starting distributed install");
 	    $urpm->{parallel_handler}->parallel_install(
@@ -210,9 +210,9 @@ foreach my $set (@{$state->{transaction} || []}) {
 		(my $common_prefix) = $packnames[0] =~ m!^(.*)/!;
 		if (length($common_prefix) && @packnames == grep { m!^\Q$common_prefix/! } @packnames) {
 		    #- there's a common prefix, simplify message
-		    print N("installing %s from %s", join(' ', map { s!.*/!!; $_ } @packnames), $common_prefix), "\n";
+		    $urpm->{print}(N("installing %s from %s", join(' ', map { s!.*/!!; $_ } @packnames), $common_prefix));
 		} else {
-		    print N("installing %s", join "\n", @packnames), "\n";
+		    $urpm->{print}(N("installing %s", join "\n", @packnames));
 		}
 	      }
 	    }
@@ -290,10 +290,10 @@ $callbacks->{completed} and $callbacks->{completed}->();
 if ($nok) {
     $callbacks->{trans_error_summary} and $callbacks->{trans_error_summary}->($nok, \@errors);
     if (@formatted_errors) {
-	print join("\n", @formatted_errors), "\n";
+	$urpm->{print}(join("\n", @formatted_errors));
     }
     if (@errors) {
-	print N("Installation failed:"), "\n", map { "\t$_\n" } @errors;
+	$urpm->{print}(N("Installation failed:")), map { "\t$_\n" } @errors;
     }
     $exit_code ||= $ok ? 11 : 12;
 } else {
@@ -303,7 +303,7 @@ if ($nok) {
 	    if ($auto_select) {
 		if ($options{verbose} >= 0) {
 		    #- Warning : the following message is parsed in urpm::parallel_*
-		    print N("Packages are up to date"), "\n";
+		    $urpm->{print}(N("Packages are up to date"));
 		}
 	    } else {
 		if ($callbacks->{already_installed_or_not_installable}) {
