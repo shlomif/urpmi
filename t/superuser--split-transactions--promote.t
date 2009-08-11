@@ -58,8 +58,8 @@ sub test {
 
     #- below tests for bug #52667
     #- transactions created with only k1 upgrade caused n to be removed
-    #test_klm("$split --auto-select");
-    #test_klm("$split k1");
+    test_klm("$split --auto-select");
+    test_klm("$split k1");
 }
 sub test_conflict {
     test_conflict_ef();
