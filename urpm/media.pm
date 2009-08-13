@@ -153,6 +153,65 @@ sub recover_url_from_list {
     }
 }
 
+sub read_config__read_media_info {
+    my ($urpm) = @_;
+
+    require File::Glob;
+    # we can't use perl's glob() because there could be spaces in 
+    # $urpm->{mediacfgdir}
+    my %url2mediamap;
+    my %mirrorlist2mediamap;
+    foreach my $media_dir (File::Glob::bsd_glob("$urpm->{mediacfgdir}/*")) {
+	next if not -d $media_dir;
+
+	$urpm->{debug} and $urpm->{debug}("parsing: $media_dir");
+	print("parsing: $media_dir\n");
+
+	my $media_cfg = $media_dir . '/media.cfg';
+	my $distribconf = MDV::Distribconf->new($media_cfg, undef) or next;
+	$distribconf->settree('mandriva');
+	$distribconf->parse_mediacfg($media_cfg);
+    
+	if (open (URLS, '<', $media_dir . '/url')) {
+	    while (<URLS>) {
+		chomp ($_);
+		foreach my $medium ($distribconf->listmedia) {
+		    my $medium_path = reduce_pathname($_ . '/' . $distribconf->getpath($medium, 'path'));
+		    print "medium path: $medium_path\n";
+		    $url2mediamap{$medium_path} = [$distribconf, $medium];
+		}
+	    }
+	}
+
+	if (open (MIRRORLISTS, '<', $media_dir . '/mirrorlist')) {
+	    while (<MIRRORLISTS>) {
+		my $mirrorlist = $_;
+		chomp ($mirrorlist);
+		print "Mirrorlist: $mirrorlist\n";
+		foreach my $medium ($distribconf->listmedia) {
+		    my $medium_path = $distribconf->getpath($medium, 'path');
+		    print "medium path: $mirrorlist, $medium_path\n";
+		    $mirrorlist2mediamap{$mirrorlist}->{$medium_path} = [$distribconf, $medium];
+		}
+	    }
+	}
+    }
+    (\%url2mediamap, \%mirrorlist2mediamap);
+}
+
+sub associate_media_with_mediacfg {
+    my ($urpm, $media) = @_;
+
+    my ($url2mediamap, $mirrorlist2mediamap) = read_config__read_media_info ($urpm);
+    foreach my $medium (@{$media}) {
+	if ($medium->{mirrorlist}) {
+	    $medium->{mediacfg} = $mirrorlist2mediamap->{$medium->{mirrorlist}}{$medium->{'with-dir'}};
+	} elsif ($medium->{url}) {
+	    $medium->{mediacfg} = $url2mediamap->{$medium->{url}};
+	}
+    }
+}
+
 #- Loads /etc/urpmi/urpmi.cfg and performs basic checks.
 #- Does not handle old format: <name> <url> [with <path_hdlist>]
 sub read_config {
@@ -175,9 +234,14 @@ sub read_config {
 	    recover_url_from_list($urpm, $medium);
 	    $medium->{url} or $urpm->{error}("unable to find url in list file $medium->{name}, medium ignored");
 	}
-
 	push @media, $medium;
     }
+
+    # associate medias read from the config file with their description in a
+    # media.cfg file
+    # @media content will be modified and then add_existing medium will take 
+    # care of copying the media to $urpm
+    associate_media_with_mediacfg ($urpm, \@media);
 
     add_existing_medium($urpm, $_, $nocheck) foreach @media;
 
@@ -488,6 +552,7 @@ sub write_config {
     write_urpmi_cfg($urpm);
 }
 
+
 sub _tempignore {
     my ($medium, $ignore) = @_;
     $medium->{ignore} = $ignore;
@@ -761,6 +826,44 @@ sub add_medium {
     $name;
 }
 
+sub register_media_cfg {
+    my ($urpm, $url, $mirrorlist, $distribconf, $media_cfg) = @_;
+
+    my $media_name = "media.cfg";
+
+    my $arch = $distribconf->getvalue('media_info', 'arch') || '';
+    my $branch = $distribconf->getvalue('media_info', 'branch') || '';
+    my $product = $distribconf->getvalue('media_info', 'product') || '';
+    my $version = $distribconf->getvalue('media_info', 'version') || '';
+    #official mirrors define $branch but not $product, other RPM repos do the
+    #opposite :-/
+    my $media_dir = (($branch or $product) . '-' . $version . '-' . $arch);
+    $media_dir =~ tr!/!-!;
+    my $media_path = $urpm->{mediacfgdir} . '/' . $media_dir;
+    require File::Path;
+    File::Path::mkpath($media_path);
+    copy_and_own($media_cfg, $media_path . '/media.cfg')
+	or $urpm->{info}(1, N("failed to copy media.cfg to %s (%d)", $media_path, $? >> 8)); 
+    if ($url) {
+	my $filename = $media_path . "/url";
+	my @urls = split(/\n/, scalar cat_($filename));
+	if (!grep { $url eq $_ } @urls) { 
+	    append_to_file($filename. '/url', $url . "\n");
+	}
+    }
+    if ($mirrorlist) {
+	if ($mirrorlist ne '$MIRRORLIST') {
+	    require urpm::cfg;
+	    $mirrorlist = urpm::cfg::expand_line($mirrorlist);
+	}
+	my $filename = $media_path . "/mirrorlist";
+	my @mirrorlists = split(/\n/, scalar cat_($filename));
+	if (!grep { $mirrorlist eq $_ } @mirrorlists) { 
+	    append_to_file($filename, $mirrorlist . "\n");
+	}
+    }
+}
+
 #- add distribution media, according to url given.
 #- returns the list of names of added media.
 #- options :
@@ -790,6 +893,7 @@ sub add_distrib_media {
 	my $media_cfg = reduce_pathname("$dir/" . $distribconf->getpath(undef, 'infodir') . '/media.cfg');
 	$distribconf->parse_mediacfg($media_cfg)
 	    or $urpm->{error}(N("this location doesn't seem to contain any distribution")), return ();
+	register_media_cfg($urpm, $dir, undef, $distribconf, $media_cfg);
     } else {
 	if ($options{mirrorlist}) {
 	    $url and die "unexpected url $url together with mirrorlist $options{mirrorlist}\n";
@@ -798,8 +902,10 @@ sub add_distrib_media {
 	my $m = { mirrorlist => $options{mirrorlist}, url => $url };
 	my $parse_ok;
 	try__maybe_mirrorlist($urpm, $m, 'probe', sub {
+	    my $media_cfg = "$urpm->{cachedir}/partial/media.cfg";
 	    $distribconf = _new_distribconf_and_download($urpm, $m);
-	    $parse_ok = $distribconf && $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg");
+	    $parse_ok = $distribconf && $distribconf->parse_mediacfg($media_cfg);
+	    register_media_cfg($urpm, $url, $options{mirrorlist}, $distribconf, $media_cfg) if $parse_ok;
 	    $parse_ok;
 	});
 	$url = $m->{url};
@@ -937,6 +1043,52 @@ sub remove_selected_media {
     remove_media($urpm, [ grep { $_->{modified} } @{$urpm->{media}} ]);
 }
 
+sub _remove_medium_from_mediacfg {
+    my ($urpm, $mediacfg_dir, $url, $mirrorlist);
+
+    if ($mirrorlist) {
+	my $filename = $mediacfg_dir . "/mirrorlist";
+	my @mirrorlists = split(/\n/, scalar cat_($filename));
+	$urpm->{debug} and $urpm->{debug}("removing $mirrorlist from $filename");
+	output_safe ($filename, join ('\n', grep { $mirrorlist ne $_ } @mirrorlists));
+    }
+    if ($url) {
+	my $filename = $mediacfg_dir . "/url";
+	my @urls = split(/\n/, scalar cat_($filename));
+	$urpm->{debug} and $urpm->{debug}("removing $url from $filename");
+	output_safe ($filename, join ('\n', grep { $url ne $_ } @urls));
+    }
+}
+
+sub _cleanup_mediacfg_dir {
+    my ($urpm, $to_remove) = @_;
+
+    my @removed_mediacfg;
+    
+    foreach my $medium (@$to_remove) {
+	$medium->{mediacfg} or next;
+	#this should never happen but dirname(undef) returns . on which we call
+	#clean_dir so better be safe than sorry
+	$medium->{mediacfg}[0]->{root} or next;
+	my $dir = reduce_pathname(dirname($medium->{mediacfg}[0]->{root}));
+	begins_with($dir, $medium->{mediacfg}[0]->{root}) or next;
+	if (!grep { $_->{mediacfg} == $medium->{mediacfg} } @{$urpm->{media}}) {
+	    $urpm->{debug} and $urpm->{debug}("removing no longer used $dir");
+	    -d $dir and urpm::sys::clean_dir($dir);
+	}
+
+	if ($medium->{mirrorlist}) {
+	    if (!grep { $_->{mirrorlist} eq $medium->{mirrorlist} } @{$urpm->{media}}) {
+		_remove_medium_from_mediacfg($urpm, $dir, undef, $medium->{mirrorlist});
+	    }
+	} elsif ($medium->{url}) {
+	    if (!grep { $_->{url} eq $medium->{url} } @{$urpm->{media}}) {
+		_remove_medium_from_mediacfg($dir, $medium->{url}, undef);
+	    }
+	}
+    }
+}
+
 sub remove_media {
     my ($urpm, $to_remove) = @_;
 
@@ -951,8 +1103,8 @@ sub remove_media {
 	#- remove proxy settings for this media
 	urpm::download::remove_proxy_media($medium->{name});
     }
-
     $urpm->{media} = [ difference2($urpm->{media}, $to_remove) ];
+    _cleanup_mediacfg_dir($urpm, $to_remove);
 }
 
 sub _clean_statedir_medium_files {

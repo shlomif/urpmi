@@ -146,7 +146,7 @@ sub set_env {
 	print "dropping virtual from $urpm->{config}\n";
 	system(q(perl -pi -e 's/^\s*virtual\s*$//' ) . $urpm->{config});
     }
-    $urpm->{configs_dir} = "$env/media.d";
+    $urpm->{mediacfgdir} = "$env/mediacfg.d";
     $urpm->{skiplist} = "$env/skip.list";
     $urpm->{instlist} = "$env/inst.list";
     $urpm->{prefer_list} = "$env/prefer.list";
@@ -163,6 +163,7 @@ sub set_files {
 
     my %h = (
 	config        => "$urpmi_root/etc/urpmi/urpmi.cfg",
+	mediacfgdir   => "$urpmi_root/etc/urpmi/mediacfg.d",
 	skiplist      => prefer_rooted($urpmi_root, '/etc/urpmi/skip.list'),
 	instlist      => prefer_rooted($urpmi_root, '/etc/urpmi/inst.list'),
 	prefer_list   => prefer_rooted($urpmi_root, '/etc/urpmi/prefer.list'),
