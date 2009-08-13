@@ -153,7 +153,7 @@ sub recover_url_from_list {
     }
 }
 
-sub read_config__read_media_info {
+sub _read_config__read_media_info {
     my ($urpm) = @_;
 
     require File::Glob;
@@ -199,10 +199,10 @@ sub read_config__read_media_info {
     (\%url2mediamap, \%mirrorlist2mediamap);
 }
 
-sub associate_media_with_mediacfg {
+sub _associate_media_with_mediacfg {
     my ($urpm, $media) = @_;
 
-    my ($url2mediamap, $mirrorlist2mediamap) = read_config__read_media_info ($urpm);
+    my ($url2mediamap, $mirrorlist2mediamap) = _read_config__read_media_info ($urpm);
     foreach my $medium (@{$media}) {
 	if ($medium->{mirrorlist}) {
 	    $medium->{mediacfg} = $mirrorlist2mediamap->{$medium->{mirrorlist}}{$medium->{'with-dir'}};
@@ -241,7 +241,7 @@ sub read_config {
     # media.cfg file
     # @media content will be modified and then add_existing medium will take 
     # care of copying the media to $urpm
-    associate_media_with_mediacfg ($urpm, \@media);
+    _associate_media_with_mediacfg ($urpm, \@media);
 
     add_existing_medium($urpm, $_, $nocheck) foreach @media;
 
@@ -826,7 +826,7 @@ sub add_medium {
     $name;
 }
 
-sub register_media_cfg {
+sub _register_media_cfg {
     my ($urpm, $url, $mirrorlist, $distribconf, $media_cfg) = @_;
 
     my $media_name = "media.cfg";
@@ -848,7 +848,7 @@ sub register_media_cfg {
 	my $filename = $media_path . "/url";
 	my @urls = split(/\n/, scalar cat_($filename));
 	if (!grep { $url eq $_ } @urls) { 
-	    append_to_file($filename. '/url', $url . "\n");
+	    append_to_file($filename, $url . "\n");
 	}
     }
     if ($mirrorlist) {
@@ -893,7 +893,7 @@ sub add_distrib_media {
 	my $media_cfg = reduce_pathname("$dir/" . $distribconf->getpath(undef, 'infodir') . '/media.cfg');
 	$distribconf->parse_mediacfg($media_cfg)
 	    or $urpm->{error}(N("this location doesn't seem to contain any distribution")), return ();
-	register_media_cfg($urpm, $dir, undef, $distribconf, $media_cfg);
+	_register_media_cfg($urpm, $dir, undef, $distribconf, $media_cfg);
     } else {
 	if ($options{mirrorlist}) {
 	    $url and die "unexpected url $url together with mirrorlist $options{mirrorlist}\n";
@@ -905,7 +905,7 @@ sub add_distrib_media {
 	    my $media_cfg = "$urpm->{cachedir}/partial/media.cfg";
 	    $distribconf = _new_distribconf_and_download($urpm, $m);
 	    $parse_ok = $distribconf && $distribconf->parse_mediacfg($media_cfg);
-	    register_media_cfg($urpm, $url, $options{mirrorlist}, $distribconf, $media_cfg) if $parse_ok;
+	    _register_media_cfg($urpm, $url, $options{mirrorlist}, $distribconf, $media_cfg) if $parse_ok;
 	    $parse_ok;
 	});
 	$url = $m->{url};
@@ -1044,20 +1044,14 @@ sub remove_selected_media {
 }
 
 sub _remove_medium_from_mediacfg {
-    my ($urpm, $mediacfg_dir, $url, $mirrorlist);
+    my ($urpm, $mediacfg_dir, $url, $is_mirrorlist);
 
-    if ($mirrorlist) {
-	my $filename = $mediacfg_dir . "/mirrorlist";
-	my @mirrorlists = split(/\n/, scalar cat_($filename));
-	$urpm->{debug} and $urpm->{debug}("removing $mirrorlist from $filename");
-	output_safe ($filename, join ('\n', grep { $mirrorlist ne $_ } @mirrorlists));
-    }
-    if ($url) {
-	my $filename = $mediacfg_dir . "/url";
-	my @urls = split(/\n/, scalar cat_($filename));
-	$urpm->{debug} and $urpm->{debug}("removing $url from $filename");
-	output_safe ($filename, join ('\n', grep { $url ne $_ } @urls));
-    }
+    my $filename = $mediacfg_dir;
+    $filename .= $is_mirrorlist?"/mirrorlist":"/url";
+
+    my @urls = split(/\n/, scalar cat_($filename));
+    $urpm->{debug} and $urpm->{debug}("removing $url from $filename");
+    output_safe ($filename, join ('\n', grep { $url ne $_ } @urls));
 }
 
 sub _cleanup_mediacfg_dir {
@@ -1071,19 +1065,20 @@ sub _cleanup_mediacfg_dir {
 	#clean_dir so better be safe than sorry
 	$medium->{mediacfg}[0]->{root} or next;
 	my $dir = reduce_pathname(dirname($medium->{mediacfg}[0]->{root}));
-	begins_with($dir, $medium->{mediacfg}[0]->{root}) or next;
-	if (!grep { $_->{mediacfg} == $medium->{mediacfg} } @{$urpm->{media}}) {
+	begins_with($medium->{mediacfg}[0]->{root}, $dir) or next;
+	if (!grep { $_->{mediacfg}[0]->{root} == $medium->{mediacfg}[0]->{root} } @{$urpm->{media}}) {
 	    $urpm->{debug} and $urpm->{debug}("removing no longer used $dir");
 	    -d $dir and urpm::sys::clean_dir($dir);
+	    next;
 	}
 
 	if ($medium->{mirrorlist}) {
 	    if (!grep { $_->{mirrorlist} eq $medium->{mirrorlist} } @{$urpm->{media}}) {
-		_remove_medium_from_mediacfg($urpm, $dir, undef, $medium->{mirrorlist});
+		_remove_medium_from_mediacfg($urpm, $dir, $medium->{mirrorlist}, 1);
 	    }
 	} elsif ($medium->{url}) {
 	    if (!grep { $_->{url} eq $medium->{url} } @{$urpm->{media}}) {
-		_remove_medium_from_mediacfg($dir, $medium->{url}, undef);
+		_remove_medium_from_mediacfg($urpm, $dir, $medium->{url});
 	    }
 	}
     }
