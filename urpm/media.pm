@@ -165,7 +165,6 @@ sub _read_config__read_media_info {
 	next if not -d $media_dir;
 
 	$urpm->{debug} and $urpm->{debug}("parsing: $media_dir");
-	print("parsing: $media_dir\n");
 
 	my $media_cfg = $media_dir . '/media.cfg';
 	my $distribconf = MDV::Distribconf->new($media_cfg, undef) or next;
@@ -177,7 +176,6 @@ sub _read_config__read_media_info {
 		chomp ($_);
 		foreach my $medium ($distribconf->listmedia) {
 		    my $medium_path = reduce_pathname($_ . '/' . $distribconf->getpath($medium, 'path'));
-		    print "medium path: $medium_path\n";
 		    $url2mediamap{$medium_path} = [$distribconf, $medium];
 		}
 	    }
@@ -187,10 +185,8 @@ sub _read_config__read_media_info {
 	    while (<MIRRORLISTS>) {
 		my $mirrorlist = $_;
 		chomp ($mirrorlist);
-		print "Mirrorlist: $mirrorlist\n";
 		foreach my $medium ($distribconf->listmedia) {
 		    my $medium_path = $distribconf->getpath($medium, 'path');
-		    print "medium path: $mirrorlist, $medium_path\n";
 		    $mirrorlist2mediamap{$mirrorlist}->{$medium_path} = [$distribconf, $medium];
 		}
 	    }
