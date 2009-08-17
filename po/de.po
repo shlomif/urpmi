@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-10 13:35+0200\n"
+"POT-Creation-Date: 2009-08-17 17:47+0200\n"
 "PO-Revision-Date: 2009-04-13 18:08+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@freenet.de>\n"
 "Language-Team: deutsch <cooker-i18n@mandrivalinux.org>\n"
@@ -346,9 +346,9 @@ msgstr "Bitte legen Sie das Medium mit dem Namen »%s« ein"
 msgid "Downloading package `%s'..."
 msgstr "Holen des Pakets »%s« …"
 
-#: ../gurpmi2:360 ../urpm.pm:327 ../urpm/download.pm:821
-#: ../urpm/get_pkgs.pm:236 ../urpm/media.pm:810 ../urpm/media.pm:1271
-#: ../urpm/media.pm:1422
+#: ../gurpmi2:360 ../urpm.pm:329 ../urpm/download.pm:821
+#: ../urpm/get_pkgs.pm:236 ../urpm/media.pm:912 ../urpm/media.pm:1414
+#: ../urpm/media.pm:1565
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr " …Holen fehlgeschlagen: %s"
@@ -438,78 +438,78 @@ msgstr "Nur der Systemadministrator darf Pakete installieren"
 msgid "Running urpmi in restricted mode..."
 msgstr "Urpmi wird im eingeschränkten Modus ausgeführt …"
 
-#: ../urpm.pm:112
+#: ../urpm.pm:113
 #, c-format
 msgid "fail to create directory %s"
 msgstr "Fehler beim Erstellen des Ordners %s"
 
-#: ../urpm.pm:113
+#: ../urpm.pm:114
 #, c-format
 msgid "invalid owner for directory %s"
 msgstr "Fehlerhafter Besitzer des Ordners %s"
 
-#: ../urpm.pm:125
+#: ../urpm.pm:126
 #, c-format
 msgid "Can not download packages into %s"
 msgstr "Pakete können nicht im Ordner »%s« gespeichert werden"
 
-#: ../urpm.pm:140
+#: ../urpm.pm:141
 #, c-format
 msgid "Environment directory %s does not exist"
 msgstr "Der angegebene Ordner %s existiert nicht"
 
-#: ../urpm.pm:141 ../urpmf:248 ../urpmq:165
+#: ../urpm.pm:142 ../urpmf:248 ../urpmq:165
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "Spezielle Umgebung für %s wird benutzt\n"
 
-#: ../urpm.pm:302
+#: ../urpm.pm:304
 #, c-format
 msgid "unable to open rpmdb"
 msgstr "Die rpm-Datenbank kann nicht geöffnet werden"
 
-#: ../urpm.pm:316
+#: ../urpm.pm:318
 #, c-format
 msgid "invalid rpm file name [%s]"
 msgstr "Ungültiger RPM-Name [%s]"
 
-#: ../urpm.pm:322
+#: ../urpm.pm:324
 #, c-format
 msgid "retrieving rpm file [%s] ..."
 msgstr "Holen des RPMs [%s] …"
 
-#: ../urpm.pm:324 ../urpm/get_pkgs.pm:234
+#: ../urpm.pm:326 ../urpm/get_pkgs.pm:234
 #, c-format
 msgid "...retrieving done"
 msgstr "… Holen beendet"
 
-#: ../urpm.pm:332
+#: ../urpm.pm:334
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "Zugriff auf die RPM-Datei [%s] nicht möglich"
 
 # In den eckigen Klammern steht später die Fehlermeldung, deshalb muss die zweite Variable ana Ende
-#: ../urpm.pm:337
+#: ../urpm.pm:339
 #, c-format
 msgid "unable to parse spec file %s [%s]"
 msgstr "Nicht möglich, die spec-Datei %s zu parsen [%s]"
 
-#: ../urpm.pm:345
+#: ../urpm.pm:347
 #, c-format
 msgid "unable to register rpm file"
 msgstr "RPM-Datei kann nicht registriert werden"
 
-#: ../urpm.pm:347
+#: ../urpm.pm:349
 #, c-format
 msgid "Incompatible architecture for rpm [%s]"
 msgstr "Nicht kompatible Architektur für RPM [%s]"
 
-#: ../urpm.pm:351
+#: ../urpm.pm:353
 #, c-format
 msgid "error registering local packages"
 msgstr "Fehler bei der Registrierung lokaler Pakete"
 
-#: ../urpm.pm:439
+#: ../urpm.pm:441
 #, c-format
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Diese Operation ist im eingeschränkten Modus verboten"
@@ -617,7 +617,7 @@ msgstr "Es ist nicht möglich, die Konfigurationsdatei zu lesen [%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "Medium `%s' ist bereits vorhanden, Abbruch"
 
-#: ../urpm/cfg.pm:251 ../urpm/media.pm:477
+#: ../urpm/cfg.pm:251 ../urpm/media.pm:537
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "Die Konfigurationsdatei [%s] kann nicht geschrieben werden"
@@ -914,7 +914,7 @@ msgstr "Entfernen des Pakets %s"
 msgid "removing installed rpms (%s) from %s"
 msgstr "Installierte RPMs (%s) werden von %s entfernt"
 
-#: ../urpm/install.pm:283
+#: ../urpm/install.pm:284
 #, c-format
 msgid "More information on package %s"
 msgstr "Mehr Informationen über das Paket %s"
@@ -1063,53 +1063,53 @@ msgstr "Die Installation ist möglich"
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
 msgstr "Warnung: md5sum für %s ist in Prüfsummendatei nicht verfügbar"
 
-#: ../urpm/media.pm:194
+#: ../urpm/media.pm:254
 #, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
 msgstr ""
 "Das virtuelle Medium »%s« sollte eine eindeutige URL haben, es wird ignoriert"
 
-#: ../urpm/media.pm:196
+#: ../urpm/media.pm:256
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
 msgstr ""
 "Auf Listendatei von »%s« konnte nicht zugegriffen werden, Medium wird "
 "ignoriert"
 
-#: ../urpm/media.pm:199
+#: ../urpm/media.pm:259
 #, c-format
 msgid "unable to access synthesis file of \"%s\", medium ignored"
 msgstr ""
 "Es ist nicht möglich, auf die Synthesis-Datei von »%s« zuzugreifen, das "
 "Medium wird ignoriert"
 
-#: ../urpm/media.pm:225
+#: ../urpm/media.pm:285
 #, c-format
 msgid "trying to override existing medium \"%s\", skipping"
 msgstr ""
 "Existierendes Medium »%s« konnte nicht überschrieben werden, wird übersprungen"
 
-#: ../urpm/media.pm:441
+#: ../urpm/media.pm:501
 #, c-format
 msgid "failed to migrate removable device, ignoring media"
 msgstr "Migration des Wechselmediums ist gescheitert, Medium wird ignoriert"
 
-#: ../urpm/media.pm:479
+#: ../urpm/media.pm:539
 #, c-format
 msgid "wrote config file [%s]"
 msgstr "Konfigurationsdatei [%s] wurde geschrieben"
 
-#: ../urpm/media.pm:521
+#: ../urpm/media.pm:582
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
 msgstr "Parallelmodus kann nicht mit use-distrib-Modus genutzt werden"
 
-#: ../urpm/media.pm:529
+#: ../urpm/media.pm:590
 #, c-format
 msgid "using associated media for parallel mode: %s"
 msgstr "Zugeordnetes Medium wird für den parallelen Modus verwendet: %s"
 
-#: ../urpm/media.pm:545
+#: ../urpm/media.pm:606
 #, c-format
 msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
@@ -1118,214 +1118,219 @@ msgstr ""
 "--synthesis kann nicht verwendet werden mit --media, --excludemedia, --"
 "sortmedia, --update, --use-distrib oder --parallel"
 
-#: ../urpm/media.pm:663
+#: ../urpm/media.pm:724
 #, c-format
 msgid "skipping package %s"
 msgstr "Paket %s ausgelassen"
 
-#: ../urpm/media.pm:679
+#: ../urpm/media.pm:740
 #, c-format
 msgid "would install instead of upgrade package %s"
 msgstr "Anstatt des Aktualisierungspaketes lieber folgendes %s installieren"
 
-#: ../urpm/media.pm:704
+#: ../urpm/media.pm:765
 #, c-format
 msgid "medium \"%s\" already exists"
 msgstr "Das Medium »%s« existiert bereits"
 
-#: ../urpm/media.pm:743
+#: ../urpm/media.pm:804
 #, c-format
 msgid "(ignored by default)"
 msgstr "(standardmäßig ignoriert)"
 
-#: ../urpm/media.pm:749
+#: ../urpm/media.pm:810
 #, c-format
 msgid "adding medium \"%s\" before remote medium \"%s\""
 msgstr "Hinzufügen des Mediums »%s« vor dem entfernten Medium »%s«"
 
-#: ../urpm/media.pm:755
+#: ../urpm/media.pm:816
 #, c-format
 msgid "adding medium \"%s\""
 msgstr "Mediums »%s« wird hinzugefügt"
 
-#: ../urpm/media.pm:784
+#: ../urpm/media.pm:842
+#, fuzzy, c-format
+msgid "failed to copy media.cfg to %s (%d)"
+msgstr "Cp schlug auf Server %s fehl (%d)"
+
+#: ../urpm/media.pm:883
 #, c-format
 msgid "directory %s does not exist"
 msgstr "Der angegebene Ordner %s existiert nicht"
 
-#: ../urpm/media.pm:792
+#: ../urpm/media.pm:891
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "Dieser Ort scheint keine Distribution zu enthalten"
 
-#: ../urpm/media.pm:808
+#: ../urpm/media.pm:910
 #, c-format
 msgid "unable to parse media.cfg"
 msgstr "Nicht möglich, media.cfg zu parsen"
 
-#: ../urpm/media.pm:811
+#: ../urpm/media.pm:913
 #, c-format
 msgid "unable to access the distribution medium (no media.cfg file found)"
 msgstr ""
 "Es ist nicht möglich, das Distributionsmedium zu verwenden (keine media.cfg-"
 "Datei gefunden)"
 
-#: ../urpm/media.pm:829
+#: ../urpm/media.pm:931
 #, c-format
 msgid "skipping non compatible media `%s' (for %s)"
 msgstr "Nicht kompatible Quellen »%s« (für %s) werden übersprungen"
 
-#: ../urpm/media.pm:880
+#: ../urpm/media.pm:982
 #, c-format
 msgid "retrieving media.cfg file..."
 msgstr "media.cfg-Datei wird geholt …"
 
-#: ../urpm/media.pm:921
+#: ../urpm/media.pm:1023
 #, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "Es wird versucht, das nicht existierende Medium »%s« auszuwählen"
 
-#: ../urpm/media.pm:924
+#: ../urpm/media.pm:1026
 #, c-format
 msgid "selecting multiple media: %s"
 msgstr "Mehrfache Medienauswahl: %s"
 
-#: ../urpm/media.pm:944
+#: ../urpm/media.pm:1087
 #, c-format
 msgid "removing medium \"%s\""
 msgstr "Entfernen des Mediums »%s«"
 
-#: ../urpm/media.pm:1027
+#: ../urpm/media.pm:1170
 #, c-format
 msgid "reconfiguring urpmi for media \"%s\""
 msgstr "URPMI wird für Medium »%s« neu konfiguriert"
 
-#: ../urpm/media.pm:1061
+#: ../urpm/media.pm:1204
 #, c-format
 msgid "...reconfiguration failed"
 msgstr "… Rekonfiguration ist gescheitert"
 
-#: ../urpm/media.pm:1067
+#: ../urpm/media.pm:1210
 #, c-format
 msgid "reconfiguration done"
 msgstr "Rekonfiguration abgeschlossen"
 
-#: ../urpm/media.pm:1083
+#: ../urpm/media.pm:1226
 #, c-format
 msgid "Error generating names file: dependency %d not found"
 msgstr "Fehler beim Erstellen der names-Datei: Abhängigkeit %d nicht gefunden"
 
-#: ../urpm/media.pm:1104
+#: ../urpm/media.pm:1247
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "Medium »%s« ist auf dem aktuellen Stand"
 
-#: ../urpm/media.pm:1115
+#: ../urpm/media.pm:1258
 #, c-format
 msgid "examining synthesis file [%s]"
 msgstr "Synthese-Datei [%s] wird gelesen"
 
-#: ../urpm/media.pm:1135
+#: ../urpm/media.pm:1278
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "Probleme beim Lesen der Synthese-Datei des Mediums »%s«"
 
-#: ../urpm/media.pm:1148 ../urpm/media.pm:1243
+#: ../urpm/media.pm:1291 ../urpm/media.pm:1386
 #, c-format
 msgid "copying [%s] for medium \"%s\"..."
 msgstr "[%s] für Medium »%s« wird kopiert …"
 
-#: ../urpm/media.pm:1150 ../urpm/media.pm:1220 ../urpm/media.pm:1473
+#: ../urpm/media.pm:1293 ../urpm/media.pm:1363 ../urpm/media.pm:1616
 #, c-format
 msgid "...copying failed"
 msgstr "… das Kopieren scheiterte"
 
-#: ../urpm/media.pm:1216
+#: ../urpm/media.pm:1359
 #, c-format
 msgid "copying description file of \"%s\"..."
 msgstr "Beschreibungsdatei von »%s« wird kopiert …"
 
-#: ../urpm/media.pm:1218 ../urpm/media.pm:1247
+#: ../urpm/media.pm:1361 ../urpm/media.pm:1390
 #, c-format
 msgid "...copying done"
 msgstr "… das Kopieren ist beendet"
 
-#: ../urpm/media.pm:1249
+#: ../urpm/media.pm:1392
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "Kopieren von [%s] fehlgeschlagen (Datei ist verdächtig klein)"
 
-#: ../urpm/media.pm:1297
+#: ../urpm/media.pm:1440
 #, c-format
 msgid "computing md5sum of retrieved source synthesis"
 msgstr "md5sum der erhaltenen Synthese-Datei der Quelle wird errechnet"
 
-#: ../urpm/media.pm:1299 ../urpm/media.pm:1736
+#: ../urpm/media.pm:1442 ../urpm/media.pm:1882
 #, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
 msgstr "Holen von [%s] fehlgeschlagen (md5sum fehlerhaft)"
 
-#: ../urpm/media.pm:1314
+#: ../urpm/media.pm:1457
 #, c-format
 msgid "genhdlist2 failed on %s"
 msgstr "Das Erstellen der HD-Liste mit genhdlist2 in [%s] schlug fehl."
 
-#: ../urpm/media.pm:1324
+#: ../urpm/media.pm:1467
 #, c-format
 msgid "comparing %s and %s"
 msgstr "%s und %s werden verglichen"
 
-#: ../urpm/media.pm:1354
+#: ../urpm/media.pm:1497
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "Fehlerhafte hdlist-Datei %s für das Medium »%s«"
 
-#: ../urpm/media.pm:1380
+#: ../urpm/media.pm:1523
 #, c-format
 msgid "copying MD5SUM file of \"%s\"..."
 msgstr "md5-Datei von »%s« wird kopiert …"
 
-#: ../urpm/media.pm:1420
+#: ../urpm/media.pm:1563
 #, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
 msgstr "Ungültige md5sum-Datei (heruntergeladen von%s)"
 
-#: ../urpm/media.pm:1423
+#: ../urpm/media.pm:1566
 #, c-format
 msgid "no metadata found for medium \"%s\""
 msgstr "Keine Metadaten für das Medium »%s« gefunden"
 
-#: ../urpm/media.pm:1455
+#: ../urpm/media.pm:1598
 #, c-format
 msgid "retrieving source synthesis of \"%s\"..."
 msgstr "Holen der Synthese-Datei der Quelle »%s« …"
 
-#: ../urpm/media.pm:1521
+#: ../urpm/media.pm:1664
 #, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "Holen der Pubkey-Datei für »%s« …"
 
-#: ../urpm/media.pm:1533
+#: ../urpm/media.pm:1676
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr "… importierter Schlüssel %s von Pubkey-Datei von »%s«"
 
-#: ../urpm/media.pm:1537
+#: ../urpm/media.pm:1680
 #, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "Pubkey-Datei für »%s« kann nicht importiert werden"
 
-#: ../urpm/media.pm:1578
+#: ../urpm/media.pm:1721
 #, c-format
 msgid "no synthesis file found for medium \"%s\""
 msgstr "Keine Synthese-Datei für das Medium »%s« gefunden"
 
-#: ../urpm/media.pm:1611
+#: ../urpm/media.pm:1754
 #, c-format
 msgid "updated medium \"%s\""
 msgstr "Medium »%s« aktualisiert"
 
-#: ../urpm/media.pm:1730
+#: ../urpm/media.pm:1876
 #, c-format
 msgid "retrieval of [%s] failed"
 msgstr "Holen von [%s] fehlgeschlagen"
@@ -3275,18 +3280,18 @@ msgstr "--list-nodes kann nur mit --parallel benutzt werden"
 msgid "use -l to list files"
 msgstr "»-l« benutzen, um die Dateien zu aufzulisten"
 
-#: ../urpmq:404
+#: ../urpmq:405
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr "Keine xml-Info für das Medium »%s«, nur Teilergebnisse für das Paket %s"
 
-#: ../urpmq:405
+#: ../urpmq:406
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "Keine xml-Info für das Medium »%s«, nur Teilergebnisse für die Pakete %s"
 
-#: ../urpmq:408
+#: ../urpmq:409
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3294,7 +3299,7 @@ msgstr ""
 "Keine xml-Info für das Medium »%s«. Es ist nicht möglich, ein Ergebnis für "
 "das Paket %s zu liefern"
 
-#: ../urpmq:409
+#: ../urpmq:410
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3302,7 +3307,7 @@ msgstr ""
 "Keine xml-Info für das Medium »%s«. Es ist nicht möglich, Ergebnisse für die "
 "Pakete %s zu liefern"
 
-#: ../urpmq:476
+#: ../urpmq:477
 #, c-format
 msgid "No changelog found\n"
 msgstr "Kein Changelog gefunden\n"

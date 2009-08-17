@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-10 13:35+0200\n"
+"POT-Creation-Date: 2009-08-17 17:47+0200\n"
 "PO-Revision-Date: 2007-09-26 20:03+0200\n"
 "Last-Translator: Jaegeum Choe <baedaron@hananet.net>\n"
 "Language-Team: Korean <baedaron@hananet.net>\n"
@@ -318,9 +318,9 @@ msgstr "장치 [%2$s]에 「%1$s」미디어를 넣으세요."
 msgid "Downloading package `%s'..."
 msgstr "패키지 내려받는 중: [%s] (%s/%s)..."
 
-#: ../gurpmi2:360 ../urpm.pm:327 ../urpm/download.pm:821
-#: ../urpm/get_pkgs.pm:236 ../urpm/media.pm:810 ../urpm/media.pm:1271
-#: ../urpm/media.pm:1422
+#: ../gurpmi2:360 ../urpm.pm:329 ../urpm/download.pm:821
+#: ../urpm/get_pkgs.pm:236 ../urpm/media.pm:912 ../urpm/media.pm:1414
+#: ../urpm/media.pm:1565
 #, fuzzy, c-format
 msgid "...retrieving failed: %s"
 msgstr "FAT크기조정 실패: %s"
@@ -410,79 +410,79 @@ msgstr "오직 superuser만 패키지 설치가 가능합니다."
 msgid "Running urpmi in restricted mode..."
 msgstr "제한 모드에서의 urpmi 작동중"
 
-#: ../urpm.pm:112
+#: ../urpm.pm:113
 #, fuzzy, c-format
 msgid "fail to create directory %s"
 msgstr ""
 "%s 디렉토리을 확인할 수 없습니다\n"
 "에러: %s"
 
-#: ../urpm.pm:113
+#: ../urpm.pm:114
 #, c-format
 msgid "invalid owner for directory %s"
 msgstr ""
 
-#: ../urpm.pm:125
+#: ../urpm.pm:126
 #, fuzzy, c-format
 msgid "Can not download packages into %s"
 msgstr "패키지 내려받는 중: [%s] (%s/%s)..."
 
-#: ../urpm.pm:140
+#: ../urpm.pm:141
 #, c-format
 msgid "Environment directory %s does not exist"
 msgstr ""
 
-#: ../urpm.pm:141 ../urpmf:248 ../urpmq:165
+#: ../urpm.pm:142 ../urpmf:248 ../urpmq:165
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
 
-#: ../urpm.pm:302
+#: ../urpm.pm:304
 #, fuzzy, c-format
 msgid "unable to open rpmdb"
 msgstr "rpmdb를 열 수 없습니다.\n"
 
-#: ../urpm.pm:316
+#: ../urpm.pm:318
 #, c-format
 msgid "invalid rpm file name [%s]"
 msgstr "유효하지 않은 RPM 파일 이름 [%s]"
 
-#: ../urpm.pm:322
+#: ../urpm.pm:324
 #, fuzzy, c-format
 msgid "retrieving rpm file [%s] ..."
 msgstr "유효하지 않은 RPM 파일 이름 [%s]"
 
-#: ../urpm.pm:324 ../urpm/get_pkgs.pm:234
+#: ../urpm.pm:326 ../urpm/get_pkgs.pm:234
 #, fuzzy, c-format
 msgid "...retrieving done"
 msgstr "[%s] 추출 중"
 
-#: ../urpm.pm:332
+#: ../urpm.pm:334
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "RPM 파일「%s」에 접근할 수 없습니다."
 
-#: ../urpm.pm:337
+#: ../urpm.pm:339
 #, fuzzy, c-format
 msgid "unable to parse spec file %s [%s]"
 msgstr "RPM 파일「%s」에 접근할 수 없습니다."
 
-#: ../urpm.pm:345
+#: ../urpm.pm:347
 #, fuzzy, c-format
 msgid "unable to register rpm file"
 msgstr "RPM 파일「%s」에 접근할 수 없습니다."
 
-#: ../urpm.pm:347
+#: ../urpm.pm:349
 #, c-format
 msgid "Incompatible architecture for rpm [%s]"
 msgstr "rpm [%s] 와 맞지 않는 구조"
 
-#: ../urpm.pm:351
+#: ../urpm.pm:353
 #, c-format
 msgid "error registering local packages"
 msgstr "패키지 등록 오류"
 
-#: ../urpm.pm:439
+#: ../urpm.pm:441
 #, c-format
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "이 작업은 제한모드에서 작동되는 동안 금지됩니다."
@@ -584,7 +584,7 @@ msgstr "설정 파일 [%s]에 기록할 수 없습니다."
 msgid "medium `%s' is defined twice, aborting"
 msgstr "'%s'매체는 2번 정의되었습니다. 작업을 중단합니다."
 
-#: ../urpm/cfg.pm:251 ../urpm/media.pm:477
+#: ../urpm/cfg.pm:251 ../urpm/media.pm:537
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "설정 파일 [%s]에 기록할 수 없습니다."
@@ -878,7 +878,7 @@ msgstr "%s 패키지 설치중"
 msgid "removing installed rpms (%s) from %s"
 msgstr "%s 설치 중...\n"
 
-#: ../urpm/install.pm:283
+#: ../urpm/install.pm:284
 #, fuzzy, c-format
 msgid "More information on package %s"
 msgstr "추가 패키지 정보..."
@@ -1023,259 +1023,264 @@ msgstr "설치 문제"
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
 msgstr "경고: MD5SUM파일에 있는 사용할 수 없는 %s의 md5sum"
 
-#: ../urpm/media.pm:194
+#: ../urpm/media.pm:254
 #, fuzzy, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
 msgstr "매체 「%s」가 이미 사용되는 목록을 사용하려 합니다. 매체 무시됨."
 
-#: ../urpm/media.pm:196
+#: ../urpm/media.pm:256
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "「%s」의 목록 파일에 접근할 수 없습니다. 매체 무시됨."
 
-#: ../urpm/media.pm:199
+#: ../urpm/media.pm:259
 #, fuzzy, c-format
 msgid "unable to access synthesis file of \"%s\", medium ignored"
 msgstr "「%s」의 목록 파일에 접근할 수 없습니다. 매체 무시됨."
 
-#: ../urpm/media.pm:225
+#: ../urpm/media.pm:285
 #, fuzzy, c-format
 msgid "trying to override existing medium \"%s\", skipping"
 msgstr "존재하지 않는 매체「%s」 선택 시도"
 
-#: ../urpm/media.pm:441
+#: ../urpm/media.pm:501
 #, c-format
 msgid "failed to migrate removable device, ignoring media"
 msgstr ""
 
-#: ../urpm/media.pm:479
+#: ../urpm/media.pm:539
 #, c-format
 msgid "wrote config file [%s]"
 msgstr "설정 파일 [%s]에 기록"
 
-#: ../urpm/media.pm:521
+#: ../urpm/media.pm:582
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
 msgstr ""
 
-#: ../urpm/media.pm:529
+#: ../urpm/media.pm:590
 #, c-format
 msgid "using associated media for parallel mode: %s"
 msgstr "parallel 모드와 관계된 매체 사용 : %s"
 
-#: ../urpm/media.pm:545
+#: ../urpm/media.pm:606
 #, c-format
 msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
 "update, --use-distrib or --parallel"
 msgstr ""
 
-#: ../urpm/media.pm:663
+#: ../urpm/media.pm:724
 #, fuzzy, c-format
 msgid "skipping package %s"
 msgstr "%s 패키지 설치중"
 
-#: ../urpm/media.pm:679
+#: ../urpm/media.pm:740
 #, fuzzy, c-format
 msgid "would install instead of upgrade package %s"
 msgstr "패키지 설치중 문제 발생 %s"
 
-#: ../urpm/media.pm:704
+#: ../urpm/media.pm:765
 #, c-format
 msgid "medium \"%s\" already exists"
 msgstr "매체「%s」는 이미 존재합니다."
 
-#: ../urpm/media.pm:743
+#: ../urpm/media.pm:804
 #, c-format
 msgid "(ignored by default)"
 msgstr "(기본적으로 무시함)"
 
-#: ../urpm/media.pm:749
+#: ../urpm/media.pm:810
 #, fuzzy, c-format
 msgid "adding medium \"%s\" before remote medium \"%s\""
 msgstr "매체「%2$s」에서 RPM 파일「%1$s」를 읽을 수 없습니다."
 
-#: ../urpm/media.pm:755
+#: ../urpm/media.pm:816
 #, fuzzy, c-format
 msgid "adding medium \"%s\""
 msgstr "%s 제거 중"
 
-#: ../urpm/media.pm:784
+#: ../urpm/media.pm:842
+#, fuzzy, c-format
+msgid "failed to copy media.cfg to %s (%d)"
+msgstr "media.cfg 파일을 분석할 수 없습니다.\n"
+
+#: ../urpm/media.pm:883
 #, fuzzy, c-format
 msgid "directory %s does not exist"
 msgstr "chroot 디렉토리가 존재하지 않습니다."
 
-#: ../urpm/media.pm:792
+#: ../urpm/media.pm:891
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "이 위치는 어느 제품에서 포함되어있지 않는 듯 합니다."
 
-#: ../urpm/media.pm:808
+#: ../urpm/media.pm:910
 #, fuzzy, c-format
 msgid "unable to parse media.cfg"
 msgstr "media.cfg 파일을 분석할 수 없습니다.\n"
 
-#: ../urpm/media.pm:811
+#: ../urpm/media.pm:913
 #, fuzzy, c-format
 msgid "unable to access the distribution medium (no media.cfg file found)"
 msgstr "(media.cfg파일을 발견할수 없기 때문에) 제품 매체에 접근할 수 없습니다."
 
-#: ../urpm/media.pm:829
+#: ../urpm/media.pm:931
 #, c-format
 msgid "skipping non compatible media `%s' (for %s)"
 msgstr ""
 
-#: ../urpm/media.pm:880
+#: ../urpm/media.pm:982
 #, fuzzy, c-format
 msgid "retrieving media.cfg file..."
 msgstr "media.cfg 파일 추출 중..."
 
-#: ../urpm/media.pm:921
+#: ../urpm/media.pm:1023
 #, fuzzy, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "존재하지 않는 매체 \"%s\" 선택하기 위해 시도중.\n"
 
-#: ../urpm/media.pm:924
+#: ../urpm/media.pm:1026
 #, fuzzy, c-format
 msgid "selecting multiple media: %s"
 msgstr "존재하지 않는 매체「%s」 선택 시도"
 
-#: ../urpm/media.pm:944
+#: ../urpm/media.pm:1087
 #, fuzzy, c-format
 msgid "removing medium \"%s\""
 msgstr "%s 제거 중"
 
-#: ../urpm/media.pm:1027
+#: ../urpm/media.pm:1170
 #, fuzzy, c-format
 msgid "reconfiguring urpmi for media \"%s\""
 msgstr "「%s」를 위해 urpmi 재설정 중 ..."
 
-#: ../urpm/media.pm:1061
+#: ../urpm/media.pm:1204
 #, fuzzy, c-format
 msgid "...reconfiguration failed"
 msgstr "..재설정 실패."
 
-#: ../urpm/media.pm:1067
+#: ../urpm/media.pm:1210
 #, fuzzy, c-format
 msgid "reconfiguration done"
 msgstr "재설정 완료"
 
-#: ../urpm/media.pm:1083
+#: ../urpm/media.pm:1226
 #, c-format
 msgid "Error generating names file: dependency %d not found"
 msgstr "파일 이름 생성중 오류: %d 의존성을 찾을수 없습니다."
 
-#: ../urpm/media.pm:1104
+#: ../urpm/media.pm:1247
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "매체 [%s]는 최신의 상태입니다.."
 
-#: ../urpm/media.pm:1115
+#: ../urpm/media.pm:1258
 #, fuzzy, c-format
 msgid "examining synthesis file [%s]"
 msgstr "의존목록 파일 [%s] 읽기"
 
-#: ../urpm/media.pm:1135
+#: ../urpm/media.pm:1278
 #, fuzzy, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "매체「%s」에 대한 목록 합성 파일 생성 완료."
 
-#: ../urpm/media.pm:1148 ../urpm/media.pm:1243
+#: ../urpm/media.pm:1291 ../urpm/media.pm:1386
 #, fuzzy, c-format
 msgid "copying [%s] for medium \"%s\"..."
 msgstr "매체\"%s\"에 대해 「%s」 복사 중...."
 
-#: ../urpm/media.pm:1150 ../urpm/media.pm:1220 ../urpm/media.pm:1473
+#: ../urpm/media.pm:1293 ../urpm/media.pm:1363 ../urpm/media.pm:1616
 #, fuzzy, c-format
 msgid "...copying failed"
 msgstr "...복사 실패"
 
-#: ../urpm/media.pm:1216
+#: ../urpm/media.pm:1359
 #, fuzzy, c-format
 msgid "copying description file of \"%s\"..."
 msgstr "「%s」의 기록 파일 복사중..."
 
-#: ../urpm/media.pm:1218 ../urpm/media.pm:1247
+#: ../urpm/media.pm:1361 ../urpm/media.pm:1390
 #, fuzzy, c-format
 msgid "...copying done"
 msgstr "....복사 완료"
 
-#: ../urpm/media.pm:1249
+#: ../urpm/media.pm:1392
 #, fuzzy, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "[%s]의 복사 실패 (파일이 의심되게 적습니다.)"
 
-#: ../urpm/media.pm:1297
+#: ../urpm/media.pm:1440
 #, fuzzy, c-format
 msgid "computing md5sum of retrieved source synthesis"
 msgstr "검색된 소스 hdlist(또는 synthesis)의 md5sum 계산중."
 
-#: ../urpm/media.pm:1299 ../urpm/media.pm:1736
+#: ../urpm/media.pm:1442 ../urpm/media.pm:1882
 #, fuzzy, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
 msgstr "[%s] 복사 실패(부적절한 md5sum)"
 
-#: ../urpm/media.pm:1314
+#: ../urpm/media.pm:1457
 #, fuzzy, c-format
 msgid "genhdlist2 failed on %s"
 msgstr "hdlist 파일 [%s] 생성 중"
 
-#: ../urpm/media.pm:1324
+#: ../urpm/media.pm:1467
 #, fuzzy, c-format
 msgid "comparing %s and %s"
 msgstr "%s 삭제 중...\n"
 
-#: ../urpm/media.pm:1354
+#: ../urpm/media.pm:1497
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "매체「%s」에 대한 목록 파일을 찾을 수 없습니다."
 
-#: ../urpm/media.pm:1380
+#: ../urpm/media.pm:1523
 #, fuzzy, c-format
 msgid "copying MD5SUM file of \"%s\"..."
 msgstr "「%s」의 기록 파일 복사중..."
 
-#: ../urpm/media.pm:1420
+#: ../urpm/media.pm:1563
 #, fuzzy, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
 msgstr "유효하지 않은 RPM 파일 이름 [%s]"
 
-#: ../urpm/media.pm:1423
+#: ../urpm/media.pm:1566
 #, fuzzy, c-format
 msgid "no metadata found for medium \"%s\""
 msgstr "매체「%s」에 대한 목록 파일을 찾을 수 없습니다."
 
-#: ../urpm/media.pm:1455
+#: ../urpm/media.pm:1598
 #, fuzzy, c-format
 msgid "retrieving source synthesis of \"%s\"..."
 msgstr "[%s] 추출 중"
 
-#: ../urpm/media.pm:1521
+#: ../urpm/media.pm:1664
 #, fuzzy, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "프린터 「%s」 제거 중 ..."
 
-#: ../urpm/media.pm:1533
+#: ../urpm/media.pm:1676
 #, fuzzy, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr "「%s」의 목록 파일을 기록할 수 없습니다."
 
-#: ../urpm/media.pm:1537
+#: ../urpm/media.pm:1680
 #, fuzzy, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "「%s」의 목록 파일을 기록할 수 없습니다."
 
-#: ../urpm/media.pm:1578
+#: ../urpm/media.pm:1721
 #, fuzzy, c-format
 msgid "no synthesis file found for medium \"%s\""
 msgstr "매체「%s」에 대한 목록 파일을 찾을 수 없습니다."
 
-#: ../urpm/media.pm:1611
+#: ../urpm/media.pm:1754
 #, fuzzy, c-format
 msgid "updated medium \"%s\""
 msgstr "매체 교환"
 
-#: ../urpm/media.pm:1730
+#: ../urpm/media.pm:1876
 #, c-format
 msgid "retrieval of [%s] failed"
 msgstr ""
@@ -3043,24 +3048,16 @@ msgstr ""
 msgid "use -l to list files"
 msgstr "「%s」의 목록 파일을 기록할 수 없습니다."
 
-#: ../urpmq:404
+#: ../urpmq:405
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "Note:  \"%s\"매체에 대한 아무 hdlist도 없음, \n"
 "매체에 대한 아무 결과도 반환할 수 없음."
 
-#: ../urpmq:405
+#: ../urpmq:406
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
-msgstr ""
-"Note:  \"%s\"매체에 대한 아무 hdlist도 없음, \n"
-"매체에 대한 아무 결과도 반환할 수 없음."
-
-#: ../urpmq:408
-#, fuzzy, c-format
-msgid ""
-"no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr ""
 "Note:  \"%s\"매체에 대한 아무 hdlist도 없음, \n"
 "매체에 대한 아무 결과도 반환할 수 없음."
@@ -3068,12 +3065,20 @@ msgstr ""
 #: ../urpmq:409
 #, fuzzy, c-format
 msgid ""
+"no xml info for medium \"%s\", unable to return any result for package %s"
+msgstr ""
+"Note:  \"%s\"매체에 대한 아무 hdlist도 없음, \n"
+"매체에 대한 아무 결과도 반환할 수 없음."
+
+#: ../urpmq:410
+#, fuzzy, c-format
+msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr ""
 "Note:  \"%s\"매체에 대한 아무 hdlist도 없음, \n"
 "매체에 대한 아무 결과도 반환할 수 없음."
 
-#: ../urpmq:476
+#: ../urpmq:477
 #, fuzzy, c-format
 msgid "No changelog found\n"
 msgstr "하드 디스크를 찾을 수 없습니다."

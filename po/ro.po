@@ -47,7 +47,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ro\n"
 "Report-Msgid-Bugs-To: https://qa.mandriva.com\n"
-"POT-Creation-Date: 2009-08-10 13:35+0200\n"
+"POT-Creation-Date: 2009-08-17 17:47+0200\n"
 "PO-Revision-Date: 2009-04-11 22:14+0100\n"
 "Last-Translator: Florin Cătălin RUSSEN <cfrussen@yahoo.co.uk>\n"
 "Language-Team: Mandrivausers.ro <cfrussen@yahoo.co.uk>\n"
@@ -380,9 +380,9 @@ msgstr "Introduceți mediul numit \"%s\""
 msgid "Downloading package `%s'..."
 msgstr "Se descarcă pachetul `%s'..."
 
-#: ../gurpmi2:360 ../urpm.pm:327 ../urpm/download.pm:821
-#: ../urpm/get_pkgs.pm:236 ../urpm/media.pm:810 ../urpm/media.pm:1271
-#: ../urpm/media.pm:1422
+#: ../gurpmi2:360 ../urpm.pm:329 ../urpm/download.pm:821
+#: ../urpm/get_pkgs.pm:236 ../urpm/media.pm:912 ../urpm/media.pm:1414
+#: ../urpm/media.pm:1565
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...preluare eșuată: %s"
@@ -472,77 +472,77 @@ msgstr "Doar administratorul poate instala pachete"
 msgid "Running urpmi in restricted mode..."
 msgstr "Se rulează urpmi în mod restricționat..."
 
-#: ../urpm.pm:112
+#: ../urpm.pm:113
 #, c-format
 msgid "fail to create directory %s"
 msgstr "nu se poate crea directorul %s"
 
-#: ../urpm.pm:113
+#: ../urpm.pm:114
 #, c-format
 msgid "invalid owner for directory %s"
 msgstr "proprietar invalid pentru directorul %s"
 
-#: ../urpm.pm:125
+#: ../urpm.pm:126
 #, c-format
 msgid "Can not download packages into %s"
 msgstr "Nu se pot descărca pachetele în %s"
 
-#: ../urpm.pm:140
+#: ../urpm.pm:141
 #, c-format
 msgid "Environment directory %s does not exist"
 msgstr "Directorul %s din sistem nu există"
 
-#: ../urpm.pm:141 ../urpmf:248 ../urpmq:165
+#: ../urpm.pm:142 ../urpmf:248 ../urpmq:165
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "folosind mediul specific pe %s\n"
 
-#: ../urpm.pm:302
+#: ../urpm.pm:304
 #, c-format
 msgid "unable to open rpmdb"
 msgstr "nu se poate deschide rpmdb"
 
-#: ../urpm.pm:316
+#: ../urpm.pm:318
 #, c-format
 msgid "invalid rpm file name [%s]"
 msgstr "nume de fișier rpm invalid [%s]"
 
-#: ../urpm.pm:322
+#: ../urpm.pm:324
 #, c-format
 msgid "retrieving rpm file [%s] ..."
 msgstr "se preia fișierul rpm [%s] ..."
 
-#: ../urpm.pm:324 ../urpm/get_pkgs.pm:234
+#: ../urpm.pm:326 ../urpm/get_pkgs.pm:234
 #, c-format
 msgid "...retrieving done"
 msgstr "...copierea este terminată"
 
-#: ../urpm.pm:332
+#: ../urpm.pm:334
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "nu se poate accesa fișierul rpm [%s]"
 
-#: ../urpm.pm:337
+#: ../urpm.pm:339
 #, c-format
 msgid "unable to parse spec file %s [%s]"
 msgstr "nu se poate analiza fișierul %s [%s]"
 
-#: ../urpm.pm:345
+#: ../urpm.pm:347
 #, c-format
 msgid "unable to register rpm file"
 msgstr "nu se poate înregistra fișierul rpm"
 
-#: ../urpm.pm:347
+#: ../urpm.pm:349
 #, c-format
 msgid "Incompatible architecture for rpm [%s]"
 msgstr "Arhitectură incompatibilă pentru rpm [%s]"
 
-#: ../urpm.pm:351
+#: ../urpm.pm:353
 #, c-format
 msgid "error registering local packages"
 msgstr "eroare la înregistrarea pachetelor locale"
 
-#: ../urpm.pm:439
+#: ../urpm.pm:441
 #, c-format
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Operațiune interzisă la execuția în mod restricționat"
@@ -646,7 +646,7 @@ msgstr "nu se poate citi fișierul de configurare [%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "mediul `%s' este definit de două ori, se abandonează"
 
-#: ../urpm/cfg.pm:251 ../urpm/media.pm:477
+#: ../urpm/cfg.pm:251 ../urpm/media.pm:537
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "nu se poate scrie în fișierul de configurare [%s]"
@@ -942,7 +942,7 @@ msgstr "se înlătură pachetul %s"
 msgid "removing installed rpms (%s) from %s"
 msgstr "se înlătură pachetele rpm instalate (%s) din %s"
 
-#: ../urpm/install.pm:283
+#: ../urpm/install.pm:284
 #, c-format
 msgid "More information on package %s"
 msgstr "Informații suplimentare despre pachetul %s"
@@ -1088,47 +1088,47 @@ msgstr "Instalarea este posibilă"
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
 msgstr "atenție: md5sum pentru %s este indisponibil în fișierul MD5SUM"
 
-#: ../urpm/media.pm:194
+#: ../urpm/media.pm:254
 #, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
 msgstr "mediul virtual \"%s\" ar trebui să aibă un URL clar, se ignoră mediul"
 
-#: ../urpm/media.pm:196
+#: ../urpm/media.pm:256
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "nu se poate accesa fișierul listă pentru \"%s\", se ignoră mediul"
 
-#: ../urpm/media.pm:199
+#: ../urpm/media.pm:259
 #, c-format
 msgid "unable to access synthesis file of \"%s\", medium ignored"
 msgstr "nu se poate accesa fișierul synthesis pentru \"%s\", se ignoră mediul"
 
-#: ../urpm/media.pm:225
+#: ../urpm/media.pm:285
 #, c-format
 msgid "trying to override existing medium \"%s\", skipping"
 msgstr "se încearcă ignorarea mediul existent \"%s\", se omite"
 
-#: ../urpm/media.pm:441
+#: ../urpm/media.pm:501
 #, c-format
 msgid "failed to migrate removable device, ignoring media"
 msgstr "transferul dispozitivului amovibil a eșuat, se ignoră mediul"
 
-#: ../urpm/media.pm:479
+#: ../urpm/media.pm:539
 #, c-format
 msgid "wrote config file [%s]"
 msgstr "scriere fișier de configurare [%s]"
 
-#: ../urpm/media.pm:521
+#: ../urpm/media.pm:582
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
 msgstr "Nu se poate utiliza modul paralel in modul use-distrib"
 
-#: ../urpm/media.pm:529
+#: ../urpm/media.pm:590
 #, c-format
 msgid "using associated media for parallel mode: %s"
 msgstr "se utilizează mediile asociate pentru modul paralel: %s"
 
-#: ../urpm/media.pm:545
+#: ../urpm/media.pm:606
 #, c-format
 msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
@@ -1137,213 +1137,218 @@ msgstr ""
 "--synthesis nu poate fi folosit cu --media, --excludemedia, --sortmedia, --"
 "update, --use-distrib sau --parallel"
 
-#: ../urpm/media.pm:663
+#: ../urpm/media.pm:724
 #, c-format
 msgid "skipping package %s"
 msgstr "se ignoră pachetul %s"
 
-#: ../urpm/media.pm:679
+#: ../urpm/media.pm:740
 #, c-format
 msgid "would install instead of upgrade package %s"
 msgstr "instalare în locul actualizării pachetului %s"
 
-#: ../urpm/media.pm:704
+#: ../urpm/media.pm:765
 #, c-format
 msgid "medium \"%s\" already exists"
 msgstr "mediul \"%s\" există deja"
 
-#: ../urpm/media.pm:743
+#: ../urpm/media.pm:804
 #, c-format
 msgid "(ignored by default)"
 msgstr "(se ignoră implicit)"
 
-#: ../urpm/media.pm:749
+#: ../urpm/media.pm:810
 #, c-format
 msgid "adding medium \"%s\" before remote medium \"%s\""
 msgstr "se adaugă mediul \"%s\" înaintea mediului distant \"%s\""
 
-#: ../urpm/media.pm:755
+#: ../urpm/media.pm:816
 #, c-format
 msgid "adding medium \"%s\""
 msgstr "se adaugă mediul \"%s\""
 
-#: ../urpm/media.pm:784
+#: ../urpm/media.pm:842
+#, fuzzy, c-format
+msgid "failed to copy media.cfg to %s (%d)"
+msgstr "cp a eșuat la gazda %s (%d)"
+
+#: ../urpm/media.pm:883
 #, c-format
 msgid "directory %s does not exist"
 msgstr "directorul %s nu există"
 
-#: ../urpm/media.pm:792
+#: ../urpm/media.pm:891
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "această locație nu pare să conțină nici o distribuție"
 
-#: ../urpm/media.pm:808
+#: ../urpm/media.pm:910
 #, c-format
 msgid "unable to parse media.cfg"
 msgstr "nu se poate analiza media.cfg"
 
-#: ../urpm/media.pm:811
+#: ../urpm/media.pm:913
 #, c-format
 msgid "unable to access the distribution medium (no media.cfg file found)"
 msgstr ""
 "nu se poate accesa mediul de instalare (nu s-a găsit fișierul media.cfg)"
 
-#: ../urpm/media.pm:829
+#: ../urpm/media.pm:931
 #, c-format
 msgid "skipping non compatible media `%s' (for %s)"
 msgstr "se ignoră mediul incompatibil `%s' (pentru %s)"
 
-#: ../urpm/media.pm:880
+#: ../urpm/media.pm:982
 #, c-format
 msgid "retrieving media.cfg file..."
 msgstr "se preia fișierul media.cfg..."
 
-#: ../urpm/media.pm:921
+#: ../urpm/media.pm:1023
 #, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "se încearcă selectarea unui mediu inexistent \"%s\""
 
-#: ../urpm/media.pm:924
+#: ../urpm/media.pm:1026
 #, c-format
 msgid "selecting multiple media: %s"
 msgstr "selectare de medii multiple: %s"
 
-#: ../urpm/media.pm:944
+#: ../urpm/media.pm:1087
 #, c-format
 msgid "removing medium \"%s\""
 msgstr "se înlătură mediul \"%s\""
 
-#: ../urpm/media.pm:1027
+#: ../urpm/media.pm:1170
 #, c-format
 msgid "reconfiguring urpmi for media \"%s\""
 msgstr "se reconfigurează urpmi pentru mediul \"%s\""
 
-#: ../urpm/media.pm:1061
+#: ../urpm/media.pm:1204
 #, c-format
 msgid "...reconfiguration failed"
 msgstr "...reconfigurare eșuată"
 
-#: ../urpm/media.pm:1067
+#: ../urpm/media.pm:1210
 #, c-format
 msgid "reconfiguration done"
 msgstr "reconfigurare încheiată"
 
-#: ../urpm/media.pm:1083
+#: ../urpm/media.pm:1226
 #, c-format
 msgid "Error generating names file: dependency %d not found"
 msgstr "Eroare la generarea fișierului names: lipsește dependența %d"
 
-#: ../urpm/media.pm:1104
+#: ../urpm/media.pm:1247
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "mediul \"%s\" este actualizat"
 
-#: ../urpm/media.pm:1115
+#: ../urpm/media.pm:1258
 #, c-format
 msgid "examining synthesis file [%s]"
 msgstr "se examinează fișierul synthesis [%s]"
 
-#: ../urpm/media.pm:1135
+#: ../urpm/media.pm:1278
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "problemă la citirea fișierului synthesis al mediului \"%s\""
 
-#: ../urpm/media.pm:1148 ../urpm/media.pm:1243
+#: ../urpm/media.pm:1291 ../urpm/media.pm:1386
 #, c-format
 msgid "copying [%s] for medium \"%s\"..."
 msgstr "copiere [%s] pentru mediul \"%s\"..."
 
-#: ../urpm/media.pm:1150 ../urpm/media.pm:1220 ../urpm/media.pm:1473
+#: ../urpm/media.pm:1293 ../urpm/media.pm:1363 ../urpm/media.pm:1616
 #, c-format
 msgid "...copying failed"
 msgstr "...copiere eșuată"
 
-#: ../urpm/media.pm:1216
+#: ../urpm/media.pm:1359
 #, c-format
 msgid "copying description file of \"%s\"..."
 msgstr "se copiază fișierul cu descrieri pentru \"%s\"..."
 
-#: ../urpm/media.pm:1218 ../urpm/media.pm:1247
+#: ../urpm/media.pm:1361 ../urpm/media.pm:1390
 #, c-format
 msgid "...copying done"
 msgstr "...copiere încheiată"
 
-#: ../urpm/media.pm:1249
+#: ../urpm/media.pm:1392
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "copierea fișierului [%s] a eșuat (fișier suspect de mic)"
 
-#: ../urpm/media.pm:1297
+#: ../urpm/media.pm:1440
 #, c-format
 msgid "computing md5sum of retrieved source synthesis"
 msgstr "se calculează md5sum pentru fișierului synthesis"
 
-#: ../urpm/media.pm:1299 ../urpm/media.pm:1736
+#: ../urpm/media.pm:1442 ../urpm/media.pm:1882
 #, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
 msgstr "descărcarea lui [%s] a eșuat (eroare de md5sum)"
 
-#: ../urpm/media.pm:1314
+#: ../urpm/media.pm:1457
 #, c-format
 msgid "genhdlist2 failed on %s"
 msgstr "genhdlist2 a eșuat pentru %s"
 
-#: ../urpm/media.pm:1324
+#: ../urpm/media.pm:1467
 #, c-format
 msgid "comparing %s and %s"
 msgstr "se compară %s și %s"
 
-#: ../urpm/media.pm:1354
+#: ../urpm/media.pm:1497
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "fișierul hdlist %s pentru mediul \"%s\" nu este valid"
 
-#: ../urpm/media.pm:1380
+#: ../urpm/media.pm:1523
 #, c-format
 msgid "copying MD5SUM file of \"%s\"..."
 msgstr "se copiază fișierul MD5SUM al \"%s\"..."
 
-#: ../urpm/media.pm:1420
+#: ../urpm/media.pm:1563
 #, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
 msgstr "fișier MD5SUM invalid (descărcat de la %s)"
 
-#: ../urpm/media.pm:1423
+#: ../urpm/media.pm:1566
 #, c-format
 msgid "no metadata found for medium \"%s\""
 msgstr "nu s-a găsit fișierul de metadate pentru mediul \"%s\""
 
-#: ../urpm/media.pm:1455
+#: ../urpm/media.pm:1598
 #, c-format
 msgid "retrieving source synthesis of \"%s\"..."
 msgstr "se preia sursa synthesis pentru \"%s\"..."
 
-#: ../urpm/media.pm:1521
+#: ../urpm/media.pm:1664
 #, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "se examinează fișierul de cheie publică pentru \"%s\"..."
 
-#: ../urpm/media.pm:1533
+#: ../urpm/media.pm:1676
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr "...cheia importată %s din fișierul de cheie publică pentru \"%s\""
 
-#: ../urpm/media.pm:1537
+#: ../urpm/media.pm:1680
 #, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "nu se poate importa fișierul de cheie publică pentru \"%s\""
 
-#: ../urpm/media.pm:1578
+#: ../urpm/media.pm:1721
 #, c-format
 msgid "no synthesis file found for medium \"%s\""
 msgstr "nu s-a găsit fișierul synthesis pentru mediul \"%s\""
 
-#: ../urpm/media.pm:1611
+#: ../urpm/media.pm:1754
 #, c-format
 msgid "updated medium \"%s\""
 msgstr "mediul \"%s\" este actualizat"
 
-#: ../urpm/media.pm:1730
+#: ../urpm/media.pm:1876
 #, c-format
 msgid "retrieval of [%s] failed"
 msgstr "preluarea lui [%s] a eșuat"
@@ -3273,21 +3278,21 @@ msgstr "--list-nodes poate fi folosit numai cu --parallel"
 msgid "use -l to list files"
 msgstr "utilizați -l pentru afișarea fișierelor"
 
-#: ../urpmq:404
+#: ../urpmq:405
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "nu sînt informații xml pentru mediul \"%s\", rezultate parțiale pentru "
 "pachetul %s"
 
-#: ../urpmq:405
+#: ../urpmq:406
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "nu sînt informații xml pentru mediul \"%s\", rezultate parțiale pentru "
 "pachetele %s"
 
-#: ../urpmq:408
+#: ../urpmq:409
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3295,7 +3300,7 @@ msgstr ""
 "nu sînt informații xml pentru mediul \"%s\", lipsă rezultate pentru pachetul "
 "%s"
 
-#: ../urpmq:409
+#: ../urpmq:410
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3303,7 +3308,7 @@ msgstr ""
 "nu sînt informații xml pentru mediul \"%s\", lipsă rezultate pentru "
 "pachetele %s"
 
-#: ../urpmq:476
+#: ../urpmq:477
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nu s-a gasit changelog\n"

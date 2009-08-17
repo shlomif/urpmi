@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-10 13:35+0200\n"
+"POT-Creation-Date: 2009-08-17 17:47+0200\n"
 "PO-Revision-Date: 2008-03-30 14:22+0800\n"
 "Last-Translator: 汤诗语 <shiyu@mandriva.org>\n"
 "Language-Team: Mandriva Linux Simplified Chinese <cooker-i18n@mandrivalinux."
@@ -327,9 +327,9 @@ msgstr "请插入介质“%s”"
 msgid "Downloading package `%s'..."
 msgstr "正在下载软件包“%s”..."
 
-#: ../gurpmi2:360 ../urpm.pm:327 ../urpm/download.pm:821
-#: ../urpm/get_pkgs.pm:236 ../urpm/media.pm:810 ../urpm/media.pm:1271
-#: ../urpm/media.pm:1422
+#: ../gurpmi2:360 ../urpm.pm:329 ../urpm/download.pm:821
+#: ../urpm/get_pkgs.pm:236 ../urpm/media.pm:912 ../urpm/media.pm:1414
+#: ../urpm/media.pm:1565
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...获取失败: %s"
@@ -419,77 +419,77 @@ msgstr "只允许超级用户安装软件包"
 msgid "Running urpmi in restricted mode..."
 msgstr "正在以限制模式运行 urpmi..."
 
-#: ../urpm.pm:112
+#: ../urpm.pm:113
 #, c-format
 msgid "fail to create directory %s"
 msgstr "创建目录 %s 失败"
 
-#: ../urpm.pm:113
+#: ../urpm.pm:114
 #, c-format
 msgid "invalid owner for directory %s"
 msgstr "目录 %s 的所有者无效"
 
-#: ../urpm.pm:125
+#: ../urpm.pm:126
 #, c-format
 msgid "Can not download packages into %s"
 msgstr "无法将软件包下载到 %s"
 
-#: ../urpm.pm:140
+#: ../urpm.pm:141
 #, c-format
 msgid "Environment directory %s does not exist"
 msgstr "环境目录 %s 不存在"
 
-#: ../urpm.pm:141 ../urpmf:248 ../urpmq:165
+#: ../urpm.pm:142 ../urpmf:248 ../urpmq:165
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "在 %s 使用指定环境\n"
 
-#: ../urpm.pm:302
+#: ../urpm.pm:304
 #, c-format
 msgid "unable to open rpmdb"
 msgstr "无法打开 rpmdb"
 
-#: ../urpm.pm:316
+#: ../urpm.pm:318
 #, c-format
 msgid "invalid rpm file name [%s]"
 msgstr "无效的 rpm 文件名[%s]"
 
-#: ../urpm.pm:322
+#: ../urpm.pm:324
 #, c-format
 msgid "retrieving rpm file [%s] ..."
 msgstr "正在获取 rpm 文件[%s]..."
 
-#: ../urpm.pm:324 ../urpm/get_pkgs.pm:234
+#: ../urpm.pm:326 ../urpm/get_pkgs.pm:234
 #, c-format
 msgid "...retrieving done"
 msgstr "...获取完成"
 
-#: ../urpm.pm:332
+#: ../urpm.pm:334
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "无法访问 rpm 文件[%s]"
 
-#: ../urpm.pm:337
+#: ../urpm.pm:339
 #, c-format
 msgid "unable to parse spec file %s [%s]"
 msgstr "无法处理 spec 文件 %s [%s]"
 
-#: ../urpm.pm:345
+#: ../urpm.pm:347
 #, c-format
 msgid "unable to register rpm file"
 msgstr "无法访问注册 rpm 文件"
 
-#: ../urpm.pm:347
+#: ../urpm.pm:349
 #, c-format
 msgid "Incompatible architecture for rpm [%s]"
 msgstr "RPM 的架构不兼容[%s]"
 
-#: ../urpm.pm:351
+#: ../urpm.pm:353
 #, c-format
 msgid "error registering local packages"
 msgstr "注册本地软件包出错"
 
-#: ../urpm.pm:439
+#: ../urpm.pm:441
 #, c-format
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "运行于限制模式运行时，禁止执行此操作"
@@ -591,7 +591,7 @@ msgstr "无法读取配置文件[%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "介质“%s”定义了两次，正在退出"
 
-#: ../urpm/cfg.pm:251 ../urpm/media.pm:477
+#: ../urpm/cfg.pm:251 ../urpm/media.pm:537
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "无法写入配置文件[%s]"
@@ -881,7 +881,7 @@ msgstr "删除软件包 %s"
 msgid "removing installed rpms (%s) from %s"
 msgstr "正在从 %2$s 删除已安装的 rpm(%1$s)"
 
-#: ../urpm/install.pm:283
+#: ../urpm/install.pm:284
 #, c-format
 msgid "More information on package %s"
 msgstr "关于软件包 %s 的更多信息"
@@ -1030,47 +1030,47 @@ msgstr "可以安装"
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
 msgstr "警告: %s 的 md5 校验和未在 MD5SUM 文件中找到"
 
-#: ../urpm/media.pm:194
+#: ../urpm/media.pm:254
 #, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
 msgstr "虚拟介质“%s”应该有清楚的 URL，介质被忽略"
 
-#: ../urpm/media.pm:196
+#: ../urpm/media.pm:256
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "无法访问“%s”的列表文件，介质被忽略"
 
-#: ../urpm/media.pm:199
+#: ../urpm/media.pm:259
 #, c-format
 msgid "unable to access synthesis file of \"%s\", medium ignored"
 msgstr "无法访问“%s”的综合文件，介质被忽略"
 
-#: ../urpm/media.pm:225
+#: ../urpm/media.pm:285
 #, c-format
 msgid "trying to override existing medium \"%s\", skipping"
 msgstr "试图覆盖已有介质“%s”，正跳过"
 
-#: ../urpm/media.pm:441
+#: ../urpm/media.pm:501
 #, c-format
 msgid "failed to migrate removable device, ignoring media"
 msgstr "迁移可移动设备失败，忽略介质"
 
-#: ../urpm/media.pm:479
+#: ../urpm/media.pm:539
 #, c-format
 msgid "wrote config file [%s]"
 msgstr "写入配置文件[%s]"
 
-#: ../urpm/media.pm:521
+#: ../urpm/media.pm:582
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
 msgstr "无法与发行模式一起使用并行模式"
 
-#: ../urpm/media.pm:529
+#: ../urpm/media.pm:590
 #, c-format
 msgid "using associated media for parallel mode: %s"
 msgstr "并行模式时使用关联介质: %s"
 
-#: ../urpm/media.pm:545
+#: ../urpm/media.pm:606
 #, c-format
 msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
@@ -1079,212 +1079,217 @@ msgstr ""
 "--synthesis 仅能和 --media, --excludemedia, --sortmedia, --update, --use-"
 "distrib 或 --parallel 一起使用"
 
-#: ../urpm/media.pm:663
+#: ../urpm/media.pm:724
 #, c-format
 msgid "skipping package %s"
 msgstr "跳过软件包 %s"
 
-#: ../urpm/media.pm:679
+#: ../urpm/media.pm:740
 #, c-format
 msgid "would install instead of upgrade package %s"
 msgstr "将安装而非升级软件包 %s"
 
-#: ../urpm/media.pm:704
+#: ../urpm/media.pm:765
 #, c-format
 msgid "medium \"%s\" already exists"
 msgstr "介质“%s”已存在"
 
-#: ../urpm/media.pm:743
+#: ../urpm/media.pm:804
 #, c-format
 msgid "(ignored by default)"
 msgstr "(默认忽略)"
 
-#: ../urpm/media.pm:749
+#: ../urpm/media.pm:810
 #, c-format
 msgid "adding medium \"%s\" before remote medium \"%s\""
 msgstr "在远程介质“%2$s”之前添加介质“%1$s”"
 
-#: ../urpm/media.pm:755
+#: ../urpm/media.pm:816
 #, c-format
 msgid "adding medium \"%s\""
 msgstr "添加介质“%s”"
 
-#: ../urpm/media.pm:784
+#: ../urpm/media.pm:842
+#, fuzzy, c-format
+msgid "failed to copy media.cfg to %s (%d)"
+msgstr "主机 %s cp 失败 (%d)"
+
+#: ../urpm/media.pm:883
 #, c-format
 msgid "directory %s does not exist"
 msgstr "目录 %s 不存在"
 
-#: ../urpm/media.pm:792
+#: ../urpm/media.pm:891
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "此位置似乎不包含任何发行版"
 
-#: ../urpm/media.pm:808
+#: ../urpm/media.pm:910
 #, c-format
 msgid "unable to parse media.cfg"
 msgstr "无法分析 media.cfg"
 
-#: ../urpm/media.pm:811
+#: ../urpm/media.pm:913
 #, c-format
 msgid "unable to access the distribution medium (no media.cfg file found)"
 msgstr "无法访问发行版介质(未发现 media.cfg 文件)"
 
-#: ../urpm/media.pm:829
+#: ../urpm/media.pm:931
 #, c-format
 msgid "skipping non compatible media `%s' (for %s)"
 msgstr "跳过不兼容的介质“%s”(原因是 %s)"
 
-#: ../urpm/media.pm:880
+#: ../urpm/media.pm:982
 #, c-format
 msgid "retrieving media.cfg file..."
 msgstr "正在获取 media.cfg 文件..."
 
-#: ../urpm/media.pm:921
+#: ../urpm/media.pm:1023
 #, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "试图选择不存在的介质“%s”"
 
-#: ../urpm/media.pm:924
+#: ../urpm/media.pm:1026
 #, c-format
 msgid "selecting multiple media: %s"
 msgstr "选择多个介质: %s"
 
-#: ../urpm/media.pm:944
+#: ../urpm/media.pm:1087
 #, c-format
 msgid "removing medium \"%s\""
 msgstr "删除介质“%s”"
 
-#: ../urpm/media.pm:1027
+#: ../urpm/media.pm:1170
 #, c-format
 msgid "reconfiguring urpmi for media \"%s\""
 msgstr "正在从介质“%s”重新配置 urpmi"
 
-#: ../urpm/media.pm:1061
+#: ../urpm/media.pm:1204
 #, c-format
 msgid "...reconfiguration failed"
 msgstr "...重新配置失败"
 
-#: ../urpm/media.pm:1067
+#: ../urpm/media.pm:1210
 #, c-format
 msgid "reconfiguration done"
 msgstr "重新配置完成"
 
-#: ../urpm/media.pm:1083
+#: ../urpm/media.pm:1226
 #, c-format
 msgid "Error generating names file: dependency %d not found"
 msgstr "生成命名文件出错：依赖关系 %d 未找到"
 
-#: ../urpm/media.pm:1104
+#: ../urpm/media.pm:1247
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "介质“%s”已为最新"
 
-#: ../urpm/media.pm:1115
+#: ../urpm/media.pm:1258
 #, c-format
 msgid "examining synthesis file [%s]"
 msgstr "正在检查综合文件 [%s]"
 
-#: ../urpm/media.pm:1135
+#: ../urpm/media.pm:1278
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "读取介质“%s”的综合文件出现问题"
 
-#: ../urpm/media.pm:1148 ../urpm/media.pm:1243
+#: ../urpm/media.pm:1291 ../urpm/media.pm:1386
 #, c-format
 msgid "copying [%s] for medium \"%s\"..."
 msgstr "正在复制介质“%2$s”的 [%1$s]..."
 
-#: ../urpm/media.pm:1150 ../urpm/media.pm:1220 ../urpm/media.pm:1473
+#: ../urpm/media.pm:1293 ../urpm/media.pm:1363 ../urpm/media.pm:1616
 #, c-format
 msgid "...copying failed"
 msgstr "...复制失败"
 
-#: ../urpm/media.pm:1216
+#: ../urpm/media.pm:1359
 #, c-format
 msgid "copying description file of \"%s\"..."
 msgstr "正在复制“%s”的描述文件..."
 
-#: ../urpm/media.pm:1218 ../urpm/media.pm:1247
+#: ../urpm/media.pm:1361 ../urpm/media.pm:1390
 #, c-format
 msgid "...copying done"
 msgstr "...复制完成"
 
-#: ../urpm/media.pm:1249
+#: ../urpm/media.pm:1392
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "复制 [%s] 失败(文件太小了)"
 
-#: ../urpm/media.pm:1297
+#: ../urpm/media.pm:1440
 #, c-format
 msgid "computing md5sum of retrieved source synthesis"
 msgstr "正在计算所获取的源综合文件的 md5sum"
 
-#: ../urpm/media.pm:1299 ../urpm/media.pm:1736
+#: ../urpm/media.pm:1442 ../urpm/media.pm:1882
 #, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
 msgstr "获取[%s]失败(md5sum 不匹配)"
 
-#: ../urpm/media.pm:1314
+#: ../urpm/media.pm:1457
 #, c-format
 msgid "genhdlist2 failed on %s"
 msgstr "在 %s 上 genhdlist2 失败"
 
-#: ../urpm/media.pm:1324
+#: ../urpm/media.pm:1467
 #, c-format
 msgid "comparing %s and %s"
 msgstr "比较 %s 和 %s"
 
-#: ../urpm/media.pm:1354
+#: ../urpm/media.pm:1497
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "介质“%2$s”的 hdlist 文件 %1$s 无效"
 
-#: ../urpm/media.pm:1380
+#: ../urpm/media.pm:1523
 #, c-format
 msgid "copying MD5SUM file of \"%s\"..."
 msgstr "正在复制“%s”的 MD5SUM..."
 
-#: ../urpm/media.pm:1420
+#: ../urpm/media.pm:1563
 #, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
 msgstr "无效的 MD5SUM 文件(从 %s 下载)"
 
-#: ../urpm/media.pm:1423
+#: ../urpm/media.pm:1566
 #, c-format
 msgid "no metadata found for medium \"%s\""
 msgstr "介质“%s”未发现元数据"
 
-#: ../urpm/media.pm:1455
+#: ../urpm/media.pm:1598
 #, c-format
 msgid "retrieving source synthesis of \"%s\"..."
 msgstr "正在获取“%s”的源综合文件..."
 
-#: ../urpm/media.pm:1521
+#: ../urpm/media.pm:1664
 #, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "正在检查“%s”的公共密钥文件..."
 
-#: ../urpm/media.pm:1533
+#: ../urpm/media.pm:1676
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr "...从公钥文件“%2$s”中导入了密钥 %1$s"
 
-#: ../urpm/media.pm:1537
+#: ../urpm/media.pm:1680
 #, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "无法导入“%s”的公共密钥文件"
 
-#: ../urpm/media.pm:1578
+#: ../urpm/media.pm:1721
 #, c-format
 msgid "no synthesis file found for medium \"%s\""
 msgstr "介质“%s”未发现综合文件"
 
-#: ../urpm/media.pm:1611
+#: ../urpm/media.pm:1754
 #, c-format
 msgid "updated medium \"%s\""
 msgstr "已更新介质“%s”"
 
-#: ../urpm/media.pm:1730
+#: ../urpm/media.pm:1876
 #, c-format
 msgid "retrieval of [%s] failed"
 msgstr "获取[%s]失败"
@@ -3087,29 +3092,29 @@ msgstr "--list-nodes 仅能和 --parallel 一起使用"
 msgid "use -l to list files"
 msgstr "使用 -l 可列出文件"
 
-#: ../urpmq:404
+#: ../urpmq:405
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr "由于介质“%s”没有 xml 信息，软件包 %s 只返回部分结果"
 
-#: ../urpmq:405
+#: ../urpmq:406
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr "由于介质“%s”没有 xml 信息，软件包 %s 只返回部分结果"
 
-#: ../urpmq:408
+#: ../urpmq:409
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr "由于介质“%s”没有 xml 信息，软件包 %s 无法返回任何结果"
 
-#: ../urpmq:409
+#: ../urpmq:410
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr "由于介质“%s”没有 xml 信息，软件包 %s 无法返回任何结果"
 
-#: ../urpmq:476
+#: ../urpmq:477
 #, c-format
 msgid "No changelog found\n"
 msgstr "没有找到更新日志\n"

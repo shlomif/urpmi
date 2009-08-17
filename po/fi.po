@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-10 13:35+0200\n"
+"POT-Creation-Date: 2009-08-17 17:47+0200\n"
 "PO-Revision-Date: 2009-08-12 04:03+0300\n"
 "Last-Translator: Anssi Hannula <anssi@mandriva.org>\n"
 "Language-Team: Finnish <cooker-i18n@mandrivalinux.org>\n"
@@ -344,9 +344,9 @@ msgstr "Aseta media \"%s\" asemaan"
 msgid "Downloading package `%s'..."
 msgstr "Ladataan tiedostoa %s..."
 
-#: ../gurpmi2:360 ../urpm.pm:327 ../urpm/download.pm:821
-#: ../urpm/get_pkgs.pm:236 ../urpm/media.pm:810 ../urpm/media.pm:1271
-#: ../urpm/media.pm:1422
+#: ../gurpmi2:360 ../urpm.pm:329 ../urpm/download.pm:821
+#: ../urpm/get_pkgs.pm:236 ../urpm/media.pm:912 ../urpm/media.pm:1414
+#: ../urpm/media.pm:1565
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...noutaminen epäonnistui: %s"
@@ -436,77 +436,77 @@ msgstr "Vain pääkäyttäjä voi asentaa paketteja"
 msgid "Running urpmi in restricted mode..."
 msgstr "Suoritetaan urpmi rajoitetussa tilassa..."
 
-#: ../urpm.pm:112
+#: ../urpm.pm:113
 #, c-format
 msgid "fail to create directory %s"
 msgstr "Hakemiston %s luonti epäonnistui"
 
-#: ../urpm.pm:113
+#: ../urpm.pm:114
 #, c-format
 msgid "invalid owner for directory %s"
 msgstr "Hakemiston %s omistaja on virheellinen"
 
-#: ../urpm.pm:125
+#: ../urpm.pm:126
 #, c-format
 msgid "Can not download packages into %s"
 msgstr "Paketteja ei voida ladata hakemistoon %s"
 
-#: ../urpm.pm:140
+#: ../urpm.pm:141
 #, c-format
 msgid "Environment directory %s does not exist"
 msgstr "Ympäristökansiota %s ei ole olemassa"
 
-#: ../urpm.pm:141 ../urpmf:248 ../urpmq:165
+#: ../urpm.pm:142 ../urpmf:248 ../urpmq:165
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "Käytetään määrättyä ympäristöä kohteelle %s\n"
 
-#: ../urpm.pm:302
+#: ../urpm.pm:304
 #, c-format
 msgid "unable to open rpmdb"
 msgstr "Rpm-tietokantaa ei voitu avata"
 
-#: ../urpm.pm:316
+#: ../urpm.pm:318
 #, c-format
 msgid "invalid rpm file name [%s]"
 msgstr "Virheellinen rpm-paketin nimi [%s]"
 
-#: ../urpm.pm:322
+#: ../urpm.pm:324
 #, c-format
 msgid "retrieving rpm file [%s] ..."
 msgstr "Noudetaan rpm-pakettia [%s]..."
 
-#: ../urpm.pm:324 ../urpm/get_pkgs.pm:234
+#: ../urpm.pm:326 ../urpm/get_pkgs.pm:234
 #, c-format
 msgid "...retrieving done"
 msgstr "...noudettu"
 
-#: ../urpm.pm:332
+#: ../urpm.pm:334
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "Rpm-pakettia [%s] ei voitu käsitellä"
 
-#: ../urpm.pm:337
+#: ../urpm.pm:339
 #, c-format
 msgid "unable to parse spec file %s [%s]"
 msgstr "Spec-tiedostoa %s [%s] ei voitu tulkita"
 
-#: ../urpm.pm:345
+#: ../urpm.pm:347
 #, c-format
 msgid "unable to register rpm file"
 msgstr "Rpm-paketin rekisteröinti epäonnistui"
 
-#: ../urpm.pm:347
+#: ../urpm.pm:349
 #, c-format
 msgid "Incompatible architecture for rpm [%s]"
 msgstr "Paketin [%s] laitteistoarkkitehtuuri ei ole yhteensopiva"
 
-#: ../urpm.pm:351
+#: ../urpm.pm:353
 #, c-format
 msgid "error registering local packages"
 msgstr "Virhe rekisteröitäessä paikallisia paketteja"
 
-#: ../urpm.pm:439
+#: ../urpm.pm:441
 #, c-format
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Toiminto on kielletty, koska ohjelmaa käytetään rajoitetussa tilassa"
@@ -612,7 +612,7 @@ msgstr "Asetustiedostoa [%s] ei voitu lukea"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "Media \"%s\" on asetettu kahdesti, keskeytetään"
 
-#: ../urpm/cfg.pm:251 ../urpm/media.pm:477
+#: ../urpm/cfg.pm:251 ../urpm/media.pm:537
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "Asetustiedostoon [%s] ei voitu kirjoittaa"
@@ -922,7 +922,7 @@ msgstr "Poistetaan paketti %s"
 msgid "removing installed rpms (%s) from %s"
 msgstr "Poistetaan asennetut paketit (%s) kansiosta %s"
 
-#: ../urpm/install.pm:283
+#: ../urpm/install.pm:284
 #, c-format
 msgid "More information on package %s"
 msgstr "Lisätietoja paketista %s"
@@ -1068,47 +1068,47 @@ msgstr "Asennus on mahdollinen"
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
 msgstr "Varoitus: MD5SUM-tiedostosta ei löydy tarkistussummaa kohteelle %s"
 
-#: ../urpm/media.pm:194
+#: ../urpm/media.pm:254
 #, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
 msgstr "Virtuaalimedialla \"%s\" tulisi olla kunnollinen url, media ohitettu"
 
-#: ../urpm/media.pm:196
+#: ../urpm/media.pm:256
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "Median \"%s\" list-tiedostoa ei voida käyttää, media ohitettu"
 
-#: ../urpm/media.pm:199
+#: ../urpm/media.pm:259
 #, c-format
 msgid "unable to access synthesis file of \"%s\", medium ignored"
 msgstr "Median \"%s\" synthesis-tiedostoa ei voida käyttää, media ohitettu"
 
-#: ../urpm/media.pm:225
+#: ../urpm/media.pm:285
 #, c-format
 msgid "trying to override existing medium \"%s\", skipping"
 msgstr "Yritetään syrjäyttää olemassa olevaa mediaa \"%s\", ohitetaan"
 
-#: ../urpm/media.pm:441
+#: ../urpm/media.pm:501
 #, c-format
 msgid "failed to migrate removable device, ignoring media"
 msgstr "Siirrettävän laitteen uudelleenasetus epäonnistui, ohitetaan media"
 
-#: ../urpm/media.pm:479
+#: ../urpm/media.pm:539
 #, c-format
 msgid "wrote config file [%s]"
 msgstr "Kirjoitettiin asetustiedosto [%s]"
 
-#: ../urpm/media.pm:521
+#: ../urpm/media.pm:582
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
 msgstr "Rinnakkaistilaa ei voi käyttää tilan use-distrib kanssa"
 
-#: ../urpm/media.pm:529
+#: ../urpm/media.pm:590
 #, c-format
 msgid "using associated media for parallel mode: %s"
 msgstr "Merkittyjä medioita käytetään rinnakkaistilassa: %s"
 
-#: ../urpm/media.pm:545
+#: ../urpm/media.pm:606
 #, c-format
 msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
@@ -1117,212 +1117,217 @@ msgstr ""
 "valitsinta --synthesis ei voi käyttää yhdessä valitsimien --media, --"
 "excludemedia, --sortmedia, --update, --use-distrib tai --parallel kanssa"
 
-#: ../urpm/media.pm:663
+#: ../urpm/media.pm:724
 #, c-format
 msgid "skipping package %s"
 msgstr "Ohitetaan paketti %s"
 
-#: ../urpm/media.pm:679
+#: ../urpm/media.pm:740
 #, c-format
 msgid "would install instead of upgrade package %s"
 msgstr "Paketti %s asennettaisiin päivittämisen sijaan"
 
-#: ../urpm/media.pm:704
+#: ../urpm/media.pm:765
 #, c-format
 msgid "medium \"%s\" already exists"
 msgstr "Media \"%s\" on jo olemassa"
 
-#: ../urpm/media.pm:743
+#: ../urpm/media.pm:804
 #, c-format
 msgid "(ignored by default)"
 msgstr "(oletuksena pois käytöstä)"
 
-#: ../urpm/media.pm:749
+#: ../urpm/media.pm:810
 #, c-format
 msgid "adding medium \"%s\" before remote medium \"%s\""
 msgstr "Lisätään media \"%s\" etämedian \"%s\" eteen"
 
-#: ../urpm/media.pm:755
+#: ../urpm/media.pm:816
 #, c-format
 msgid "adding medium \"%s\""
 msgstr "Lisätään media \"%s\""
 
-#: ../urpm/media.pm:784
+#: ../urpm/media.pm:842
+#, fuzzy, c-format
+msgid "failed to copy media.cfg to %s (%d)"
+msgstr "Kopiointi epäonnistui kohteessa %s (%d)"
+
+#: ../urpm/media.pm:883
 #, c-format
 msgid "directory %s does not exist"
 msgstr "Kansiota %s ei ole olemassa"
 
-#: ../urpm/media.pm:792
+#: ../urpm/media.pm:891
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "Sijainti ei vaikuta sisältävän jakelua"
 
-#: ../urpm/media.pm:808
+#: ../urpm/media.pm:910
 #, c-format
 msgid "unable to parse media.cfg"
 msgstr "media.cfg-tiedostoa ei voida jäsentää"
 
-#: ../urpm/media.pm:811
+#: ../urpm/media.pm:913
 #, c-format
 msgid "unable to access the distribution medium (no media.cfg file found)"
 msgstr "Jakelumediaa ei voida käyttää (tiedostoa media.cfg ei löytynyt)"
 
-#: ../urpm/media.pm:829
+#: ../urpm/media.pm:931
 #, c-format
 msgid "skipping non compatible media `%s' (for %s)"
 msgstr "Ohitetaan yhteensopimaton media \"%s\" (%s)"
 
-#: ../urpm/media.pm:880
+#: ../urpm/media.pm:982
 #, c-format
 msgid "retrieving media.cfg file..."
 msgstr "Noudetaan tiedostoa media.cfg..."
 
-#: ../urpm/media.pm:921
+#: ../urpm/media.pm:1023
 #, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "Yritettiin valita media \"%s\", jota ei ole olemassa"
 
-#: ../urpm/media.pm:924
+#: ../urpm/media.pm:1026
 #, c-format
 msgid "selecting multiple media: %s"
 msgstr "Valitaan useampi media: %s"
 
-#: ../urpm/media.pm:944
+#: ../urpm/media.pm:1087
 #, c-format
 msgid "removing medium \"%s\""
 msgstr "Poistetaan media \"%s\""
 
-#: ../urpm/media.pm:1027
+#: ../urpm/media.pm:1170
 #, c-format
 msgid "reconfiguring urpmi for media \"%s\""
 msgstr "Asetetaan urpmi uudelleen medialle \"%s\""
 
-#: ../urpm/media.pm:1061
+#: ../urpm/media.pm:1204
 #, c-format
 msgid "...reconfiguration failed"
 msgstr "...uudelleenasetus epäonnistui"
 
-#: ../urpm/media.pm:1067
+#: ../urpm/media.pm:1210
 #, c-format
 msgid "reconfiguration done"
 msgstr "Uudelleenasetus suoritettu"
 
-#: ../urpm/media.pm:1083
+#: ../urpm/media.pm:1226
 #, c-format
 msgid "Error generating names file: dependency %d not found"
 msgstr "Virhe luotaessa names-tiedostoa: riippuvuutta %d ei löytynyt"
 
-#: ../urpm/media.pm:1104
+#: ../urpm/media.pm:1247
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "Media \"%s\" on ajantasalla"
 
-#: ../urpm/media.pm:1115
+#: ../urpm/media.pm:1258
 #, c-format
 msgid "examining synthesis file [%s]"
 msgstr "Tutkitaan synthesis-tiedostoa [%s]"
 
-#: ../urpm/media.pm:1135
+#: ../urpm/media.pm:1278
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "Ongelmia luettaessa median \"%s\" synthesis-tiedostoa"
 
-#: ../urpm/media.pm:1148 ../urpm/media.pm:1243
+#: ../urpm/media.pm:1291 ../urpm/media.pm:1386
 #, c-format
 msgid "copying [%s] for medium \"%s\"..."
 msgstr "Kopioidaan tiedostoa [%s] medialle \"%s\"..."
 
-#: ../urpm/media.pm:1150 ../urpm/media.pm:1220 ../urpm/media.pm:1473
+#: ../urpm/media.pm:1293 ../urpm/media.pm:1363 ../urpm/media.pm:1616
 #, c-format
 msgid "...copying failed"
 msgstr "...kopiointi epäonnistui"
 
-#: ../urpm/media.pm:1216
+#: ../urpm/media.pm:1359
 #, c-format
 msgid "copying description file of \"%s\"..."
 msgstr "Kopioidaan median \"%s\" kuvaustiedostoa..."
 
-#: ../urpm/media.pm:1218 ../urpm/media.pm:1247
+#: ../urpm/media.pm:1361 ../urpm/media.pm:1390
 #, c-format
 msgid "...copying done"
 msgstr "...kopiointi valmis"
 
-#: ../urpm/media.pm:1249
+#: ../urpm/media.pm:1392
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "Tiedoston [%s] kopiointi epäonnistui (tiedosto on epäilyttävän pieni)"
 
-#: ../urpm/media.pm:1297
+#: ../urpm/media.pm:1440
 #, c-format
 msgid "computing md5sum of retrieved source synthesis"
 msgstr "Lasketaan tarkistussumma ladatulle lähteen synthesis-tiedostolle"
 
-#: ../urpm/media.pm:1299 ../urpm/media.pm:1736
+#: ../urpm/media.pm:1442 ../urpm/media.pm:1882
 #, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
 msgstr "Tiedoston [%s] haku epäonnistui (tarkistussumma ei täsmää)"
 
-#: ../urpm/media.pm:1314
+#: ../urpm/media.pm:1457
 #, c-format
 msgid "genhdlist2 failed on %s"
 msgstr "Genhdlist2 epäonnistui paketin %s kohdalla"
 
-#: ../urpm/media.pm:1324
+#: ../urpm/media.pm:1467
 #, c-format
 msgid "comparing %s and %s"
 msgstr "Verrataan kohteita %s ja %s"
 
-#: ../urpm/media.pm:1354
+#: ../urpm/media.pm:1497
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "Virheellinen hdlist-tiedosto %s medialle \"%s\""
 
-#: ../urpm/media.pm:1380
+#: ../urpm/media.pm:1523
 #, c-format
 msgid "copying MD5SUM file of \"%s\"..."
 msgstr "Kopioidaan lähteen \"%s\" MD5SUM-tiedostoa..."
 
-#: ../urpm/media.pm:1420
+#: ../urpm/media.pm:1563
 #, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
 msgstr "Virheellinen MD5SUM-tiedosto (ladattu osoitteesta %s)"
 
-#: ../urpm/media.pm:1423
+#: ../urpm/media.pm:1566
 #, c-format
 msgid "no metadata found for medium \"%s\""
 msgstr "Medialle %s ei löytynyt metadataa"
 
-#: ../urpm/media.pm:1455
+#: ../urpm/media.pm:1598
 #, c-format
 msgid "retrieving source synthesis of \"%s\"..."
 msgstr "Noudetaan synthesis-tiedostoa lähteelle \"%s\"..."
 
-#: ../urpm/media.pm:1521
+#: ../urpm/media.pm:1664
 #, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "Tarkistetaan median \"%s\" julkista avainta..."
 
-#: ../urpm/media.pm:1533
+#: ../urpm/media.pm:1676
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr "...tuotiin avain %s median \"%s\" julkisesta avaimesta"
 
-#: ../urpm/media.pm:1537
+#: ../urpm/media.pm:1680
 #, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "Median \"%s\" julkista avainta ei voitu tuoda"
 
-#: ../urpm/media.pm:1578
+#: ../urpm/media.pm:1721
 #, c-format
 msgid "no synthesis file found for medium \"%s\""
 msgstr "Medialle \"%s\" ei löytynyt synthesis-tiedostoa"
 
-#: ../urpm/media.pm:1611
+#: ../urpm/media.pm:1754
 #, c-format
 msgid "updated medium \"%s\""
 msgstr "Media \"%s\" päivitetty"
 
-#: ../urpm/media.pm:1730
+#: ../urpm/media.pm:1876
 #, c-format
 msgid "retrieval of [%s] failed"
 msgstr "Paketin [%s] hakeminen epäonnistui"
@@ -1431,7 +1436,8 @@ msgstr ""
 "Merkitään paketti %s käsin asennetuksi. Paketista ei tule tarpeetonta "
 "(orphan)."
 
-#: ../urpm/orphans.pm:362, c-format
+#: ../urpm/orphans.pm:362
+#, c-format
 msgid ""
 "The following package:\n"
 "%s\n"
@@ -3258,21 +3264,21 @@ msgstr ""
 msgid "use -l to list files"
 msgstr "Valitsin -l listaa paketin tiedostot"
 
-#: ../urpmq:404
+#: ../urpmq:405
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "Medialla \"%s\" ei ole xml-tietoja, löytyi vain osittainen hakutulos "
 "paketille %s"
 
-#: ../urpmq:405
+#: ../urpmq:406
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "Medialla \"%s\" ei ole xml-tietoja, löytyi vain osittainen hakutulos "
 "paketeille %s"
 
-#: ../urpmq:408
+#: ../urpmq:409
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3280,7 +3286,7 @@ msgstr ""
 "Medialla \"%s\" ei ole xml-tietoja, paketille %s ei voida palauttaa "
 "hakutuloksia"
 
-#: ../urpmq:409
+#: ../urpmq:410
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3288,7 +3294,7 @@ msgstr ""
 "Medialla \"%s\" ei ole xml-tietoja, paketeille %s ei voida palauttaa "
 "hakutuloksia"
 
-#: ../urpmq:476
+#: ../urpmq:477
 #, c-format
 msgid "No changelog found\n"
 msgstr "Muutoslokia ei löytynyt\n"
