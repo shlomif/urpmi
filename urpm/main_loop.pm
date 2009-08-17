@@ -293,7 +293,7 @@ if ($nok) {
 	$urpm->{print}(join("\n", @formatted_errors));
     }
     if (@errors) {
-	$urpm->{print}(N("Installation failed:")), map { "\t$_\n" } @errors;
+	$urpm->{print}(N("Installation failed:").join("\n", map { "\t$_" } @errors));
     }
     $exit_code ||= $ok ? 11 : 12;
 } else {
