@@ -131,6 +131,15 @@ sub black_list {
     }
 }
 
+sub _trigger_cache_update {
+    my ($urpm, $cache, $o_is_upgrade) = @_;
+
+    my $reason = $o_is_upgrade?"reason=upgrade":"reason=update";
+    $urpm->{log}("URPMI_ADDMEDIA_REASON $reason");
+    $ENV{URPMI_ADDMEDIA_REASON} = $reason;
+    %$cache =  ();
+}
+
 #- side-effects:
 #-   + those of _cache ($urpm->{mirrors_cache})
 sub _cache__may_clean_if_outdated {
@@ -141,14 +150,14 @@ sub _cache__may_clean_if_outdated {
     if ($allow_cache_update) {
 	if ($cache->{network_mtime} && _network_mtime() > $cache->{network_mtime}) {
 	    $urpm->{log}("not using cached mirror list $mirrorlist since network configuration changed");
-	    %$cache = ();
+	    _trigger_cache_update ($urpm, $cache);
 	} elsif ($cache->{time} &&
 		   time() > $cache->{time} + 24*60*60 * $urpm->{options}{'days-between-mirrorlist-update'}) {
 	    $urpm->{log}("not using outdated cached mirror list $mirrorlist");
-	    %$cache = ();
+	    _trigger_cache_update ($urpm, $cache);
 	} elsif ($cache->{product_id_mtime} && _product_id_mtime() != $cache->{product_id_mtime}) {
 	    $urpm->{log}("not using cached mirror list $mirrorlist since product id file changed");
-	    %$cache = ();
+	    _trigger_cache_update ($urpm, $cache, 1);
 	}
     }
     $cache;
