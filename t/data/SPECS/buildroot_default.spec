@@ -1,4 +1,6 @@
 %define macro_using_buildroot $(echo %buildroot)
+%undefine distepoch
+%undefine disttag
 
 Summary: x
 Name: buildroot
