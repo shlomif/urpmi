@@ -6,6 +6,7 @@ use strict;
 use Exporter;
 our @ISA = 'Exporter';
 our @EXPORT = qw(min max quotespace unquotespace
+    add2hash_
     remove_internal_name
     reduce_pathname offset_pathname
     untaint
@@ -151,6 +152,7 @@ sub formatList {
     join(", ", @_ <= $nb ? @_ : (@_[0..$nb-1], '...'));
 }
 
+sub add2hash_   { my ($a, $b) = @_; while (my ($k, $v) = each %{$b || {}}) { exists $a->{$k} or $a->{$k} = $v } $a }
 sub put_in_hash { my ($a, $b) = @_; while (my ($k, $v) = each %{$b || {}}) { $a->{$k} = $v } $a }
 sub uniq { my %l; $l{$_} = 1 foreach @_; grep { delete $l{$_} } @_ }
 sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
