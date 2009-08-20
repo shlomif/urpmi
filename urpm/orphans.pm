@@ -290,6 +290,13 @@ sub _will_prop_still_be_needed {
     });
 }
 
+# so that we can filter out current running kernel:
+sub _get_current_kernel_package() {
+    my $release = (POSIX::uname())[2];
+    `rpm -qf --qf '%{name}' /boot/vmlinuz-$release`;
+}
+
+
 #- returns the list of "unrequested" orphans.
 #-
 #- side-effects: none
@@ -301,6 +308,8 @@ sub _all_unrequested_orphans {
 	$l{$pkg->name} = $pkg;
 	push @{$provides{$_}}, $pkg foreach $pkg->provides_nosense;
     }
+
+    my $current_kernel = _get_current_kernel_package();
 
     while (my $pkg = shift @$req) {
 	foreach my $prop ($pkg->requires, $pkg->suggests) {
@@ -314,6 +323,8 @@ sub _all_unrequested_orphans {
 	}
     }
 
+    # do not offer to remove current kernel:
+    delete $l{$current_kernel};
     [ values %l ];
 }
 
