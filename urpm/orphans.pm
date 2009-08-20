@@ -396,3 +396,5 @@ sub installed_leaves {
 
     [ values %l ];
 }
+
+1;
