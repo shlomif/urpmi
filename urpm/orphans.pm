@@ -297,6 +297,48 @@ sub _get_current_kernel_package() {
 }
 
 
+# - returns list of kernels
+#
+# _fast_ version w/o looking at all non kernel packages requires on
+# kernels (like "urpmi_find_leaves '^kernel'" would)
+#
+# _all_unrequested_orphans blacklists nearly all kernels b/c of packages
+# like 'ndiswrapper' or 'basesystem' that requires 'kernel'
+#
+# rationale: other packages only require 'kernel' or a sub package we
+# do not care about (eg: kernel-devel, kernel-firmware, kernel-latest)
+# so it's useless to look at them
+#
+my (@requested_kernels, %kernels);
+sub _kernel_callback { 
+    my ($pkg) = @_;
+    my $shortname = $pkg->name;
+    my $n = $pkg->fullname;
+
+    # only consider kernels (and not main 'kernel' package):
+    return if $shortname !~ /^kernel-/;
+
+    # only consider real kernels (and not kernel-doc and the like):
+    return if $shortname =~ /-(?:doc|headers|firmware(?:|-extra))$/;
+
+    # keep track of latest kernels in order not to try removing requested kernels:
+    if ($n =~ /latest/) {
+        push @requested_kernels, $pkg->requires;
+    } else {
+        $kernels{$shortname} = $pkg;
+    }
+}
+
+
+# - returns list of orphan kernels
+sub _get_orphan_kernels() {
+    # keep kernels required by kernel-*-latest:
+    delete $kernels{$_} foreach @requested_kernels;
+    # return list of unused/orphan kernels:
+    %kernels;
+}
+
+
 #- returns the list of "unrequested" orphans.
 #-
 #- side-effects: none
@@ -312,6 +354,8 @@ sub _all_unrequested_orphans {
     my $current_kernel = _get_current_kernel_package();
 
     while (my $pkg = shift @$req) {
+        # do not do anything regarding kernels if we failed to detect the running one (ie: chroot)
+ 	_kernel_callback($pkg) if $current_kernel;
 	foreach my $prop ($pkg->requires, $pkg->suggests) {
 	    my $n = URPM::property2name($prop);
 	    foreach my $p (@{$provides{$n} || []}) {
@@ -322,6 +366,10 @@ sub _all_unrequested_orphans {
 	    }
 	}
     }
+
+    # add orphan kernels to the list:
+    my $a = { _get_orphan_kernels() };
+    add2hash_(\%l,$a);
 
     # do not offer to remove current kernel:
     delete $l{$current_kernel};
