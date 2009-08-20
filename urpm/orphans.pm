@@ -57,7 +57,7 @@ sub mark_as_requested {
     }
 
     if ($dirty && !$test) {
-	_write_unrequested_list__file($urpm, [keys %{$unrequested}]);
+	_write_unrequested_list__file($urpm, [keys %$unrequested]);
     }
 }
 
