@@ -354,7 +354,9 @@ sub compute_pkgs_user {
 sub write_dudf {
     my ($self) = @_;
 
-    if ($self->{force_dudf} != 0 || ($self->{exit_code} != 0 && ${$self->{dudf_urpm}}->{options}{auto} != 1)) {
+    if ( (!${$self->{dudf_urpm}}->{options}{auto}) &&
+         ( ($self->{exit_code} > 9) ||
+           (!$self->{exit_code} && $self->{force_dudf}) ) ) {
         my $noexpr = N("Nn");
         my $msg = N("A problem has been encountered. You can help Mandriva to improve package\ninstallation by uploading a DUDF report file.\nThis is a part of the Mancoosi european research project.\nMore at http://www.mancoosi.org\n");
         $msg .= N("Do you want to upload to Mandriva a DUDF report?");
