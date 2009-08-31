@@ -322,7 +322,7 @@ sub sync_wget {
 	($options->{callback} ? ("--progress=bar:force", "-o", "-") :
 	    $options->{quiet} ? "-q" : @{[]}),
 	"--retr-symlinks",
-	"--no-check-certificate",
+	($options->{"strict-certificate-check"} ? () : "--no-check-certificate"),
 	"--timeout=$CONNECT_TIMEOUT",
 	(defined $options->{'wget-options'} ? split /\s+/, $options->{'wget-options'} : ()),
 	'-P', $options->{dir},
@@ -470,7 +470,7 @@ sub sync_curl {
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 	    ($options->{retry} ? ('--retry', $options->{retry}) : ()),
 	    ($options->{quiet} ? "-s" : @{[]}),
-	    "-k",
+	    ($options->{"strict-certificate-check"} ? () : "-k"),
 	    $location_trusted ? "--location-trusted" : @{[]},
 	    "-R",
 	    "-f",
