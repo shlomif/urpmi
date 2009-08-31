@@ -274,7 +274,7 @@ sub _mirrors_raw {
     my ($urpm, $url) = @_;
 
     $urpm->{log}(N("getting mirror list from %s", $url));
-    my @l = urpm::download::get_content($urpm, $url) or $urpm->{error}("mirror list not found");
+    my @l = urpm::download::get_content($urpm, $url, "strict-certificate-check" => 1) or $urpm->{error}("mirror list not found");
     @l;
 }
 
@@ -301,7 +301,7 @@ sub _mandriva_mirrorlist {
     my @para = grep { $_ } $ENV{URPMI_ADDMEDIA_REASON};
     my $product_version = $ENV{URPMI_ADDMEDIA_PRODUCT_VERSION} || $product_id->{version};
 
-    "http://api.mandriva.com/mirrors/$product_type.$product_version.$arch.list"
+    "https://api.mandriva.com/mirrors/$product_type.$product_version.$arch.list"
       . (@para ? '?' . join('&', @para) : '');
 }
 
