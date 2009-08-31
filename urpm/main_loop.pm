@@ -87,7 +87,7 @@ my $migrate_back_rpmdb_db_version =
 foreach my $set (@{$state->{transaction} || []}) {
 
     #- put a blank line to separate with previous transaction or user question.
-    print "\n" if $options{verbose} >= 0;
+    $urpm->{print}("\n") if $options{verbose} >= 0;
 
     my ($transaction_blists, $transaction_sources) = 
       urpm::install::prepare_transaction($urpm, $set, $blists, \%sources);
