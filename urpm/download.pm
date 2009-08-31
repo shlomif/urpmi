@@ -921,9 +921,9 @@ sub sync {
 }
 
 sub get_content {
-    my ($urpm, $url) = @_;
+    my ($urpm, $url, %o_options) = @_;
 
-    my $file = sync_url($urpm, $url, quiet => 1, preclean => 1) or return;
+    my $file = sync_url($urpm, $url, %o_options, quiet => 1, preclean => 1) or return;
 
     my @l = cat_($file);
     unlink $file;
