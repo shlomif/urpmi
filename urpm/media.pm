@@ -162,7 +162,7 @@ sub _read_config__read_media_info {
     my %url2mediamap;
     my %mirrorlist2mediamap;
     foreach my $media_dir (File::Glob::bsd_glob("$urpm->{mediacfgdir}/*")) {
-	next if not -d $media_dir;
+	next if !-d $media_dir;
 
 	$urpm->{debug} and $urpm->{debug}("parsing: $media_dir");
 
@@ -171,9 +171,9 @@ sub _read_config__read_media_info {
 	$distribconf->settree('mandriva');
 	$distribconf->parse_mediacfg($media_cfg);
     
-	if (open (URLS, '<', $media_dir . '/url')) {
-	    while (<URLS>) {
-		chomp ($_);
+	if (open(my $URLS, '<', $media_dir . '/url')) {
+	    while (<$URLS>) {
+		chomp($_);
 		foreach my $medium ($distribconf->listmedia) {
 		    my $medium_path = reduce_pathname($_ . '/' . $distribconf->getpath($medium, 'path'));
 		    $url2mediamap{$medium_path} = [$distribconf, $medium];
@@ -181,13 +181,13 @@ sub _read_config__read_media_info {
 	    }
 	}
 
-	if (open (MIRRORLISTS, '<', $media_dir . '/mirrorlist')) {
-	    while (<MIRRORLISTS>) {
+	if (open(my $MIRRORLISTS, '<', $media_dir . '/mirrorlist')) {
+	    while (<$MIRRORLISTS>) {
 		my $mirrorlist = $_;
-		chomp ($mirrorlist);
+		chomp($mirrorlist);
 		foreach my $medium ($distribconf->listmedia) {
 		    my $medium_path = $distribconf->getpath($medium, 'path');
-		    $mirrorlist2mediamap{$mirrorlist}->{$medium_path} = [$distribconf, $medium];
+		    $mirrorlist2mediamap{$mirrorlist}{$medium_path} = [ $distribconf, $medium ];
 		}
 	    }
 	}
@@ -198,8 +198,8 @@ sub _read_config__read_media_info {
 sub _associate_media_with_mediacfg {
     my ($urpm, $media) = @_;
 
-    my ($url2mediamap, $mirrorlist2mediamap) = _read_config__read_media_info ($urpm);
-    foreach my $medium (@{$media}) {
+    my ($url2mediamap, $mirrorlist2mediamap) = _read_config__read_media_info($urpm);
+    foreach my $medium (@$media) {
 	if ($medium->{mirrorlist}) {
 	    $medium->{mediacfg} = $mirrorlist2mediamap->{$medium->{mirrorlist}}{$medium->{'with-dir'}};
 	} elsif ($medium->{url}) {
@@ -237,7 +237,7 @@ sub read_config {
     # media.cfg file
     # @media content will be modified and then add_existing medium will take 
     # care of copying the media to $urpm
-    _associate_media_with_mediacfg ($urpm, \@media);
+    _associate_media_with_mediacfg($urpm, \@media);
 
     add_existing_medium($urpm, $_, $nocheck) foreach @media;
 
@@ -691,7 +691,7 @@ sub all_media_to_update {
 
     grep { !$_->{ignore}
 	     && !$_->{static} && !urpm::is_cdrom_url($_->{url}) && !$_->{iso}
-	     && (!$b_only_marked_update || $_->{update})
+	     && (!$b_only_marked_update || $_->{update});
 	} @{$urpm->{media} || []};
 }
 
@@ -807,13 +807,13 @@ sub add_medium {
 	@{$urpm->{media}} = map {  
 	    if (!_local_file($_) && !$inserted) {
 		$inserted = 1;
-		$urpm->{$options{on_the_fly} ? 'log': 'info'}(N("adding medium \"%s\" before remote medium \"%s\"", $name, $_->{name}) . $ignore_text);
+		$urpm->{$options{on_the_fly} ? 'log' : 'info'}(N("adding medium \"%s\" before remote medium \"%s\"", $name, $_->{name}) . $ignore_text);
 		$medium, $_;
 	    } else { $_ }
 	} @{$urpm->{media}};
     }
     if (!$inserted) {
-	$urpm->{$options{on_the_fly} ? 'log': 'info'}(N("adding medium \"%s\"", $name) . $ignore_text);
+	$urpm->{$options{on_the_fly} ? 'log' : 'info'}(N("adding medium \"%s\"", $name) . $ignore_text);
 	push @{$urpm->{media}}, $medium;
     }
 
@@ -824,8 +824,6 @@ sub add_medium {
 
 sub _register_media_cfg {
     my ($urpm, $url, $mirrorlist, $distribconf, $media_cfg) = @_;
-
-    my $media_name = "media.cfg";
 
     my $arch = $distribconf->getvalue('media_info', 'arch') || '';
     my $branch = $distribconf->getvalue('media_info', 'branch') || '';
@@ -1043,11 +1041,11 @@ sub _remove_medium_from_mediacfg {
     my ($urpm, $mediacfg_dir, $url, $is_mirrorlist);
 
     my $filename = $mediacfg_dir;
-    $filename .= $is_mirrorlist?"/mirrorlist":"/url";
+    $filename .= $is_mirrorlist ? "/mirrorlist" : "/url";
 
     my @urls = split(/\n/, scalar cat_($filename));
     $urpm->{debug} and $urpm->{debug}("removing $url from $filename");
-    output_safe ($filename, join ('\n', grep { $url ne $_ } @urls));
+    output_safe($filename, join('\n', grep { $url ne $_ } @urls));
 }
 
 sub _cleanup_mediacfg_dir {
@@ -1059,10 +1057,10 @@ sub _cleanup_mediacfg_dir {
 	$medium->{mediacfg} or next;
 	#this should never happen but dirname(undef) returns . on which we call
 	#clean_dir so better be safe than sorry
-	$medium->{mediacfg}[0]->{root} or next;
-	my $dir = reduce_pathname(dirname($medium->{mediacfg}[0]->{root}));
-	begins_with($medium->{mediacfg}[0]->{root}, $dir) or next;
-	if (!grep { $_->{mediacfg}[0]->{root} == $medium->{mediacfg}[0]->{root} } @{$urpm->{media}}) {
+	$medium->{mediacfg}[0]{root} or next;
+	my $dir = reduce_pathname(dirname($medium->{mediacfg}[0]{root}));
+	begins_with($medium->{mediacfg}[0]{root}, $dir) or next;
+	if (!grep { $_->{mediacfg}[0]{root} == $medium->{mediacfg}[0]{root} } @{$urpm->{media}}) {
 	    $urpm->{debug} and $urpm->{debug}("removing no longer used $dir");
 	    -d $dir and urpm::sys::clean_dir($dir);
 	    next;
@@ -1635,7 +1633,7 @@ sub _get_pubkey {
     #- examine if a pubkey file is available.
     ($local ? \&_get_pubkey__local : \&_download_pubkey)->($urpm, $medium);
 
-    $medium->{'key-ids'} =_read_cachedir_pubkey($urpm, $medium, $b_wait_lock);
+    $medium->{'key-ids'} = _read_cachedir_pubkey($urpm, $medium, $b_wait_lock);
     $urpm->{modified} = 1;
 }
 
