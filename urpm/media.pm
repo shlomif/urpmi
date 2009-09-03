@@ -1072,7 +1072,7 @@ sub _cleanup_mediacfg_dir {
 	    }
 	} elsif ($medium->{url}) {
 	    if (!grep { $_->{url} eq $medium->{url} } @{$urpm->{media}}, 0) {
-		_remove_medium_from_mediacfg($urpm, $dir, $medium->{url});
+		_remove_medium_from_mediacfg($urpm, $dir, $medium->{url}, 0);
 	    }
 	}
     }
