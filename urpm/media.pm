@@ -959,10 +959,10 @@ sub add_distrib_media {
 	    $name ? "$media_name ($name$medium_index)" : $media_name,
 	    reduce_pathname($distribconf->getfullpath($media, 'path')),
 	    $with_synthesis, 
-	    !$use_copied_synthesis ? (media_info_dir => 'media_info') : (),
+	    !$use_copied_synthesis ? (media_info_dir => 'media_info') : @{[]},
 	    !$use_copied_synthesis && $options{probe_with} ? ($options{probe_with} => 1) : (),
 	    index_name => $name ? undef : 0,
-	    $ignore ? (ignore => 1) : (),
+	    $ignore ? (ignore => 1) : @{[]},
 	    %options,
 	    # the following override %options
 	    $options{mirrorlist} ? ('with-dir' => $distribconf->getpath($media, 'path')) : (),
@@ -1450,7 +1450,7 @@ sub _call_genhdlist2 {
     my $dir = file_from_local_medium($medium);
 
     system('genhdlist2', 
-	   $urpm->{debug} ? '--verbose' : (), '--no-hdlist',
+	   $urpm->{debug} ? '--verbose' : @{[]}, '--no-hdlist',
 	   '--media_info-dir', "$urpm->{cachedir}/partial", $dir) == 0 
       or $urpm->{error}(N("genhdlist2 failed on %s", $dir)), return;
 
