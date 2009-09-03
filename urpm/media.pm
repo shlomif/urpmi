@@ -1051,8 +1051,6 @@ sub _remove_medium_from_mediacfg {
 sub _cleanup_mediacfg_dir {
     my ($urpm, $to_remove) = @_;
 
-    my @removed_mediacfg;
-    
     foreach my $medium (@$to_remove) {
 	$medium->{mediacfg} or next;
 	#this should never happen but dirname(undef) returns . on which we call
