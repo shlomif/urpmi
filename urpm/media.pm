@@ -1038,7 +1038,7 @@ sub remove_selected_media {
 }
 
 sub _remove_medium_from_mediacfg {
-    my ($urpm, $mediacfg_dir, $url, $is_mirrorlist);
+    my ($urpm, $mediacfg_dir, $url, $is_mirrorlist) = @_;
 
     my $filename = $mediacfg_dir;
     $filename .= $is_mirrorlist ? "/mirrorlist" : "/url";
