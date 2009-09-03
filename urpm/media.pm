@@ -172,6 +172,7 @@ sub _read_config__read_media_info {
 	$distribconf->parse_mediacfg($media_cfg);
     
 	if (open(my $URLS, '<', $media_dir . '/url')) {
+	    local $_;
 	    while (<$URLS>) {
 		chomp($_);
 		foreach my $medium ($distribconf->listmedia) {
@@ -182,6 +183,7 @@ sub _read_config__read_media_info {
 	}
 
 	if (open(my $MIRRORLISTS, '<', $media_dir . '/mirrorlist')) {
+	    local $_;
 	    while (<$MIRRORLISTS>) {
 		my $mirrorlist = $_;
 		chomp($mirrorlist);
