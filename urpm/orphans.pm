@@ -320,7 +320,7 @@ sub _kernel_callback {
     return if $shortname !~ /^kernel-/;
 
     # only consider real kernels (and not kernel-doc and the like):
-    return if $shortname =~ /-(?:doc|headers|firmware(?:|-extra))$/;
+    return if $shortname =~ /-(?:source|doc|headers|firmware(?:|-extra))$/;
 
     # keep track of latest kernels in order not to try removing requested kernels:
     if ($n =~ /latest/) {
