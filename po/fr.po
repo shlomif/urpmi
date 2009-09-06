@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: urpmi-fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-17 17:47+0200\n"
-"PO-Revision-Date: 2009-06-30 13:23+0200\n"
+"PO-Revision-Date: 2009-09-06 11:33+0200\n"
 "Last-Translator: Christophe Berthelé <berthy@mandriva.org>\n"
 "Language-Team: French <cooker-i18n@mandrivalinux.org>\n"
 "MIME-Version: 1.0\n"
@@ -695,9 +695,9 @@ msgid "curl is missing\n"
 msgstr "curl est manquant\n"
 
 #: ../urpm/download.pm:511
-#, fuzzy, c-format
+#, c-format
 msgid "curl failed: upload canceled\n"
-msgstr "échec de curl : téléchargement annulé\n"
+msgstr "échec de curl : envoi annulé\n"
 
 #: ../urpm/download.pm:512
 #, c-format
@@ -777,31 +777,35 @@ msgid ""
 "# You can use uids to see the content of your uploads at this url :\n"
 "# http://dudf.forge.mandriva.com/"
 msgstr ""
+"# Voici le journal de vos envois DUDF.\n"
+"# Le format d'une ligne est : <date de génération> <uid>\n"
+"# Vous pouvez utiliser les « uid » pour consulter vos envois à l'url\n"
+"# http://dudf.forge.mandriva.com/"
 
 #: ../urpm/dudf.pm:239
 #, c-format
 msgid "curl is missing, cannot upload DUDF file.\n"
-msgstr ""
+msgstr "curl est manquant, impossible d'envoyer le rapport DUDF.\n"
 
 #: ../urpm/dudf.pm:242
 #, c-format
 msgid "Compressing DUDF data... "
-msgstr ""
+msgstr "Compression des données DUDF... "
 
 #: ../urpm/dudf.pm:244 ../urpm/dudf.pm:245
 #, c-format
 msgid "NOT OK\n"
-msgstr ""
+msgstr "ERREUR\n"
 
 #: ../urpm/dudf.pm:253 ../urpm/dudf.pm:485
 #, c-format
 msgid "OK\n"
-msgstr ""
+msgstr "OK\n"
 
 #: ../urpm/dudf.pm:255
 #, c-format
 msgid "Uploading DUDF data:\n"
-msgstr ""
+msgstr "Envoi des données DUDF :\n"
 
 #: ../urpm/dudf.pm:276
 #, c-format
@@ -810,6 +814,9 @@ msgid ""
 "You can see your DUDF report at the following URL :\n"
 "\t"
 msgstr ""
+"\n"
+"Vous pouvez consulter votre rapport DUDF à l'URL suivante :\n"
+"\t"
 
 #: ../urpm/dudf.pm:279
 #, c-format
@@ -817,6 +824,8 @@ msgid ""
 "You can access to a log of your uploads in\n"
 "\t"
 msgstr ""
+"Vous pouvez accèder à un journal de vos envois dans\n"
+"\t"
 
 #: ../urpm/dudf.pm:358 ../urpm/msg.pm:76 ../urpmi:511 ../urpmi:526
 #: ../urpmi:633
@@ -832,11 +841,15 @@ msgid ""
 "This is a part of the Mancoosi european research project.\n"
 "More at http://www.mancoosi.org\n"
 msgstr ""
+"Un problème a été rencontré. Vous pouvez aider Mandriva à améliorer\n"
+"l'installation des paquetages en envoyant le rapport DUDF.\n"
+"Cela fait partie du projet de recherche européen Mancoosi.\n"
+"Plus d'informations sur http://www.mancoosi.org\n"
 
 #: ../urpm/dudf.pm:360
 #, c-format
 msgid "Do you want to upload to Mandriva a DUDF report?"
-msgstr ""
+msgstr "Voulez vous envoyer à Mandriva le rapport DUDF ?"
 
 #: ../urpm/dudf.pm:361 ../urpmi:513 ../urpmi:528 ../urpmi:634
 #: ../urpmi.addmedia:135
@@ -850,13 +863,17 @@ msgid ""
 "\n"
 "Generating DUDF... "
 msgstr ""
+"\n"
+"Génération DUDF... "
 
 #: ../urpm/dudf.pm:489
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot write DUDF file\n"
 "."
-msgstr "Ne peut créer le fichier"
+msgstr ""
+"Impossible de créer le fichier DUDF\n"
+"."
 
 #: ../urpm/get_pkgs.pm:16
 #, c-format
@@ -1152,9 +1169,9 @@ msgid "adding medium \"%s\""
 msgstr "ajout du média « %s »"
 
 #: ../urpm/media.pm:842
-#, fuzzy, c-format
+#, c-format
 msgid "failed to copy media.cfg to %s (%d)"
-msgstr "cp a échoué sur l'hôte %s (%d)"
+msgstr "échec de la copie de media.cfg vers %s (%d)"
 
 #: ../urpm/media.pm:883
 #, c-format
@@ -1443,7 +1460,7 @@ msgstr ""
 "un paquet orphelin"
 
 #: ../urpm/orphans.pm:362
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following package:\n"
 "%s\n"
@@ -1455,11 +1472,15 @@ msgid_plural ""
 "are now orphaned, if you wish to remove them, you can use \"urpme --auto-"
 "orphans\""
 msgstr[0] ""
-"Le paquetage suivant est désormais orphelin, si vous voulez le déinstaller, "
-"vous pouvez utiliser « urpme --auto-orphans »."
+"Le paquetage suivant :\n"
+"%s\n"
+"est désormais orphelin, si vous voulez le désinstaller, vous pouvez utiliser "
+"« urpme --auto-orphans »"
 msgstr[1] ""
-"Les paquetages suivants sont désormais orphelins, si vous voulez les "
-"désinstaller, vous pouvez utiliser « urpme --auto-orphans »."
+"Les paquetages suivants :\n"
+"%s\n"
+"sont désormais orphelins, si vous voulez les désinstaller, vous pouvez "
+"utiliser « urpme --auto-orphans »"
 
 #: ../urpm/parallel.pm:15
 #, c-format
@@ -3334,119 +3355,3 @@ msgstr "Interface graphique pour l'installation de paquetages RPM"
 #: ../gurpmi.desktop.in.h:2
 msgid "Software Installer"
 msgstr "Installer des logiciels"
-
-#~ msgid "due to already installed %s"
-#~ msgstr "car le paquetage %s est déjà installé"
-
-#~ msgid "Search start: %s end: %s"
-#~ msgstr "Recherche début : %s fin : %s"
-
-#~ msgid ""
-#~ "  --from         - use specified url for list of mirrors, the default is\n"
-#~ "                   %s\n"
-#~ msgstr ""
-#~ "  --from         - utiliser l'url spécifiée comme liste de miroirs, par "
-#~ "défaut\n"
-#~ "                   %s\n"
-
-#~ msgid ""
-#~ "urpmi.recover version %s\n"
-#~ "Copyright (C) 2006 Mandriva.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmi.recover version %s\n"
-#~ "Copyright © 2006 Mandriva.\n"
-#~ "Ceci est un logiciel libre pouvant être redistribué selon les termes de "
-#~ "la licence GNU GPL.\n"
-#~ "\n"
-#~ "usage : \n"
-
-#~ msgid "  --checkpoint   - set repackaging start now\n"
-#~ msgstr "  --checkpoint   - initialiser maintenant le point de référence\n"
-
-#~ msgid "  --noclean      - don't clean repackage directory on checkpoint\n"
-#~ msgstr ""
-#~ "  --noclean      - ne pas vider le répertoire de regénération lors de\n"
-#~ "                   l'initialisation du point de référence\n"
-
-#~ msgid ""
-#~ "  --list         - list transactions since provided date/duration "
-#~ "argument\n"
-#~ msgstr ""
-#~ "  --list         - lister les transactions effectuées depuis la date ou "
-#~ "durée\n"
-#~ "                   précisée\n"
-
-#~ msgid "  --list-all     - list all transactions in rpmdb (long)\n"
-#~ msgstr "  --list-all     - lister toutes les transactions de la base RPM.\n"
-
-#~ msgid "  --list-safe    - list transactions since checkpoint\n"
-#~ msgstr ""
-#~ "  --list-safe    - lister les transactions effectuées depuis le dernier "
-#~ "point\n"
-#~ "                   de référence\n"
-
-#~ msgid ""
-#~ "  --rollback     - rollback until specified date,\n"
-#~ "                   or rollback the specified number of transactions\n"
-#~ msgstr ""
-#~ "  --rollback     - revenir à l'état correspondant à la date spécifiée,\n"
-#~ "                   ou revenir en arrière du nombre de transactions "
-#~ "précisé\n"
-
-#~ msgid "  --disable      - turn off repackaging\n"
-#~ msgstr "  --disable      - désactive la regénération\n"
-
-#~ msgid "Invalid date or duration [%s]\n"
-#~ msgstr "Date ou durée invalide [%s]\n"
-
-#~ msgid "Repackage directory not defined\n"
-#~ msgstr "Répertoire cache des paquetages non défini\n"
-
-#~ msgid "Can't write to repackage directory [%s]\n"
-#~ msgstr "Ecriture impossible dans le répertoire cache des paquetages [%s]\n"
-
-#~ msgid "Cleaning up repackage directory [%s]...\n"
-#~ msgstr "Vidage du répertoire cache des paquetages [%s]...\n"
-
-#~ msgid "%d file removed\n"
-#~ msgid_plural "%d files removed\n"
-#~ msgstr[0] "%d fichier effacé\n"
-#~ msgstr[1] "%d fichiers effacés\n"
-
-#~ msgid "Spurious command-line arguments [%s]\n"
-#~ msgstr "Arguments de ligne de commande erronés [%s]\n"
-
-#~ msgid "You can't specify --checkpoint and --rollback at the same time\n"
-#~ msgstr ""
-#~ "Vous ne pouvez pas utiliser --checkpoint et --rollback en même temps\n"
-
-#~ msgid "You can't specify --checkpoint and --list at the same time\n"
-#~ msgstr "Vous ne pouvez pas utiliser --checkpoint et --list en même temps\n"
-
-#~ msgid "You can't specify --rollback and --list at the same time\n"
-#~ msgstr "Vous ne pouvez pas utiliser --rollback et --list en même temps\n"
-
-#~ msgid "You can't specify --disable along with another option"
-#~ msgstr "Vous ne pouvez pas utiliser --disable en même que d'autres options"
-
-#~ msgid "No transaction found since %s\n"
-#~ msgstr "Pas de transaction trouvée depuis %s\n"
-
-#~ msgid "You must be superuser to do this"
-#~ msgstr "Vous devez être administrateur pour faire cela"
-
-#~ msgid "Writing rpm macros file [%s]...\n"
-#~ msgstr "Ecriture du fichier de macros rpm [%s]...\n"
-
-#~ msgid "No rollback date found\n"
-#~ msgstr "Aucune date de retour en arrière spécifiée\n"
-
-#~ msgid "Rollback until %s...\n"
-#~ msgstr "Retour en arrière jusqu'à %s...\n"
-
-#~ msgid "Disabling repackaging\n"
-#~ msgstr "Désactivation de la regénération\n"
