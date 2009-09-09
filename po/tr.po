@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-17 17:47+0200\n"
-"PO-Revision-Date: 2009-04-22 22:54+0300\n"
+"PO-Revision-Date: 2009-09-10 01:50+0300\n"
 "Last-Translator: Atilla ÖNTAŞ <atilla_ontas@mandriva.org>\n"
 "Language-Team: Turkish <cooker-i18n@mandrivalinux.org>\n"
 "MIME-Version: 1.0\n"
@@ -671,7 +671,7 @@ msgid "curl is missing\n"
 msgstr "curl bulunamıyor.\n"
 
 #: ../urpm/download.pm:511
-#, fuzzy, c-format
+#, c-format
 msgid "curl failed: upload canceled\n"
 msgstr "curl hatası: indirme iptal edildi\n"
 
@@ -753,31 +753,36 @@ msgid ""
 "# You can use uids to see the content of your uploads at this url :\n"
 "# http://dudf.forge.mandriva.com/"
 msgstr ""
+"# Burada DUDF gönderme kayıtlarınız bulunmaktadır.\n"
+"# Satır biçimi : <oluşturulma günü zamanı> <uid> şeklindedir.\n"
+"#Şu bağlantıdan uid numaranız ile gönderimlerinizin içeriğine göz "
+"atabilirsiniz:\n"
+"# http://dudf.forge.mandriva.com/"
 
 #: ../urpm/dudf.pm:239
 #, c-format
 msgid "curl is missing, cannot upload DUDF file.\n"
-msgstr ""
+msgstr "curl bulunamadı. DUDF dosyası gönderilemeyecek.\n"
 
 #: ../urpm/dudf.pm:242
 #, c-format
 msgid "Compressing DUDF data... "
-msgstr ""
+msgstr "DUDF verisi sıkıştırılıyor... "
 
 #: ../urpm/dudf.pm:244 ../urpm/dudf.pm:245
 #, c-format
 msgid "NOT OK\n"
-msgstr ""
+msgstr "TAMAM DEĞİL\n"
 
 #: ../urpm/dudf.pm:253 ../urpm/dudf.pm:485
 #, c-format
 msgid "OK\n"
-msgstr ""
+msgstr "TAMAM\n"
 
 #: ../urpm/dudf.pm:255
 #, c-format
 msgid "Uploading DUDF data:\n"
-msgstr ""
+msgstr "DUDF verisi gönderiliyor:\n"
 
 #: ../urpm/dudf.pm:276
 #, c-format
@@ -786,6 +791,9 @@ msgid ""
 "You can see your DUDF report at the following URL :\n"
 "\t"
 msgstr ""
+"\n"
+"DUDF bildiriminizi aşağıdaki bağlantıdan takip edebilirsiniz:\n"
+"\t"
 
 #: ../urpm/dudf.pm:279
 #, c-format
@@ -793,6 +801,8 @@ msgid ""
 "You can access to a log of your uploads in\n"
 "\t"
 msgstr ""
+"Gönderimlerinizin bir kaydını şurada bulabilirsiniz\n"
+"\t"
 
 #: ../urpm/dudf.pm:358 ../urpm/msg.pm:76 ../urpmi:511 ../urpmi:526
 #: ../urpmi:633
@@ -808,11 +818,15 @@ msgid ""
 "This is a part of the Mancoosi european research project.\n"
 "More at http://www.mancoosi.org\n"
 msgstr ""
+"Bir sorun oluştu. Bir DUDF bildirim dosyasını göndererek paket kurulumu "
+"konusunda Mandriva' ya yardımcı olabilirsiniz.\n"
+"Bu, Mancoosi avrupa araştırma projesinin bir parçasıdır.\n"
+"Daha fazla bilgi için: http://www.mancoosi.org\n"
 
 #: ../urpm/dudf.pm:360
 #, c-format
 msgid "Do you want to upload to Mandriva a DUDF report?"
-msgstr ""
+msgstr "Mandriva' ya bir DUDF bildirimi göndermek istiyor musunuz?"
 
 #: ../urpm/dudf.pm:361 ../urpmi:513 ../urpmi:528 ../urpmi:634
 #: ../urpmi.addmedia:135
@@ -826,13 +840,15 @@ msgid ""
 "\n"
 "Generating DUDF... "
 msgstr ""
+"\n"
+"DUDF üretiliyor..."
 
 #: ../urpm/dudf.pm:489
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot write DUDF file\n"
 "."
-msgstr "Dosya yazılamıyor."
+msgstr "DUDF dosyası yazılamıyor."
 
 #: ../urpm/get_pkgs.pm:16
 #, c-format
@@ -1128,9 +1144,9 @@ msgid "adding medium \"%s\""
 msgstr "\"%s\" ortamı ekleniyor."
 
 #: ../urpm/media.pm:842
-#, fuzzy, c-format
+#, c-format
 msgid "failed to copy media.cfg to %s (%d)"
-msgstr "%s makinesi (%d) üzerinde cp başarısız oldu"
+msgstr "media.cfg, %s (%d) üzerine kopyalanamıyor."
 
 #: ../urpm/media.pm:883
 #, c-format
@@ -1415,7 +1431,7 @@ msgid "Marking %s as manually installed, it won't be auto-orphaned"
 msgstr "%s elle kurulmuş olarak işaretleniyor. Kendiliğinden kaldırılmayacak."
 
 #: ../urpm/orphans.pm:362
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following package:\n"
 "%s\n"
@@ -1427,11 +1443,13 @@ msgid_plural ""
 "are now orphaned, if you wish to remove them, you can use \"urpme --auto-"
 "orphans\""
 msgstr[0] ""
-"Aşağıdaki paketler artık gereksiz, \"urpme --auto-orphans\" kullanarak "
-"sistemden kaldırabilirsiniz."
+"Aşağıdaki paketler artık gereksiz:\n"
+"%s\n"
+", \"urpme --auto-orphans\" kullanarak sistemden kaldırabilirsiniz."
 msgstr[1] ""
-"Aşağıdaki paketler artık gereksiz, \"urpme --auto-orphans\" kullanarak "
-"sistemden kaldırabilirsiniz."
+"Aşağıdaki paketler artık gereksiz:\n"
+"%s\n"
+", \"urpme --auto-orphans\" kullanarak sistemden kaldırabilirsiniz."
 
 #: ../urpm/parallel.pm:15
 #, c-format
