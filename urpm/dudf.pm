@@ -276,7 +276,7 @@ sub upload_dudf {
     print N("\nYou can see your DUDF report at the following URL :\n\t");
     print $self->{access_url} . "?uid=" . $self->{dudf_uid} . "\n";
     append_to_file($self->{log_file}, $self->{dudf_time} . "\t" . $self->{dudf_uid} . "\n");
-    print N("You can access to a log of your uploads in\n\t") . $self->{log_file} . "\n";
+    print N("You can access a log of your uploads in\n\t") . $self->{log_file} . "\n";
 }
 
 sub xml_pkgs {
@@ -359,7 +359,7 @@ sub write_dudf {
            (!$self->{exit_code} && $self->{force_dudf}) ) ) {
         my $noexpr = N("Nn");
         my $msg = N("A problem has been encountered. You can help Mandriva to improve package\ninstallation by uploading a DUDF report file.\nThis is a part of the Mancoosi european research project.\nMore at http://www.mancoosi.org\n");
-        $msg .= N("Do you want to upload to Mandriva a DUDF report?");
+        $msg .= N("Do you want to upload a DUDF report to Mandriva?");
         if ($self->{force_dudf} || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/) {
             print N("\nGenerating DUDF... ");
 
