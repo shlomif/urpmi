@@ -683,6 +683,7 @@ sub sync_aria2 {
 	($options->{'limit-rate'} ? "--max-download-limit=" . $options->{'limit-rate'} : ()),
 	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
 	($options->{proxy} ? set_proxy({ type => "aria2", proxy => $options->{proxy} }) : ()),
+	($options->{"strict-certificate-check"} ? () : "--check-certificate=false"),
 	(defined $options->{'aria2-options'} ? split /\s+/, $options->{'aria2-options'} : ()),
         _create_metalink_($urpm, $medium, $rel_files, $options));
 
