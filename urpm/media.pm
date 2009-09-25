@@ -12,6 +12,7 @@ use MDV::Distribconf;
 
 
 our @PER_MEDIA_OPT = qw(
+    disable-certificate-check
     downloader
     ignore
     key-ids
