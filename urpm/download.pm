@@ -855,7 +855,7 @@ sub _all_options {
 	dir => "$urpm->{cachedir}/partial",
 	proxy => get_proxy_($urpm, $medium),
 	metalink => $medium->{mirrorlist},
-	$medium->{disable-certificate-check}?"no-certificate-check":(),
+	$medium->{"disable-certificate-check"}?"no-certificate-check":(),
 	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
 	%$options,
     );
