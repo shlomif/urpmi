@@ -322,7 +322,7 @@ sub sync_wget {
 	($options->{callback} ? ("--progress=bar:force", "-o", "-") :
 	    $options->{quiet} ? "-q" : @{[]}),
 	"--retr-symlinks",
-	($options->{"strict-certificate-check"} ? () : "--no-check-certificate"),
+	($options->{"no-certificate-check"} ? "--no-check-certificate" : ()),
 	"--timeout=$CONNECT_TIMEOUT",
 	(defined $options->{'wget-options'} ? split /\s+/, $options->{'wget-options'} : ()),
 	'-P', $options->{dir},
@@ -470,7 +470,7 @@ sub sync_curl {
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 	    ($options->{retry} ? ('--retry', $options->{retry}) : ()),
 	    ($options->{quiet} ? "-s" : @{[]}),
-	    ($options->{"strict-certificate-check"} ? () : "-k"),
+	    ($options->{"no-certificate-check"} ? "-k" : ()),
 	    $location_trusted ? "--location-trusted" : @{[]},
 	    "-R",
 	    "-f",
@@ -683,7 +683,7 @@ sub sync_aria2 {
 	($options->{'limit-rate'} ? "--max-download-limit=" . $options->{'limit-rate'} : ()),
 	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
 	($options->{proxy} ? set_proxy({ type => "aria2", proxy => $options->{proxy} }) : ()),
-	($options->{"strict-certificate-check"} ? () : "--check-certificate=false"),
+	($options->{"no-certificate-check"} ? "--check-certificate=false" : ()),
 	(defined $options->{'aria2-options'} ? split /\s+/, $options->{'aria2-options'} : ()),
         _create_metalink_($urpm, $medium, $rel_files, $options));
 
