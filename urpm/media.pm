@@ -724,7 +724,7 @@ sub _compute_flags_for_skiplist {
 	    my ($urpm, $pkg) = @_;
 	    $pkg->is_arch_compat && ! exists $uniq{$pkg->fullname} or return;
 	    $uniq{$pkg->fullname} = undef;
-	    $urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
+	    $urpm->{debug} and $urpm->{debug}(N("skipping package %s", scalar($pkg->fullname)));
 	},
     );
 }
