@@ -18,13 +18,13 @@ msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-17 17:47+0200\n"
-"PO-Revision-Date: 2009-04-22 05:28+0200\n"
+"PO-Revision-Date: 2009-10-03 20:25+0200\n"
 "Last-Translator: Jure Repinc <jlp@holodeck1.com>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 0.3\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms:  nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3);\n"
 
@@ -670,10 +670,9 @@ msgstr "manjka wget\n"
 msgid "curl is missing\n"
 msgstr "manjka curl\n"
 
-#: ../urpm/download.pm:511
-#, fuzzy, c-format
+#: ../urpm/download.pm:511, c-format
 msgid "curl failed: upload canceled\n"
-msgstr "curl je spodletelo: prenos preklican\n"
+msgstr "curl ni uspel: pošiljanje preklicano\n"
 
 #: ../urpm/download.pm:512
 #, c-format
@@ -753,31 +752,35 @@ msgid ""
 "# You can use uids to see the content of your uploads at this url :\n"
 "# http://dudf.forge.mandriva.com/"
 msgstr ""
+"# Tu so dnevniški zapiski pošiljanj DUDF.\n"
+"# Oblika vrstic je: <datum in čas ustvaritve> <UID>\n"
+"# UID-je lahko uporabite za ogled pošiljanj na tej strani:\n"
+"# http://dudf.forge.mandriva.com/"
 
 #: ../urpm/dudf.pm:239
 #, c-format
 msgid "curl is missing, cannot upload DUDF file.\n"
-msgstr ""
+msgstr "curl manjka, ni moč poslati datoteke DUDF.\n"
 
 #: ../urpm/dudf.pm:242
 #, c-format
 msgid "Compressing DUDF data... "
-msgstr ""
+msgstr "Stiskanje podatkov DUDF ... "
 
 #: ../urpm/dudf.pm:244 ../urpm/dudf.pm:245
 #, c-format
 msgid "NOT OK\n"
-msgstr ""
+msgstr "NI V REDU\n"
 
 #: ../urpm/dudf.pm:253 ../urpm/dudf.pm:485
 #, c-format
 msgid "OK\n"
-msgstr ""
+msgstr "V REDU\n"
 
 #: ../urpm/dudf.pm:255
 #, c-format
 msgid "Uploading DUDF data:\n"
-msgstr ""
+msgstr "Pošiljanje podatkov DUDF:\n"
 
 #: ../urpm/dudf.pm:276
 #, c-format
@@ -786,6 +789,9 @@ msgid ""
 "You can see your DUDF report at the following URL :\n"
 "\t"
 msgstr ""
+"\n"
+"Svoje poročilo DUDF lahko vidite na tej strani:\n"
+"\t"
 
 #: ../urpm/dudf.pm:279
 #, c-format
@@ -793,6 +799,8 @@ msgid ""
 "You can access to a log of your uploads in\n"
 "\t"
 msgstr ""
+"Do dnevnika pošiljanj lahko dostopate v\n"
+"\t"
 
 #: ../urpm/dudf.pm:358 ../urpm/msg.pm:76 ../urpmi:511 ../urpmi:526
 #: ../urpmi:633
@@ -808,11 +816,15 @@ msgid ""
 "This is a part of the Mancoosi european research project.\n"
 "More at http://www.mancoosi.org\n"
 msgstr ""
+"Prišlo je do težave. Lahko nam pomagate izboljšati nameščanje paketov.\n"
+"To storite tako, da pošljete datoteko s poročilom DUDF.\n"
+"Ta zmožnost je del evropskega raziskovalnega projekta Mancoosi.\n"
+"Več o njem na http://www.mancoosi.org\n"
 
 #: ../urpm/dudf.pm:360
 #, c-format
 msgid "Do you want to upload to Mandriva a DUDF report?"
-msgstr ""
+msgstr "Ali želite Mandrivi poslati poročilo DUDF?"
 
 #: ../urpm/dudf.pm:361 ../urpmi:513 ../urpmi:528 ../urpmi:634
 #: ../urpmi.addmedia:135
@@ -826,13 +838,16 @@ msgid ""
 "\n"
 "Generating DUDF... "
 msgstr ""
+"\n\n"
+"Ustvarjanje poročila DUDF ... "
 
-#: ../urpm/dudf.pm:489
-#, fuzzy, c-format
+#: ../urpm/dudf.pm:489, c-format
 msgid ""
 "Cannot write DUDF file\n"
 "."
-msgstr "Ni moč pisati v datoteko"
+msgstr ""
+"Ni moč zapisati datoteke s poročilom DUDF\n"
+"."
 
 #: ../urpm/get_pkgs.pm:16
 #, c-format
@@ -1129,10 +1144,9 @@ msgstr "dodajanje vira »%s« pred oddaljen vir »%s«"
 msgid "adding medium \"%s\""
 msgstr "dodajanje vira »%s«"
 
-#: ../urpm/media.pm:842
-#, fuzzy, c-format
+#: ../urpm/media.pm:842, c-format
 msgid "failed to copy media.cfg to %s (%d)"
-msgstr "cp je spodletel pri gostitelju %s (%d)"
+msgstr "kopiranje media.cfg v %s (%d) ni uspelo"
 
 #: ../urpm/media.pm:883
 #, c-format
@@ -1417,8 +1431,7 @@ msgstr "TiB"
 msgid "Marking %s as manually installed, it won't be auto-orphaned"
 msgstr "%s je bil označen kot ročno nameščen in ne bo samodejno osirotel"
 
-#: ../urpm/orphans.pm:362
-#, fuzzy, c-format
+#: ../urpm/orphans.pm:362, c-format
 msgid ""
 "The following package:\n"
 "%s\n"
@@ -1430,13 +1443,21 @@ msgid_plural ""
 "are now orphaned, if you wish to remove them, you can use \"urpme --auto-"
 "orphans\""
 msgstr[0] ""
-"Ta paket je osirotel. Da ga odstranite, uporabite »urpme --auto-orphans«."
+"Ta paket je osirotel:\n"
+"%s\n"
+"Če ga želite odstraniti, uporabite »urpme --auto-orphans«."
 msgstr[1] ""
-"Ta paketa sta osirotela. Da ju odstranite, uprabite »urpme --auto-orphans«."
+"Ta paketa sta osirotela:\n"
+"%s\n"
+"Če ju želite odstraniti, uporabite »urpme --auto-orphans«."
 msgstr[2] ""
-"Ti paketi so osiroteli. Da jih odstranite, uporabite »urpme --auto-orphans«."
+"Ti paketi so osiroteli:\n"
+"%s\n"
+"Če jih želite odstraniti, uporabite »urpme --auto-orphans«."
 msgstr[3] ""
-"Ti paketi so osiroteli. Da jih odstranite, uporabite »urpme --auto-orphans«."
+"Ti paketi so osiroteli:\n"
+"%s\n"
+"Če jih želite odstraniti, uporabite »urpme --auto-orphans«."
 
 #: ../urpm/parallel.pm:15
 #, c-format
