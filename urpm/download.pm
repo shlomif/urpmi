@@ -742,7 +742,7 @@ sub _parse_aria2_output {
 			return;
 			}
 		    }
-		    if ($buf =~ m!Download\scomplete:\s\./!) {
+		    if ($buf =~ m!Download\scomplete:\s/!) {
 			propagate_sync_callback($options, 'end', $file);
 			shift @$rel_files;
 			delete $options->{is_retry};
