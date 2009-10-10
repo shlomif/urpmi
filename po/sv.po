@@ -1,5 +1,4 @@
 # urpmi-sv - Swedish Translation
-# translation of urpmi-sv.po to Swedish
 #
 # Latest versions of po files are at http://www.mandrivalinux.com/l10n/sv.php3
 #
@@ -14,13 +13,13 @@
 # Lars Westergren <lars.westergren@home.se>, 2003, 2005.
 # Henrik Borg <hblinux@bredband.net>, 2004.
 # Kenneth Krekula <kenneth.krekula@kiruna.se>, 2004, 2005.
-# Thomas Backlund <tmb@mandriva.org>, 2004, 2006, 2008.
+# Thomas Backlund <tmb@mandriva.org>, 2004, 2006, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-17 17:47+0200\n"
-"PO-Revision-Date: 2008-09-21 19:25+0300\n"
+"PO-Revision-Date: 2009-10-10 20:16+0300\n"
 "Last-Translator: Thomas Backlund <tmb@mandriva.org>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -225,14 +224,14 @@ msgid "Must be root"
 msgstr "Måste vara root"
 
 #: ../gurpmi2:70
-#, fuzzy, c-format
+#, c-format
 msgid "Distribution Upgrade"
-msgstr "distribuerar %s"
+msgstr "Uppgradera distribution"
 
 #: ../gurpmi2:70
-#, fuzzy, c-format
+#, c-format
 msgid "Packages installation"
-msgstr "Paketinstallation..."
+msgstr "Paketinstallation"
 
 #: ../gurpmi2:97
 #, c-format
@@ -673,7 +672,7 @@ msgid "curl is missing\n"
 msgstr "curl saknas\n"
 
 #: ../urpm/download.pm:511
-#, fuzzy, c-format
+#, c-format
 msgid "curl failed: upload canceled\n"
 msgstr "curl misslyckades: nerladdningen avbröts\n"
 
@@ -710,7 +709,7 @@ msgstr "aria2 saknas\n"
 #: ../urpm/download.pm:703
 #, c-format
 msgid "Failed to download %s"
-msgstr ""
+msgstr "Misslyckades att hämta %s"
 
 #: ../urpm/download.pm:798
 #, c-format
@@ -755,31 +754,35 @@ msgid ""
 "# You can use uids to see the content of your uploads at this url :\n"
 "# http://dudf.forge.mandriva.com/"
 msgstr ""
+"# Här är loggarna på dina DUDF uppladdningar.\n"
+"# Radformat är: <datum tid på generering> <uid>\n"
+"# Du kan använda uid för att se innehållet i dina uppladdningar på:\n"
+"# http://dudf.forge.mandriva.com/"
 
 #: ../urpm/dudf.pm:239
 #, c-format
 msgid "curl is missing, cannot upload DUDF file.\n"
-msgstr ""
+msgstr "curl saknas, DUDF fil kan inte laddas upp.\n"
 
 #: ../urpm/dudf.pm:242
 #, c-format
 msgid "Compressing DUDF data... "
-msgstr ""
+msgstr "Komprimerar DUDF data..."
 
 #: ../urpm/dudf.pm:244 ../urpm/dudf.pm:245
 #, c-format
 msgid "NOT OK\n"
-msgstr ""
+msgstr "INTE OK\n"
 
 #: ../urpm/dudf.pm:253 ../urpm/dudf.pm:485
 #, c-format
 msgid "OK\n"
-msgstr ""
+msgstr "OK\n"
 
 #: ../urpm/dudf.pm:255
 #, c-format
 msgid "Uploading DUDF data:\n"
-msgstr ""
+msgstr "Laddar upp DUDF data:\n"
 
 #: ../urpm/dudf.pm:276
 #, c-format
@@ -788,6 +791,9 @@ msgid ""
 "You can see your DUDF report at the following URL :\n"
 "\t"
 msgstr ""
+"\n"
+"Du kan se din DUDF rapport på följande address:\n"
+"\t"
 
 #: ../urpm/dudf.pm:279
 #, c-format
@@ -795,6 +801,8 @@ msgid ""
 "You can access to a log of your uploads in\n"
 "\t"
 msgstr ""
+"Du kan komma åt en logg på dina uppladdningar här\n"
+"\t"
 
 #: ../urpm/dudf.pm:358 ../urpm/msg.pm:76 ../urpmi:511 ../urpmi:526
 #: ../urpmi:633
@@ -810,11 +818,15 @@ msgid ""
 "This is a part of the Mancoosi european research project.\n"
 "More at http://www.mancoosi.org\n"
 msgstr ""
+"Ett problem har uppstått. Du kan hjälpa Mandriva förbättra "
+"paketinstallationen genom att ladda upp en DUDF rapport.\n"
+"Detta är en del av det europeiska forskningsprojekter Mancoosi.\n"
+"Mera om detta på http://www.mancoosi.org\n"
 
 #: ../urpm/dudf.pm:360
 #, c-format
 msgid "Do you want to upload to Mandriva a DUDF report?"
-msgstr ""
+msgstr "Vill du ladda upp en DUDF rapport till Mandriva ?"
 
 #: ../urpm/dudf.pm:361 ../urpmi:513 ../urpmi:528 ../urpmi:634
 #: ../urpmi.addmedia:135
@@ -828,13 +840,17 @@ msgid ""
 "\n"
 "Generating DUDF... "
 msgstr ""
+"\n"
+"Genererar DUDF..."
 
 #: ../urpm/dudf.pm:489
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot write DUDF file\n"
 "."
-msgstr "Kan inte skriva fil"
+msgstr ""
+"Kan inte skriva DUDF fil\n"
+" "
 
 #: ../urpm/get_pkgs.pm:16
 #, c-format
@@ -952,26 +968,23 @@ msgstr "%s databas är låst (ett annat program använder den redan)"
 #: ../urpm/main_loop.pm:108
 #, c-format
 msgid "Retry?"
-msgstr ""
+msgstr "Försök på nytt?"
 
 #: ../urpm/main_loop.pm:119
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
 "%s"
 msgstr ""
-"Installationen misslyckades, felaktiga rpm:\n"
+"Installationen misslyckades, vissa filer saknas:\n"
 "%s"
 
 #. -PO: we silently update the string from "You may want to..." to "You may need to..".
 #. -PO: so that translations do not got fuzzy-ed just before the release:
 #: ../urpm/main_loop.pm:124
-#, fuzzy, c-format
+#, c-format
 msgid "You may need to update your urpmi database."
-msgstr ""
-"Installationen misslyckades, vissa filer saknas:\n"
-"%s\n"
-"Du bör försöka uppdatera urpmi-databasen."
+msgstr "Du bör försöka uppdatera urpmi-databasen."
 
 #: ../urpm/main_loop.pm:127
 #, c-format
@@ -989,9 +1002,9 @@ msgid "Installation failed"
 msgstr "Installationen misslyckades"
 
 #: ../urpm/main_loop.pm:136
-#, fuzzy, c-format
+#, c-format
 msgid "Try to continue anyway?"
-msgstr "Försök fortsätta ändå? (j/N)"
+msgstr "Försök fortsätta ändå?"
 
 #: ../urpm/main_loop.pm:159
 #, c-format
@@ -1029,14 +1042,14 @@ msgid "installing %s"
 msgstr "installerar %s"
 
 #: ../urpm/main_loop.pm:256
-#, fuzzy, c-format
+#, c-format
 msgid "Try installation without checking dependencies?"
-msgstr "Prova att installera utan att kontrollera behov av andra filer? (j/N) "
+msgstr "Prova att installera utan att kontrollera behov av andra filer?"
 
 #: ../urpm/main_loop.pm:263
-#, fuzzy, c-format
+#, c-format
 msgid "Try harder to install (--force)?"
-msgstr "Försök ännu hårdare att installera (--force)? (j/N) "
+msgstr "Försök ännu hårdare att installera (--force)?"
 
 #: ../urpm/main_loop.pm:306
 #, c-format
@@ -1133,9 +1146,9 @@ msgid "adding medium \"%s\""
 msgstr "lägger till media \"%s\""
 
 #: ../urpm/media.pm:842
-#, fuzzy, c-format
+#, c-format
 msgid "failed to copy media.cfg to %s (%d)"
-msgstr "cp misslyckades på maskin %s (%d)"
+msgstr "misslyckades kopiera media.cfg till %s (%d)"
 
 #: ../urpm/media.pm:883
 #, c-format
@@ -1278,9 +1291,9 @@ msgid "invalid MD5SUM file (downloaded from %s)"
 msgstr "ogiltig MD5SUM fil (hämtad från %s)"
 
 #: ../urpm/media.pm:1566
-#, fuzzy, c-format
+#, c-format
 msgid "no metadata found for medium \"%s\""
-msgstr "ingen synthesis-fil hittad för media \"%s\""
+msgstr "ingen metadata hittad för media \"%s\""
 
 #: ../urpm/media.pm:1598
 #, c-format
@@ -1418,9 +1431,10 @@ msgstr "TB"
 #, c-format
 msgid "Marking %s as manually installed, it won't be auto-orphaned"
 msgstr ""
+"Markerar %s som manuellt installerad, så det inte blir märkt som obehövligt"
 
 #: ../urpm/orphans.pm:362
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following package:\n"
 "%s\n"
@@ -1432,11 +1446,13 @@ msgid_plural ""
 "are now orphaned, if you wish to remove them, you can use \"urpme --auto-"
 "orphans\""
 msgstr[0] ""
-"Följande paket behövs ej mera, använd \"urpme --auto-orphans\" för att ta "
-"bort det."
+"Följande paket:\n"
+"%s\n"
+"behövs ej mera, använd \"urpme --auto-orphans\" för att ta bort det"
 msgstr[1] ""
-"Följande paket behövs ej mera, använd \"urpme --auto-orphans\" för att ta "
-"bort dem."
+"Följande paket:\n"
+"%s\n"
+"behövs ej mera, använd \"urpme --auto-orphans\" för att ta bort dem"
 
 #: ../urpm/parallel.pm:15
 #, c-format
@@ -2324,9 +2340,9 @@ msgid "  --noscripts    - do not execute package scriptlet(s)\n"
 msgstr "  --noscripts    - kör inte paketens skript\n"
 
 #: ../urpmi:150
-#, fuzzy, c-format
+#, c-format
 msgid "  --replacefiles - ignore file conflicts\n"
-msgstr "  --conflicts    - visa konflikter\n"
+msgstr "  --replacefiles - ignorera filkonflikter\n"
 
 #: ../urpmi:152
 #, c-format
