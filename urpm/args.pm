@@ -130,6 +130,7 @@ my %options_spec = (
 	'parallel=s' => \$::parallel,
 
 	'metalink!' => sub { $urpm->{options}{metalink} = $_[1] },
+	'download-all!' => sub { $urpm->{options}{'download-all'} = $_[1] },
 
 	# deprecated in favor of --downloader xxx
 	wget => sub { $urpm->{options}{downloader} = 'wget' },
