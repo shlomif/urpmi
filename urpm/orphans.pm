@@ -323,7 +323,7 @@ sub _kernel_callback {
     return if $shortname =~ /-(?:source|doc|headers|firmware(?:|-extra))$/;
 
     # ignore requested kernels
-    return unless %l->{$shortname};
+    return unless $l{$shortname};
 
     # keep track of latest kernels in order not to try removing requested kernels:
     if ($n =~ /latest/) {
