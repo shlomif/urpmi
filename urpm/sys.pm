@@ -92,6 +92,14 @@ sub _find_a_mntpoint {
     undef;
 }
 
+#- return the size of the partition and its free space in KiB
+sub df {
+    my ($mntpoint) = @_;
+    require Filesys::Df;
+    my $df = Filesys::Df::df("/", 1024); # ask 1kb values
+    @$df{qw(blocks bfree)};
+}
+
 sub _expand_symlink {
     my ($pdir) = @_;
 
