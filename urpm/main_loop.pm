@@ -60,6 +60,52 @@ urpm::cdrom::copy_packages_of_removable_media($urpm,
     $callbacks->{copy_removable});
 $callbacks->{post_removable} and $callbacks->{post_removable}->();
 
+sub download_packages {
+    my ($blists, $sources) = @_;
+    my @error_sources;
+    urpm::get_pkgs::download_packages_of_distant_media($urpm,
+	$blists,
+	$sources,
+	\@error_sources,
+	quiet => $options{verbose} < 0,
+	callback => $callbacks->{trans_log},
+        ask_retry => !$urpm->{options}{auto} && ($callbacks->{ask_retry} || sub {
+	    my ($raw_msg, $msg) = @_;
+	    if (my $download_errors = delete $urpm->{download_errors}) {
+		$raw_msg = join("\n", @$download_errors, '');
+	    }
+	    $callbacks->{ask_yes_or_no}('', $raw_msg . "\n" . $msg . "\n" . N("Retry?"));
+	}),
+    );
+    my @msgs;
+    if (@error_sources) {
+	$_->[0] = urpm::download::hide_password($_->[0]) foreach @error_sources;
+	my @bad = grep { $_->[1] eq 'bad' } @error_sources;
+	my @missing = grep { $_->[1] eq 'missing' } @error_sources;
+
+	if (@missing) {
+	    push @msgs, N("Installation failed, some files are missing:\n%s", 
+			  join("\n", map { "    $_->[0]" } @missing))
+	      . "\n" .
+	      N("You may need to update your urpmi database.");
+	}
+	if (@bad) {
+	    push @msgs, N("Installation failed, bad rpms:\n%s",
+			  join("\n", map { "    $_->[0]" } @bad));
+	}
+    }
+    (@error_sources, @msgs);
+}
+
+if ($urpm->{options}{'download-all'}) {
+    print "Downloading everything!\n";
+    my (@error_sources) = download_packages($blists, \%sources);
+    if (@error_sources) {
+	return 10;
+    }
+    print "Everything downloaded\n";
+}
+
 #- now create transaction just before installation, this will save user impression of slowness.
 #- split of transaction should be disabled if --test is used.
 urpm::install::build_transaction_set_($urpm, $state,
@@ -93,49 +139,19 @@ foreach my $set (@{$state->{transaction} || []}) {
       urpm::install::prepare_transaction($urpm, $set, $blists, \%sources);
 
     #- first, filter out what is really needed to download for this small transaction.
-    my @error_sources;
-    urpm::get_pkgs::download_packages_of_distant_media($urpm,
-	$transaction_blists,
-	$transaction_sources,
-	\@error_sources,
-	quiet => $options{verbose} < 0,
-	callback => $callbacks->{trans_log},
-        ask_retry => !$urpm->{options}{auto} && ($callbacks->{ask_retry} || sub {
-	    my ($raw_msg, $msg) = @_;
-	    if (my $download_errors = delete $urpm->{download_errors}) {
-		$raw_msg = join("\n", @$download_errors, '');
-	    }
-	    $callbacks->{ask_yes_or_no}('', $raw_msg . "\n" . $msg . "\n" . N("Retry?"));
-	}),
-    );
+    my (@error_sources, @msgs) = download_packages($transaction_blists, $transaction_sources);
     if (@error_sources) {
-	$_->[0] = urpm::download::hide_password($_->[0]) foreach @error_sources;
 	$nok++;
-	my @bad = grep { $_->[1] eq 'bad' } @error_sources;
-	my @missing = grep { $_->[1] eq 'missing' } @error_sources;
-
-	my @msgs;
-	if (@missing) {
-	    push @msgs, N("Installation failed, some files are missing:\n%s", 
-			  join("\n", map { "    $_->[0]" } @missing))
-	      . "\n" .
-	      #-PO: we silently update the string from "You may want to..." to "You may need to..".
-	      #-PO: so that translations do not got fuzzy-ed just before the release:
-	      N("You may need to update your urpmi database.");
-	}
-	if (@bad) {
-	    push @msgs, N("Installation failed, bad rpms:\n%s",
-			  join("\n", map { "    $_->[0]" } @bad));
-	}
 	my $go_on;
 	if ($urpm->{options}{auto}) {
 	    push @formatted_errors, @msgs;
 	} else {
 	    $go_on = $callbacks->{ask_yes_or_no}->(
-		N("Installation failed"), 
+		N("Installation failed"),
 		join("\n\n", @msgs, N("Try to continue anyway?")));
 	}
 	if (!$go_on) {
+	    my @missing = grep { $_->[1] eq 'missing' } @error_sources;
 	    if (@missing) {
 		$exit_code = $ok ? 13 : 14;
 	    }
