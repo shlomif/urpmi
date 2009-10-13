@@ -210,7 +210,14 @@ sub need_restart_formatted {
     my $need_restart = need_restart($root) or return;
 
     foreach (keys %$need_restart) {
-	$need_restart->{$_} = N("You should restart %s for %s", translate($_), join(', ', sort @{$need_restart->{$_}}));
+	my $packages = join(', ', sort @{$need_restart->{$_}});
+	if ($_ eq 'system') {
+	    $need_restart->{$_} = N("You should restart your computer for %s", $packages);
+	} elsif ($_ eq 'session') {
+	    $need_restart->{$_} = N("You should restart your session for %s", $packages);
+	} else {
+	    $need_restart->{$_} = N("You should restart %s for %s", translate($_), $packages); 
+	}
     }
     $need_restart;
 }
