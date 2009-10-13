@@ -312,7 +312,7 @@ sub _get_current_kernel_package() {
 #
 my (@requested_kernels, %kernels);
 sub _kernel_callback { 
-    my ($pkg, %l) = @_;
+    my ($pkg, $unreq_list) = @_;
     my $shortname = $pkg->name;
     my $n = $pkg->fullname;
 
@@ -323,7 +323,7 @@ sub _kernel_callback {
     return if $shortname =~ /-(?:source|doc|headers|firmware(?:|-extra))$/;
 
     # ignore requested kernels (aka that are not in /var/lib/rpm/installed-through-deps.list)
-    return unless $l{$shortname};
+    return if !$unreq_list->{$shortname} && $shortname !~ /latest/;
 
     # keep track of latest kernels in order not to try removing requested kernels:
     if ($n =~ /latest/) {
@@ -354,12 +354,13 @@ sub _all_unrequested_orphans {
 	$l{$pkg->name} = $pkg;
 	push @{$provides{$_}}, $pkg foreach $pkg->provides_nosense;
     }
+    my $unreq_list = unrequested_list();
 
     my $current_kernel = _get_current_kernel_package();
 
     while (my $pkg = shift @$req) {
         # do not do anything regarding kernels if we failed to detect the running one (ie: chroot)
- 	_kernel_callback($pkg, %l) if $current_kernel;
+ 	_kernel_callback($pkg, $unreq_list) if $current_kernel;
 	foreach my $prop ($pkg->requires, $pkg->suggests) {
 	    my $n = URPM::property2name($prop);
 	    foreach my $p (@{$provides{$n} || []}) {
