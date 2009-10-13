@@ -165,6 +165,27 @@ sub verify_partial_rpm_and_move {
     "$cachedir/rpms/$filename";
 }
 
+# get the filesize of packages to download from remote media.
+sub get_distant_media_filesize {
+    my ($urpm, $blists, $sources) = @_;
+
+    my $filesize;
+    #- get back all ftp and http accessible rpm files into the local cache
+    foreach my $blist (@$blists) {
+	#- examine all files to know what can be indexed on multiple media.
+	while (my ($id, $pkg) = each %{$blist->{pkgs}}) {
+	    #- the given URL is trusted, so the file can safely be ignored.
+	    defined $sources->{$id} and next;
+	    if (!urpm::is_local_medium($blist->{medium})) {
+		if (my $n = $pkg->filesize) {
+		    $filesize += $n;
+		}
+	    }
+	}
+    }
+    $filesize;
+}
+
 # download packages listed in $blists,
 # and put the result in $sources or $error_sources
 #

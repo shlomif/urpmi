@@ -98,12 +98,21 @@ sub download_packages {
 }
 
 if ($urpm->{options}{'download-all'}) {
-    print "Downloading everything!\n";
+    my (undef, $available) = urpm::sys::df("$urpm->{cachedir}/rpms");
+
+    if (!$urpm->{options}{ignoresize}) {
+	my ($download_size) = urpm::get_pkgs::get_distant_media_filesize ($urpm, $blists, \%sources); 
+	if ($download_size >= $available*1000) {
+	    my $noexpr = N("Nn");
+	    my $p = N("There is not enough space on your filesystem to download all packages (%s needed, %s available).\nAre you sure you want to continue?", formatXiB($download_size), formatXiB($available*1000)); 
+	    $force || urpm::msg::ask_yes_or_no($p) or exit 0;
+	}	
+    }
+
     my (@error_sources) = download_packages($blists, \%sources);
     if (@error_sources) {
 	return 10;
     }
-    print "Everything downloaded\n";
 }
 
 #- now create transaction just before installation, this will save user impression of slowness.
