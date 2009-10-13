@@ -167,7 +167,7 @@ sub verify_partial_rpm_and_move {
 
 # get the filesize of packages to download from remote media.
 sub get_distant_media_filesize {
-    my ($urpm, $blists, $sources) = @_;
+    my (undef, $blists, $sources) = @_;
 
     my $filesize;
     #- get back all ftp and http accessible rpm files into the local cache
