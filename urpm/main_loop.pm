@@ -105,7 +105,7 @@ if ($urpm->{options}{'download-all'}) {
 	if ($download_size >= $available*1000) {
 	    my $noexpr = N("Nn");
 	    my $p = N("There is not enough space on your filesystem to download all packages (%s needed, %s available).\nAre you sure you want to continue?", formatXiB($download_size), formatXiB($available*1000)); 
-	    $force || urpm::msg::ask_yes_or_no($p) or exit 0;
+	    $force || urpm::msg::ask_yes_or_no($p) or return 10;
 	}	
     }
 
