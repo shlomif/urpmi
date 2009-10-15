@@ -36,7 +36,7 @@ sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
 
     #- global boolean options
-    my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test, $env) =
+    my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test, $_env) =
       ($::auto_select, $::no_install, $::install_src, $::clean, $::noclean, $::force, $::parallel, $::test, $::env);
 
     urpm::get_pkgs::clean_all_cache($urpm) if $clean;
@@ -103,7 +103,6 @@ if ($urpm->{options}{'download-all'}) {
     if (!$urpm->{options}{ignoresize}) {
 	my ($download_size) = urpm::get_pkgs::get_distant_media_filesize($urpm, $blists, \%sources); 
 	if ($download_size >= $available*1000) {
-	    my $noexpr = N("Nn");
 	    my $p = N("There is not enough space on your filesystem to download all packages (%s needed, %s available).\nAre you sure you want to continue?", formatXiB($download_size), formatXiB($available*1000)); 
 	    $force || urpm::msg::ask_yes_or_no($p) or return 10;
 	}	
@@ -148,6 +147,7 @@ foreach my $set (@{$state->{transaction} || []}) {
       urpm::install::prepare_transaction($urpm, $set, $blists, \%sources);
 
     #- first, filter out what is really needed to download for this small transaction.
+    # BUG/FIXME: @error_sources takes all the arguments, @msgs is undef in any case
     my (@error_sources, @msgs) = download_packages($transaction_blists, $transaction_sources);
     if (@error_sources) {
 	$nok++;
@@ -318,7 +318,7 @@ if ($nok) {
 	$urpm->{print}(join("\n", @formatted_errors));
     }
     if (@errors) {
-	$urpm->{print}(N("Installation failed:").join("\n", map { "\t$_" } @errors));
+	$urpm->{print}(N("Installation failed:") . join("\n", map { "\t$_" } @errors));
     }
     $exit_code ||= $ok ? 11 : 12;
 } else {
