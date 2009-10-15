@@ -91,7 +91,7 @@ sub install_logger {
 	}
     } elsif ($subtype eq 'stop') {
 	if ($urpm->{logger_progress} < $progress_size) {
-	    print '#' x ($progress_size - $urpm->{logger_progress}), "\n";
+	    $urpm->{print}('#' x ($progress_size - $urpm->{logger_progress}));
 	    $urpm->{logger_progress} = 0;
 	}
     } elsif ($subtype eq 'progress') {
