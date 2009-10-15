@@ -108,9 +108,16 @@ if ($urpm->{options}{'download-all'}) {
 	}	
     }
 
-    my ($error_sources) = download_packages($blists, \%sources);
-    if (@$error_sources) {
-	return 10;
+    #download packages one by one so that we don't try to download them again
+    #and again if the user has to restart urpmi because of some failure
+    foreach my $blist (@$blists) {
+	foreach my $pkg (keys %{$blist->{pkgs}}) {
+	    my $blist_one = [{ pkgs => { $pkg => $blist->{pkgs}{$pkg} }, medium => $blist->{medium} }];
+	    my ($error_sources) = download_packages($blist_one, \%sources);
+	    if (@$error_sources) {
+		return 10;
+	    }
+	}
     }
 }
 
