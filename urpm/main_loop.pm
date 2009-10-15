@@ -94,7 +94,7 @@ sub download_packages {
 			  join("\n", map { "    $_->[0]" } @bad));
 	}
     }
-    (@error_sources, @msgs);
+    (\@error_sources, \@msgs);
 }
 
 if ($urpm->{options}{'download-all'}) {
@@ -108,8 +108,8 @@ if ($urpm->{options}{'download-all'}) {
 	}	
     }
 
-    my (@error_sources) = download_packages($blists, \%sources);
-    if (@error_sources) {
+    my ($error_sources) = download_packages($blists, \%sources);
+    if (@$error_sources) {
 	return 10;
     }
 }
@@ -147,20 +147,19 @@ foreach my $set (@{$state->{transaction} || []}) {
       urpm::install::prepare_transaction($urpm, $set, $blists, \%sources);
 
     #- first, filter out what is really needed to download for this small transaction.
-    # BUG/FIXME: @error_sources takes all the arguments, @msgs is undef in any case
-    my (@error_sources, @msgs) = download_packages($transaction_blists, $transaction_sources);
-    if (@error_sources) {
+    my ($error_sources, $msgs) = download_packages($transaction_blists, $transaction_sources);
+    if (@$error_sources) {
 	$nok++;
 	my $go_on;
 	if ($urpm->{options}{auto}) {
-	    push @formatted_errors, @msgs;
+	    push @formatted_errors, @$msgs;
 	} else {
 	    $go_on = $callbacks->{ask_yes_or_no}->(
 		N("Installation failed"),
-		join("\n\n", @msgs, N("Try to continue anyway?")));
+		join("\n\n", @$msgs, N("Try to continue anyway?")));
 	}
 	if (!$go_on) {
-	    my @missing = grep { $_->[1] eq 'missing' } @error_sources;
+	    my @missing = grep { $_->[1] eq 'missing' } @$error_sources;
 	    if (@missing) {
 		$exit_code = $ok ? 13 : 14;
 	    }
