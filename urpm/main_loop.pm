@@ -94,10 +94,15 @@ sub download_packages {
 			  join("\n", map { "    $_->[0]" } @bad));
 	}
     }
+    
     (\@error_sources, \@msgs);
 }
 
-if ($urpm->{options}{'download-all'}) {
+if (exists $urpm->{options}{'download-all'}) {
+    if ($urpm->{options}{'download-all'}) {
+	$urpm->{cachedir} = $urpm->{'urpmi-root'}.$urpm->{options}{'download-all'};
+	urpm::init_cache_dir($urpm, $urpm->{cachedir});
+    }
     my (undef, $available) = urpm::sys::df("$urpm->{cachedir}/rpms");
 
     if (!$urpm->{options}{ignoresize}) {

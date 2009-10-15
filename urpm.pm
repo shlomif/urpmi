@@ -99,15 +99,9 @@ sub prefer_rooted {
     -e "$root$file" ? "$root$file" : $file;
 }
 
-sub userdir_prefix {
-    my ($_urpm) = @_;
-    '/tmp/.urpmi-';
-}
-sub userdir {
-    my ($urpm) = @_;
-    $< or return;
+sub init_cache_dir {
+    my ($urpm, $dir) = @_;
 
-    my $dir = ($urpm->{urpmi_root} || '') . userdir_prefix($urpm) . $<;
     mkdir $dir, 0755; # try to create it
 
     -d $dir && ! -l $dir or $urpm->{fatal}(1, N("fail to create directory %s", $dir));
@@ -117,6 +111,17 @@ sub userdir {
     mkdir "$dir/rpms";
 
     $dir;
+}
+sub userdir_prefix {
+    my ($_urpm) = @_;
+    '/tmp/.urpmi-';
+}
+sub userdir {
+    my ($urpm) = @_;
+    $< or return;
+
+    my $dir = ($urpm->{urpmi_root} || '') . userdir_prefix($urpm) . $<;
+    init_cache_dir($$urpm, $dir);
 }
 sub ensure_valid_cachedir {
     my ($urpm) = @_;

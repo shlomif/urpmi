@@ -257,12 +257,13 @@ Configure urpmi on the fly from a distrib tree, useful to install a chroot
 with the B<--root> option. See the description of the B<--distrib> option
 in the C<urpmi.addmedia> manpage.
 
-=item B<--download-all>
+=item B<--download-all> I<dest-dir>
 
 By default, urpmi will download packages when they are needed. This can be 
 problematic when connection failures happen during a big upgrade. When this
 option is set, urpmi will first download all the needed packages and proceed
-to install them if it managed to download them all.
+to install them if it managed to download them all. You can optionally 
+specify a directory where the files should be downloaded (default is /var/cache/urpmi which could be too small to hold all the files).
 
 =item B<--downloader> I<program name>
 
