@@ -673,6 +673,10 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 		$force || urpm::msg::ask_yes_or_no("$msg$msg2");
 	    }
     },                           
+    trans_error_summary => sub {
+        my ($_nok, $errors) = @_;
+        dudf_invoke($dudf, "set_error_msg", join("\n",  map { "\t$_" } @$errors));
+    },
     ask_yes_or_no => sub {
 	my ($_title, $msg) = @_; # graphical title
 	my $yesexpr = N("Yy");
