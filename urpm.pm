@@ -117,6 +117,7 @@ sub userdir_prefix {
     '/tmp/.urpmi-';
 }
 sub userdir {
+    #mdkonline uses userdir because it runs as user
     my ($urpm) = @_;
     $< or return;
 
