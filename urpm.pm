@@ -121,7 +121,7 @@ sub userdir {
     $< or return;
 
     my $dir = ($urpm->{urpmi_root} || '') . userdir_prefix($urpm) . $<;
-    init_cache_dir($$urpm, $dir);
+    init_cache_dir($urpm, $dir);
 }
 sub ensure_valid_cachedir {
     my ($urpm) = @_;
