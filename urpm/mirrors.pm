@@ -274,7 +274,7 @@ sub _mirrors_raw {
     my ($urpm, $url) = @_;
 
     $urpm->{log}(N("getting mirror list from %s", $url));
-    my @l = urpm::download::get_content($urpm, $url) or $urpm->{error}("mirror list not found");
+    my @l = urpm::download::get_content($urpm, $url, "allow_metalink" => 0) or $urpm->{error}("mirror list not found");
     @l;
 }
 

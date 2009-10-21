@@ -896,7 +896,7 @@ sub sync_rel_one {
 
 sub sync_url {
     my ($urpm, $url, %options) = @_;
-    sync_rel_one($urpm, { url => dirname($url) }, basename($url), %options);
+    sync_rel_one($urpm, { url => dirname($url), $options{'allow-metalink'}?('allow-metalink' => $options{'allow-metalink'}):() }, basename($url), %options);
 }
 
 sub sync_rel_to {
