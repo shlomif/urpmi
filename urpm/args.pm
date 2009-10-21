@@ -403,7 +403,7 @@ sub add_urpmf_parameter {
 
 # common options setup
 
-foreach my $k ('allow-medium-change', 'auto', 'auto-select', 'clean', 'force', 'expect-install!', 'justdb', 'no-priority-upgrade', 'noscripts', 'replacefiles', 'p', 'P', 'previous-priority-upgrade=s', 'root=s', 'test!', 'verify-rpm!', 'update',
+foreach my $k ('allow-medium-change', 'auto', 'auto-select', 'clean', 'download-all:s', 'force', 'expect-install!', 'justdb', 'no-priority-upgrade', 'noscripts', 'replacefiles', 'p', 'P', 'previous-priority-upgrade=s', 'root=s', 'test!', 'verify-rpm!', 'update',
 	       'split-level=s', 'split-length=s')
 {
     $options_spec{gurpmi}{$k} = $options_spec{urpmi}{$k};
