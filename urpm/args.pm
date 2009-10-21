@@ -248,6 +248,7 @@ my %options_spec = (
 	    $options{deps} = $options{upgrade} = $options{auto_select} = 1;
 	},
 	'fuzzy|y' => sub { $urpm->{options}{fuzzy} = 1; $options{all} = 1 },
+	'not-available' => \$options{not_available},
 	keep => \$options{keep},
 	list => \$options{list},
 	changelog => \$options{changelog},

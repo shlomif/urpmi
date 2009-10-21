@@ -51,6 +51,8 @@ usage:
 ") . N("  --synthesis    - use the given synthesis instead of urpmi db.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
 ") . N("  --auto-orphans - list orphans
+") . N("  --not-available
+                 - list installed packages not available on any media.
 ") . N("  --no-suggests  - do not auto select \"suggested\" packages.
 ") . N("  --fuzzy        - impose fuzzy search (same as -y).
 ") . N("  --keep         - keep existing packages if possible, reject requested
@@ -176,7 +178,7 @@ if ($options{env}) {
 if ($options{ignorearch}) { urpm::shunt_ignorearch() }
 
 my $rpm_lock = 
-  $options{upgrade} && !$options{env} && !$options{nolock}
+  ($options{upgrade} || $options{not_available}) && !$options{env} && !$options{nolock}
   && urpm::lock::rpm_db($urpm, '', wait => $options{wait_lock});
 my $urpmi_lock = !$options{nolock} && urpm::lock::urpmi_db($urpm, '', wait => $options{wait_lock});
 urpm::media::configure($urpm,
@@ -249,6 +251,22 @@ if ($options{list_aliases}) {
 	# use the generic code
 	@{$state->{selected}}{0 .. $#{$urpm->{depslist}}} = ();
     }
+} elsif ($options{not_available}) {
+    my %available;
+    my $to_string = sub {
+        my ($p) = @_;
+	$p->name . '-' . $p->version . '-' . $p->release . '.' . $p->arch
+    };
+    foreach my $p (@{$urpm->{depslist}}) {
+        $available{$to_string->($p)} = 1;
+    }
+    my $db = urpm::db_open_or_die_($urpm);
+    $db->traverse(sub {
+        my ($p) = @_;
+        my $s = $to_string->($p);
+	# FIXME Use $pkg_to_string if some options are set but default to this format ?
+        $available{$s} || print "$s\n";
+    });
 } else {
     %requested = $urpm->register_rpms(@files);
 
