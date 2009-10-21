@@ -488,7 +488,7 @@ sub write_dudf {
                 $self->upload_dudf;
             }
             else {
-                print N("Cannot write DUDF file\n.");
+                print N("Cannot write DUDF file.\n");
             }
         }
     }
