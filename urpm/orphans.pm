@@ -130,7 +130,7 @@ sub _selected_unrequested {
 #- 
 #- side-effects: none
 sub _renamed_unrequested {
-    my ($urpm, $rejected) = @_;
+    my ($urpm, $selected, $rejected) = @_;
     
     my @obsoleted = grep { $rejected->{$_}{obsoleted} } keys %$rejected or return;
 
@@ -144,6 +144,8 @@ sub _renamed_unrequested {
 
 	my ($new_fn) = keys %{$rejected->{$fn}{closure}};
 	my ($new_n) = $new_fn =~ $fullname2name_re;
+
+	grep { my $pkg = $urpm->{depslist}[$_]; ($pkg->name eq $new_n) && $pkg->flag_installed && $pkg->flag_upgrade } keys %$selected and next;
 	if ($new_n ne $n) {
 	    $l{$new_n} = "(obsoletes $fn)";
 	}
@@ -154,7 +156,7 @@ sub new_unrequested {
     my ($urpm, $state) = @_;
     (
 	_selected_unrequested($urpm, $state->{selected}, $state->{rejected}),
-	_renamed_unrequested($urpm, $state->{rejected}),
+	_renamed_unrequested($urpm, $state->{selected}, $state->{rejected}),
     );
 }
 #- side-effects: <root>/var/lib/rpm/installed-through-deps.list
