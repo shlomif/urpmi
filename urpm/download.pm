@@ -63,11 +63,11 @@ sub preferred_downloader {
     my ($urpm, $medium, $use_metalink) = @_;
 
     my @available = urpm::download::available_ftp_http_downloaders();
-    my @metalink_downloaders;
+    my @metalink_downloaders = urpm::download::available_metalink_downloaders();
+    my $metalink_disabled = !$$use_metalink && $medium->{disable_metalink};
 
-    if ($$use_metalink) {
+    if (($$use_metalink) && !$metalink_disabled) {
 	#- If metalink is used, only aria2 is available as other downloaders doesn't support metalink
-	@metalink_downloaders = urpm::download::available_metalink_downloaders();
 	unshift @available, @metalink_downloaders;
     }
 	    
@@ -82,6 +82,14 @@ sub preferred_downloader {
 	    $urpm->{log}(N("%s is not available, falling back on %s", $requested_downloader, $preferred));
 	}
     }
+    # in some cases, we may want not to use metalink (aria2) since it can 
+    # cause issues, see #53434 for example
+    if ($metalink_disabled && member($preferred, @metalink_downloaders)) {
+	$urpm->{log}("not using $preferred since metalink has been disabled");
+	my @no_metalink = urpm::util::difference2(\@available, \@metalink_downloaders);
+	$preferred = $no_metalink[0];
+    }
+
     if ($$use_metalink && !member($preferred, @metalink_downloaders)) {
 	$warned{not_using_metalink}++ or 
 	  $urpm->{log}($requested_downloader eq $preferred ? 
@@ -896,7 +904,7 @@ sub sync_rel_one {
 
 sub sync_url {
     my ($urpm, $url, %options) = @_;
-    sync_rel_one($urpm, { url => dirname($url), $options{'allow-metalink'}?('allow-metalink' => $options{'allow-metalink'}):() }, basename($url), %options);
+    sync_rel_one($urpm, { url => dirname($url), disable_metalink => $options{disable_metalink} }, basename($url), %options);
 }
 
 sub sync_rel_to {
