@@ -890,7 +890,9 @@ sub add_distrib_media {
 	my $media_cfg = reduce_pathname("$dir/" . $distribconf->getpath(undef, 'infodir') . '/media.cfg');
 	$distribconf->parse_mediacfg($media_cfg)
 	    or $urpm->{error}(N("this location doesn't seem to contain any distribution")), return ();
-	_register_media_cfg($urpm, $dir, undef, $distribconf, $media_cfg);
+        if (!$options{virtual}) {
+            _register_media_cfg($urpm, $dir, undef, $distribconf, $media_cfg);
+        }
     } else {
 	if ($options{mirrorlist}) {
 	    $url and die "unexpected url $url together with mirrorlist $options{mirrorlist}\n";
@@ -902,7 +904,9 @@ sub add_distrib_media {
 	    my $media_cfg = "$urpm->{cachedir}/partial/media.cfg";
 	    $distribconf = _new_distribconf_and_download($urpm, $m);
 	    $parse_ok = $distribconf && $distribconf->parse_mediacfg($media_cfg);
-	    _register_media_cfg($urpm, $url, $options{mirrorlist}, $distribconf, $media_cfg) if $parse_ok;
+            if ($parse_ok && !$options{virtual}) {
+	        _register_media_cfg($urpm, $url, $options{mirrorlist}, $distribconf, $media_cfg);
+            }
 	    $parse_ok;
 	});
 	$url = $m->{url};
