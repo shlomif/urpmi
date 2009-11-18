@@ -296,7 +296,7 @@ sub _will_prop_still_be_needed {
 sub _get_current_kernel_package() {
     my $release = (POSIX::uname())[2];
     # --qf '%{name}' is used in order to provide the right format:
-    `rpm -qf --qf '%{name}' /boot/vmlinuz-$release`;
+    -e "/boot/vmlinuz-$release" && `rpm -qf --qf '%{name}' /boot/vmlinuz-$release`;
 }
 
 
