@@ -258,15 +258,15 @@ if ($options{list_aliases}) {
 	$p->name . '-' . $p->version . '-' . $p->release . '.' . $p->arch
     };
     foreach my $p (@{$urpm->{depslist}}) {
-        # Magical packages like gpg-pubkey do not have arch and we do not want them
-        $available{$to_string->($p)} = 1 if $p->arch;
+        $available{$to_string->($p)} = 1;
     }
     my $db = urpm::db_open_or_die_($urpm);
     $db->traverse(sub {
         my ($p) = @_;
         my $s = $to_string->($p);
 	# FIXME Use $pkg_to_string if some options are set but default to this format ?
-        $available{$s} || print "$s\n";
+        # Magical packages like gpg-pubkey do not have arch and we do not want them
+        $available{$s} || !$p->arch || print "$s\n";
     });
 } else {
     %requested = $urpm->register_rpms(@files);
