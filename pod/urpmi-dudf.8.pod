@@ -1,0 +1,63 @@
+=head1 NAME
+
+urpmi-dudf - the dudf plugin for urpmi
+
+=head1 SYNOPSIS
+
+    urpmi [options] [package_names | rpm_files...]
+    urpmi [options] --auto-select
+    urpmi [options] --force-dudf [package_names | rpm_files...]
+    urpmi [options] --force-dudf --auto-select
+
+=head1 DESCRIPTION
+
+This man page describes only the added functionalities to urpmi installed by
+the package urpmi-dudf.
+For general urpmi usage and options, see the man page of L<urpmi|urpmi>.
+
+If an installation or upgrade goes wrong, and urpmi-dudf is installed
+urpmi will ask the user to generate and upload an error report.
+
+This is a part of the Europeen Mancoosi project,
+a project to enhance Linux Package Management.
+
+See L<http://www.mancoosi.org/> for more details.
+
+=head1 OPTIONS
+
+=over
+
+=item B<--force-dudf>
+
+Will generate and upload a dudf report even if the installation or upgrade went well.
+
+=back
+
+=head1 FILES
+
+=over
+
+=item B</var/cache/urpmi/dudf/dudf_uploads.log>
+
+This file contains the log of dudf uploads.
+
+The format of each line of this log is :
+
+=over
+
+<date time of generation> <uid>
+
+=back
+
+The user can access to uploaded report by entering the <uid> into the appropriate field
+of http://www.mancoosi.org/
+ 
+=back
+
+=head1 EXIT CODES
+
+See the man page of urpmi.
+
+=cut
+
+$Id$

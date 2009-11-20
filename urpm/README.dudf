@@ -1,0 +1,28 @@
+urpmi-dudf is an extension module to urpmi to allow urpmi to generate
+and upload dudf error files.
+
+This is a part of the Europeen Mancoosi project,
+a project to enhance Linux Package Management.
+
+See http://www.mancoosi.org/ for more details.
+
+Once the package urpmi-dudf installed, when a problem occurs during
+an installation using urpmi, urpmi will ask the user the authorization
+to generate and upload a dudf report to mancoosi's servers.
+
+If the user wants to generate and upload a dudf report event is the installation
+has no problem, it can use the urpmi option --force-dudf
+
+Example :
+# urpmi --force-dudf powertop
+
+
+A log of dudf uploads is stored in /var/cache/urpmi/dudf/dudf_uploads.log
+
+The format of each line of this log is :
+ <date time of generation> <uid>
+
+ The user can access to uploaded report by entering the <uid> into the appropriate field
+ of http://www.mancoosi.org/
+ 
+A man page in section 8 exists : urpmi-dudf
