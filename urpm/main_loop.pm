@@ -362,6 +362,7 @@ if ($nok) {
 sub handle_need_restart {
     my ($urpm, $state, $callbacks) = @_;
 
+    return if $urpm->{root};
     return if !$callbacks->{need_restart};
 
     if (intersection([ keys %{$state->{selected}} ],
