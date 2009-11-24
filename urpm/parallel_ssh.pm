@@ -3,7 +3,7 @@ package urpm::parallel_ssh;
 # $Id$
 
 #- Copyright (C) 2002, 2003, 2004, 2005 MandrakeSoft SA
-#- Copyright (C) 2005 Mandriva SA
+#- Copyright (C) 2005-2009 Mandriva SA
 
 use strict;
 use urpm::util;

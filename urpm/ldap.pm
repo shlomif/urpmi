@@ -223,6 +223,6 @@ __END__
 
 Copyright (C) 2005 MandrakeSoft SA
 
-Copyright (C) 2005, 2006 Mandriva SA
+Copyright (C) 2005-2009 Mandriva SA
 
 =cut

@@ -359,6 +359,6 @@ urpm::sys - OS-related routines for urpmi
 
 Copyright (C) 2005 MandrakeSoft SA
 
-Copyright (C) 2005 Mandriva SA
+Copyright (C) 2005-2009 Mandriva SA
 
 =cut
