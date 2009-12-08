@@ -155,6 +155,9 @@ sub _cache__may_clean_if_outdated {
 		   time() > $cache->{time} + 24*60*60 * $urpm->{options}{'days-between-mirrorlist-update'}) {
 	    $urpm->{log}("not using outdated cached mirror list $mirrorlist");
 	    _trigger_cache_update ($urpm, $cache);
+	} elsif (!$cache->{product_id_mtime}) {
+	    $urpm->{log}("cached mirror list uses an old format, invalidating it");
+	    _trigger_cache_update ($urpm, $cache, 1);
 	} elsif ($cache->{product_id_mtime} && _product_id_mtime() != $cache->{product_id_mtime}) {
 	    $urpm->{log}("not using cached mirror list $mirrorlist since product id file changed");
 	    _trigger_cache_update ($urpm, $cache, 1);
