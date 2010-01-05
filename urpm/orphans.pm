@@ -356,6 +356,7 @@ sub _all_unrequested_orphans {
 	$l{$pkg->name} = $pkg;
 	push @{$provides{$_}}, $pkg foreach $pkg->provides_nosense;
     }
+    # (tv) FIXME: this won't work when chrooted:
     my $unreq_list = unrequested_list();
 
     my $current_kernel = _get_current_kernel_package();
@@ -376,7 +377,7 @@ sub _all_unrequested_orphans {
 
     # add orphan kernels to the list:
     my $a = { _get_orphan_kernels() };
-    add2hash_(\%l,$a);
+    add2hash_(\%l, $a);
 
     # do not offer to remove current kernel:
     delete $l{$current_kernel};
@@ -426,7 +427,8 @@ sub get_now_orphans_msg {
     my @orphans = map { scalar $_->fullname } @$orphans or return '';
 
     P("The following package:\n%s\nis now orphaned, if you wish to remove it, you can use \"urpme --auto-orphans\"",
-      "The following packages:\n%s\nare now orphaned, if you wish to remove them, you can use \"urpme --auto-orphans\"",scalar(@orphans), add_leading_spaces(join("\n", sort @orphans)))."\n";
+      "The following packages:\n%s\nare now orphaned, if you wish to remove them, you can use \"urpme --auto-orphans\"",
+      scalar(@orphans), add_leading_spaces(join("\n", sort @orphans))) . "\n";
 }
 
 
