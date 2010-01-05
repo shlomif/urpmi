@@ -312,14 +312,20 @@ sub _get_current_kernel_package() {
 # do not care about (eg: kernel-devel, kernel-firmware, kernel-latest)
 # so it's useless to look at them
 #
-my (@latest_kernels, %kernels);
+my (@latest_kernels, %requested_kernels, %kernels);
 sub _kernel_callback { 
     my ($pkg, $unreq_list) = @_;
     my $shortname = $pkg->name;
     my $n = $pkg->fullname;
 
     # only consider kernels (and not main 'kernel' package):
-    return if $shortname !~ /^kernel-/;
+    # but perform a pass on their requires for dkms like packages that require a specific kernel:
+    if ($shortname !~ /^kernel-/) {
+	foreach (grep { /^kernel/ } $pkg->requires) {
+	    $requested_kernels{$_}{$shortname} = $pkg;
+	}
+	return;
+    }
 
     # only consider real kernels (and not kernel-doc and the like):
     return if $shortname =~ /-(?:source|doc|headers|firmware(?:|-extra))$/;
@@ -378,6 +384,11 @@ sub _all_unrequested_orphans {
     # add orphan kernels to the list:
     my $a = { _get_orphan_kernels() };
     add2hash_(\%l, $a);
+
+    # add packages that require orphan kernels to the list:
+    foreach (keys %$a) {
+	add2hash_(\%l, $requested_kernels{$_});
+    }
 
     # do not offer to remove current kernel:
     delete $l{$current_kernel};
