@@ -1819,7 +1819,7 @@ sub update_those_media {
 	my $unsubstituted_url = $medium->{url};
 	$medium->{url} = urpm::cfg::expand_line($medium->{url}) if $medium->{url};
 	my $rc = _update_medium($urpm, $medium, %options);
-	$medium->{url} = $unsubstituted_url;
+	$medium->{url} = urpm::cfg::substitute_back ($medium->{url}, $unsubstituted_url);
 	$rc or return if !$options{allow_failures};
 	$updates_result{$rc || 'error'}++;
     }
