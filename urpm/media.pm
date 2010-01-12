@@ -905,7 +905,7 @@ sub add_distrib_media {
 	    $distribconf = _new_distribconf_and_download($urpm, $m);
 	    $parse_ok = $distribconf && $distribconf->parse_mediacfg($media_cfg);
             if ($parse_ok && !$options{virtual}) {
-	        _register_media_cfg($urpm, $url, $options{mirrorlist}, $distribconf, $media_cfg);
+	        _register_media_cfg($urpm, urpm::cfg::expand_line ($m->{url}), $options{mirrorlist}, $distribconf, $media_cfg);
             }
 	    $parse_ok;
 	});
@@ -985,9 +985,11 @@ sub _new_distribconf_and_download {
     $distribconf->settree('mandriva');
 
     $urpm->{log}(N("retrieving media.cfg file..."));
-    urpm::download::sync_rel_one($urpm, $medium,
-				 $distribconf->getpath(undef, 'infodir') . '/media.cfg',
+    my $url = $medium->{url};
+    $medium->{url} = urpm::cfg::expand_line ($url);
+    urpm::download::sync_rel_one($urpm, $medium, $distribconf->getpath(undef, 'infodir') . '/media.cfg',
 				 quiet => 1, preclean => 1) or return;
+    $medium->{url} = urpm::cfg::substitute_back ($medium->{url}, $url);
     $distribconf;
 }
 
