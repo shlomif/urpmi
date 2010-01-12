@@ -15,6 +15,8 @@
 # backtracking finds a.i586 as well and tries it again; it still does not
 # work, but urpmi already forgot the promotion and does not remove d
 #
+# This test doesn't work on i586 boxes, just x86_64
+#
 use strict;
 use lib '.', 't';
 use helper;

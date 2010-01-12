@@ -2,6 +2,8 @@
 
 # "a" provides "should-restart = system"
 # "c" provides "should-restart = system"
+# this test fails since the "restart your computer" message was disabled when 
+# urpmi is run with --urpmi-root
 #
 use strict;
 use lib '.', 't';
