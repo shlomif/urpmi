@@ -39,10 +39,10 @@ sub test_conflict_on_upgrade {
 
 sub test_conflict_on_install {
     urpmi('--auto a b');
-    check_installed_and_remove('a'); # WARNING: either a or b is chosen, depending on hdlist order
+    check_installed_and_remove('b', 'b-sub'); # WARNING: either a or b is chosen, depending on hdlist order
 
     urpmi('--auto f g'); # test for bug #52135
-    check_installed_and_remove('g');
+    check_installed_and_remove('f');
 }
 
 sub test_simple {
