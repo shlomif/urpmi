@@ -905,7 +905,7 @@ sub add_distrib_media {
 	    $distribconf = _new_distribconf_and_download($urpm, $m);
 	    $parse_ok = $distribconf && $distribconf->parse_mediacfg($media_cfg);
             if ($parse_ok && !$options{virtual}) {
-	        _register_media_cfg($urpm, urpm::cfg::expand_line ($m->{url}), $options{mirrorlist}, $distribconf, $media_cfg);
+	        _register_media_cfg($urpm, urpm::cfg::expand_line($m->{url}), $options{mirrorlist}, $distribconf, $media_cfg);
             }
 	    $parse_ok;
 	});
