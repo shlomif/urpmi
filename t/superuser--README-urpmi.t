@@ -44,7 +44,7 @@ sub test_urpmi {
     my ($para, @wanted) = @_;
     my $s = run_urpm_cmd("urpmi $para");
     print $s;
-    my @msgs = $s =~ /\nMore information on package[^\n]*\n(.*?)\n-{70}/msg;
+    my @msgs = $s =~ /\nMore information on package[^\n]*\n(.*?)\n\n-{70}/msg;
 
     my $msg = join(" -- ", sort @msgs);
     my $wanted = join(" -- ", sort @wanted);

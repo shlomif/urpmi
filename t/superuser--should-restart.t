@@ -14,9 +14,9 @@ my $medium_name = 'should-restart';
 
 urpmi_addmedia("$medium_name $::pwd/media/$medium_name");
 
-test_urpmi('a', 'You should restart system for a');
+test_urpmi('a', 'You should restart your computer for a');
 test_urpmi('b', '');
-test_urpmi('c', 'You should restart system for a, c');
+test_urpmi('c', 'You should restart your computer for a, c');
 
 sub test_urpmi {
     my ($para, $wanted) = @_;
