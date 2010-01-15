@@ -170,7 +170,7 @@ sub _read_config__read_media_info {
 	my $media_cfg = $media_dir . '/media.cfg';
 	my $distribconf = MDV::Distribconf->new($media_cfg, undef) or next;
 	$distribconf->settree('mandriva');
-	$distribconf->parse_mediacfg($media_cfg);
+	$distribconf->parse_mediacfg($media_cfg) or next;
     
 	if (open(my $URLS, '<', $media_dir . '/url')) {
 	    local $_;
