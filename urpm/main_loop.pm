@@ -60,7 +60,9 @@ urpm::cdrom::copy_packages_of_removable_media($urpm,
     $callbacks->{copy_removable});
 $callbacks->{post_removable} and $callbacks->{post_removable}->();
 
-sub download_packages {
+# use a anonymous subroutine, as it force perl to rebind external variables, like
+# $callbacks and $urpm, as showed by warnings.pm. Fix #54842
+my $download_packages = sub {
     my ($blists, $sources) = @_;
     my @error_sources;
     urpm::get_pkgs::download_packages_of_distant_media($urpm,
@@ -96,7 +98,7 @@ sub download_packages {
     }
     
     (\@error_sources, \@msgs);
-}
+};
 
 if (exists $urpm->{options}{'download-all'}) {
     if ($urpm->{options}{'download-all'}) {
@@ -118,7 +120,7 @@ if (exists $urpm->{options}{'download-all'}) {
     foreach my $blist (@$blists) {
 	foreach my $pkg (keys %{$blist->{pkgs}}) {
 	    my $blist_one = [{ pkgs => { $pkg => $blist->{pkgs}{$pkg} }, medium => $blist->{medium} }];
-	    my ($error_sources) = download_packages($blist_one, \%sources);
+	    my ($error_sources) = &$download_packages($blist_one, \%sources);
 	    if (@$error_sources) {
 		return 10;
 	    }
@@ -159,7 +161,7 @@ foreach my $set (@{$state->{transaction} || []}) {
       urpm::install::prepare_transaction($urpm, $set, $blists, \%sources);
 
     #- first, filter out what is really needed to download for this small transaction.
-    my ($error_sources, $msgs) = download_packages($transaction_blists, $transaction_sources);
+    my ($error_sources, $msgs) = &$download_packages($transaction_blists, $transaction_sources);
     if (@$error_sources) {
 	$nok++;
 	my $go_on;
