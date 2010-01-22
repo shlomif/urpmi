@@ -1,7 +1,6 @@
 package urpm::md5sum; # $Id$
 
 use strict;
-use urpm;
 use urpm::util;
 use urpm::msg;
 
