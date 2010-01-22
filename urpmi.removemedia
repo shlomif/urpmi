@@ -64,7 +64,6 @@ urpm::media::read_config($urpm, 'nocheck');
 urpm::download::set_cmdline_proxy();
 my @entries = map { $_->{name} } @{$urpm->{media}};
 
-my @toremove;
 if ($options{all}) {
     if (@cmdline) {
 	usage('');
