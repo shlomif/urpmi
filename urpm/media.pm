@@ -8,6 +8,7 @@ use urpm::msg;
 use urpm::util;
 use urpm::removable;
 use urpm::lock;
+use urpm::md5sum;
 use MDV::Distribconf;
 
 
