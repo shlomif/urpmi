@@ -7,6 +7,7 @@ use warnings;
 use urpm;
 use urpm::util;
 use urpm::msg 'N';
+use urpm::media;
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
