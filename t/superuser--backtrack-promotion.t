@@ -15,8 +15,6 @@
 # backtracking finds a.i586 as well and tries it again; it still does not
 # work, but urpmi already forgot the promotion and does not remove d
 #
-# This test doesn't work on i586 boxes, just x86_64
-#
 use strict;
 use lib '.', 't';
 use helper;
@@ -30,6 +28,6 @@ urpmi_addmedia("$name $::pwd/media/$name");
 
 urpmi("--auto --ignorearch a-1-1.x86_64 d");
 check_installed_fullnames("a-1-1", "d-1-1");
-urpmi("--auto --ignorearch c");
+urpmi("--auto --ignorearch --strict-arch c");
 check_installed_fullnames("c-1-1");
 
