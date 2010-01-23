@@ -39,10 +39,20 @@ sub test_conflict_on_upgrade {
 
 sub test_conflict_on_install {
     urpmi('--auto a b');
-    check_installed_and_remove('b', 'b-sub'); # WARNING: either a or b is chosen, depending on hdlist order
+    # either a or b is chosen, depending on hdlist order; both are valid
+    if (system("rpm -q --quiet --root $::pwd/root a") == 0) {
+	check_installed_and_remove('a');
+    } else {
+	check_installed_and_remove('b', 'b-sub');
+    }
 
     urpmi('--auto f g'); # test for bug #52135
-    check_installed_and_remove('f');
+    # either f or g is chosen, depending on hdlist order; both are valid
+    if (system("rpm -q --quiet --root $::pwd/root f") == 0) {
+	check_installed_and_remove('f');
+    } else {
+	check_installed_and_remove('g');
+    }
 }
 
 sub test_simple {
