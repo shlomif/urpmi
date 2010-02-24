@@ -998,10 +998,10 @@ sub _new_distribconf_and_download {
 
     $urpm->{log}(N("retrieving media.cfg file..."));
     my $url = $medium->{url};
-    $medium->{url} = urpm::cfg::expand_line ($url);
+    $medium->{url} = urpm::cfg::expand_line($url);
     urpm::download::sync_rel_one($urpm, $medium, $distribconf->getpath(undef, 'infodir') . '/media.cfg',
 				 quiet => 1, preclean => 1) or return;
-    $medium->{url} = urpm::cfg::substitute_back ($medium->{url}, $url);
+    $medium->{url} = urpm::cfg::substitute_back($medium->{url}, $url);
     $distribconf;
 }
 
@@ -1831,7 +1831,7 @@ sub update_those_media {
 	my $unsubstituted_url = $medium->{url};
 	$medium->{url} = urpm::cfg::expand_line($medium->{url}) if $medium->{url};
 	my $rc = _update_medium($urpm, $medium, %options);
-	$medium->{url} = urpm::cfg::substitute_back ($medium->{url}, $unsubstituted_url);
+	$medium->{url} = urpm::cfg::substitute_back($medium->{url}, $unsubstituted_url);
 	$rc or return if !$options{allow_failures};
 	$updates_result{$rc || 'error'}++;
     }
