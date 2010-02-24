@@ -929,8 +929,19 @@ sub add_distrib_media {
     #- and create all necessary media according to it.
     my $medium_index = $options{initial_number} || 1;
 
+    require urpm::mirrors;
+    my $product_id = urpm::mirrors::parse_LDAP_namespace_structure(cat_('/etc/product.id'));
+
     foreach my $media ($distribconf->listmedia) {
         my $media_name = $distribconf->getvalue($media, 'name') || '';
+
+        my @media_types = split(':', $distribconf->getvalue($media, 'media_type'));
+        if ($product_id->{product} eq 'Free') {
+            if (member('non-free', @media_types)) {
+                $urpm->{log}(N("skipping non-free medium `%s'", $media));
+                next;
+            }
+        }
 
         if (my $media_arch = $distribconf->getvalue($media, 'arch')) {
             if (!URPM::archscore($media_arch)) {
