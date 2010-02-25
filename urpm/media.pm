@@ -935,14 +935,6 @@ sub add_distrib_media {
     foreach my $media ($distribconf->listmedia) {
         my $media_name = $distribconf->getvalue($media, 'name') || '';
 
-        my @media_types = split(':', $distribconf->getvalue($media, 'media_type'));
-        if ($product_id->{product} eq 'Free') {
-            if (member('non-free', @media_types)) {
-                $urpm->{log}(N("skipping non-free medium `%s'", $media));
-                next;
-            }
-        }
-
         if (my $media_arch = $distribconf->getvalue($media, 'arch')) {
             if (!URPM::archscore($media_arch)) {
                 $urpm->{log}(N("skipping non compatible media `%s' (for %s)",
@@ -957,6 +949,13 @@ sub add_distrib_media {
 	}
 
         my $add_by_default = !$distribconf->getvalue($media, 'noauto');
+        my @media_types = split(':', $distribconf->getvalue($media, 'media_type'));
+        if ($product_id->{product} eq 'Free') {
+            if (member('non-free', @media_types)) {
+                $urpm->{log}(N("ignoring non-free medium `%s'", $media));
+                $add_by_default = 0;
+            }
+        }
 	my $ignore;
         if ($options{ask_media}) {
             $options{ask_media}->($media_name, $add_by_default) or next;
