@@ -53,8 +53,8 @@ _urpmi()
 	local cur prev options
 
 	COMPREPLY=()
-	cur=${COMP_WORDS[COMP_CWORD]}
-	prev=${COMP_WORDS[COMP_CWORD-1]}
+	cur=`_get_cword`
+	prev=`_get_pword`
 
 	case "$prev" in
 		--media)
