@@ -324,14 +324,14 @@ if ($needed_media_info{hdlist}) {
 	$urpm->{log}("getting information from $xml_info_file");
 	if ($only_simple_files_search) {
 	    # special version for speed (3x faster), hopefully fully compatible
-	    my $code = sprintf(<<'EOF', $expr);
+	    my $code = sprintf(<<'EOF', $expr, $expr);
 	    my $F = urpm::xml_info::open_lzma($xml_info_file);
 	    my $fn;    
 	    local $_;
 	    while (<$F>) {
 		if (m!^<!) { 
 		    ($fn) = /fn="(.*)"/;
-		} elsif (%s) {
+		} elsif (%s || ($fn =~ %s)) {
                     $fn or $urpm->{fatal}(1, "fast algorithm is broken, please report a bug");
                     my $pkg = urpm::xml_info_pkg->new({ fn => $fn });
 		    print $pkg->name, ':', $_;		    
