@@ -645,6 +645,14 @@ sub configure {
 	       $_->{searchmedia} = 1;
 	   }
 	}
+	if ($options{update}) {
+	    foreach (grep { !$_->{ignore} && ($_->{update}) } @{$urpm->{media} || []}) {
+	       #- Ensure update media are selected
+	       $_->{modified} = 1;
+	       _tempignore($_, 0);
+	       $_->{searchmedia} = 1;
+	   }
+	}
 	if ($options{excludemedia}) {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	    foreach (select_media_by_name($urpm, [ split /,/, $options{excludemedia} ])) {
@@ -660,7 +668,7 @@ sub configure {
 	}
 	_auto_update_media($urpm, %options);
 
-	_pick_mirror_if_needed($urpm, $_, '') foreach non_ignored_media($urpm, $options{update});
+	_pick_mirror_if_needed($urpm, $_, '') foreach non_ignored_media($urpm);
 
 	parse_media($urpm, \%options) if !$options{nodepslist};
 
@@ -679,7 +687,7 @@ sub _auto_update_media {
     $options{callback} = delete $options{download_callback};
 
     foreach (grep { _is_remote_virtual($_) || $urpm->{options}{'auto-update'} } 
-	       non_ignored_media($urpm, $options{update})) {
+	       non_ignored_media($urpm)) {
 	_update_medium($urpm, $_, %options);
     }
 }
@@ -702,7 +710,7 @@ sub all_media_to_update {
 sub parse_media {
     my ($urpm, $options) = @_;
 
-    foreach (non_ignored_media($urpm, $options->{update})) {
+    foreach (non_ignored_media($urpm)) {
 	delete @$_{qw(start end)};
 	_parse_synthesis_or_ignore($urpm, $_, $options->{callback});
 
