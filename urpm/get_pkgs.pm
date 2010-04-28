@@ -203,7 +203,12 @@ sub download_packages_of_distant_media {
 	#- examine all files to know what can be indexed on multiple media.
 	while (my ($id, $pkg) = each %{$blist->{pkgs}}) {
 	    #- the given URL is trusted, so the file can safely be ignored.
-	    defined $sources->{$id} and next;
+            if (defined $sources->{$id}) {
+		$new_sources{$id} = [ $pkg->id, $sources->{$id} ];
+                delete $sources->{$id};
+                next;
+            }
+
 	    exists $new_sources{$id} and next;
 	    if (urpm::is_local_medium($blist->{medium})) {
 		my $local_file = file_from_local_url(urpm::blist_pkg_to_url($blist, $pkg));
