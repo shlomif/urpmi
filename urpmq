@@ -131,7 +131,7 @@ my $urpm = urpm->new_parse_cmdline or exit(1);
 $urpm->{info} = sub { print STDERR "$_[0]\n" };
 $urpm->{log} = sub { print STDERR "$_[0]\n" } if $options{verbose} > 0;
 
-my $only_list_name = $options{list} && !($options{version} || $options{release} || $options{arch});
+my $only_list_name = $options{list} && !($options{version} || $options{release} || $options{arch}) || $options{group};
 
 #- improve speed if using any list_... options.
 $options{nodepslist} = $options{list_aliases}
