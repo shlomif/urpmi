@@ -755,10 +755,61 @@ sub _compute_flags_for_instlist {
 
 }
 
+sub maybe_find_zeroconf {
+    my ($urpm, $url, $options) = @_;
+    if (delete $options->{zeroconf}) {
+        $url and die "unexpected url $url together with zeroconf\n";
+        $url = find_zeroconf_repository($urpm);
+        if ($url) {
+            $url = urpm::mirrors::_add__with_dir($url, delete $options->{"with-dir"});
+            delete $options->{mirrorlist};
+        }
+    }
+    return $url;
+}
+
+sub find_zeroconf_repository {
+    my ($urpm) = @_;
+
+    my $zeroconf_timeout = 10;
+    my $res;
+    eval {
+        local $SIG{ALRM} = sub { die "timeout" };
+        alarm($zeroconf_timeout);
+
+        $urpm->{debug} and $urpm->{debug}("trying to find a zeroconf repository");
+        require Net::Bonjour;
+        $res = Net::Bonjour->new('mdv_urpmi');
+
+        alarm(0);
+    };
+
+    if ($@) {
+        $urpm->{error}("zeroconf error: $@"), return;
+    }
+
+    require urpm::mirrors;
+    my $product_id = urpm::mirrors::parse_LDAP_namespace_structure(cat_('/etc/product.id'));
+    my $path_suffix = join('/', lc($product_id->{branch}), $product_id->{version}, $product_id->{arch});
+
+    foreach my $entry ($res->entries) {
+        my $base_url = $entry->attribute('protocol') . '://' .$entry->address . ':' . $entry->port . $entry->attribute('path');
+        my $url = $base_url . '/' . $path_suffix;
+        my $distribconf = _new_distribconf_and_download($urpm, { url => $url });
+        if ($distribconf) {
+            $urpm->{log}(sprintf("found zeroconf repository: %s", $url));
+            return $url;
+        };
+    }
+
+    $urpm->{debug} and $urpm->{debug}("unable to find zeroconf repository");
+    return;
+}
+
 #- add a new medium, sync the config file accordingly.
 #- returns the new medium's name. (might be different from the requested
 #- name if index_name was specified)
-#- options: ignore, index_name, nolock, update, virtual, media_info_dir, mirrorlist, with-dir, xml-info, on_the_fly
+#- options: ignore, index_name, nolock, update, virtual, media_info_dir, mirrorlist, zeroconf, with-dir, xml-info, on_the_fly
 sub add_medium {
     my ($urpm, $name, $url, $with_synthesis, %options) = @_;
 
@@ -776,6 +827,8 @@ sub add_medium {
     } else {
 	name2medium($urpm, $name) and $urpm->{fatal}(5, N("medium \"%s\" already exists", $name));
     }
+
+    $url = maybe_find_zeroconf($urpm, $url, \%options);
 
     $url =~ s,/*$,,; #- clear URLs for trailing /es.
 
@@ -878,6 +931,7 @@ sub _register_media_cfg {
 #- - ask_media : callback to know whether each media should be added
 #- - only_updates : only add "update" media (used by rpmdrake)
 #- - mirrorlist
+#- - zeroconf
 #- other options are passed to add_medium(): ignore, nolock, virtual
 sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
@@ -903,6 +957,7 @@ sub add_distrib_media {
             _register_media_cfg($urpm, $dir, undef, $distribconf, $media_cfg);
         }
     } else {
+	$url = maybe_find_zeroconf($urpm, $url, \%options);
 	if ($options{mirrorlist}) {
 	    $url and die "unexpected url $url together with mirrorlist $options{mirrorlist}\n";
 	}

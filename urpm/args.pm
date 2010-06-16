@@ -344,6 +344,7 @@ my %options_spec = (
 	'no-probe' => sub { $options{probe_with} = undef },
 	distrib => sub { $options{distrib} = 1 },
 	'mirrorlist:s' => sub { $options{mirrorlist} = $_[1] || '$MIRRORLIST' },
+	zeroconf => sub { $options{zeroconf} = 1 },
         interactive => sub { $options{interactive} = 1 },
         'all-media' => sub { $options{allmedia} = 1 },
 	virtual => \$options{virtual},

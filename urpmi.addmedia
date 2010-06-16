@@ -48,6 +48,7 @@ examples:
 
   urpmi.addmedia --distrib --mirrorlist '\$MIRRORLIST'
   urpmi.addmedia --mirrorlist '\$MIRRORLIST' backports media/main/backports
+  urpmi.addmedia --distrib --zeroconf
 
 
 and [options] are from
@@ -101,7 +102,7 @@ my $with_dir;
 $options{quiet} = 1 if $options{verbose} < 0;
 
 $url or ($url, $name) = ($name, '');
-if ($options{mirrorlist}) {
+if ($options{mirrorlist} || $options{zeroconf}) {
     if ($options{distrib}) {
 	$url and die N("no argument needed for --distrib --mirrorlist <url>") . "\n";
     } else {
@@ -144,6 +145,7 @@ if ($options{distrib}) {
 	$name,
 	$url,
         mirrorlist => $options{mirrorlist},
+        zeroconf => $options{zeroconf},
 	virtual => $options{virtual},
 	only_updates => $options{update},
 	probe_with => $options{probe_with},
@@ -167,6 +169,7 @@ if ($options{distrib}) {
     urpm::media::add_medium($urpm,
 	$name, $url, $relative_synthesis,
         mirrorlist => $options{mirrorlist},
+        zeroconf => $options{zeroconf},
 	'with-dir' => $with_dir,
 	virtual => $options{virtual},
 	update => $options{update},
