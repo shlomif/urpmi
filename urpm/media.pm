@@ -1665,7 +1665,7 @@ sub _update_medium__parse_if_unmodified__remote {
 		}
 		return;
 	    }
-	    if ($options->{force} < 2 && _is_statedir_MD5SUM_uptodate($urpm, $medium, $new_MD5SUM)) {
+	    if (($options->{force} || 0) < 2 && _is_statedir_MD5SUM_uptodate($urpm, $medium, $new_MD5SUM)) {
 		_medium_is_up_to_date($urpm, $medium);
 		return 'unmodified';
 	    }
