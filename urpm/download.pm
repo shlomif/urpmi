@@ -837,7 +837,7 @@ sub requested_ftp_http_downloader {
 
     $urpm->{options}{downloader} || #- cmd-line switch
       $medium && $medium->{downloader} || 
-	$urpm->{global_config}{downloader};
+	$urpm->{global_config}{downloader} || "";
 }
 
 sub parse_url_with_login {
