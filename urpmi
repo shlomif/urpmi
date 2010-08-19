@@ -510,6 +510,7 @@ that are older than the installed ones:\n%s", $list);
 	print "$msg\n";
     } else {
 	my $noexpr = N("Nn");
+	dudf_invoke($dudf, "dudf_exit", 17, $msg);
 	$msg .= N("\nContinue installation anyway?");
 	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
     }
@@ -525,6 +526,7 @@ if (@ask_unselect) {
 	print "$msg\n";
     } else {
 	my $noexpr = N("Nn");
+	dudf_invoke($dudf, "dudf_exit", 17, $msg);
 	$msg .= N("\nContinue installation anyway?");
 	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
     }
