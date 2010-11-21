@@ -351,6 +351,17 @@ my %options_spec = (
 	nopubkey => \$options{nopubkey},
 	raw => \$options{raw},
     },
+
+    'urpmi.recover' => {
+	'list=s' => \$::listdate,
+	'list-all' => sub { $::listdate = -1 },
+	'list-safe' => sub { $::listdate = 'checkpoint' },
+	checkpoint => \$::do_checkpoint,
+	'rollback=s' => \$::rollback,
+	noclean => \$::noclean,
+	disable => \$::disable,
+    },
+
 );
 
 eval

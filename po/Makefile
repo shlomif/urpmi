@@ -7,7 +7,7 @@ PGOAL = urpmi
 # perl files to search translatable strings in
 PL_FILES = ../rpm-find-leaves ../urpm.pm ../urpme ../urpmf \
 	../urpmi ../urpmi.addmedia ../gurpmi ../gurpmi2 ../gurpmi.pm \
-	../urpmi.removemedia ../urpmi.update ../urpmq \
+	../urpmi.removemedia ../urpmi.update ../urpmq ../urpmi.recover \
 	../urpm/*.pm ../rurpmi
 
 POFILES = $(shell ls *.po)

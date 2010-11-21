@@ -16,7 +16,7 @@ my $with_po  = 0; $with_po  = 1 if grep $_ eq '--install-po', @ARGV;
 my $with_gui = 0; $with_gui = 1 if grep $_ eq '--install-gui', @ARGV;
 
 # All scripts, some of them go in /usr/sbin (see DESTINSTALLSBIN below)
-our @bin_scripts = qw(urpmq urpmf rpm-find-leaves);
+our @bin_scripts = qw(urpmq urpmf rpm-find-leaves urpmi.recover);
 our @sbin_scripts = qw(urpmi urpme urpmi.addmedia urpmi.update urpmi.removemedia rurpmi rurpme);
 if ($with_gui) {
     push @bin_scripts, qw(gurpmi);
