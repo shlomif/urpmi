@@ -3,7 +3,7 @@ package urpm::main_loop;
 # $Id$
 
 #- Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005 MandrakeSoft SA
-#- Copyright (C) 2005-2009 Mandriva SA
+#- Copyright (C) 2005-2010 Mandriva SA
 #-
 #- This program is free software; you can redistribute it and/or modify
 #- it under the terms of the GNU General Public License as published by

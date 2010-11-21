@@ -1066,6 +1066,6 @@ urpm::download - download routines for the urpm* tools
 
 Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 MandrakeSoft SA
 
-Copyright (C) 2005-2009 Mandriva SA
+Copyright (C) 2005-2010 Mandriva SA
 
 =cut

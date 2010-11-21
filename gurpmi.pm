@@ -1,7 +1,7 @@
 package gurpmi;
 
 #- Copyright (C) 2005 MandrakeSoft SA
-#- Copyright (C) 2005, 2006 Mandriva SA
+#- Copyright (C) 2005-2010 Mandriva SA
 #- $Id$
 
 #- This is needed because text printed by Gtk2 will always be encoded
@@ -37,7 +37,7 @@ urpm::select::add_packages_to_priority_upgrade_list('gurpmi');
 
 sub usage () {
     print N("urpmi version %s
-Copyright (C) 1999-2008 Mandriva.
+Copyright (C) 1999-2010 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:

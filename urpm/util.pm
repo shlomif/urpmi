@@ -204,6 +204,6 @@ urpm::util - Misc. utilities subs for urpmi
 
 Copyright (C) 2005 MandrakeSoft SA
 
-Copyright (C) 2005-2009 Mandriva SA
+Copyright (C) 2005-2010 Mandriva SA
 
 =cut
