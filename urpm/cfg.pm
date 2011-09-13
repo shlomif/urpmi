@@ -1,13 +1,13 @@
 package urpm::cfg;
 
-# $Id$
+# $Id: cfg.pm 271299 2010-11-21 15:54:30Z peroyvind $
 
 use strict;
 use warnings;
 use urpm::util;
 use urpm::msg 'N';
 
-(our $VERSION) = q($Revision$) =~ /(\d+)/;
+(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
 
 =head1 NAME
 

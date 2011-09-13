@@ -1,6 +1,6 @@
 package urpm::parallel_ssh;
 
-# $Id$
+# $Id: parallel_ssh.pm 271299 2010-11-21 15:54:30Z peroyvind $
 
 #- Copyright (C) 2002, 2003, 2004, 2005 MandrakeSoft SA
 #- Copyright (C) 2005-2010 Mandriva SA
@@ -12,7 +12,7 @@ use urpm::parallel;
 
 our @ISA = 'urpm::parallel';
 
-(our $VERSION) = q($Revision$) =~ /(\d+)/;
+(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
 
 sub _localhost { $_[0] eq 'localhost' }
 sub _ssh       { &_localhost ? '' : "ssh $_[0] " }

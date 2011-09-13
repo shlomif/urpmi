@@ -1,6 +1,6 @@
 package urpm::msg;
 
-# $Id$
+# $Id: msg.pm 271299 2010-11-21 15:54:30Z peroyvind $
 
 use strict;
 no warnings;
@@ -13,7 +13,7 @@ BEGIN {
     eval "use open ':locale'" if $encoding && $encoding ne 'ANSI_X3.4-1968';
 }
 
-(our $VERSION) = q($Revision$) =~ /(\d+)/;
+(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
 
 our @ISA = 'Exporter';
 our @EXPORT = qw(N N_ P translate bug_log message_input message_input_ toMb formatXiB sys_log);

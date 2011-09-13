@@ -1,6 +1,6 @@
 package urpm::removable;
 
-# $Id$
+# $Id: removable.pm 250871 2009-01-06 17:21:05Z pixel $
 
 use strict;
 use urpm::msg;

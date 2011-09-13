@@ -304,7 +304,7 @@ sub _mandriva_mirrorlist {
     my @para = grep { $_ } $ENV{URPMI_ADDMEDIA_REASON};
     my $product_version = $ENV{URPMI_ADDMEDIA_PRODUCT_VERSION} || $product_id->{version};
 
-    "https://api.mandriva.com/mirrors/$product_type.$product_version.$arch.list"
+    "http://mirrors.mageia.org/api/$product_type.$product_version.$arch.list"
       . (@para ? '?' . join('&', @para) : '');
 }
 

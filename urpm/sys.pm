@@ -1,6 +1,6 @@
 package urpm::sys;
 
-# $Id$
+# $Id: sys.pm 271299 2010-11-21 15:54:30Z peroyvind $
 
 use strict;
 use warnings;
@@ -8,7 +8,7 @@ use urpm::util;
 use urpm::msg;
 use POSIX ();
 
-(our $VERSION) = q($Revision$) =~ /(\d+)/;
+(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
 
 
 #- get the list of packages that should not be upgraded or installed,

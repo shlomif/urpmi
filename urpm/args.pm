@@ -1,6 +1,6 @@
 package urpm::args;
 
-# $Id$
+# $Id: args.pm 271299 2010-11-21 15:54:30Z peroyvind $
 
 use strict;
 use warnings;
@@ -14,7 +14,7 @@ use Exporter;
 our @ISA = 'Exporter';
 our @EXPORT = '%options';
 
-(our $VERSION) = q($Revision$) =~ /(\d+)/;
+(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
 
 # The program that invokes us
 (my $tool = $0) =~ s!.*/!!;

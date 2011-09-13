@@ -1,6 +1,6 @@
 package urpm::signature;
 
-# $Id$
+# $Id: signature.pm 253617 2009-03-05 11:18:45Z tv $
 
 use strict;
 use urpm::msg;

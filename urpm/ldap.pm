@@ -1,6 +1,6 @@
 package urpm::ldap;
 
-# $Id$
+# $Id: ldap.pm 271299 2010-11-21 15:54:30Z peroyvind $
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ use urpm::util;
 use urpm::msg 'N';
 use urpm::media;
 
-(our $VERSION) = q($Revision$) =~ /(\d+)/;
+(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
 
 our $LDAP_CONFIG_FILE = '/etc/ldap.conf';
 my @per_media_opt = (@urpm::media::PER_MEDIA_OPT, qw(md5sum ftp-proxy http-proxy));

@@ -1,6 +1,6 @@
 package urpm::util;
 
-# $Id$
+# $Id: util.pm 271299 2010-11-21 15:54:30Z peroyvind $
 
 use strict;
 use Exporter;
@@ -20,7 +20,7 @@ our @EXPORT = qw(min max quotespace unquotespace
     file2absolute_file
 );
 
-(our $VERSION) = q($Revision$) =~ /(\d+)/;
+(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
 
 sub min  { my $n = shift; $_ < $n and $n = $_ foreach @_; $n }
 sub max  { my $n = shift; $_ > $n and $n = $_ foreach @_; $n }

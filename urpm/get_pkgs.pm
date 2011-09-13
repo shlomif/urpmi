@@ -1,6 +1,6 @@
 package urpm::get_pkgs;
 
-# $Id$
+# $Id: get_pkgs.pm 267986 2010-04-28 10:10:27Z cfergeau $
 
 use strict;
 use urpm::msg;

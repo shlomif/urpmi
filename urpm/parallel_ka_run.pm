@@ -1,6 +1,6 @@
 package urpm::parallel_ka_run;
 
-# $Id$
+# $Id: parallel_ka_run.pm 271299 2010-11-21 15:54:30Z peroyvind $
 
 #- Copyright (C) 2002, 2003, 2004, 2005 MandrakeSoft SA
 #- Copyright (C) 2005-2010 Mandriva SA
@@ -12,7 +12,7 @@ use urpm::parallel;
 
 our @ISA = 'urpm::parallel';
 
-(our $VERSION) = q($Revision$) =~ /(\d+)/;
+(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
 our $mput_command = $ENV{URPMI_MPUT_COMMAND};
 our $rshp_command = $ENV{URPMI_RSHP_COMMAND};
 
@@ -82,7 +82,7 @@ sub _run_mput {
 
 sub _parse_rshp_output {
     my ($s) = @_;
-    #- eg of output of rshp2: <tata2.mandriva.com> [rank:2]:@removing@mpich-1.2.5.2-10mlcs4.x86_64
+    #- eg of output of rshp2: <tata2.mageia.org> [rank:2]:@removing@mpich-1.2.5.2-10mlcs4.x86_64
 
     if ($s =~ /<([^>]*)>.*:->:(.*)/ || $s =~ /<([^>]*)>\s*\[[^]]*\]:(.*)/) {
 	($1, $2);

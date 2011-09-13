@@ -1,6 +1,6 @@
 package urpm::lock;
 
-# $Id$
+# $Id: lock.pm 261997 2009-10-15 17:44:35Z cfergeau $
 
 use strict;
 use urpm::msg;

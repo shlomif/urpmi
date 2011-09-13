@@ -1,6 +1,6 @@
 package urpm::media;
 
-# $Id$
+# $Id: media.pm 270394 2010-07-30 00:48:07Z misc $
 
 use strict;
 use urpm 'file_from_local_medium', 'is_local_medium';
