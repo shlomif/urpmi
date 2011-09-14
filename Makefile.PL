@@ -165,5 +165,5 @@ WriteMakefile(
 	    ( $_ => "\$(INST_MAN${section}DIR)/$targ.$section" );
 	} <pod/*.pod>, $with_po ? <pod/*/*.pod> : ()
     },
-    dist		=> { COMPRESS => "bzip2", SUFFIX => ".bz2" },
+    dist		=> { COMPRESS => "xz -f", SUFFIX => ".xz" },
 );
