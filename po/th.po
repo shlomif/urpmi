@@ -9,10 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-21 14:43+0200\n"
+"POT-Creation-Date: 2011-09-17 21:04+0200\n"
 "PO-Revision-Date: 2002-11-25 13:52-0500\n"
 "Last-Translator: Wachara Chinsettawong <wachara@yahoo.com>\n"
 "Language-Team: Thai <th@li.org>\n"
+"Language: th\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -110,8 +111,8 @@ msgstr ""
 msgid "Options:"
 msgstr ""
 
-#: ../gurpmi.pm:46 ../urpme:46 ../urpmf:35 ../urpmi:81 ../urpmi.addmedia:54
-#: ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:45
+#: ../gurpmi.pm:46 ../urpme:46 ../urpmf:35 ../urpmi:81 ../urpmi.addmedia:55
+#: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:45
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - พิมพ์ข้อความช่วย\n"
@@ -220,7 +221,7 @@ msgstr "ไม่สามารถ install บางเพกเกจได้
 msgid "Warning"
 msgstr "คำเตือน"
 
-#: ../gurpmi2:146 ../urpmi:649
+#: ../gurpmi2:146 ../urpmi:651
 #, c-format
 msgid "Ok"
 msgstr "ตกลง"
@@ -258,13 +259,13 @@ msgid ""
 "Continue installation anyway?"
 msgstr "แพ็คเก็จเหล่านี้กำลังจะถูกลบ"
 
-#: ../gurpmi2:267 ../urpmi:614
+#: ../gurpmi2:267 ../urpmi:616
 #, fuzzy, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed:"
 msgstr "เพื่อความถูกต้องของการเป็นอิสระระหว่างโปรแกรมแพ็คเกจบางตัวจะถูกลบทิ้ง(%d MB)"
 
-#: ../gurpmi2:268 ../urpmi:615
+#: ../gurpmi2:268 ../urpmi:617
 #, fuzzy, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed:"
@@ -293,7 +294,7 @@ msgstr ""
 "กำลังติดตั้งแพ็คเก็จ %s\n"
 "%d%%"
 
-#: ../gurpmi2:334 ../urpmi:644
+#: ../gurpmi2:334 ../urpmi:646
 #, fuzzy, c-format
 msgid "Please insert the medium named \"%s\""
 msgstr "กรุณาใส่อุปกรณ์ที่มีชื่อ \"%s\" ใน [%s]"
@@ -303,9 +304,9 @@ msgstr "กรุณาใส่อุปกรณ์ที่มีชื่อ
 msgid "Downloading package `%s'..."
 msgstr "กำลังติดตั้งแพ็คเก็จ %s"
 
-#: ../gurpmi2:360 ../urpm.pm:335 ../urpm/download.pm:822
-#: ../urpm/get_pkgs.pm:257 ../urpm/media.pm:913 ../urpm/media.pm:1413
-#: ../urpm/media.pm:1564
+#: ../gurpmi2:360 ../urpm.pm:335 ../urpm/download.pm:830
+#: ../urpm/get_pkgs.pm:262 ../urpm/media.pm:981 ../urpm/media.pm:1493
+#: ../urpm/media.pm:1644
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "การอ่านข้อมูลล้มเหลว: %s"
@@ -325,7 +326,7 @@ msgstr ""
 "การติดตั้งล้มเหลวมีบางไฟล์ที่ขาดหายไป\n"
 "ขอแนะนำให้ทำการอัพเดตฐานข้อมูล urpmi"
 
-#: ../gurpmi2:399 ../urpm/main_loop.pm:289 ../urpm/main_loop.pm:332
+#: ../gurpmi2:399 ../urpm/main_loop.pm:291 ../urpm/main_loop.pm:334
 #, fuzzy, c-format
 msgid "Installation failed:"
 msgstr "การติดตั้งไม่สำเร็จ"
@@ -345,7 +346,7 @@ msgstr "install เสร็จเรียบร้อย"
 msgid "removing %s"
 msgstr "กำลังติดตั้ง %s"
 
-#: ../gurpmi2:415 ../urpmi:715
+#: ../gurpmi2:415 ../urpmi:717
 #, fuzzy, c-format
 msgid "restarting urpmi"
 msgstr "กำลังติดตั้ง $rpm\n"
@@ -432,7 +433,7 @@ msgstr "ชื่อ rpm fileไม่ถูกต้อง [%s]"
 msgid "retrieving rpm file [%s] ..."
 msgstr "กำลังอ่านข้อมูลจากไฟล์ hdlists"
 
-#: ../urpm.pm:332 ../urpm/get_pkgs.pm:255
+#: ../urpm.pm:332 ../urpm/get_pkgs.pm:260
 #, c-format
 msgid "...retrieving done"
 msgstr "การอ่านข้อมูลเรียบร้อย"
@@ -477,47 +478,47 @@ msgstr "การแจ้งพร็อกซี่ที่ไม่ดี\n"
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq:ไม่สามารถอ่าน rpm file \"%s\"\n"
 
-#: ../urpm/args.pm:377
+#: ../urpm/args.pm:389
 #, c-format
 msgid "unexpected expression %s"
 msgstr ""
 
-#: ../urpm/args.pm:378
+#: ../urpm/args.pm:390
 #, fuzzy, c-format
 msgid "missing expression before %s"
 msgstr "ข้อมูลบางตัวยังไม่ได้ใส่ลงไป"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:396
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr ""
 
-#: ../urpm/args.pm:388
+#: ../urpm/args.pm:400
 #, c-format
 msgid "no expression to close"
 msgstr ""
 
-#: ../urpm/args.pm:397
+#: ../urpm/args.pm:409
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 
-#: ../urpm/args.pm:466
+#: ../urpm/args.pm:478
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr ""
 
-#: ../urpm/args.pm:489
+#: ../urpm/args.pm:501
 #, c-format
 msgid "Can't use %s without %s"
 msgstr ""
 
-#: ../urpm/args.pm:492 ../urpm/args.pm:495 ../urpmq:159
+#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr ""
 
-#: ../urpm/args.pm:503
+#: ../urpm/args.pm:515
 #, c-format
 msgid "Too many arguments\n"
 msgstr ""
@@ -564,7 +565,7 @@ msgstr "ไม่สามารถเขียน config file [%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr ""
 
-#: ../urpm/cfg.pm:251 ../urpm/media.pm:540
+#: ../urpm/cfg.pm:251 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "ไม่สามารถเขียน config file [%s]"
@@ -574,127 +575,127 @@ msgstr "ไม่สามารถเขียน config file [%s]"
 msgid "%s is not available, falling back on %s"
 msgstr ""
 
-#: ../urpm/download.pm:157
+#: ../urpm/download.pm:165
 #, c-format
 msgid "can not read proxy settings (not enough rights to read %s)"
 msgstr ""
 
-#: ../urpm/download.pm:182
+#: ../urpm/download.pm:190
 #, c-format
 msgid "Please enter your credentials for accessing proxy\n"
 msgstr ""
 
-#: ../urpm/download.pm:183
+#: ../urpm/download.pm:191
 #, c-format
 msgid "User name:"
 msgstr ""
 
-#: ../urpm/download.pm:183
+#: ../urpm/download.pm:191
 #, c-format
 msgid "Password:"
 msgstr "รหัสผ่าน:"
 
-#: ../urpm/download.pm:259
+#: ../urpm/download.pm:267
 #, c-format
 msgid "Unknown webfetch `%s' !!!\n"
 msgstr ""
 
-#: ../urpm/download.pm:267
+#: ../urpm/download.pm:275
 #, c-format
 msgid "%s failed: exited with signal %d"
 msgstr ""
 
-#: ../urpm/download.pm:268
+#: ../urpm/download.pm:276
 #, c-format
 msgid "%s failed: exited with %d"
 msgstr ""
 
-#: ../urpm/download.pm:302
+#: ../urpm/download.pm:310
 #, fuzzy, c-format
 msgid "copy failed"
 msgstr "ล็อกอินล้มเหลว"
 
-#: ../urpm/download.pm:308
+#: ../urpm/download.pm:316
 #, fuzzy, c-format
 msgid "wget is missing\n"
 msgstr "ไม่มี kdesu "
 
-#: ../urpm/download.pm:375
+#: ../urpm/download.pm:383
 #, fuzzy, c-format
 msgid "curl is missing\n"
 msgstr "ไม่มี kdesu "
 
-#: ../urpm/download.pm:511
+#: ../urpm/download.pm:519
 #, c-format
 msgid "curl failed: upload canceled\n"
 msgstr ""
 
-#: ../urpm/download.pm:512
+#: ../urpm/download.pm:520
 #, c-format
 msgid "curl failed: download canceled\n"
 msgstr ""
 
-#: ../urpm/download.pm:547
+#: ../urpm/download.pm:555
 #, c-format
 msgid "rsync is missing\n"
 msgstr ""
 
-#: ../urpm/download.pm:615
+#: ../urpm/download.pm:623
 #, c-format
 msgid "ssh is missing\n"
 msgstr ""
 
-#: ../urpm/download.pm:634
+#: ../urpm/download.pm:642
 #, c-format
 msgid "prozilla is missing\n"
 msgstr ""
 
-#: ../urpm/download.pm:650
+#: ../urpm/download.pm:658
 #, c-format
 msgid "Couldn't execute prozilla\n"
 msgstr ""
 
-#: ../urpm/download.pm:660
+#: ../urpm/download.pm:668
 #, fuzzy, c-format
 msgid "aria2 is missing\n"
 msgstr "ไม่มี kdesu "
 
-#: ../urpm/download.pm:704
+#: ../urpm/download.pm:712
 #, c-format
 msgid "Failed to download %s"
 msgstr ""
 
-#: ../urpm/download.pm:799
+#: ../urpm/download.pm:807
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
 msgstr ""
 
-#: ../urpm/download.pm:800
+#: ../urpm/download.pm:808
 #, c-format
 msgid "        %s%% completed, speed = %s"
 msgstr ""
 
-#: ../urpm/download.pm:874
+#: ../urpm/download.pm:882
 #, fuzzy, c-format
 msgid "retrieving %s"
 msgstr "กำลังติดตั้ง %s"
 
-#: ../urpm/download.pm:881
+#: ../urpm/download.pm:889
 #, fuzzy, c-format
 msgid "retrieved %s"
 msgstr "การอ่านข้อมูลล้มเหลว: %s"
 
-#: ../urpm/download.pm:945
+#: ../urpm/download.pm:953
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "ไม่รู้จักโปรโตคอลที่ระบุไว้%s"
 
-#: ../urpm/download.pm:957
+#: ../urpm/download.pm:965
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr ""
 
-#: ../urpm/download.pm:974
+#: ../urpm/download.pm:982
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "ไม่สามารถใช้งานโปรโตคอล: %s"
@@ -705,7 +706,7 @@ msgid ""
 "# Here are logs of your DUDF uploads.\n"
 "# Line format is : <date time of generation> <uid>\n"
 "# You can use uids to see the content of your uploads at this url :\n"
-"# http://dudf.forge.mandriva.com/"
+"# %s"
 msgstr ""
 
 #: ../urpm/dudf.pm:239
@@ -748,8 +749,8 @@ msgid ""
 "\t"
 msgstr ""
 
-#: ../urpm/dudf.pm:360 ../urpm/msg.pm:76 ../urpmi:512 ../urpmi:527
-#: ../urpmi:634
+#: ../urpm/dudf.pm:360 ../urpm/msg.pm:76 ../urpmi:512 ../urpmi:528
+#: ../urpmi:636
 #, c-format
 msgid "Nn"
 msgstr "Nnม"
@@ -768,8 +769,8 @@ msgstr ""
 msgid "Do you want to upload a DUDF report to Mandriva?"
 msgstr ""
 
-#: ../urpm/dudf.pm:363 ../urpmi:514 ../urpmi:529 ../urpmi:635
-#: ../urpmi.addmedia:135
+#: ../urpm/dudf.pm:363 ../urpmi:515 ../urpmi:531 ../urpmi:637
+#: ../urpmi.addmedia:136
 #, c-format
 msgid " (Y/n) "
 msgstr " (Y/n) "
@@ -796,7 +797,7 @@ msgstr "กำลังติดตั้ง %s\n"
 msgid "package %s is not found."
 msgstr "หา %s package ไม่พบ"
 
-#: ../urpm/get_pkgs.pm:248
+#: ../urpm/get_pkgs.pm:253
 #, fuzzy, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
 msgstr "ไม่สามารถอ่าน rpm file [%s] จาก \"%s\""
@@ -857,27 +858,27 @@ msgstr "กำลังติดตั้ง %s\n"
 msgid "More information on package %s"
 msgstr "ข้อมูลเพื่มเติมบนแพกเกจ..."
 
-#: ../urpm/ldap.pm:70
+#: ../urpm/ldap.pm:71
 #, c-format
 msgid "Cannot create ldap cache directory"
 msgstr ""
 
-#: ../urpm/ldap.pm:72
+#: ../urpm/ldap.pm:73
 #, c-format
 msgid "Cannot write cache file for ldap\n"
 msgstr ""
 
-#: ../urpm/ldap.pm:161
+#: ../urpm/ldap.pm:162
 #, c-format
 msgid "No server defined, missing uri or host"
 msgstr ""
 
-#: ../urpm/ldap.pm:162
+#: ../urpm/ldap.pm:163
 #, fuzzy, c-format
 msgid "No base defined"
 msgstr "ไม่มีการกำหนดคำสั่ง"
 
-#: ../urpm/ldap.pm:172 ../urpm/ldap.pm:175
+#: ../urpm/ldap.pm:173 ../urpm/ldap.pm:176
 #, c-format
 msgid "Cannot connect to ldap uri:"
 msgstr ""
@@ -902,33 +903,33 @@ msgstr "ฐานข้อมูล urpmi ถูกล็อก"
 msgid "%s database is locked (another program is already using it)"
 msgstr ""
 
-#: ../urpm/main_loop.pm:77
+#: ../urpm/main_loop.pm:79
 #, c-format
 msgid "Retry?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:87
+#: ../urpm/main_loop.pm:89
 #, fuzzy, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
 "%s"
 msgstr "การติดตั้งไม่สำเร็จ"
 
-#: ../urpm/main_loop.pm:90
+#: ../urpm/main_loop.pm:92
 #, fuzzy, c-format
 msgid "You may need to update your urpmi database."
 msgstr ""
 "การติดตั้งล้มเหลวมีบางไฟล์ที่ขาดหายไป\n"
 "ขอแนะนำให้ทำการอัพเดตฐานข้อมูล urpmi"
 
-#: ../urpm/main_loop.pm:93
+#: ../urpm/main_loop.pm:95
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
 msgstr "การติดตั้งไม่สำเร็จ"
 
-#: ../urpm/main_loop.pm:111
+#: ../urpm/main_loop.pm:113
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -936,335 +937,340 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:170 ../urpm/main_loop.pm:210 ../urpm/main_loop.pm:291
-#: ../urpm/main_loop.pm:298
+#: ../urpm/main_loop.pm:172 ../urpm/main_loop.pm:212 ../urpm/main_loop.pm:293
+#: ../urpm/main_loop.pm:300
 #, c-format
 msgid "Installation failed"
 msgstr "การติดตั้งไม่สำเร็จ"
 
-#: ../urpm/main_loop.pm:171
+#: ../urpm/main_loop.pm:173
 #, c-format
 msgid "Try to continue anyway?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:195
+#: ../urpm/main_loop.pm:197
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "แพ็คเกจต่อไปนี้มี signatures ที่ไม่ถูกต้อง"
 
-#: ../urpm/main_loop.pm:196
+#: ../urpm/main_loop.pm:198
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "แพ็คเกจต่อไปนี้มี signatures ที่ไม่ถูกต้อง"
 
-#: ../urpm/main_loop.pm:197
+#: ../urpm/main_loop.pm:199
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "คุณยังต้องการจะติดตั้งอีกต่อไปหรือไม่ ?"
 
-#: ../urpm/main_loop.pm:214
+#: ../urpm/main_loop.pm:216
 #, fuzzy, c-format
 msgid "removing installed rpms (%s)"
 msgstr "กำลังติดตั้ง %s\n"
 
-#: ../urpm/main_loop.pm:234
+#: ../urpm/main_loop.pm:236
 #, fuzzy, c-format
 msgid "distributing %s"
 msgstr "กำลังติดตั้ง %s\n"
 
-#: ../urpm/main_loop.pm:249
+#: ../urpm/main_loop.pm:251
 #, fuzzy, c-format
 msgid "installing %s from %s"
 msgstr "กำลังติดตั้ง %s\n"
 
-#: ../urpm/main_loop.pm:251
+#: ../urpm/main_loop.pm:253
 #, fuzzy, c-format
 msgid "installing %s"
 msgstr "กำลังติดตั้ง %s\n"
 
-#: ../urpm/main_loop.pm:292
+#: ../urpm/main_loop.pm:294
 #, fuzzy, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "ต้องการทดลองติดตั้งโดยที่ไม่ต้องตรอจสอบความเข้ากันได้? (y/N)"
 
-#: ../urpm/main_loop.pm:299
+#: ../urpm/main_loop.pm:301
 #, fuzzy, c-format
 msgid "Try harder to install (--force)?"
 msgstr "ต้องการทดลองบังคับติดตั้ง (--force)? (y/N)"
 
-#: ../urpm/main_loop.pm:342
+#: ../urpm/main_loop.pm:344
 #, c-format
 msgid "Packages are up to date"
 msgstr ""
 
-#: ../urpm/main_loop.pm:353 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:355 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "การติดตั้งสามารถทำได้"
 
-#: ../urpm/md5sum.pm:27
+#: ../urpm/md5sum.pm:26
 #, c-format
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
 msgstr ""
 
-#: ../urpm/media.pm:257
+#: ../urpm/media.pm:258
 #, fuzzy, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
 msgstr "อุปกรณ์\"%s\"พยายามเลือกใช้อุปกรณ์ที่ใช้แล้ว, อุปกรณ์ถูกยกเลิกไม่ใช้"
 
-#: ../urpm/media.pm:259
+#: ../urpm/media.pm:260
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "ไม่สามารถใช้งาน list file ของ \"%s\", medium ignored"
 
-#: ../urpm/media.pm:262
+#: ../urpm/media.pm:263
 #, fuzzy, c-format
 msgid "unable to access synthesis file of \"%s\", medium ignored"
 msgstr "ไม่สามารถใช้งาน hdlist file \"%s\", medium ignored"
 
-#: ../urpm/media.pm:288
+#: ../urpm/media.pm:289
 #, fuzzy, c-format
 msgid "trying to override existing medium \"%s\", skipping"
 msgstr "กำลังเลี่ยงการทำงานของอุปกรณ์ \"%s\""
 
-#: ../urpm/media.pm:504
+#: ../urpm/media.pm:505
 #, c-format
 msgid "failed to migrate removable device, ignoring media"
 msgstr ""
 
-#: ../urpm/media.pm:542
+#: ../urpm/media.pm:543
 #, c-format
 msgid "wrote config file [%s]"
 msgstr "เขียน config file[%s]"
 
-#: ../urpm/media.pm:585
+#: ../urpm/media.pm:586
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
 msgstr ""
 
-#: ../urpm/media.pm:593
+#: ../urpm/media.pm:594
 #, fuzzy, c-format
 msgid "using associated media for parallel mode: %s"
 msgstr "กำลังใช้อุปกรณ์ที่เกี่ยวข้องสำหรับ parallel mode : %s "
 
-#: ../urpm/media.pm:609
+#: ../urpm/media.pm:610
 #, c-format
 msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
 "update, --use-distrib or --parallel"
 msgstr ""
 
-#: ../urpm/media.pm:727
+#: ../urpm/media.pm:736
 #, fuzzy, c-format
 msgid "skipping package %s"
 msgstr "กำลังติดตั้งแพ็คเก็จ %s"
 
-#: ../urpm/media.pm:743
+#: ../urpm/media.pm:752
 #, fuzzy, c-format
 msgid "would install instead of upgrade package %s"
 msgstr "ปัญหาการติดตั้งแพ็คเก็จ %s"
 
-#: ../urpm/media.pm:768
+#: ../urpm/media.pm:828
 #, c-format
 msgid "medium \"%s\" already exists"
 msgstr "อุปกรณ์\"%s\"มีอยู่แล้ว"
 
-#: ../urpm/media.pm:807
+#: ../urpm/media.pm:869
 #, c-format
 msgid "(ignored by default)"
 msgstr ""
 
-#: ../urpm/media.pm:813
+#: ../urpm/media.pm:875
 #, fuzzy, c-format
 msgid "adding medium \"%s\" before remote medium \"%s\""
 msgstr "กำลังทำการอ่าน headers จากอุปกรณ์\"%s\""
 
-#: ../urpm/media.pm:819
+#: ../urpm/media.pm:881
 #, fuzzy, c-format
 msgid "adding medium \"%s\""
 msgstr "กำลังทำการย้ายออกอุปกรณ์\"%s\""
 
-#: ../urpm/media.pm:843
+#: ../urpm/media.pm:905
 #, fuzzy, c-format
 msgid "failed to copy media.cfg to %s (%d)"
 msgstr "ไม่สามารถเปิดแฟ้ม %s\n"
 
-#: ../urpm/media.pm:884
+#: ../urpm/media.pm:947
 #, c-format
 msgid "directory %s does not exist"
 msgstr ""
 
-#: ../urpm/media.pm:892
+#: ../urpm/media.pm:955
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
-#: ../urpm/media.pm:911
+#: ../urpm/media.pm:979
 #, fuzzy, c-format
 msgid "unable to parse media.cfg"
 msgstr "ไม่สามารถเปิดแฟ้ม %s\n"
 
-#: ../urpm/media.pm:914
+#: ../urpm/media.pm:982
 #, fuzzy, c-format
 msgid "unable to access the distribution medium (no media.cfg file found)"
 msgstr "ไม่สามารถที่จะเข้าถึงอุปกรณ์เพื่อการติดตั้งตัวแรก (ไม่พบไฟล์ hdlists)"
 
-#: ../urpm/media.pm:932
+#: ../urpm/media.pm:1003
 #, c-format
 msgid "skipping non compatible media `%s' (for %s)"
 msgstr ""
 
-#: ../urpm/media.pm:983
+#: ../urpm/media.pm:1018
+#, fuzzy, c-format
+msgid "ignoring non-free medium `%s'"
+msgstr "กำลังทำการย้ายออกอุปกรณ์\"%s\""
+
+#: ../urpm/media.pm:1061
 #, fuzzy, c-format
 msgid "retrieving media.cfg file..."
 msgstr "กำลังอ่านข้อมูลจากไฟล์ hdlists"
 
-#: ../urpm/media.pm:1024
+#: ../urpm/media.pm:1104
 #, fuzzy, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "กำลังเลี่ยงการทำงานของอุปกรณ์ \"%s\""
 
-#: ../urpm/media.pm:1027
+#: ../urpm/media.pm:1107
 #, c-format
 msgid "selecting multiple media: %s"
 msgstr "พยายามที่จะเลือกใช้มีเดียหลายๆตัว: %s"
 
-#: ../urpm/media.pm:1086
+#: ../urpm/media.pm:1166
 #, c-format
 msgid "removing medium \"%s\""
 msgstr "กำลังทำการย้ายออกอุปกรณ์\"%s\""
 
-#: ../urpm/media.pm:1169
+#: ../urpm/media.pm:1249
 #, fuzzy, c-format
 msgid "reconfiguring urpmi for media \"%s\""
 msgstr "กำลังเขียน list file สำหรับอุปกรณ์\"%s\""
 
-#: ../urpm/media.pm:1203
+#: ../urpm/media.pm:1283
 #, fuzzy, c-format
 msgid "...reconfiguration failed"
 msgstr "บัันทึกการตั้งค่าเมนูแล้ว"
 
-#: ../urpm/media.pm:1209
+#: ../urpm/media.pm:1289
 #, fuzzy, c-format
 msgid "reconfiguration done"
 msgstr "คอนฟิกเซอเวอร์"
 
-#: ../urpm/media.pm:1225
+#: ../urpm/media.pm:1305
 #, c-format
 msgid "Error generating names file: dependency %d not found"
 msgstr ""
 
-#: ../urpm/media.pm:1246
+#: ../urpm/media.pm:1326
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "อุปกรณ์ \"%s\" ไม่ได้ถูกเลือก"
 
-#: ../urpm/media.pm:1257
+#: ../urpm/media.pm:1337
 #, c-format
 msgid "examining synthesis file [%s]"
 msgstr "กำลังตรวจสอบไฟล์ synthesis [%s]"
 
-#: ../urpm/media.pm:1277
+#: ../urpm/media.pm:1357
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "มีปัญหาในการอ่านไฟล์ synthesis สำหรับอุปกรณ์\"%s\""
 
-#: ../urpm/media.pm:1290 ../urpm/media.pm:1385
+#: ../urpm/media.pm:1370 ../urpm/media.pm:1465
 #, fuzzy, c-format
 msgid "copying [%s] for medium \"%s\"..."
 msgstr "กำลังเขียน list file สำหรับอุปกรณ์\"%s\""
 
-#: ../urpm/media.pm:1292 ../urpm/media.pm:1362 ../urpm/media.pm:1615
+#: ../urpm/media.pm:1372 ../urpm/media.pm:1442 ../urpm/media.pm:1695
 #, fuzzy, c-format
 msgid "...copying failed"
 msgstr "การคัดลอกสมบูรณ์"
 
-#: ../urpm/media.pm:1358
+#: ../urpm/media.pm:1438
 #, c-format
 msgid "copying description file of \"%s\"..."
 msgstr "กำลังคัดลอกคำอธิบายไฟล์ของ \"%s\"..."
 
-#: ../urpm/media.pm:1360 ../urpm/media.pm:1389
+#: ../urpm/media.pm:1440 ../urpm/media.pm:1469
 #, c-format
 msgid "...copying done"
 msgstr "การคัดลอกสมบูรณ์"
 
-#: ../urpm/media.pm:1391
+#: ../urpm/media.pm:1471
 #, fuzzy, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "การทำสำเนา [%s] ไม่สำเร็จ"
 
-#: ../urpm/media.pm:1439
+#: ../urpm/media.pm:1519
 #, fuzzy, c-format
 msgid "computing md5sum of retrieved source synthesis"
 msgstr "การดึงโค้ดจาก hdlist (หรือ synthesis)ล้มเหลว"
 
-#: ../urpm/media.pm:1441 ../urpm/media.pm:1881
+#: ../urpm/media.pm:1521 ../urpm/media.pm:1961
 #, fuzzy, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
 msgstr "การทำสำเนา [%s] ไม่สำเร็จ"
 
-#: ../urpm/media.pm:1456
+#: ../urpm/media.pm:1536
 #, fuzzy, c-format
 msgid "genhdlist2 failed on %s"
 msgstr "กำลังตรวจสอบไฟล์ hdlist [%s]"
 
-#: ../urpm/media.pm:1466
+#: ../urpm/media.pm:1546
 #, fuzzy, c-format
 msgid "comparing %s and %s"
 msgstr "กำลังติดตั้ง %s\n"
 
-#: ../urpm/media.pm:1496
+#: ../urpm/media.pm:1576
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "ไม่พบ hdlist file สำหรับอุปกรณ์\"%s\""
 
-#: ../urpm/media.pm:1522
+#: ../urpm/media.pm:1602
 #, fuzzy, c-format
 msgid "copying MD5SUM file of \"%s\"..."
 msgstr "กำลังคัดลอกคำอธิบายไฟล์ของ \"%s\"..."
 
-#: ../urpm/media.pm:1562
+#: ../urpm/media.pm:1642
 #, fuzzy, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
 msgstr "ชื่อ rpm fileไม่ถูกต้อง [%s]"
 
-#: ../urpm/media.pm:1565
+#: ../urpm/media.pm:1645
 #, fuzzy, c-format
 msgid "no metadata found for medium \"%s\""
 msgstr "ไม่พบ hdlist file สำหรับอุปกรณ์\"%s\""
 
-#: ../urpm/media.pm:1597
+#: ../urpm/media.pm:1677
 #, fuzzy, c-format
 msgid "retrieving source synthesis of \"%s\"..."
 msgstr "กำลังดึงโค้ด hdlist (หรือ synthesis) ของ \"%s\"..."
 
-#: ../urpm/media.pm:1663
+#: ../urpm/media.pm:1743
 #, fuzzy, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "กำลังคัดลอกคำอธิบายไฟล์ของ \"%s\"..."
 
-#: ../urpm/media.pm:1675
+#: ../urpm/media.pm:1755
 #, fuzzy, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr "ไม่สามารถเขียน list file ของ\"%s\""
 
-#: ../urpm/media.pm:1679
+#: ../urpm/media.pm:1759
 #, fuzzy, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "ไม่สามารถเขียน list file ของ\"%s\""
 
-#: ../urpm/media.pm:1720
+#: ../urpm/media.pm:1800
 #, fuzzy, c-format
 msgid "no synthesis file found for medium \"%s\""
 msgstr "ไม่พบ hdlist file สำหรับอุปกรณ์\"%s\""
 
-#: ../urpm/media.pm:1753
+#: ../urpm/media.pm:1833
 #, fuzzy, c-format
 msgid "updated medium \"%s\""
 msgstr "อุปกรณ์ที่ถูกเพิ่มเข้ามา %s"
 
-#: ../urpm/media.pm:1875
+#: ../urpm/media.pm:1955
 #, c-format
 msgid "retrieval of [%s] failed"
 msgstr ""
@@ -1279,24 +1285,24 @@ msgstr ""
 msgid "Could not find a mirror from mirrorlist %s"
 msgstr ""
 
-#: ../urpm/mirrors.pm:231
+#: ../urpm/mirrors.pm:234
 #, c-format
 msgid "found geolocalisation %s %.2f %.2f from timezone %s"
 msgstr ""
 
-#: ../urpm/mirrors.pm:276
+#: ../urpm/mirrors.pm:279
 #, fuzzy, c-format
 msgid "getting mirror list from %s"
 msgstr "กำลังอ่านไฟล์ rpm จาก [%s]"
 
 #. -PO: Add here the keys which might be pressed in the "Yes"-case.
-#: ../urpm/msg.pm:77 ../urpme:38 ../urpmi:564 ../urpmi:672 ../urpmi:682
-#: ../urpmi.addmedia:132
+#: ../urpm/msg.pm:77 ../urpme:38 ../urpmi:566 ../urpmi:674 ../urpmi:684
+#: ../urpmi.addmedia:133
 #, c-format
 msgid "Yy"
 msgstr "Yyช"
 
-#: ../urpm/msg.pm:107 ../urpme:163 ../urpmi.addmedia:135
+#: ../urpm/msg.pm:107 ../urpme:163 ../urpmi.addmedia:136
 #, c-format
 msgid " (y/N) "
 msgstr " (y/N) "
@@ -1371,7 +1377,25 @@ msgstr ""
 msgid "Marking %s as manually installed, it won't be auto-orphaned"
 msgstr ""
 
-#: ../urpm/orphans.pm:426
+#: ../urpm/orphans.pm:449
+#, fuzzy, c-format
+msgid ""
+"The following package:\n"
+"%s\n"
+"is now orphaned."
+msgid_plural ""
+"The following packages:\n"
+"%s\n"
+"are now orphaned."
+msgstr[0] "หนึ่งใน Packages ต่อไปนี้ต้องได้รับการติดตั้ง "
+
+#: ../urpm/orphans.pm:452
+#, fuzzy, c-format
+msgid "You may wish to remove it."
+msgid_plural "You may wish to remove them."
+msgstr[0] "ไม่มีแท็กที่จะลบ!"
+
+#: ../urpm/orphans.pm:461
 #, c-format
 msgid ""
 "The following package:\n"
@@ -1638,8 +1662,8 @@ msgstr "  --list         - แสดงรายชื่อแพ็คเก�
 msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --wget         - ใช้ wget เพื่อดึงไฟล์ที่อยู่ภายนอก\n"
 
-#: ../urpme:54 ../urpmf:40 ../urpmi:120 ../urpmi.addmedia:72
-#: ../urpmi.removemedia:45 ../urpmi.update:48 ../urpmq:72
+#: ../urpme:54 ../urpmf:40 ../urpmi:120 ../urpmi.addmedia:73
+#: ../urpmi.recover:36 ../urpmi.removemedia:45 ../urpmi.update:48 ../urpmq:72
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --wget         - ใช้ wget เพื่อดึงไฟล์ที่อยู่ภายนอก\n"
@@ -1740,7 +1764,7 @@ msgstr "ล็อกอินล้มเหลว"
 #, fuzzy, c-format
 msgid ""
 "urpmf version %s\n"
-"Copyright (C) 2002-2006 Mandriva.\n"
+"Copyright (C) 2002-2010 Mandriva.\n"
 "This is free software and may be redistributed under the terms of the GNU "
 "GPL.\n"
 "\n"
@@ -2137,7 +2161,7 @@ msgid ""
 "                   to install a chroot with --root option.\n"
 msgstr ""
 
-#: ../urpmi:123 ../urpmi.addmedia:59 ../urpmi.update:37
+#: ../urpmi:123 ../urpmi.addmedia:60 ../urpmi.update:37
 #, c-format
 msgid "  --metalink     - generate and use a local metalink.\n"
 msgstr ""
@@ -2181,7 +2205,7 @@ msgstr ""
 msgid "  --aria2-options - additional options to pass to aria2\n"
 msgstr ""
 
-#: ../urpmi:133 ../urpmi.addmedia:60 ../urpmi.update:38
+#: ../urpmi:133 ../urpmi.addmedia:61 ../urpmi.update:38
 #, c-format
 msgid "  --limit-rate   - limit the download speed.\n"
 msgstr ""
@@ -2195,7 +2219,7 @@ msgstr ""
 "  --verify-rpm   - ตรวจสอบความถูกต้องของ rpm signature ก่อนการติดตั้ง\n"
 "                   (--no-verify-rpm disable it, default is enabled)\n"
 
-#: ../urpmi:136 ../urpmi.addmedia:61 ../urpmi.update:39 ../urpmq:78
+#: ../urpmi:136 ../urpmi.addmedia:62 ../urpmi.update:39 ../urpmq:78
 #, c-format
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
@@ -2204,7 +2228,7 @@ msgstr ""
 "  --proxy        - ใช้ในการกำหนดพร็อกซี่ HTTP หมายเลขพอร์ทสมมุติเป็น\n"
 "                    1080(รูปแบบคือ <proxyhost[:port]>)\n"
 
-#: ../urpmi:138 ../urpmi.addmedia:63 ../urpmi.update:41 ../urpmq:80
+#: ../urpmi:138 ../urpmi.addmedia:64 ../urpmi.update:41 ../urpmq:80
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
@@ -2403,33 +2427,33 @@ msgid ""
 "%s"
 msgstr "ไม่สามารถ install บางเพกเกจได้"
 
-#: ../urpmi:513 ../urpmi:528
+#: ../urpmi:514 ../urpmi:530
 #, fuzzy, c-format
 msgid ""
 "\n"
 "Continue installation anyway?"
 msgstr "คุณยังต้องการจะติดตั้งอีกต่อไปหรือไม่ ?"
 
-#: ../urpmi:522
+#: ../urpmi:523
 #, fuzzy, c-format
 msgid ""
 "A requested package cannot be installed:\n"
 "%s"
 msgstr "ทุกอย่างได้ถูกติดตั้งเรียบร้อยแล้ว"
 
-#: ../urpmi:523
+#: ../urpmi:524
 #, fuzzy, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
 "%s"
 msgstr "ไม่สามารถ install บางเพกเกจได้"
 
-#: ../urpmi:540
+#: ../urpmi:542
 #, fuzzy, c-format
 msgid "removing package %s will break your system"
 msgstr "แพ็คเกจ %s ที่กำลังลบอยู่จะทำให้ระบบเสียหายได้\n"
 
-#: ../urpmi:548
+#: ../urpmi:550
 #, fuzzy, c-format
 msgid ""
 "The installation cannot continue because the following package\n"
@@ -2440,7 +2464,7 @@ msgstr ""
 "%s\n"
 "คุณยอมให้ทำการลบทิ้งหรือไม่?"
 
-#: ../urpmi:550
+#: ../urpmi:552
 #, fuzzy, c-format
 msgid ""
 "The installation cannot continue because the following packages\n"
@@ -2451,12 +2475,12 @@ msgstr ""
 "%s\n"
 "คุณยอมให้ทำการลบทิ้งหรือไม่?"
 
-#: ../urpmi:559
+#: ../urpmi:561
 #, c-format
 msgid "(test only, removal will not be actually done)"
 msgstr ""
 
-#: ../urpmi:579
+#: ../urpmi:581
 #, fuzzy, c-format
 msgid ""
 "You must first call urpmi with --buildrequires to install the following "
@@ -2466,44 +2490,44 @@ msgstr ""
 "คุณจะต้องเป็นรูทในการติดตั้ง ความเป็นอิสระ :\n"
 "%s\n"
 
-#: ../urpmi:589
+#: ../urpmi:591
 #, fuzzy, c-format
 msgid "The following orphan package will be removed."
 msgid_plural "The following orphan packages will be removed."
 msgstr[0] "เพื่อความถูกต้องของการเป็นอิสระระหว่างโปรแกรมแพ็คเกจบางตัวจะถูกลบทิ้ง(%d MB)"
 
-#: ../urpmi:617
+#: ../urpmi:619
 #, c-format
 msgid "(test only, installation will not be actually done)"
 msgstr ""
 
-#: ../urpmi:623
+#: ../urpmi:625
 #, c-format
 msgid "%s of additional disk space will be used."
 msgstr ""
 
-#: ../urpmi:624
+#: ../urpmi:626
 #, c-format
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:625
+#: ../urpmi:627
 #, c-format
 msgid "%s of packages will be retrieved."
 msgstr ""
 
-#: ../urpmi:626
+#: ../urpmi:628
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 
-#: ../urpmi:649
+#: ../urpmi:651
 #, c-format
 msgid "Cancel"
 msgstr "ยกเลิก"
 
-#: ../urpmi:657
+#: ../urpmi:659
 #, fuzzy, c-format
 msgid "Press Enter when mounted..."
 msgstr "กรุณากด enter เมื่อพร้อม"
@@ -2528,39 +2552,40 @@ msgid ""
 "\n"
 "  urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'\n"
 "  urpmi.addmedia --mirrorlist '$MIRRORLIST' backports media/main/backports\n"
+"  urpmi.addmedia --distrib --zeroconf\n"
 "\n"
 "\n"
 "and [options] are from\n"
 msgstr ""
 
-#: ../urpmi.addmedia:55 ../urpmi.update:33 ../urpmq:75
+#: ../urpmi.addmedia:56 ../urpmi.update:33 ../urpmq:75
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr "  --wget         - ใช้ wget เพื่อดึงไฟล์ที่อยู่ภายนอก\n"
 
-#: ../urpmi.addmedia:56 ../urpmi.update:34 ../urpmq:76
+#: ../urpmi.addmedia:57 ../urpmi.update:34 ../urpmq:76
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr "  --curl         - ใช้ curl เพื่อดึงไฟล์ซึ่งอยู่ภายนอก\n"
 
-#: ../urpmi.addmedia:57 ../urpmi.update:35 ../urpmq:77
+#: ../urpmi.addmedia:58 ../urpmi.update:35 ../urpmq:77
 #, fuzzy, c-format
 msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr "  --curl         - ใช้ curl เพื่อดึงไฟล์ซึ่งอยู่ภายนอก\n"
 
-#: ../urpmi.addmedia:58 ../urpmi.update:36
+#: ../urpmi.addmedia:59 ../urpmi.update:36
 #, fuzzy, c-format
 msgid "  --aria2        - use aria2 to retrieve distant files.\n"
 msgstr "  --curl         - ใช้ curl เพื่อดึงไฟล์ซึ่งอยู่ภายนอก\n"
 
-#: ../urpmi.addmedia:65
+#: ../urpmi.addmedia:66
 #, c-format
 msgid ""
 "  --update       - create an update medium, \n"
 "                   or discard non-update media (when used with --distrib)\n"
 msgstr ""
 
-#: ../urpmi.addmedia:67
+#: ../urpmi.addmedia:68
 #, c-format
 msgid ""
 "  --xml-info     - use the specific policy for downloading xml info files\n"
@@ -2568,124 +2593,259 @@ msgid ""
 "cfg(5)\n"
 msgstr ""
 
-#: ../urpmi.addmedia:69
+#: ../urpmi.addmedia:70
 #, fuzzy, c-format
 msgid "  --probe-synthesis - use synthesis file.\n"
 msgstr "  -h             - พยายามค้นหาและใช้ไฟล์ synthesis หรือ hdlist\n"
 
-#: ../urpmi.addmedia:70
+#: ../urpmi.addmedia:71
 #, c-format
 msgid "  --probe-rpms   - use rpm files (instead of synthesis).\n"
 msgstr ""
 
-#: ../urpmi.addmedia:71
+#: ../urpmi.addmedia:72
 #, fuzzy, c-format
 msgid "  --no-probe     - do not try to find any synthesis file.\n"
 msgstr "  -h             - พยายามค้นหาและใช้ไฟล์ synthesis หรือ hdlist\n"
 
-#: ../urpmi.addmedia:73
+#: ../urpmi.addmedia:74
 #, fuzzy, c-format
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
 msgstr "  --distrib      - ทำการสร้างมีเดียจากอุปกรณ์สำหรับติดตั้งโดยอัตโนมัติ\n"
 
-#: ../urpmi.addmedia:75
+#: ../urpmi.addmedia:76
 #, c-format
 msgid "  --interactive  - with --distrib, ask confirmation for each media\n"
 msgstr ""
 
-#: ../urpmi.addmedia:76
+#: ../urpmi.addmedia:77
 #, fuzzy, c-format
 msgid "  --all-media    - with --distrib, add every listed media\n"
 msgstr "  --list-media    - แสดงรายชื่ออุปกรณ์ที่มีอยู่\n"
 
-#: ../urpmi.addmedia:77
+#: ../urpmi.addmedia:78
 #, c-format
 msgid "  --virtual      - create virtual media wich are always up-to-date.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:78 ../urpmi.update:44
+#: ../urpmi.addmedia:79 ../urpmi.update:44
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:79
+#: ../urpmi.addmedia:80
 #, c-format
 msgid "  --nopubkey     - don't import pubkey of added media\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80
+#: ../urpmi.addmedia:81
 #, c-format
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:43 ../urpmi.update:53
+#: ../urpmi.addmedia:82 ../urpmi.removemedia:43 ../urpmi.update:53
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - โหมดเงียบ\n"
 
-#: ../urpmi.addmedia:82 ../urpmi.removemedia:44 ../urpmi.update:54
+#: ../urpmi.addmedia:83 ../urpmi.removemedia:44 ../urpmi.update:54
 #, c-format
 msgid "  -v             - verbose mode.\n"
 msgstr "  -v             - โหมดคำ\n"
 
-#: ../urpmi.addmedia:95
+#: ../urpmi.addmedia:96
 #, c-format
 msgid "known xml-info policies are %s"
 msgstr ""
 
-#: ../urpmi.addmedia:106
+#: ../urpmi.addmedia:107
 #, c-format
 msgid "no argument needed for --distrib --mirrorlist <url>"
 msgstr ""
 
-#: ../urpmi.addmedia:111
+#: ../urpmi.addmedia:112
 #, c-format
 msgid "bad <url> (for local directory, the path must be absolute)"
 msgstr ""
 
-#: ../urpmi.addmedia:115
+#: ../urpmi.addmedia:116
 #, fuzzy, c-format
 msgid "Only superuser is allowed to add media"
 msgstr "superuser เท่านั้นที่มีสิทธิติดตั้ง packages"
 
-#: ../urpmi.addmedia:118
+#: ../urpmi.addmedia:119
 #, fuzzy, c-format
 msgid "creating config file [%s]"
 msgstr "เขียน config file[%s]"
 
-#: ../urpmi.addmedia:119
+#: ../urpmi.addmedia:120
 #, fuzzy, c-format
 msgid "Can't create config file [%s]"
 msgstr "เขียน config file[%s]"
 
-#: ../urpmi.addmedia:127
+#: ../urpmi.addmedia:128
 #, fuzzy, c-format
 msgid "no need to give <relative path of synthesis> with --distrib"
 msgstr "ไม่จำเป็นจะต้องให้ <relative path ของ hdlist>กับ -distrib"
 
-#: ../urpmi.addmedia:135
+#: ../urpmi.addmedia:136
 #, c-format
 msgid ""
 "\n"
 "Do you want to add media '%s'?"
 msgstr ""
 
-#: ../urpmi.addmedia:153 ../urpmi.addmedia:176
+#: ../urpmi.addmedia:155 ../urpmi.addmedia:179
 #, fuzzy, c-format
 msgid "unable to add medium"
 msgstr "ไม่สามารถใช้อุปกรณ์\"%s\""
 
-#: ../urpmi.addmedia:161
+#: ../urpmi.addmedia:163
 #, fuzzy, c-format
 msgid "<relative path of synthesis> missing\n"
 msgstr "ไม่พบ<ลู่ทางที่เกี่ยวข้องของhdlist>\n"
 
-#: ../urpmi.addmedia:164
+#: ../urpmi.addmedia:166
 #, c-format
 msgid "Can't use %s with remote medium"
 msgstr ""
+
+#: ../urpmi.recover:28
+#, fuzzy, c-format
+msgid ""
+"urpmi.recover version %s\n"
+"Copyright (C) 2006-2010 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi.recover เวอร์ชั่นที่ %s\n"
+"Copyright (C) 2006 Mandriva.\n"
+"ซอฟท์แวร์นี่เป็นฟรีซอฟท์แวร์และแจกจ่ายภายใต้ระเบียบของ GNU GPL.\n"
+"\n"
+"วิธีใช้:\n"
+
+#: ../urpmi.recover:34
+#, c-format
+msgid "  --checkpoint   - set repackaging start now\n"
+msgstr ""
+
+#: ../urpmi.recover:35
+#, fuzzy, c-format
+msgid "  --noclean      - don't clean repackage directory on checkpoint\n"
+msgstr "  --noclean      - เก็บ rpm ซึ่งไม่ถูกใช้ใน cache.\n"
+
+#: ../urpmi.recover:37
+#, fuzzy, c-format
+msgid ""
+"  --list         - list transactions since provided date/duration argument\n"
+msgstr "  --list-media    - แสดงรายชื่ออุปกรณ์ที่มีอยู่\n"
+
+#: ../urpmi.recover:38
+#, fuzzy, c-format
+msgid "  --list-all     - list all transactions in rpmdb (long)\n"
+msgstr "  --list-media    - แสดงรายชื่ออุปกรณ์ที่มีอยู่\n"
+
+#: ../urpmi.recover:39
+#, fuzzy, c-format
+msgid "  --list-safe    - list transactions since checkpoint\n"
+msgstr "  --list-media    - แสดงรายชื่ออุปกรณ์ที่มีอยู่\n"
+
+#: ../urpmi.recover:40
+#, c-format
+msgid ""
+"  --rollback     - rollback until specified date,\n"
+"                   or rollback the specified number of transactions\n"
+msgstr ""
+
+#: ../urpmi.recover:42
+#, fuzzy, c-format
+msgid "  --disable      - turn off repackaging\n"
+msgstr "  --list         - แสดงรายชื่อแพ็คเกจที่มีอยู่\n"
+
+#: ../urpmi.recover:57
+#, c-format
+msgid "Invalid date or duration [%s]\n"
+msgstr ""
+
+#: ../urpmi.recover:65
+#, fuzzy, c-format
+msgid "Repackage directory not defined\n"
+msgstr "หา %s package ไม่พบ"
+
+#: ../urpmi.recover:68
+#, fuzzy, c-format
+msgid "Can't write to repackage directory [%s]\n"
+msgstr "ไม่สามารถสร้างไดเร็คตอรี่ [%s] สำหรับรายงานบัก"
+
+#: ../urpmi.recover:70
+#, fuzzy, c-format
+msgid "Cleaning up repackage directory [%s]...\n"
+msgstr "ไม่สามารถสร้างไดเร็คตอรี่ [%s] สำหรับรายงานบัก"
+
+#: ../urpmi.recover:72
+#, c-format
+msgid "%d file removed\n"
+msgid_plural "%d files removed\n"
+msgstr[0] ""
+
+#: ../urpmi.recover:82
+#, c-format
+msgid "Spurious command-line arguments [%s]\n"
+msgstr ""
+
+#: ../urpmi.recover:84
+#, c-format
+msgid "You can't specify --checkpoint and --rollback at the same time\n"
+msgstr ""
+
+#: ../urpmi.recover:86
+#, c-format
+msgid "You can't specify --checkpoint and --list at the same time\n"
+msgstr ""
+
+#: ../urpmi.recover:88
+#, c-format
+msgid "You can't specify --rollback and --list at the same time\n"
+msgstr ""
+
+#: ../urpmi.recover:90
+#, c-format
+msgid "You can't specify --disable along with another option"
+msgstr ""
+
+#: ../urpmi.recover:115
+#, c-format
+msgid "No transaction found since %s\n"
+msgstr ""
+
+#: ../urpmi.recover:130
+#, c-format
+msgid "You must be superuser to do this"
+msgstr ""
+
+#: ../urpmi.recover:143 ../urpmi.recover:209
+#, fuzzy, c-format
+msgid "Writing rpm macros file [%s]...\n"
+msgstr "กำลังอ่านข้อมูลจากไฟล์ hdlists"
+
+#: ../urpmi.recover:185
+#, fuzzy, c-format
+msgid "No rollback date found\n"
+msgstr "ไม่พบรุปภาพ"
+
+#: ../urpmi.recover:188
+#, c-format
+msgid "Rollback until %s...\n"
+msgstr ""
+
+#: ../urpmi.recover:195
+#, fuzzy, c-format
+msgid "Disabling repackaging\n"
+msgstr "  --list         - แสดงรายชื่อแพ็คเกจที่มีอยู่\n"
 
 #: ../urpmi.removemedia:38
 #, c-format
@@ -2711,12 +2871,12 @@ msgstr "  -a             - เลือกทั้งหมดที่ตร�
 msgid "Only superuser is allowed to remove media"
 msgstr "superuser เท่านั้นที่มีสิทธิติดตั้ง packages"
 
-#: ../urpmi.removemedia:72
+#: ../urpmi.removemedia:71
 #, c-format
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr "ไม่มีอะไรที่จะเอาออก(ใช้ urpmi.addmedia เพื่อเพิ่มอุปกรณ์)\n"
 
-#: ../urpmi.removemedia:78
+#: ../urpmi.removemedia:77
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
@@ -2807,10 +2967,10 @@ msgid "enabling media %s"
 msgstr "กำลังทำการย้ายออกอุปกรณ์\"%s\""
 
 #: ../urpmq:40
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "urpmq version %s\n"
-"Copyright (C) 2000-2006 Mandriva.\n"
+"Copyright (C) 2000-2010 Mandriva.\n"
 "This is free software and may be redistributed under the terms of the GNU "
 "GPL.\n"
 "\n"
@@ -2883,10 +3043,9 @@ msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - แพ็คเกจต่อไปเป็นส่วนของโค้ด (เช่นเดียวกับ -s).\n"
 
 #: ../urpmq:67
-#, c-format
-msgid ""
-"  --sources      - give all source packages before downloading (root only).\n"
-msgstr "  --sources      - ให้โค้ดของแพ็คเกจก่อนดาวน์โหลด (เฉพาะรูทเท่านั้น).\n"
+#, fuzzy, c-format
+msgid "  --sources      - print source URLs of selected packages\n"
+msgstr "  --src          - แพ็คเกจต่อไปเป็นส่วนของโค้ด (เช่นเดียวกับ -s).\n"
 
 #: ../urpmq:69
 #, fuzzy, c-format
@@ -3039,29 +3198,29 @@ msgstr "--list-nodes can only be used with --parallel"
 msgid "use -l to list files"
 msgstr "ไม่สามารถเขียน list file ของ\"%s\""
 
-#: ../urpmq:423
+#: ../urpmq:424
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 
-#: ../urpmq:424
+#: ../urpmq:425
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
-msgstr ""
-
-#: ../urpmq:427
-#, c-format
-msgid ""
-"no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr ""
 
 #: ../urpmq:428
 #, c-format
 msgid ""
+"no xml info for medium \"%s\", unable to return any result for package %s"
+msgstr ""
+
+#: ../urpmq:429
+#, c-format
+msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr ""
 
-#: ../urpmq:495
+#: ../urpmq:496
 #, fuzzy, c-format
 msgid "No changelog found\n"
 msgstr "ไม่พบรุปภาพ"
@@ -3075,6 +3234,11 @@ msgstr "ส่วนติดต่อผู้ใช้แบบ graphic ขอ
 msgid "Software Installer"
 msgstr "เครื่องมือติดตั้งโปรแกรม"
 
+#~ msgid ""
+#~ "  --sources      - give all source packages before downloading (root "
+#~ "only).\n"
+#~ msgstr "  --sources      - ให้โค้ดของแพ็คเกจก่อนดาวน์โหลด (เฉพาะรูทเท่านั้น).\n"
+
 #, fuzzy
 #~ msgid "due to already installed %s"
 #~ msgstr "ทุกอย่างได้ถูกติดตั้งเรียบร้อยแล้ว"
@@ -3086,48 +3250,6 @@ msgstr "เครื่องมือติดตั้งโปรแกรม
 #~ msgstr ""
 #~ "  --env          - ใช้เอ็นไวลอนเม็นท์แบบเฉพาะ(โดยทั่วไปใช้กับการรายงาน\n"
 #~ "                   บัก).\n"
-
-#~ msgid ""
-#~ "urpmi.recover version %s\n"
-#~ "Copyright (C) 2006 Mandriva.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmi.recover เวอร์ชั่นที่ %s\n"
-#~ "Copyright (C) 2006 Mandriva.\n"
-#~ "ซอฟท์แวร์นี่เป็นฟรีซอฟท์แวร์และแจกจ่ายภายใต้ระเบียบของ GNU GPL.\n"
-#~ "\n"
-#~ "วิธีใช้:\n"
-
-#, fuzzy
-#~ msgid "  --noclean      - don't clean repackage directory on checkpoint\n"
-#~ msgstr "  --noclean      - เก็บ rpm ซึ่งไม่ถูกใช้ใน cache.\n"
-
-#, fuzzy
-#~ msgid "  --list-all     - list all transactions in rpmdb (long)\n"
-#~ msgstr "  --list-media    - แสดงรายชื่ออุปกรณ์ที่มีอยู่\n"
-
-#, fuzzy
-#~ msgid "  --list-safe    - list transactions since checkpoint\n"
-#~ msgstr "  --list-media    - แสดงรายชื่ออุปกรณ์ที่มีอยู่\n"
-
-#, fuzzy
-#~ msgid "  --disable      - turn off repackaging\n"
-#~ msgstr "  --list         - แสดงรายชื่อแพ็คเกจที่มีอยู่\n"
-
-#, fuzzy
-#~ msgid "Repackage directory not defined\n"
-#~ msgstr "หา %s package ไม่พบ"
-
-#, fuzzy
-#~ msgid "Writing rpm macros file [%s]...\n"
-#~ msgstr "กำลังอ่านข้อมูลจากไฟล์ hdlists"
-
-#, fuzzy
-#~ msgid "No rollback date found\n"
-#~ msgstr "ไม่พบรุปภาพ"
 
 #, fuzzy
 #~ msgid "examining %s file"
@@ -3263,10 +3385,6 @@ msgstr "เครื่องมือติดตั้งโปรแกรม
 #, fuzzy
 #~ msgid "    --probe-hdlist - use hdlist file.\n"
 #~ msgstr "  -h             - พยายามค้นหาและใช้ไฟล์ synthesis หรือ hdlist\n"
-
-#, fuzzy
-#~ msgid "  --src, -s      - next package is a source package.\n"
-#~ msgstr "  --src          - แพ็คเกจต่อไปเป็นส่วนของโค้ด (เช่นเดียวกับ -s).\n"
 
 #, fuzzy
 #~ msgid "  --probe-hdlist - use hdlist file.\n"
