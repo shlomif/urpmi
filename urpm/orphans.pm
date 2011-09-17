@@ -441,6 +441,19 @@ sub _get_now_orphans_raw_msg {
     (scalar(@orphans), add_leading_spaces(join("\n", sort @orphans)));
 }
 
+sub get_now_orphans_gui_msg {
+    my ($urpm) = @_;
+
+    my ($count, $list) = _get_now_orphans_raw_msg($urpm);
+    join("\n",
+       P("The following package:\n%s\nis now orphaned.",
+         "The following packages:\n%s\nare now orphaned.", $count, $list),
+        undef,
+	P("You may wish to remove it.",
+	  "You may wish to remove them.", $count)
+    );
+}
+
 sub get_now_orphans_msg {
     my ($urpm) = @_;
 
