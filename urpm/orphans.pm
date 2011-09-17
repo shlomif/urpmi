@@ -431,15 +431,23 @@ sub get_orphans {
     my ($req, $unreq) = _installed_req_and_unreq($urpm);
     _all_unrequested_orphans($req, $unreq);
 }
-sub get_now_orphans_msg {
+
+sub _get_now_orphans_raw_msg {
     my ($urpm) = @_;
 
     my $orphans = get_orphans($urpm);
     my @orphans = map { scalar $_->fullname } @$orphans or return '';
 
+    (scalar(@orphans), add_leading_spaces(join("\n", sort @orphans)));
+}
+
+sub get_now_orphans_msg {
+    my ($urpm) = @_;
+
+    my ($count, $list) = _get_now_orphans_raw_msg($urpm);
     P("The following package:\n%s\nis now orphaned, if you wish to remove it, you can use \"urpme --auto-orphans\"",
       "The following packages:\n%s\nare now orphaned, if you wish to remove them, you can use \"urpme --auto-orphans\"",
-      scalar(@orphans), add_leading_spaces(join("\n", sort @orphans))) . "\n";
+      $count, $list) . "\n";
 }
 
 
