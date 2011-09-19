@@ -168,7 +168,8 @@ sub run {
             if ($urpm->{options}{auto}) {
                 push @formatted_errors, @$msgs;
             } else {
-                $go_on = $callbacks->{ask_yes_or_no}->(
+                my $sub = $callbacks->{ask_for_bad_or_missing} || $callbacks->{ask_yes_or_no};
+                $go_on = $sub->(
                     N("Installation failed"),
                     join("\n\n", @$msgs, N("Try to continue anyway?")));
             }
