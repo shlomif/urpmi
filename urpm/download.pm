@@ -956,6 +956,8 @@ sub _sync_webfetch_raw {
 	my @l = map { urpm::file_from_local_url($_) } @$files;
 	eval { sync_file($options, @l) };
 	$urpm->{fatal}(10, $@) if $@;
+    } elsif ($proto eq 'rsync') {
+	sync_rsync($options, @$files);
     } elsif (member($proto, 'ftp', 'http', 'https') || $options->{metalink}) {
 
 	my $preferred = preferred_downloader($urpm, $medium, \$options->{metalink});
@@ -973,8 +975,6 @@ sub _sync_webfetch_raw {
 	    $sync->($options, splice(@l, 0, $n));
 	  }
 	}
-    } elsif ($proto eq 'rsync') {
-	sync_rsync($options, @$files);
     } elsif ($proto eq 'ssh') {
 	my @ssh_files = map { m!^ssh://([^/]*)(.*)! ? "$1:$2" : () } @$files;
 	sync_ssh($options, @ssh_files);
