@@ -186,7 +186,6 @@ my %options_spec = (
 	'expect-install!' => \$::urpm::main_loop::expect_install,
 	'nolock' => \$options{nolock},
 	restricted => \$::restricted,
-	'no-md5sum' => \$::nomd5sum,
 	'force-key' => \$::forcekey,
 	a => \$::all,
 	p => sub { $::use_provides = 1 },
@@ -450,9 +449,14 @@ foreach my $k ("wget", "curl", "prozilla", "aria2", 'downloader=s', "proxy=s", "
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("f", "z", "no-md5sum", "update", "norebuild!", "probe-rpms", '<>')
+foreach my $k ("f", "z", "update", "norebuild!", "probe-rpms", '<>')
 {
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
+}
+
+foreach my $k ("no-md5sum")
+{
+    $options_spec{'urpmi'}{$k} = $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
 }
 
 foreach my $k ("a", '<>') {

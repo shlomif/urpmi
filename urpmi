@@ -50,7 +50,6 @@ our $all = 0;
 our $use_provides = 1;
 our $logfile = '';
 our $restricted = 0;
-our $nomd5sum = 0;
 our $forcekey = 0;
 our $force_dudf = 0;
 
@@ -376,6 +375,7 @@ urpm::media::configure($urpm,
     usedistrib => $options{usedistrib},
     probe_with => $options{probe_with},
     download_callback => \&urpm::download::sync_logger,
+    nomd5sum => $options{nomd5sum},
 );
 
 if ($bug) {
