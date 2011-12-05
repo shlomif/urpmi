@@ -113,7 +113,13 @@ sub _pick_one_ {
 	    $cache->{product_id_mtime} = _product_id_mtime(); 
 	}
 
-	$cache->{chosen} = $cache->{list}[0]{url} or return;
+	if (-x '/usr/bin/rsync') {
+	    $cache->{chosen} = $cache->{list}[0]{url};
+	} else {
+	    my $m = find { $_->{url} !~ m!^rsync://! } @{$cache->{list}};
+	    $cache->{chosen} = $m->{url};
+	}
+	$cache->{chosen} or return;
 	_save_cache($urpm);
     }
     $cache;
