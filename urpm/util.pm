@@ -7,6 +7,7 @@ use Exporter;
 our @ISA = 'Exporter';
 our @EXPORT = qw(min max quotespace unquotespace
     add2hash_
+    find
     remove_internal_name
     reduce_pathname offset_pathname
     untaint
@@ -179,6 +180,12 @@ sub output_safe {
     rename($file, "$file$o_backup_ext") or return if $o_backup_ext;
     rename("$file.new", $file) or return;
     1;
+}
+
+sub find(&@) {
+    my $f = shift;
+    $f->($_) and return $_ foreach @_;
+    undef;
 }
 
 sub append_to_file { 
