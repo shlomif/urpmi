@@ -8,7 +8,7 @@ BEGIN { use_ok 'urpm::cfg' }
 
 need_root_and_prepare();
 
-urpmi_addmedia('--mirrorlist \$MIRRORLIST main media/main/release');
+urpmi_addmedia('--mirrorlist \$MIRRORLIST core media/core/release');
 is(run_urpm_cmd('urpmq sed'), "sed\n");
 urpmi_removemedia('main');
 
