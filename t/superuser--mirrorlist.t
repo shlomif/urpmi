@@ -10,7 +10,7 @@ need_root_and_prepare();
 
 urpmi_addmedia('--mirrorlist \$MIRRORLIST core media/core/release');
 is(run_urpm_cmd('urpmq sed'), "sed\n");
-urpmi_removemedia('main');
+urpmi_removemedia('core');
 
 urpmi_addmedia('--distrib --mirrorlist \$MIRRORLIST');
 is(run_urpm_cmd('urpmq sed'), "sed\n");
