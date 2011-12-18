@@ -365,7 +365,7 @@ my %options_spec = (
 
 eval
 {
-    require urpm::dudf;
+    #require urpm::dudf;
     $options_spec{'urpmi'}{'force-dudf'} = \$::force_dudf;
 };
 
