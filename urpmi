@@ -694,7 +694,7 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
     }
 });
 
-if ($exit_code == 0 && $auto_select && !$options{auto_orphans}) {
+if ($exit_code == 0 && $auto_select && !$options{auto_orphans} && !$restart_itself) {
     if (urpm::orphans::check_unrequested_orphans_after_auto_select($urpm)) {
 	if (my $msg = urpm::orphans::get_now_orphans_msg($urpm)) {
 	    print "\n", $msg;
