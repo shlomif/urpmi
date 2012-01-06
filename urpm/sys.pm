@@ -96,7 +96,7 @@ sub _find_a_mntpoint {
 sub df {
     my ($mntpoint) = @_;
     require Filesys::Df;
-    my $df = Filesys::Df::df("/", 1024); # ask 1kb values
+    my $df = Filesys::Df::df($mntpoint || "/", 1024); # ask 1kb values
     @$df{qw(blocks bfree)};
 }
 
