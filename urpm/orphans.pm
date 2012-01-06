@@ -355,15 +355,14 @@ sub _get_orphan_kernels() {
 #-
 #- side-effects: none
 sub _all_unrequested_orphans {
-    my ($req, $unreq) = @_;
+    my ($urpm, $req, $unreq) = @_;
 
     my (%l, %provides);
     foreach my $pkg (@$unreq) {
 	$l{$pkg->name} = $pkg;
 	push @{$provides{$_}}, $pkg foreach $pkg->provides_nosense;
     }
-    # (tv) FIXME: this won't work when chrooted:
-    my $unreq_list = unrequested_list();
+    my $unreq_list = unrequested_list($urpm);
 
     my $current_kernel = _get_current_kernel_package();
 
@@ -413,7 +412,7 @@ sub compute_future_unrequested_orphans {
 
     my ($unreq, $req) = partition { $unrequested->{$_->name} } @pkgs;
 
-    $state->{orphans_to_remove} = _all_unrequested_orphans($req, $unreq);
+    $state->{orphans_to_remove} = _all_unrequested_orphans($urpm, $req, $unreq);
 
     # nb: $state->{orphans_to_remove} is used when computing ->selected_size
 }
@@ -429,7 +428,7 @@ sub get_orphans {
     $urpm->{log}("computing unrequested orphans");
 
     my ($req, $unreq) = _installed_req_and_unreq($urpm);
-    _all_unrequested_orphans($req, $unreq);
+    _all_unrequested_orphans($urpm, $req, $unreq);
 }
 
 sub _get_now_orphans_raw_msg {
