@@ -59,6 +59,18 @@ sub get_lock_pid {
     foreach (urpm::util::cat_('/proc/locks')) { /FLOCK.*WRITE\s*(\d+)\s*$fileid\s/ && return $1 }
 }
 
+sub warn_about_locker {
+    my ($lock) = @_;
+    if (my $pid = get_lock_pid($lock->{fh})) {
+        my $name = urpm::util::cat_("/proc/$pid/cmdline");
+        $name =~ tr/\0/ /;
+        $name =~ s/ *$//;
+        $lock->{fatal}(N("%s database is locked, process %d is already using it", $lock->{db_name}, $pid) . ($name ? " ($name)" : ""));
+    } else {
+        $lock->{fatal}(N("%s database is locked (another program is already using it)", $lock->{db_name}));
+    }
+}
+
 sub _lock {
     my ($lock, $b_exclusive, $b_wait) = @_;
     $b_exclusive ||= '';
@@ -72,15 +84,7 @@ sub _lock {
 	    $lock->{info}(N("%s database is locked. Waiting...", $lock->{db_name}));
 	    flock($lock->{fh}, $mode) or $lock->{fatal}(N("aborting"));
 	} else {
-	    my $pid = get_lock_pid($lock->{fh});
-	    if ($pid) {
-		my $name = urpm::util::cat_("/proc/$pid/cmdline");
-		$name =~ tr/\0/ /;
-		$name =~ s/ *$//;
-	        $lock->{fatal}(N("%s database is locked, process %d is already using it", $lock->{db_name}, $pid) . ($name ? " ($name)" : ""));
-	    } else {
-	        $lock->{fatal}(N("%s database is locked (another program is already using it)", $lock->{db_name}));
-	    }
+            warn_about_locker($lock);
 	}
     }
     $lock->{locked} = 1;
