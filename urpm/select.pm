@@ -533,7 +533,7 @@ sub unselected_packages {
 #- misc functions to help finding ask_unselect and ask_remove elements with their reasons translated.
 sub already_installed {
     my ($state) = @_;
-    map { scalar $_->fullname } values %{$state->{rejected_already_installed} || {}};
+    uniq(map { scalar $_->fullname } values %{$state->{rejected_already_installed} || {}});
 }
 
 sub translate_already_installed {
