@@ -556,7 +556,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
 	exit 0;
     }
 
-    my $msg = urpm::select::conflicting_packages_msg_($urpm, $state, \@conflicting_pkgs_msgs);
+    my $msg = urpm::select::conflicting_packages_msg_(\@conflicting_pkgs_msgs);
     if ($test) {
 	$msg = "$msg\n" . N("(test only, removal will not be actually done)");
     }

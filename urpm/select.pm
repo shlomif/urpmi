@@ -605,7 +605,7 @@ sub rejected_unsatisfied {
 }
 
 sub conflicting_packages_msg_ {
-    my ($_urpm, $_state, $removed_packages_msgs) = @_;
+    my ($removed_packages_msgs) = @_;
 
     my $list = join("\n", @$removed_packages_msgs) or return;
     @$removed_packages_msgs == 1 ? 
@@ -614,7 +614,7 @@ sub conflicting_packages_msg_ {
 }
 sub conflicting_packages_msg {
     my ($urpm, $state) = @_;
-    conflicting_packages_msg_($urpm, $state, [ removed_packages_msgs($urpm, $state) ]);
+    conflicting_packages_msg_([ removed_packages_msgs($urpm, $state) ]);
 }
 
 sub removed_packages_msgs {
