@@ -52,14 +52,14 @@ sub new {
 
 sub get_lock_pid {
     my ($fh) = @_;
-    my ($dev,$ino,undef) = stat($fh);
+    my ($dev, $ino, undef) = stat($fh);
     my $major = int($dev/256);
     my $minor = $dev % 256;
     my $fileid = sprintf("%02x:%02x:%d",$major,$minor,$ino);
     open(LOCKS, "/proc/locks") || return;
     my @locks = <LOCKS>;
     close(LOCKS); 
-    foreach (@locks) { /FLOCK.*WRITE\s*(\d+)\s*$fileid\s/ && return $1 };
+    foreach (@locks) { /FLOCK.*WRITE\s*(\d+)\s*$fileid\s/ && return $1 }
 }
 
 sub _lock {
@@ -76,11 +76,11 @@ sub _lock {
 	    flock($lock->{fh}, $mode) or $lock->{fatal}(N("aborting"));
 	} else {
 	    my $pid = get_lock_pid($lock->{fh});
-	    if($pid) {
+	    if ($pid) {
 		my $name = urpm::util::cat_("/proc/$pid/cmdline");
 		$name =~ tr/\0/ /;
 		$name =~ s/ *$//;
-	        $lock->{fatal}(N("%s database is locked, process %d is already using it", $lock->{db_name}, $pid).($name?" ($name)":""));
+	        $lock->{fatal}(N("%s database is locked, process %d is already using it", $lock->{db_name}, $pid) . ($name ? " ($name)" : ""));
 	    } else {
 	        $lock->{fatal}(N("%s database is locked (another program is already using it)", $lock->{db_name}));
 	    }

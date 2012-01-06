@@ -140,7 +140,7 @@ sub _create_old_list_from_blists {
 	my $medium = $_;
 	my ($blist) = grep { $_->{medium} == $medium } @$blists;
 
-	{ map { $_ => urpm::blist_pkg_to_url($blist, $blist->{pkgs}{$_}) } keys %{$blist->{pkgs}} };
+	{ map { $_ => urpm::blist_pkg_to_url($blist, $blist->{pkgs}{$_}) } keys %{$blist->{pkgs}} }
     } @$media ];
 }
 
@@ -224,8 +224,8 @@ sub download_packages_of_distant_media {
 
 	if (%{$blist_distant{pkgs}}) {
 	    my ($remote_sources, $remote_errors) = _download_packages_of_distant_media($urpm, \%blist_distant, %options);
-	    put_in_hash (\%new_sources, $remote_sources);
-	    put_in_hash (\%errors, $remote_errors);
+	    put_in_hash(\%new_sources, $remote_sources);
+	    put_in_hash(\%errors, $remote_errors);
 	}
     }
 
@@ -280,7 +280,7 @@ sub _download_packages_of_distant_media {
 	    $errors{$id} = [ $url, 'missing' ];
 	}
     }
-    (\%sources, \%errors)
+    (\%sources, \%errors);
 }
 
 1;

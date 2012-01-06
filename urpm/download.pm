@@ -801,7 +801,7 @@ eval {
 };
 
 sub progress_text {
-    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
+    my ($mode, $_file, $percent, $total, $eta, $speed) = @_;
     $mode eq 'progress' ?
       (defined $total && defined $eta ?
 	 N("        %s%% of %s completed, ETA = %s, speed = %s", $percent, $total, $eta, $speed) :
@@ -810,7 +810,7 @@ sub progress_text {
 
 #- default logger suitable for sync operation on STDERR only.
 sub sync_logger {
-    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
+    my ($mode, $file, $percent, $_total, $_eta, $_speed) = @_;
     if ($mode eq 'start') {
 	print STDERR "    $file\n";
     } elsif ($mode eq 'progress') {
@@ -863,7 +863,7 @@ sub _all_options {
 	dir => "$urpm->{cachedir}/partial",
 	proxy => get_proxy_($urpm, $medium),
 	metalink => $medium->{mirrorlist},
-	$medium->{"disable-certificate-check"}?"no-certificate-check":(),
+	$medium->{"disable-certificate-check"} ? "no-certificate-check" : (),
 	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
 	%$options,
     );

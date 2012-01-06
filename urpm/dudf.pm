@@ -204,7 +204,7 @@ sub new {
 }
 
 sub set_error_msg {
-    my ($self,$m) = @_;
+    my ($self, $m) = @_;
     $self->{exit_msg} .= $m;
 }
 

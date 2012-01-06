@@ -41,7 +41,7 @@ sub version   { exists $_[0]{pkg} ? $_[0]{pkg}->version : $_[0]{fn} =~ $fullname
 sub release   { exists $_[0]{pkg} ? $_[0]{pkg}->release : $_[0]{fn} =~ $fullname_re && $3 }
 sub arch      { exists $_[0]{pkg} ? $_[0]{pkg}->arch    : $_[0]{fn} =~ $fullname_re && $4 }
 
-sub fullname { wantarray ? $_[0]{pkg}->fullname : $_[0]{fn} }
+sub fullname { wantarray() ? $_[0]{pkg}->fullname : $_[0]{fn} }
 sub filename { $_[0]{fn} . '.rpm' }
 
 

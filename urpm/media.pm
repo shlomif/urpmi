@@ -793,13 +793,13 @@ sub find_zeroconf_repository {
     my $path_suffix = join('/', lc($product_id->{branch}), $product_id->{version}, $product_id->{arch});
 
     foreach my $entry ($res->entries) {
-        my $base_url = $entry->attribute('protocol') . '://' .$entry->address . ':' . $entry->port . $entry->attribute('path');
+        my $base_url = $entry->attribute('protocol') . '://' . $entry->address . ':' . $entry->port . $entry->attribute('path');
         my $url = $base_url . '/' . $path_suffix;
         my $distribconf = _new_distribconf_and_download($urpm, { url => $url });
         if ($distribconf) {
             $urpm->{log}(sprintf("found zeroconf repository: %s", $url));
             return $url;
-        };
+        }
     }
 
     $urpm->{debug} and $urpm->{debug}("unable to find zeroconf repository");
@@ -896,7 +896,7 @@ sub _register_media_cfg {
     my $version = $distribconf->getvalue('media_info', 'version') || '';
     #official mirrors define $branch but not $product, other RPM repos do the
     #opposite :-/
-    my $media_dir = (($branch or $product) . '-' . $version . '-' . $arch);
+    my $media_dir = (($branch || $product) . '-' . $version . '-' . $arch);
     $media_dir =~ tr!/!-!;
     my $media_path = $urpm->{mediacfgdir} . '/' . $media_dir;
     require File::Path;
