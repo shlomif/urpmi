@@ -56,10 +56,7 @@ sub get_lock_pid {
     my $major = int($dev/256);
     my $minor = $dev % 256;
     my $fileid = sprintf("%02x:%02x:%d",$major,$minor,$ino);
-    open(LOCKS, "/proc/locks") || return;
-    my @locks = <LOCKS>;
-    close(LOCKS); 
-    foreach (@locks) { /FLOCK.*WRITE\s*(\d+)\s*$fileid\s/ && return $1 }
+    foreach (urpm::util::cat_('/proc/locks')) { /FLOCK.*WRITE\s*(\d+)\s*$fileid\s/ && return $1 }
 }
 
 sub _lock {
