@@ -23,7 +23,7 @@ sub do_something_with_nodes {
 sub open_lzma {
     my ($xml_info_file) = @_;
 
-    $xml_info_file =~ s/'/\'/g;
+    $xml_info_file =~ s/'/'\\''/g;
     open(my $F, "lzma -dc '$xml_info_file' |");
     $F;    
 }
