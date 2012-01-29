@@ -11,7 +11,6 @@ use urpm::msg;
 use urpm::util;
 use Cwd;
 use IO::File;
-use Switch;
 use locale;
 use POSIX qw(locale_h strtod);
 use POSIX qw(strftime);
