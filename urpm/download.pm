@@ -5,7 +5,7 @@ package urpm::download;
 use strict;
 use urpm::msg;
 use urpm::util;
-use bytes();
+use bytes ();
 use Cwd;
 use Exporter;
 # perl_checker: require urpm
@@ -67,7 +67,7 @@ sub preferred_downloader {
     my @metalink_downloaders = urpm::download::available_metalink_downloaders();
     my $metalink_disabled = !$$use_metalink && $medium->{disable_metalink};
 
-    if (($$use_metalink) && !$metalink_disabled) {
+    if ($$use_metalink && !$metalink_disabled) {
 	#- If metalink is used, only aria2 is available as other downloaders doesn't support metalink
 	unshift @available, @metalink_downloaders;
     }

@@ -134,7 +134,7 @@ sub _get_xml_info_nodes {
 			  if ($fn =~ /$fullnames_re/) {
 			      $nodes{$fn} = $get_node->($reader);
 			      delete $todo{$fn};
-			      %todo == ();
+			      keys(%todo) == 0;
 			  } else {
 			      $reader->next;
 			      0;

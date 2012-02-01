@@ -20,7 +20,7 @@ our @EXPORT = qw(N N_ P translate bug_log message_input message_input_ toMb form
 
 #- I18N.
 use Locale::gettext;
-use POSIX();
+use POSIX ();
 POSIX::setlocale(POSIX::LC_ALL(), "");
 my @textdomains = qw(urpmi rpm-summary-main rpm-summary-contrib rpm-summary-devel);
 foreach my $domain (@textdomains) {
