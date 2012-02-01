@@ -69,7 +69,7 @@ sub _try_mounting_cdrom_using_hal {
     my $hal_cdroms = eval { Hal::Cdroms->new } or $urpm->{fatal}(10, N("Udisks daemon (udisks-daemon) is not running or not ready"));
 
     foreach my $hal_path ($hal_cdroms->list) {
-	my $mntpoint = $hal_cdroms->get_mount_point($hal_path;
+	my $mntpoint = $hal_cdroms->get_mount_point($hal_path);
 	if (!$mntpoint) {
 	    $urpm->{log}("trying to mount $hal_path");
 	    $mntpoint = $hal_cdroms->ensure_mounted($hal_path)
