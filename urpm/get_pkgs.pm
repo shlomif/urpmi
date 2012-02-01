@@ -8,7 +8,7 @@ use urpm::sys;
 use urpm::util;
 use urpm::media;
 use urpm 'file_from_local_url';
-
+# perl_checker: require urpm::select
 
 sub clean_all_cache {
     my ($urpm) = @_;

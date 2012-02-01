@@ -11,6 +11,9 @@ use urpm::util;
 use urpm::sys;
 use urpm::cfg;
 use urpm::md5sum;
+# perl_checker: require urpm::args
+# perl_checker: require urpm::media
+# perl_checker: require urpm::parallel
 
 our $VERSION = '6.43.1';
 our @ISA = qw(URPM Exporter);

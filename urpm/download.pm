@@ -8,6 +8,7 @@ use urpm::util;
 use bytes();
 use Cwd;
 use Exporter;
+# perl_checker: require urpm
 
 our @ISA = 'Exporter';
 our @EXPORT = qw(get_proxy
