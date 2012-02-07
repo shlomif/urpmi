@@ -111,6 +111,7 @@ sub _search_packages {
     my (%exact, %exact_a, %exact_ra, %found, %foundi);
     foreach my $v (@$names) {
 	my $qv = quotemeta $v;
+	my @found;
 	$qv = '(?i)' . $qv if $options{caseinsensitive};
 
 	if (!$options{fuzzy}) {
@@ -150,8 +151,16 @@ sub _search_packages {
 		    next;
 		}
 	    }
-	    $pack =~ /$qv/ and push @{$found{$v}}, $id;
-	    $pack =~ /$qv/i and push @{$foundi{$v}}, $id if !$options{caseinsensitive};
+	    if ($pack =~ /$qv/) {
+		next if member($pack, @found);
+		push @found, $pack;
+		push @{$found{$v}}, $id;
+	    }
+	    if ($pack =~ /$qv/i) {
+		next if member($pack, @found);
+		push @found, $pack;
+		push @{$foundi{$v}}, $id if !$options{caseinsensitive};
+	    }
 	}
     }
 
