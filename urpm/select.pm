@@ -156,10 +156,11 @@ sub _search_packages {
 		push @found, $pack;
 		push @{$found{$v}}, $id;
 	    }
+	    next if !$options{caseinsensitive};
 	    if ($pack =~ /$qv/i) {
 		next if member($pack, @found);
 		push @found, $pack;
-		push @{$foundi{$v}}, $id if !$options{caseinsensitive};
+		push @{$foundi{$v}}, $id;
 	    }
 	}
     }
