@@ -363,12 +363,6 @@ my %options_spec = (
 
 );
 
-eval {
-    #require urpm::dudf;
-    $options_spec{urpmi}{'force-dudf'} = \$::force_dudf;
-};
-
-
 # generate urpmf options callbacks
 sub add_urpmf_cmdline_tags {
     foreach my $k (@_) {

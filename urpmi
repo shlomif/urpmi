@@ -51,7 +51,6 @@ our $use_provides = 1;
 our $logfile = '';
 our $restricted = 0;
 our $forcekey = 0;
-our $force_dudf = 0;
 
 my @files;
 my @src_files;
@@ -62,14 +61,6 @@ $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 $ENV{HOME} ||= "/root";
 $ENV{USER} ||= "root";
-
-sub dudf_invoke {
-    my ($dudf, $methodname, @args) = @_;
-
-    if ($dudf) {
-        $dudf->$methodname(@args);
-    }
-}
 
 sub usage () {
     print N("urpmi version %s
@@ -187,12 +178,6 @@ if (member('--restricted', @ARGV)) {
 }
 
 my $urpm = urpm->new_parse_cmdline or exit(1);
-my $dudf;
-
-eval {
-    #require urpm::dudf;
-    #$dudf = new urpm::dudf(\$urpm, $command_line, $force_dudf);
-};
 
 if (@ARGV && $auto_select) {
     print STDERR N("Error: can't use --auto-select along with package list.\n");
@@ -396,8 +381,6 @@ if ($bug) {
 
 my $rpm_lock = !$env && !$options{nolock} && urpm::lock::rpm_db($urpm, 'exclusive', wait => $options{wait_lock});
 
-dudf_invoke($dudf, "store_userpkgs", @names);
-
 #- search the packages according to the selection given by the user.
 my $search_result = '';
 if (@names) {
@@ -510,7 +493,6 @@ that are older than the installed ones:\n%s", $list);
 	print "$msg\n";
     } else {
 	my $noexpr = N("Nn");
-	dudf_invoke($dudf, "dudf_exit", 17, $msg);
 	$msg .= N("\nContinue installation anyway?");
 	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
     }
@@ -526,7 +508,6 @@ if (@ask_unselect) {
 	print "$msg\n";
     } else {
 	my $noexpr = N("Nn");
-	dudf_invoke($dudf, "dudf_exit", 17, $msg);
 	$msg .= N("\nContinue installation anyway?");
 	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
     }
@@ -552,7 +533,6 @@ has to be removed for others to be upgraded:\n%s\n", $list)
 	: N("The installation cannot continue because the following packages
 have to be removed for others to be upgraded:\n%s\n", $list);
 	print "$msg\n";
-	dudf_invoke($dudf, "dudf_exit", 0, $msg);
 	exit 17;
     }
 
@@ -609,8 +589,6 @@ foreach my $pkg (@to_install) {
 }
 $urpm->{nb_install} = @to_install;
 
-dudf_invoke($dudf, "store_toinstall", @to_install);
-
 if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env && !$options{debug__do_not_install}) {
     my $msg = $urpm->{nb_install} == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
 		: N("To satisfy dependencies, the following packages are going to be installed:");
@@ -635,8 +613,6 @@ if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env && !$opt
     my $noexpr = N("Nn");
     $force || message_input_($p . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
 }
-
-dudf_invoke($dudf, "check_removed_upgraded", $state);
 
 my $exit_code = urpm::main_loop::run($urpm, $state, 
 				     int(@names || @src_names || @files || @src_files), 
@@ -673,10 +649,6 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 		$force || urpm::msg::ask_yes_or_no("$msg$msg2");
 	    }
     },                           
-    trans_error_summary => sub {
-        my ($_nok, $errors) = @_;
-        dudf_invoke($dudf, "set_error_msg", join("\n",  map { "\t$_" } @$errors));
-    },
     ask_yes_or_no => sub {
 	my ($_title, $msg) = @_; # graphical title
 	$force || urpm::msg::ask_yes_or_no($msg);
@@ -734,7 +706,5 @@ if ($pid_err || $pid_out) {
     close STDERR;
     close STDOUT;
 }
-
-dudf_invoke($dudf, "dudf_exit", $exit_code);
 
 exit($exit_code);
