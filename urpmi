@@ -553,7 +553,7 @@ has to be removed for others to be upgraded:\n%s\n", $list)
 have to be removed for others to be upgraded:\n%s\n", $list);
 	print "$msg\n";
 	dudf_invoke($dudf, "dudf_exit", 0, $msg);
-	exit 0;
+	exit 17;
     }
 
     my $msg = urpm::select::conflicting_packages_msg_(\@conflicting_pkgs_msgs);
@@ -563,7 +563,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
     if ($urpm->{options}{auto}) {
 	print "$msg\n";
     } else {
-	$force || urpm::msg::ask_yes_or_no($msg) or exit 0;
+	$force || urpm::msg::ask_yes_or_no($msg) or exit 17;
     }
 }
 
@@ -633,7 +633,7 @@ if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env && !$opt
 	exit 0; #- exit now for specific environment.
     }
     my $noexpr = N("Nn");
-    $force || message_input_($p . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 0;
+    $force || message_input_($p . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
 }
 
 dudf_invoke($dudf, "check_removed_upgraded", $state);
