@@ -54,8 +54,8 @@ my ($arch, $release);
 sub _init_arch_release () {
     if (!$arch && !$release) {
 	my $l = cat_('/etc/release') or return undef;
-	$release = 'cooker' if $l =~ /cooker/i;
 	($release, $arch) = $l =~ /release (\d+\.?\d?).*for (\w+)/;
+	$release = 'cauldron' if $l =~ /cauldron/i;
     }
     1;
 }
