@@ -254,11 +254,23 @@ sub migrate_back_rpmdb_db_to_hash_8 {
     }
 }
 
+sub migrate_back_rpmdb_db_to_4_6 {
+    my ($urpm, $root) = @_;
+    $urpm->{info}("migrating back the created rpm db from rpm-4.9 to rpm-4.6/4.8");
+    if (system('chroot', $root, 'rpm', '--rebuilddb') == 0) {
+	$urpm->{log}("rpm db downgraded successfully");
+    } else {
+	$urpm->{error}("rpm db downgrade failed. You will not be able to run rpm chrooted");
+    }
+}
+
 sub migrate_back_rpmdb_db_version {
     my ($urpm, $root) = @_;
 
     if ($urpm->{need_migrate_rpmdb} eq '4.6') {
 	migrate_back_rpmdb_db_to_hash_8($urpm, $root);
+    } elsif ($urpm->{need_migrate_rpmdb} eq '4.8') {
+	migrate_back_rpmdb_db_to_4_6($urpm, $root);
     }
 
     clean_rpmdb_shared_regions($root);
