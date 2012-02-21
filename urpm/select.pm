@@ -667,6 +667,7 @@ sub translate_why_removed_one {
 }
 
 sub _libdb_version { $_[0] =~ /libdb-(\S+)\.so/ ? eval "v$1" : () }
+sub _rpm_version { `rpm --version` =~ /version ([0-9.]+)$/ ? eval "v$1" : () }
 
 sub should_we_migrate_back_rpmdb_db_version {
     my ($urpm, $state) = @_;
@@ -674,10 +675,18 @@ sub should_we_migrate_back_rpmdb_db_version {
     my ($pkg) = urpm::select::selected_packages_providing($urpm, $state, 'rpm') or return;
     urpm::select::was_pkg_name_installed($state->{rejected}, 'rpm') and return;
     my ($rooted_librpm_version) = map { _libdb_version($_) } $pkg->requires;
+    my $rooted_rpm_version = eval "v" . $pkg->version;
 
     my $urpmi_librpm_version = _libdb_version(scalar `ldd /bin/rpm`);
 
-    if ($urpmi_librpm_version ge v4.6) {
+    if (_rpm_version() ge v4.9.0) {
+	if ($rooted_rpm_version && $rooted_rpm_version ge v4.9) {
+	    $urpm->{debug} and $urpm->{debug}("chrooted db version used by librpm is at least as good as non-rooted one");
+	} else {
+	    $urpm->{need_migrate_rpmdb} = '4.8';
+	    return 1;
+	}
+    } elsif ($urpmi_librpm_version ge v4.6) {
 	if ($rooted_librpm_version && $rooted_librpm_version ge v4.6) {
 	    $urpm->{debug} and $urpm->{debug}("chrooted db version used by librpm is at least as good as non-rooted one");
 	} else {
@@ -686,6 +695,7 @@ sub should_we_migrate_back_rpmdb_db_version {
 		  or $urpm->{error}("can not migrate rpm db from Hash version 9 to Hash version 8 without $bin"), 
 		    return;
 	    }
+	    $urpm->{need_migrate_rpmdb} = '4.6';
 	    return 1;
 	}
     }
