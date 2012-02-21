@@ -236,7 +236,7 @@ sub print_need_restart() {
     print "$_\n" foreach values %$h;
 }
 
-sub migrate_back_rpmdb_db_version {
+sub migrate_back_rpmdb_db_to_hash_8 {
     my ($urpm, $root) = @_;
 
     $urpm->{info}("migrating back the created rpm db from Hash version 9 to Hash version 8");
@@ -252,6 +252,15 @@ sub migrate_back_rpmdb_db_version {
 	    return;
 	}
     }
+}
+
+sub migrate_back_rpmdb_db_version {
+    my ($urpm, $root) = @_;
+
+    if ($urpm->{need_migrate_rpmdb} eq '4.6') {
+	migrate_back_rpmdb_db_to_hash_8($urpm, $root);
+    }
+
     clean_rpmdb_shared_regions($root);
 }
 
