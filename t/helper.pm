@@ -109,6 +109,8 @@ sub system_ {
 sub system_should_fail {
     my ($cmd) = @_;
     system($cmd);
+    # on some error questions ("Do you want to... (y/N)?"), urpmi doesn't output "\n":
+    print "\n";
     $? & 127 ? is($? & 127, 0, "should fail nicely but not get killed: $cmd")
              : ok($? != 0, "should fail: $cmd");
 }
