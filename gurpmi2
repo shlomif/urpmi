@@ -106,6 +106,15 @@ my $restart_itself = urpm::select::resolve_dependencies($urpm,
     priority_upgrade => $urpm->{options}{'priority-upgrade'},
 );
 my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
+
+# If there are some unselected packages, designate that we are going to return nonzero code.
+if (@ask_unselect) {
+    my $unselect_msg = N("Some requested packages cannot be installed:\n%s",
+        urpm::select::translate_why_unselected($urpm, $state, @ask_unselect));
+    $urpm::postponed_msg .= $unselect_msg . "\n";
+    $urpm::postponed_code = 17;
+}
+
 @ask_unselect
 ? ask_continue(N(
 	"Some requested packages cannot be installed:\n%s\nContinue installation anyway?",
@@ -410,6 +419,9 @@ sub do_install_3 () {
     }
                      );
 
+    # Merge postponed exit code to the result of package installation.
+    $exit_code ||= $urpm::postponed_code;
+
     #- restart gurpmi if needed, keep command line for that.
     if ($restart_itself && !$exit_code) {
         print N("restarting urpmi"), "\n";
@@ -420,6 +432,10 @@ sub do_install_3 () {
                 grep { !/^--no-priority-upgrade$|--previous-priority-upgrade=/ } @ARGV);
         exec $0, @ARGV;
     }
+
+    # Show postponed message before exiting
+    $urpm->{error}->($urpm::postponed_msg) if $urpm::postponed_code != 0;
+
     exit $exit_code;
 }
 

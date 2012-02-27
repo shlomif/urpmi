@@ -496,6 +496,9 @@ that are older than the installed ones:\n%s", $list);
 	$msg .= N("\nContinue installation anyway?");
 	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
     }
+    # Whatever option we selected, the overall installation should fail if some packages are unselected
+    $urpm::postponed_msg .= $msg . "\n";
+    $urpm::postponed_code = 17;
 }
 
 my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
@@ -511,6 +514,9 @@ if (@ask_unselect) {
 	$msg .= N("\nContinue installation anyway?");
 	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
     }
+    # Whatever option we selected, the overall installation should fail if some packages are unselected
+    $urpm::postponed_msg .= $msg . "\n";
+    $urpm::postponed_code = 17;
 }
 
 if (my @conflicting_pkgs_msgs = 
@@ -681,6 +687,9 @@ unless ($env) {
     urpm::removable::try_umounting_removables($urpm);
 }
 
+# Merge postponed exit code to the result of package installation.
+$exit_code ||= $urpm::postponed_code;
+
 #- restart urpmi if needed, keep command line for that.
 if ($restart_itself && !$exit_code) {
     print N("restarting urpmi"), "\n";
@@ -706,5 +715,8 @@ if ($pid_err || $pid_out) {
     close STDERR;
     close STDOUT;
 }
+
+# Show postponed message before exiting
+print $urpm::postponed_msg if $urpm::postponed_code != 0;
 
 exit($exit_code);

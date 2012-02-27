@@ -19,6 +19,10 @@ our $VERSION = '6.44';
 our @ISA = qw(URPM Exporter);
 our @EXPORT_OK = ('file_from_local_url', 'file_from_local_medium', 'is_local_medium');
 
+# Prepare exit code.  If you change this, the exiting with a failure and the message given will be postponed to the end of the overall processing.
+our $postponed_msg = N("While some packages may have been installed, there were failures.\n");
+our $postponed_code = 0;
+
 use URPM;
 use URPM::Resolve;
 
