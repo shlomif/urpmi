@@ -365,7 +365,7 @@ sub run {
 sub handle_need_restart {
     my ($urpm, $state, $callbacks) = @_;
 
-    return if $urpm->{root};
+    return if $urpm->{root} && !$ENV{URPMI_TEST_RESTART};
     return if !$callbacks->{need_restart};
 
     if (intersection([ keys %{$state->{selected}} ],

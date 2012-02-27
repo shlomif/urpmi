@@ -2,9 +2,11 @@
 
 # "a" provides "should-restart = system"
 # "c" provides "should-restart = system"
-# this test fails since the "restart your computer" message was disabled when 
+
+# this test would fail since the "restart your computer" message was disabled when 
 # urpmi is run with --urpmi-root
-#
+$ENV{URPMI_TEST_RESTART} = 1;
+
 use strict;
 use lib '.', 't';
 use helper;
