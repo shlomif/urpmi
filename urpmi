@@ -595,6 +595,16 @@ foreach my $pkg (@to_install) {
 }
 $urpm->{nb_install} = @to_install;
 
+sub warn_msg {
+    my ($msg) = @_;
+    $urpm->{print}(N("WARNING: %s option is in use. Some strange problems may happen", $msg));
+}
+
+warn_msg("--allow-force")  if $urpm->{options}{'allow-force'};
+warn_msg("--allow-nodeps") if $urpm->{options}{'allow-nodeps'};
+warn_msg("--force") if $urpm->{options}{force};
+warn_msg("--keep")  if $urpm->{options}{keep};
+
 if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env && !$options{debug__do_not_install}) {
     my $msg = $urpm->{nb_install} == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
 		: N("To satisfy dependencies, the following packages are going to be installed:");

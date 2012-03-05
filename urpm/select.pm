@@ -674,12 +674,12 @@ sub should_we_migrate_back_rpmdb_db_version {
 
     my ($pkg) = urpm::select::selected_packages_providing($urpm, $state, 'rpm') or return;
     urpm::select::was_pkg_name_installed($state->{rejected}, 'rpm') and return;
-    my ($rooted_librpm_version) = map { _libdb_version($_) } $pkg->requires;
-    my $rooted_rpm_version = eval "v" . $pkg->version;
+    my ($rooted_librpm_version) = map { _libdb_version($_) } $pkg->requires; # perl_checker: $self = revision
+    my $rooted_rpm_version = eval "v" . $pkg->version; # perl_checker: $self = revision
 
-    my $urpmi_librpm_version = _libdb_version(scalar `ldd /bin/rpm`);
+    my $urpmi_librpm_version = _libdb_version(scalar `ldd /bin/rpm`); # perl_checker: $self = revision
 
-    if (_rpm_version() ge v4.9.0) {
+    if (_rpm_version() ge v4.9.0) { # perl_checker: $self = revision
 	if ($rooted_rpm_version && $rooted_rpm_version ge v4.9) {
 	    $urpm->{debug} and $urpm->{debug}("chrooted db version used by librpm is at least as good as non-rooted one");
 	} else {
