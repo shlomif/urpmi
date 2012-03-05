@@ -667,7 +667,7 @@ sub translate_why_removed_one {
 }
 
 sub _libdb_version { $_[0] =~ /libdb-(\S+)\.so/ ? eval "v$1" : () }
-sub _rpm_version { `rpm --version` =~ /version ([0-9.]+)$/ ? eval "v$1" : () }
+sub _rpm_version() { `rpm --version` =~ /version ([0-9.]+)$/ ? eval "v$1" : () }
 
 sub should_we_migrate_back_rpmdb_db_version {
     my ($urpm, $state) = @_;
