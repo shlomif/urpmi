@@ -291,6 +291,10 @@ sub install {
 
     urpm::sys::may_clean_rpmdb_shared_regions($urpm, $options{test});
 
+    # explicitely close the RPM DB (needed for drakx -- looks like refcount has hard work):
+    undef $db;
+    undef $trans;
+
     @errors;
 }
 
