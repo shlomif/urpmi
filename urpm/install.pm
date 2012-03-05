@@ -222,6 +222,7 @@ sub install {
 	$urpm->{readmes} = {};
 	my $index;
 	my $fh;
+	my $is_test = $options{test}; # fix circular reference
 	#- assume default value for some parameter.
 	$options{delta} ||= 1000;
 
@@ -239,7 +240,7 @@ sub install {
 	    my ($urpm, undef, $pkgid) = @_;
 	    return unless defined $pkgid;
 	    $callback_close_helper and $callback_close_helper->($db, @_);
-	    get_README_files($urpm, $trans, $urpm->{depslist}[$pkgid]) if !$options{test};
+	    get_README_files($urpm, $trans, $urpm->{depslist}[$pkgid]) if !$is_test;
 	    close $fh if defined $fh;
 	};
 	#- ensure perl does not create a circular reference below, otherwise all this won't be collected,
