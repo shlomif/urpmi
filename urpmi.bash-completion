@@ -27,9 +27,10 @@ _urpmi_aliases()
 
 _urpmi_packages()
 {
-        local options
+        local options medias
 
-        # find media selection options   
+        # find media selection options
+        options="active"
         for (( i=1; i < COMP_CWORD; i++ )); do
                 case "${COMP_WORDS[i]}" in
                         --@\(excludemedia|media\))
@@ -42,7 +43,12 @@ _urpmi_packages()
                 esac
         done
 
-        COMPREPLY=( $( compgen -W "$(urpmq $options --list)" -- $cur ) )
+        # get active media list
+        _urpmi_get_medias $options
+
+        for media in $medias; do
+                COMPREPLY+=( $( compgen -W "$(grep ^$cur /var/lib/urpmi/names.$media 2>/dev/null)" ) )
+        done
 }
 
 # urpmi completion
