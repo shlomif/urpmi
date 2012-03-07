@@ -25,7 +25,7 @@ _urpmi_aliases()
         COMPREPLY=( $( awk -F: '{print $1}' /etc/urpmi/parallel.cfg 2>/dev/null | grep "^${cur//\\\\/}" ) )
 }
 
-_urpmi_packages()        
+_urpmi_packages()
 {
         local options
 
@@ -34,7 +34,7 @@ _urpmi_packages()
                 case "${COMP_WORDS[i]}" in
                         --@\(excludemedia|media\))
                                 options="$options ${COMP_WORDS[i]} ${COMP_WORDS[i+1]}"
-                                i=$(($i+1))      
+                                i=$(($i+1))
                                 ;;
                         --update)
                                 options="$options ${COMP_WORDS[i]}"
@@ -119,8 +119,8 @@ _urpmi()
                 else
                         # return available packages (unless clearly a file)
                         # and rpm files
-                        if [[ "$cur" != */* ]]; then     
-                                _urpmi_packages          
+                        if [[ "$cur" != */* ]]; then
+                                _urpmi_packages
                         fi
                         _filedir '@(rpm|spec)'
                 fi
