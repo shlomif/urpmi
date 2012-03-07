@@ -72,7 +72,7 @@ _urpmi()
 		--searchmedia)
 			_urpmi_medias
 			return 0
-+			;;
+			;;
 		--parallel)
 			_urpmi_aliases
 			return 0
@@ -101,7 +101,7 @@ _urpmi()
 			options="$options --root --use-distrib --env \
 			        --auto-orphans --replacepkgs --justdb \
 				--allow-nodeps --allow-force --no-suggests --force \
-				--noscripts --auto-update --keep --nokeep \
+				--noscripts --auto-update --keep --nokeep --replacefiles\
 				--verify-rpm"
 			for (( i=1; i < COMP_CWORD; i++ )); do
 				case ${COMP_WORDS[i]} in
