@@ -7,7 +7,8 @@ common_options="-q --quiet -v --verbose --debug -h --help --urpmi-root --wait-lo
 # utility functions
 _urpmi_get_medias()
 {
-    medias=( $( urpmq --list-media $1 2>/dev/null | sed -e 's/(/\\(/g' -e 's/)/\\)/g' -e 's/ /\\ /g' ) )
+    medias=( $( urpmq --list-media $1 2>/dev/null \
+	| sed -e 's/(/\\(/g' -e 's/)/\\)/g' -e 's/ /\\ /g' ) )
 }
 
 _urpmi_medias()
@@ -22,7 +23,8 @@ _urpmi_medias()
 _urpmi_aliases()
 {
     # return list of available aliases
-    COMPREPLY=( $( awk -F: '{print $1}' /etc/urpmi/parallel.cfg 2>/dev/null | grep "^${cur//\\\\/}" ) )
+    COMPREPLY=( $( awk -F: '{print $1}' /etc/urpmi/parallel.cfg 2>/dev/null \
+	| grep "^${cur//\\\\/}" ) )
 }
 
 _urpmi_packages()
@@ -47,7 +49,8 @@ _urpmi_packages()
     _urpmi_get_medias $options
 
     for media in $medias; do
-	COMPREPLY+=( $( compgen -W "$(grep ^$cur /var/lib/urpmi/names.$media 2>/dev/null)" ) )
+	COMPREPLY+=( $( compgen -W \
+	    "$(grep ^$cur /var/lib/urpmi/names.$media 2>/dev/null)" ) )
     done
 }
 
@@ -90,24 +93,21 @@ _urpmi()
 
     if [[ "$cur" == -* ]]; then
 	# return list of available options
-	options="$common_options -a -p -P -y --update --media \
-	    --excludemedia --sortmedia --synthesis --auto \
-	    --auto-select --no-uninstall --split-level \
-	    --split-length --fuzzy --buildrequires --install-src --clean \
-	    --noclean --parallel --wget --prozilla --curl \
-	    --limit-rate --proxy --proxy-user --bug \
-	    --no-verify-rpm --no-install --test --excludepath \
-	    --excludedocs --searchmedia --ignoresize --ignorearch \
-	    --strict-arch --wget-options --curl-options \
-	    --prozilla-options --rsync-options --resume --retry \
-	    --skip --prefer --nolock --more-choices"
+	options="$common_options -a -p -P -y --update --media --excludemedia \
+	    --sortmedia --synthesis --auto --auto-select --no-uninstall \
+	    --split-level --split-length --fuzzy --buildrequires --install-src \
+	    --clean --noclean --parallel --wget --prozilla --curl --limit-rate \
+	    --proxy --proxy-user --bug --no-verify-rpm --no-install --test \
+	    --excludepath --excludedocs --searchmedia --ignoresize \
+	    --ignorearch --strict-arch --wget-options --curl-options \
+	    --prozilla-options --rsync-options --resume --retry --skip \
+	    --prefer --nolock --more-choices"
 	# add dangereous option for everything else as rurpmi
 	if [[ ${COMP_WORDS[0]} != *rurpmi ]]; then
-	    options="$options --root --use-distrib --env \
-		--auto-orphans --replacepkgs --justdb \
-		--allow-nodeps --allow-force --no-suggests --force \
-		--noscripts --auto-update --keep --nokeep --replacefiles\
-		--verify-rpm"
+	    options="$options --root --use-distrib --env --auto-orphans \
+		--replacepkgs --justdb --allow-nodeps --allow-force \
+		--no-suggests --force --noscripts --auto-update --keep \
+		--nokeep --replacefiles --verify-rpm"
 	    for (( i=1; i < COMP_CWORD; i++ )); do
 		case ${COMP_WORDS[i]} in
 		    ----auto-update)
@@ -169,16 +169,16 @@ _urpmq()
 
     if [[ "$cur" == -* ]]; then
 	# return list of available options
-	COMPREPLY=( $( compgen -W "$common_options -d -u -m -a -c -y -s -i -g -p \
-	    -r -f -l --update --media --excludemedia \
-	    --sortmedia --synthesis --auto-select --auto-orphans \
-	    --no-suggests --fuzzy --keep --nokeep \
-	    --list --list-url --list-media --list-nodes --list-aliases \
-	    --src --sources --provides --requires --obsoletes --suggests --summary --sourcerpm --force --parallel --wget --curl --prozilla \
-	    --changelog --conflicts --proxy --proxy-user --env --dump-config \
-	    --whatprovides --whatrequires --whatrequires-recursive \
-	    --skip --prefer \
-	    --use-distrib --searchmedia --ignorearch" -- $cur))
+	COMPREPLY=( $( compgen -W "$common_options -d -u -m -a -c -y -s -i -g \
+	    -p -r -f -l --update --media --excludemedia --sortmedia \
+	    --synthesis --auto-select --auto-orphans --no-suggests --fuzzy \
+	    --keep --nokeep --list --list-url --list-media --list-nodes \
+	    --list-aliases --src --sources --provides --requires --obsoletes \
+	    --suggests --summary --sourcerpm --force --parallel --wget --curl \
+	    --prozilla --changelog --conflicts --proxy --proxy-user --env \
+	    --dump-config --whatprovides --whatrequires \
+	    --whatrequires-recursive --skip --prefer --use-distrib \
+	    --searchmedia --ignorearch" -- $cur))
     else
 	# return rpm files (can't list available packages anymore)
 	_filedir rpm
@@ -235,10 +235,10 @@ _urpmf()
 	# return list of available options
 	COMPREPLY=( $( compgen -W "$common_options -i -f -e -a -o -m --update \
 	    --media --excludemedia --sortmedia --synthesis --use-distrib \
-	    --uniq --name --group --license --size \
-	    --epoch --summary --description --sourcerpm --packager\
-	    --buildhost --url --provides --requires --suggests --files \
-	    --conflicts --obsoletes --env " -- $cur ) )
+	    --uniq --name --group --license --size --epoch --summary \
+	    --description --sourcerpm --packager--buildhost --url --provides \
+	    --requires --suggests --files --conflicts --obsoletes --env" \
+	    -- $cur ) )
     else
 	# return available files
 	_filedir
@@ -258,10 +258,8 @@ _urpmi_update()
     if [[ "$cur" == -* ]]; then
 	# return list of available options
 	COMPREPLY=( $( compgen -W "$common_options -a -f --wget --prozilla \
-	    --curl --limit-rate --proxy --proxy-user --update \
-	    --ignore --no-ignore \
-	    --no-md5sum --force-key --norebuild" \
-	    -- $cur))
+	    --curl --limit-rate --proxy --proxy-user --update --ignore \
+	    --no-ignore --no-md5sum --force-key --norebuild" -- $cur))
     else
 	# return list of available media
 	_urpmi_medias
