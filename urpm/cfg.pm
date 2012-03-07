@@ -25,7 +25,8 @@ Reads an urpmi configuration file and returns its contents in a hash ref :
 
     {
 	media => [
-         'medium name 1' => {
+         {
+            name => 'medium name 1',
 	    url => 'http://...',
 	    option => 'value',
 	    ...
