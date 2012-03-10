@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-27 21:09+0100\n"
-"PO-Revision-Date: 2009-10-21 15:55+0300\n"
+"PO-Revision-Date: 2012-03-10 11:20+0300\n"
 "Last-Translator: Marek Laane <bald@starman.ee>\n"
 "Language-Team: Estonian <linux-ee@lists.eenet.ee>\n"
 "Language: et\n"
@@ -438,7 +438,7 @@ msgstr "Urpmi käivitamine piiratud režiimis..."
 #: ../urpm.pm:23
 #, c-format
 msgid "While some packages may have been installed, there were failures.\n"
-msgstr ""
+msgstr "Mõned paketid küll paigaldati, aga esines ka vigu.\n"
 
 #: ../urpm.pm:110
 #, c-format
@@ -1088,9 +1088,9 @@ msgid "skipping non compatible media `%s' (for %s)"
 msgstr "jäetakse vahele mitteühilduv andmekandja '%s' (%s)"
 
 #: ../urpm/media.pm:1018
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring non-free medium `%s'"
-msgstr "andmekandja %s ignoreerimine"
+msgstr "mittevaba andmekandja %s ignoreerimine"
 
 #: ../urpm/media.pm:1061
 #, c-format
@@ -1311,7 +1311,7 @@ msgstr "Arhit."
 #: ../urpm/msg.pm:179
 #, c-format
 msgid "(suggested)"
-msgstr "(pakkumine)"
+msgstr "(soovitatud)"
 
 #: ../urpm/msg.pm:194
 #, c-format
@@ -1354,7 +1354,7 @@ msgid "Marking %s as manually installed, it won't be auto-orphaned"
 msgstr "%s märgitakse käsitsi paigaldatuks, seda ei tunnistata enam orvuks"
 
 #: ../urpm/orphans.pm:448
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following package:\n"
 "%s\n"
@@ -1363,15 +1363,21 @@ msgid_plural ""
 "The following packages:\n"
 "%s\n"
 "are now orphaned."
-msgstr[0] "Vajalik on üks järgnevatest pakettidest:"
-msgstr[1] "Vajalik on üks järgnevatest pakettidest:"
+msgstr[0] ""
+"Pakett\n"
+"%s\n"
+"on nüüd orb."
+msgstr[1] ""
+"Paketid\n"
+"%s\n"
+"on nüüd orvud."
 
 #: ../urpm/orphans.pm:451
-#, fuzzy, c-format
+#, c-format
 msgid "You may wish to remove it."
 msgid_plural "You may wish to remove them."
-msgstr[0] "Pole ühtegi orbu eemaldada"
-msgstr[1] "Pole ühtegi orbu eemaldada"
+msgstr[0] "Selle võib soovi korral eemaldada."
+msgstr[1] "Need võib soovi korral eemaldada."
 
 #: ../urpm/orphans.pm:460
 #, c-format
@@ -1770,7 +1776,7 @@ msgid "Removal is possible"
 msgstr "Eemaldamine on võimalik"
 
 #: ../urpmf:29
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2010 Mandriva.\n"
@@ -1780,11 +1786,11 @@ msgid ""
 "usage: urpmf [options] pattern-expression\n"
 msgstr ""
 "urpmf versioon %s\n"
-"Autoriõigus (C) 2002-2006 Mandriva.\n"
+"Autoriõigus (C) 2002-2010 Mandriva.\n"
 "See on vaba tarkvara, mida võib levitada vastavalt GNU Üldise Avaliku "
 "Litsentsi tingimustele.\n"
 "\n"
-"kasutamine: urpmf [võtmed] pattern-expression\n"
+"kasutamine: urpmf [võtmed] mustriavaldis\n"
 
 #: ../urpmf:36
 #, c-format
@@ -2012,7 +2018,7 @@ msgstr "  --sourcerpm    - lähtekoodi RPM-i nimi\n"
 #: ../urpmf:80
 #, c-format
 msgid "  --suggests     - suggests tags\n"
-msgstr "  --suggests     - pakkumiste sildid\n"
+msgstr "  --suggests     - soovituste sildid\n"
 
 #: ../urpmf:81
 #, c-format
@@ -2089,7 +2095,7 @@ msgstr "  --auto-orphans - orbude eemaldamine ilma küsimusi esitamata\n"
 #: ../urpmi:84 ../urpmq:56
 #, c-format
 msgid "  --no-suggests  - do not auto select \"suggested\" packages.\n"
-msgstr "  --no-suggests  - \"pakutud\" pakette ei valita automaatselt.\n"
+msgstr "  --no-suggests  - \"soovitatud\" pakette ei valita automaatselt.\n"
 
 #: ../urpmi:85
 #, c-format
@@ -2185,7 +2191,7 @@ msgstr ""
 #: ../urpmi:107
 #, c-format
 msgid "  --allow-suggests - auto select \"suggested\" packages.\n"
-msgstr "  --allow-suggests - valib automaatselt \"pakutud\" paketid.\n"
+msgstr "  --allow-suggests - valib automaatselt \"soovitatud\" paketid.\n"
 
 #: ../urpmi:111
 #, c-format
@@ -2598,7 +2604,7 @@ msgstr "Vajutage Enter, kui see on tehtud..."
 #. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2636,6 +2642,7 @@ msgstr ""
 "\n"
 "  urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'\n"
 "  urpmi.addmedia --mirrorlist '$MIRRORLIST' backports media/main/backports\n"
+"  urpmi.addmedia --distrib --zeroconf\n"
 "\n"
 "\n"
 "ja [võti] on üks järgmistest\n"
@@ -2813,7 +2820,7 @@ msgid "Can't use %s with remote medium"
 msgstr "%s kasutamine ei ole võimalik võrguandmekandjaga"
 
 #: ../urpmi.recover:28
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi.recover version %s\n"
 "Copyright (C) 2006-2010 Mandriva.\n"
@@ -2823,7 +2830,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmi.recover versioon %s\n"
-"Autoriõigus © 2006 Mandriva.\n"
+"Autoriõigus © 2006-2010 Mandriva.\n"
 "See on vaba tarkvara, mida võib levitada vastavalt GNU Üldise Avaliku "
 "Litsentsi tingimustele.\n"
 "\n"
@@ -3031,9 +3038,9 @@ msgid "  --probe-rpms   - do not use synthesis, use rpm files directly\n"
 msgstr "  --probe-rpms   - ei kasutata sünteesifaili, vaid otse RPM-faile.\n"
 
 #: ../urpmi.update:50
-#, fuzzy, c-format
+#, c-format
 msgid "  -a             - select all enabled non-removable media.\n"
-msgstr "  -a             - valib kõik mitte-eemaldatavad andmekandjad.\n"
+msgstr "  -a             - valib kõik lubatud mitte-eemaldatavad andmekandjad.\n"
 
 #: ../urpmi.update:51
 #, c-format
@@ -3080,7 +3087,7 @@ msgid "enabling media %s"
 msgstr "andmekandja %s arvestamine"
 
 #: ../urpmq:40
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2010 Mandriva.\n"
@@ -3090,7 +3097,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmq versioon %s\n"
-"Autoriõigus (C) 2000-2006 Mandriva.\n"
+"Autoriõigus (C) 2000-2010 Mandriva.\n"
 "See on vaba tarkvara, mida võib levitada vastavalt GNU Üldise Avaliku "
 "Litsentsi tingimustele.\n"
 "\n"
@@ -3166,9 +3173,9 @@ msgstr ""
 "  --src          - järgmine pakett on lähtetekstipakett (sama, mis -s).\n"
 
 #: ../urpmq:67
-#, fuzzy, c-format
+#, c-format
 msgid "  --sources      - print source URLs of selected packages\n"
-msgstr "  --sourcerpm    - näitab lähtekoodi RPM-i nime.\n"
+msgstr "  --sources      - näitab valitud pakettide lähte-URLi.\n"
 
 #: ../urpmq:69
 #, c-format
@@ -3212,7 +3219,7 @@ msgstr "  --requires     - näitab nõutavaid.\n"
 #: ../urpmq:88
 #, c-format
 msgid "  --suggests     - print suggests.\n"
-msgstr "  --suggests     - näitab pakkumisi.\n"
+msgstr "  --suggests     - näitab soovitusi.\n"
 
 #: ../urpmq:89
 #, c-format
