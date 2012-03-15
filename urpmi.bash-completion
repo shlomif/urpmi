@@ -195,7 +195,7 @@ _urpme()
 	    --auto-orphans --parallel --justdb --noscripts" -- $cur ) )
     else
 	# return list of available packages
-	_rpm_installed_packages
+	_xfunc rpm _rpm_installed_packages
     fi
 }
 complete -F _urpme urpme
