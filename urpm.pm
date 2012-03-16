@@ -295,7 +295,7 @@ sub db_open_or_die_ {
     my $db;
     if ($urpm->{env_rpmdb}) {
 	#- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
-        $db = new URPM;
+        $db = URPM->new;
         $db->parse_synthesis($urpm->{env_rpmdb});
     } else {
 	$db = db_open_or_die($urpm, $urpm->{root}, $b_write_perm);

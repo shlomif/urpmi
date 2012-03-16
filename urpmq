@@ -380,7 +380,7 @@ if ($options{list_aliases}) {
 								  ! defined $state->{selected}{$_} } keys %{$state->{selected}}};
     } elsif ($options{deps}) {
 	#- only deps required.
-	my $empty_db = new URPM; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
+	my $empty_db = URPM->new; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
 	$urpm->resolve_requested($empty_db, $state, \%requested, 
 				 no_suggests => $urpm->{options}{'no-suggests'},
 				 callback_choices => $stop_on_choices, nodeps => 1);
