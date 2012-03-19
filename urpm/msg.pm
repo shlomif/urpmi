@@ -167,7 +167,7 @@ sub format_line_selected_packages {
     }
     $flush->();
 
-    (sprintf($format_line_format, map { " $_" } N("Package"), N("Version"), N("Release"), N("Arch")),
+    (sprintf($format_line_format, N("Package"), N("Version"), N("Release"), N("Arch")),
      @lines);
 }
 sub _format_line_selected_packages {
