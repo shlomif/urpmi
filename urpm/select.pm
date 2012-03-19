@@ -644,7 +644,7 @@ sub translate_why_removed_one {
     my ($from) = keys %$closure;
     my ($whyk) = keys %{$closure->{$from}};
     my $whyv = $closure->{$from}{$whyk};
-    my $frompkg = $urpm->search($from, (strict_fullname => 1));
+    my $frompkg = $urpm->search($from, strict_fullname => 1);
     my $s = do {
 	if ($whyk =~ /old_requested/) {
 	    N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
