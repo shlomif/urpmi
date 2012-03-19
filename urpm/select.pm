@@ -413,7 +413,7 @@ sub find_packages_to_remove {
 		    $db->traverse_tag('name', [ $n ], sub {
 			    my ($p) = @_;
 			    $p->fullname eq $_ or return;
-			    $urpm->resolve_rejected($db, $state, $p, (removed => 1));
+			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
 			    push @m, scalar $p->fullname;
 			    $found = 1;
 			});
@@ -426,7 +426,7 @@ sub find_packages_to_remove {
 			    my ($p) = @_;
 			    my ($name, $version, $release) = $p->fullname;
 			    "$name-$version-$release" eq $_ or return;
-			    $urpm->resolve_rejected($db, $state, $p, (removed => 1));
+			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
 			    push @m, scalar $p->fullname;
 			    $found = 1;
 			});
@@ -439,7 +439,7 @@ sub find_packages_to_remove {
 			    my ($p) = @_;
 			    my ($name, $version) = $p->fullname;
 			    "$name-$version" eq $_ or return;
-			    $urpm->resolve_rejected($db, $state, $p, (removed => 1));
+			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
 			    push @m, scalar $p->fullname;
 			    $found = 1;
 			});
@@ -450,7 +450,7 @@ sub find_packages_to_remove {
 		$db->traverse_tag('name', [ $_ ], sub {
 			my ($p) = @_;
 			$p->name eq $_ or return;
-			$urpm->resolve_rejected($db, $state, $p, (removed => 1));
+			$urpm->resolve_rejected($db, $state, $p, removed => 1);
 			push @m, scalar $p->fullname;
 			$found = 1;
 		    });
@@ -477,7 +477,7 @@ sub find_packages_to_remove {
 		    my ($p) = @_;
 		    my $f = scalar $p->fullname;
 		    $f =~ $qmatch or return;
-		    $urpm->resolve_rejected($db, $state, $p, (removed => 1));
+		    $urpm->resolve_rejected($db, $state, $p, removed => 1);
 		    push @m, $f;
 		});
 	    $urpm->{log}("...done, packages found [" . join(' ', @m) . "]");
