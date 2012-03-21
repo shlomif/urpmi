@@ -313,7 +313,8 @@ msgstr ""
 #, c-format
 msgid "(%d package, %d MB)"
 msgid_plural "(%d packages, %d MB)"
-msgstr[0] ""
+msgstr[0] "(%d paket, %d MB)"
+msgstr[1] "(%d paket, %d MB)"
 
 #: ../gurpmi2:287 ../urpm/main_loop.pm:49
 #, c-format
@@ -1028,7 +1029,7 @@ msgstr ""
 #: ../urpm/media.pm:719
 #, c-format
 msgid "Search start: %s end: %s"
-msgstr ""
+msgstr "Arama başlangıcı: %s bitişi: %s"
 
 #: ../urpm/media.pm:736
 #, c-format
@@ -1707,7 +1708,8 @@ msgstr "bilinmeyen paket"
 #, c-format
 msgid "Removing the following package will break your system:"
 msgid_plural "Removing the following packages will break your system:"
-msgstr[0] ""
+msgstr[0] "Aşağıdaki paketlerin kaldırılması sisteminizi çökertecektir."
+msgstr[1] "Aşağıdaki paketlerin kaldırılması sisteminizi çökertecektir."
 
 #: ../urpme:128
 #, c-format
@@ -1725,18 +1727,23 @@ msgid "To satisfy dependencies, the following package will be removed"
 msgid_plural ""
 "To satisfy dependencies, the following %d packages will be removed"
 msgstr[0] ""
+"Bağımlılık sorununu aşabilmek için, aşağıdaki paketin kurulması gerekiyor:"
+msgstr[1] ""
+"Bağımlılık sorununu aşabilmek için, aşağıdaki %d paketin kurulması gerekiyor:"
 
 #: ../urpme:156
 #, c-format
 msgid "(orphan package)"
 msgid_plural "(orphan packages)"
-msgstr[0] ""
+msgstr[0] "(gereksiz paketler)"
+msgstr[1] "(gereksiz paketler)"
 
 #: ../urpme:163
 #, c-format
 msgid "Remove %d package?"
 msgid_plural "Remove %d packages?"
-msgstr[0] ""
+msgstr[0] "%d adet paket kaldırılsın mı?"
+msgstr[1] "%d adet paket kaldırılsın mı?"
 
 #: ../urpme:168
 #, c-format
@@ -2534,7 +2541,8 @@ msgstr ""
 #, c-format
 msgid "The following orphan package will be removed."
 msgid_plural "The following orphan packages will be removed."
-msgstr[0] ""
+msgstr[0] "Aşağıdaki gereksiz paketler kaldırılacak"
+msgstr[1] "Aşağıdaki gereksiz paketler kaldırılacak"
 
 #: ../urpmi:600
 #, c-format
@@ -2565,7 +2573,8 @@ msgstr "Paketler için %s alınacak"
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
-msgstr[0] ""
+msgstr[0] "Bir adet paket yüklensin mi?(%d)"
+msgstr[1] "Bir adet paket yüklensin mi?(%d)"
 
 #: ../urpmi:642
 #, c-format
@@ -2786,28 +2795,33 @@ msgstr ""
 #: ../urpmi.recover:34
 #, c-format
 msgid "  --checkpoint   - set repackaging start now\n"
-msgstr ""
+msgstr "  --checkpoint   - yeniden paketleme başlangıcını şimdi belirle.\n"
 
 #: ../urpmi.recover:35
 #, c-format
 msgid "  --noclean      - don't clean repackage directory on checkpoint\n"
 msgstr ""
+"  --noclean      - denetleme noktasındaki yeniden paketleme dizinini "
+"temizleme.\n"
 
 #: ../urpmi.recover:37
 #, c-format
 msgid ""
 "  --list         - list transactions since provided date/duration argument\n"
 msgstr ""
+"  --list         - verilen tarih/süre argümanından beri yapılan tüm "
+"işlemleri listele.\n"
 
 #: ../urpmi.recover:38
 #, c-format
 msgid "  --list-all     - list all transactions in rpmdb (long)\n"
-msgstr ""
+msgstr "  --list-all     - rpmdb'deki tüm işlemleri listele (uzun)\n"
 
 #: ../urpmi.recover:39
 #, c-format
 msgid "  --list-safe    - list transactions since checkpoint\n"
 msgstr ""
+"  --list-safe    - denetleme noktasından beri olan işlemleri listele.\n"
 
 #: ../urpmi.recover:40
 #, c-format
@@ -2815,92 +2829,98 @@ msgid ""
 "  --rollback     - rollback until specified date,\n"
 "                   or rollback the specified number of transactions\n"
 msgstr ""
+"  --rollback     - belirtilen tarihe kadar geri al veya\n"
+"                   belirtilen işlem sayısına kadar geri al.\n"
 
 #: ../urpmi.recover:42
 #, c-format
 msgid "  --disable      - turn off repackaging\n"
-msgstr ""
+msgstr "  --disable      - yeniden paketlemeyi devre dışı bırak.\n"
 
 #: ../urpmi.recover:57
 #, c-format
 msgid "Invalid date or duration [%s]\n"
-msgstr ""
+msgstr "Geçersiz tarih veya zaman [%s]\n"
 
 #: ../urpmi.recover:65
 #, c-format
 msgid "Repackage directory not defined\n"
-msgstr ""
+msgstr "Yeniden paketleme dizini belirtilmemiş.\n"
 
 #: ../urpmi.recover:68
 #, c-format
 msgid "Can't write to repackage directory [%s]\n"
-msgstr ""
+msgstr "[%s] yeniden paketleme dizinine yazılamıyor.\n"
 
 #: ../urpmi.recover:70
 #, c-format
 msgid "Cleaning up repackage directory [%s]...\n"
-msgstr ""
+msgstr "[%s] yeniden paketleme dizini temizleniyor...\n"
 
 #: ../urpmi.recover:72
 #, c-format
 msgid "%d file removed\n"
 msgid_plural "%d files removed\n"
-msgstr[0] ""
+msgstr[0] "%d adet dosya kaldırıldı.\n"
+msgstr[1] "%d adet dosya kaldırıldı.\n"
 
 #: ../urpmi.recover:82
 #, c-format
 msgid "Spurious command-line arguments [%s]\n"
-msgstr ""
+msgstr "Suni komut satırı argümanları [%s]\n"
 
 #: ../urpmi.recover:84
 #, c-format
 msgid "You can't specify --checkpoint and --rollback at the same time\n"
 msgstr ""
+"Aynı anda hem --rollback hem de --cehckpoint komutlarını belirleyemezsiniz.\n"
 
 #: ../urpmi.recover:86
 #, c-format
 msgid "You can't specify --checkpoint and --list at the same time\n"
 msgstr ""
+"Aynı anda hem --checkpoint hem de --list komutlarını belirleyemezsiniz.\n"
 
 #: ../urpmi.recover:88
 #, c-format
 msgid "You can't specify --rollback and --list at the same time\n"
 msgstr ""
+"Aynı anda hem --rollback hem de --list komutlarını belirleyemezsiniz.\n"
 
 #: ../urpmi.recover:90
 #, c-format
 msgid "You can't specify --disable along with another option"
-msgstr ""
+msgstr "Diğer bir işlem süresince --disable komutu belirleyemezsiniz."
 
 #: ../urpmi.recover:115
 #, c-format
 msgid "No transaction found since %s\n"
-msgstr ""
+msgstr "%s 'den beri bir işlem bulunmadı.\n"
 
 #: ../urpmi.recover:130
 #, c-format
 msgid "You must be superuser to do this"
-msgstr ""
+msgstr "Bunu yapabilmek için yetkili kullanıcı olmalısınız."
 
 #: ../urpmi.recover:143 ../urpmi.recover:209
 #, c-format
 msgid "Writing rpm macros file [%s]...\n"
-msgstr ""
+msgstr "[%s] rpm makro dosyası yazılıyor...\n"
 
 #: ../urpmi.recover:185
 #, c-format
 msgid "No rollback date found\n"
-msgstr ""
+msgstr "Geri alma tarihi bulunamadı.\n"
 
 #: ../urpmi.recover:188
 #, c-format
 msgid "Rollback until %s...\n"
-msgstr ""
+msgstr "%s olana kadar geri al...\n"
 
 #: ../urpmi.recover:195
 #, c-format
 msgid "Disabling repackaging\n"
-msgstr ""
+msgstr "Tekrar paketleme kapatılıyor\n"
 
 #: ../urpmi.removemedia:38
 #, c-format
