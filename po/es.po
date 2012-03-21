@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-27 21:09+0100\n"
+"POT-Creation-Date: 2012-03-21 08:44+0100\n"
 "PO-Revision-Date: 2010-03-18 11:24-0300\n"
 "Last-Translator: Diego Bello <dbello@gmail.com>\n"
 "Language-Team: Spanish <cooker-i18n@mandrivalinux.org >\n"
@@ -275,7 +275,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Advertencia"
 
-#: ../gurpmi2:155 ../urpmi:632
+#: ../gurpmi2:155 ../urpmi:642
 #, c-format
 msgid "Ok"
 msgstr "Aceptar"
@@ -316,13 +316,13 @@ msgstr ""
 "%s\n"
 "¿Continuar de todas maneras?"
 
-#: ../gurpmi2:276 ../urpmi:599
+#: ../gurpmi2:276 ../urpmi:609
 #, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed:"
 msgstr "Para satisfacer las dependencias, se instalará el paquete siguiente"
 
-#: ../gurpmi2:277 ../urpmi:600
+#: ../gurpmi2:277 ../urpmi:610
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed:"
@@ -351,7 +351,7 @@ msgstr "Preparando..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Instalando paquete `%s' (%s/%s)..."
 
-#: ../gurpmi2:343 ../urpmi:627
+#: ../gurpmi2:343 ../urpmi:637
 #, c-format
 msgid "Please insert the medium named \"%s\""
 msgstr "Por favor, inserte el soporte denominado «%s»"
@@ -404,7 +404,7 @@ msgstr "Finalizó la instalación"
 msgid "removing %s"
 msgstr "quitando %s"
 
-#: ../gurpmi2:427 ../urpmi:695
+#: ../gurpmi2:427 ../urpmi:705
 #, c-format
 msgid "restarting urpmi"
 msgstr "reiniciando urpmi"
@@ -619,22 +619,22 @@ msgstr "el soporte «%s» no está disponible"
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "no se puede leer el archivo rpm [%s] del soporte «%s»"
 
-#: ../urpm/cfg.pm:81
+#: ../urpm/cfg.pm:82
 #, c-format
 msgid "syntax error in config file at line %s"
 msgstr "error de sintaxis en el archivo de configuración en la línea %s"
 
-#: ../urpm/cfg.pm:114
+#: ../urpm/cfg.pm:115
 #, c-format
 msgid "unable to read config file [%s]"
 msgstr "no se puede leer el archivo de configuración [%s]"
 
-#: ../urpm/cfg.pm:140
+#: ../urpm/cfg.pm:141
 #, c-format
 msgid "medium `%s' is defined twice, aborting"
 msgstr "el soporte «%s» está definido dos veces, abortando"
 
-#: ../urpm/cfg.pm:251 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "no se puede escribir el archivo de configuración [%s]"
@@ -818,27 +818,27 @@ msgstr "no se puede instalar el paquete %s"
 msgid "removing bad rpm (%s) from %s"
 msgstr "quitando rpm no válido (%s) desde %s"
 
-#: ../urpm/install.pm:213 ../urpm/install.pm:277
+#: ../urpm/install.pm:213 ../urpm/install.pm:278
 #, c-format
 msgid "removing %s failed: %s"
 msgstr "falló la eliminación de %s: %s"
 
-#: ../urpm/install.pm:258
+#: ../urpm/install.pm:259
 #, c-format
 msgid "Removing package %s"
 msgstr "Quitando paquete %s"
 
-#: ../urpm/install.pm:259
+#: ../urpm/install.pm:260
 #, c-format
 msgid "removing package %s"
 msgstr "quitando paquete %s"
 
-#: ../urpm/install.pm:275
+#: ../urpm/install.pm:276
 #, c-format
 msgid "removing installed rpms (%s) from %s"
 msgstr "quitando rpms instalados (%s) desde %s"
 
-#: ../urpm/install.pm:284
+#: ../urpm/install.pm:285
 #, c-format
 msgid "More information on package %s"
 msgstr "Más información sobre el paquete %s"
@@ -1047,6 +1047,11 @@ msgid ""
 msgstr ""
 "--synthesis no se puede usar con --media, --excludemedia, --sortmedia, --"
 "update, --use-distrib o --parallel"
+
+#: ../urpm/media.pm:719
+#, c-format
+msgid "Search start: %s end: %s"
+msgstr "Inicio de la búsqueda: %s fin: %s"
 
 #: ../urpm/media.pm:736
 #, c-format
@@ -1291,7 +1296,7 @@ msgstr "se encontró la geolocalización %s %.2f %.2f para el huso horario %s"
 msgid "getting mirror list from %s"
 msgstr "obteniendo lista de réplicas desde %s"
 
-#: ../urpm/msg.pm:76 ../urpmi:495 ../urpmi:513 ../urpmi:619
+#: ../urpm/msg.pm:76 ../urpmi:495 ../urpmi:513 ../urpmi:629
 #, c-format
 msgid "Nn"
 msgstr "Nn"
@@ -2540,7 +2545,7 @@ msgstr ""
 "\n"
 "¿Seguir adelante con la instalación?"
 
-#: ../urpmi:497 ../urpmi:515 ../urpmi:620 ../urpmi.addmedia:136
+#: ../urpmi:497 ../urpmi:515 ../urpmi:630 ../urpmi.addmedia:136
 #, c-format
 msgid " (Y/n) "
 msgstr " (S/n) "
@@ -2604,39 +2609,44 @@ msgid_plural "The following orphan packages will be removed."
 msgstr[0] "Se quitará el siguiente paquete huérfano."
 msgstr[1] "Se quitarán los siguientes paquetes huérfanos."
 
-#: ../urpmi:602
+#: ../urpmi:600
+#, c-format
+msgid "WARNING: %s option is in use. Some strange problems may happen"
+msgstr ""
+
+#: ../urpmi:612
 #, c-format
 msgid "(test only, installation will not be actually done)"
 msgstr "(sólo prueba, no se llevará a cabo la instalación)"
 
-#: ../urpmi:608
+#: ../urpmi:618
 #, c-format
 msgid "%s of additional disk space will be used."
 msgstr "se utilizarán %s de espacio de disco adicional."
 
-#: ../urpmi:609
+#: ../urpmi:619
 #, c-format
 msgid "%s of disk space will be freed."
 msgstr "se liberará %s de espacio de disco."
 
-#: ../urpmi:610
+#: ../urpmi:620
 #, c-format
 msgid "%s of packages will be retrieved."
 msgstr "se descargarán %s de paquetes."
 
-#: ../urpmi:611
+#: ../urpmi:621
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "¿Efectuar la instalación del paquete?"
 msgstr[1] "¿Efectuar la instalación de los %d paquetes?"
 
-#: ../urpmi:632
+#: ../urpmi:642
 #, c-format
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../urpmi:640
+#: ../urpmi:650
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "Presione «Intro» cuando el soporte sté montado..."
@@ -3414,12 +3424,12 @@ msgid "No changelog found\n"
 msgstr "No se encontró changelog\n"
 
 #: ../gurpmi.desktop.in.h:1
-msgid "Graphical front end to install RPM files"
-msgstr "Interfaz gráfica para instalar archivos RPM"
-
-#: ../gurpmi.desktop.in.h:2
 msgid "Software Installer"
 msgstr "Instalador de software"
+
+#: ../gurpmi.desktop.in.h:2
+msgid "Graphical front end to install RPM files"
+msgstr "Interfaz gráfica para instalar archivos RPM"
 
 #, fuzzy
 #~ msgid ""
@@ -3498,9 +3508,6 @@ msgstr "Instalador de software"
 
 #~ msgid "due to already installed %s"
 #~ msgstr "debido a que ya está instalado %s"
-
-#~ msgid "Search start: %s end: %s"
-#~ msgstr "Inicio de la búsqueda: %s fin: %s"
 
 #~ msgid ""
 #~ "  --from         - use specified url for list of mirrors, the default is\n"

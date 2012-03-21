@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-27 21:09+0100\n"
+"POT-Creation-Date: 2012-03-21 08:44+0100\n"
 "PO-Revision-Date: 2007-03-22 08:14+0700\n"
 "Last-Translator: Willy Sudiarto Raharjo <willysr@gmail.com>\n"
 "Language-Team: Indonesia <mdk-id@yahoogroups.com>\n"
@@ -262,7 +262,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Peringatan"
 
-#: ../gurpmi2:155 ../urpmi:632
+#: ../gurpmi2:155 ../urpmi:642
 #, c-format
 msgid "Ok"
 msgstr "Ok"
@@ -303,13 +303,13 @@ msgstr ""
 "%s\n"
 "Lanjutkan installasi?"
 
-#: ../gurpmi2:276 ../urpmi:599
+#: ../gurpmi2:276 ../urpmi:609
 #, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed:"
 msgstr "Untuk memenuhi ketergantungan, paket berikut akan diinstall:"
 
-#: ../gurpmi2:277 ../urpmi:600
+#: ../gurpmi2:277 ../urpmi:610
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed:"
@@ -337,7 +337,7 @@ msgstr "Persiapan..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Menginstall paket `%s' (%s/%s)..."
 
-#: ../gurpmi2:343 ../urpmi:627
+#: ../gurpmi2:343 ../urpmi:637
 #, fuzzy, c-format
 msgid "Please insert the medium named \"%s\""
 msgstr "Harap masukkan media bernama \"%s\" ke perangkat [%s]"
@@ -390,7 +390,7 @@ msgstr "Instalasi selesai"
 msgid "removing %s"
 msgstr "menghapus %s"
 
-#: ../gurpmi2:427 ../urpmi:695
+#: ../gurpmi2:427 ../urpmi:705
 #, c-format
 msgid "restarting urpmi"
 msgstr "jalankan ulang urpmi"
@@ -601,22 +601,22 @@ msgstr "media \"%s\" tidak tersedia"
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "gagal membaca file rpm [%s] dari media \"%s\""
 
-#: ../urpm/cfg.pm:81
+#: ../urpm/cfg.pm:82
 #, c-format
 msgid "syntax error in config file at line %s"
 msgstr "kesalahan sintak pada file konfigurasi pada barus %s"
 
-#: ../urpm/cfg.pm:114
+#: ../urpm/cfg.pm:115
 #, c-format
 msgid "unable to read config file [%s]"
 msgstr "tidak dapat membaca file konfigurasi [%s]"
 
-#: ../urpm/cfg.pm:140
+#: ../urpm/cfg.pm:141
 #, c-format
 msgid "medium `%s' is defined twice, aborting"
 msgstr "media `%s' didefinisikan dua kali, membatalkan diri"
 
-#: ../urpm/cfg.pm:251 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "gagal menulis ke file konfigurasi [%s]"
@@ -798,27 +798,27 @@ msgstr "gagal menginstal paket %s"
 msgid "removing bad rpm (%s) from %s"
 msgstr "menghapus rpm yang terinstall (%s) dari %s"
 
-#: ../urpm/install.pm:213 ../urpm/install.pm:277
+#: ../urpm/install.pm:213 ../urpm/install.pm:278
 #, fuzzy, c-format
 msgid "removing %s failed: %s"
 msgstr "...pengambilan gagal: %s"
 
-#: ../urpm/install.pm:258
+#: ../urpm/install.pm:259
 #, fuzzy, c-format
 msgid "Removing package %s"
 msgstr "menghapus paket %s"
 
-#: ../urpm/install.pm:259
+#: ../urpm/install.pm:260
 #, c-format
 msgid "removing package %s"
 msgstr "menghapus paket %s"
 
-#: ../urpm/install.pm:275
+#: ../urpm/install.pm:276
 #, c-format
 msgid "removing installed rpms (%s) from %s"
 msgstr "menghapus rpm yang terinstall (%s) dari %s"
 
-#: ../urpm/install.pm:284
+#: ../urpm/install.pm:285
 #, c-format
 msgid "More information on package %s"
 msgstr "Informasi tambahan pada paket %s"
@@ -1022,6 +1022,11 @@ msgid ""
 msgstr ""
 "--synthesis tidak dapat dipakai dengan --media, --excludemedia, --sortmedia, "
 "--update, --use-distrib atau --parallel"
+
+#: ../urpm/media.pm:719
+#, c-format
+msgid "Search start: %s end: %s"
+msgstr "Pencarian dimulai: %s akhir: %s"
 
 #: ../urpm/media.pm:736
 #, c-format
@@ -1266,7 +1271,7 @@ msgstr ""
 msgid "getting mirror list from %s"
 msgstr "membaca file rpm dari [%s]"
 
-#: ../urpm/msg.pm:76 ../urpmi:495 ../urpmi:513 ../urpmi:619
+#: ../urpm/msg.pm:76 ../urpmi:495 ../urpmi:513 ../urpmi:629
 #, c-format
 msgid "Nn"
 msgstr "TtNn"
@@ -2471,7 +2476,7 @@ msgstr ""
 "\n"
 "Lanjutkan installasi?"
 
-#: ../urpmi:497 ../urpmi:515 ../urpmi:620 ../urpmi.addmedia:136
+#: ../urpmi:497 ../urpmi:515 ../urpmi:630 ../urpmi.addmedia:136
 #, c-format
 msgid " (Y/n) "
 msgstr " (Y/t) "
@@ -2534,39 +2539,44 @@ msgid_plural "The following orphan packages will be removed."
 msgstr[0] "Untuk memenuhi ketergantungan, paket berikut akan dihapus"
 msgstr[1] "Untuk memenuhi ketergantungan, paket-paket %d berikut akan dihapus"
 
-#: ../urpmi:602
+#: ../urpmi:600
+#, c-format
+msgid "WARNING: %s option is in use. Some strange problems may happen"
+msgstr ""
+
+#: ../urpmi:612
 #, c-format
 msgid "(test only, installation will not be actually done)"
 msgstr "(hanya pengujian, installasi tidak akan dilakukan)"
 
-#: ../urpmi:608
+#: ../urpmi:618
 #, c-format
 msgid "%s of additional disk space will be used."
 msgstr ""
 
-#: ../urpmi:609
+#: ../urpmi:619
 #, c-format
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:610
+#: ../urpmi:620
 #, c-format
 msgid "%s of packages will be retrieved."
 msgstr ""
 
-#: ../urpmi:611
+#: ../urpmi:621
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Lanjutkan dengan installasi satu paket?"
 msgstr[1] "Lanjutkan dengan installasi paket-paket %d?"
 
-#: ../urpmi:632
+#: ../urpmi:642
 #, c-format
 msgid "Cancel"
 msgstr "Batal"
 
-#: ../urpmi:640
+#: ../urpmi:650
 #, fuzzy, c-format
 msgid "Press Enter when mounted..."
 msgstr "Tekan [Enter] jika siap.."
@@ -3322,12 +3332,12 @@ msgid "No changelog found\n"
 msgstr "Changelog tidak ditemukan\n"
 
 #: ../gurpmi.desktop.in.h:1
-msgid "Graphical front end to install RPM files"
-msgstr "Tampilan grafis untuk menginstall file RPM"
-
-#: ../gurpmi.desktop.in.h:2
 msgid "Software Installer"
 msgstr "Penginstall perangkat lunak"
+
+#: ../gurpmi.desktop.in.h:2
+msgid "Graphical front end to install RPM files"
+msgstr "Tampilan grafis untuk menginstall file RPM"
 
 #, fuzzy
 #~ msgid "Cannot write DUDF file.\n"
@@ -3343,9 +3353,6 @@ msgstr "Penginstall perangkat lunak"
 #, fuzzy
 #~ msgid "due to already installed %s"
 #~ msgstr "Paket %s telah terinstall"
-
-#~ msgid "Search start: %s end: %s"
-#~ msgstr "Pencarian dimulai: %s akhir: %s"
 
 #~ msgid ""
 #~ "  --from         - use specified url for list of mirrors, the default is\n"
