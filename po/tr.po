@@ -1094,7 +1094,7 @@ msgstr "desteklenmeyen ortam atlanıyor `%s' (for %s)"
 #: ../urpm/media.pm:1018
 #, c-format
 msgid "ignoring non-free medium `%s'"
-msgstr ""
+msgstr "`%s'  non-free ortamı yoksayılıyor."
 
 #: ../urpm/media.pm:1061
 #, c-format
@@ -1388,6 +1388,13 @@ msgid_plural ""
 "are now orphaned, if you wish to remove them, you can use \"urpme --auto-"
 "orphans\""
 msgstr[0] ""
+"Aşağıdaki paketler artık gereksiz:\n"
+"%s\n"
+", \"urpme --auto-orphans\" kullanarak sistemden kaldırabilirsiniz."
+msgstr[1] ""
+"Aşağıdaki paketler artık gereksiz:\n"
+"%s\n"
+", \"urpme --auto-orphans\" kullanarak sistemden kaldırabilirsiniz."
 
 #: ../urpm/parallel.pm:15
 #, c-format
@@ -2611,6 +2618,26 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
+"kullanım: urpmi.addmedia [seçenekler] <isim> <url>\n"
+"<url> şunlardan biri olduğunda:\n"
+"       [file:/]/<yol>\n"
+"       ftp://<kullanıcıadı>:<parola>@<bilgisayar>/<yol>\n"
+"       ftp://<bilgisyar>/<yol>\n"
+"       http://<bilgisayar>/<yol>\n"
+"       cdrom://<yol>\n"
+"\n"
+"kullanım: urpmi.addmedia [seçenekler] --distrib --mirrorlist <url>\n"
+"kullanım: urpmi.addmedia [seçenekler] --mirrorlist <url> <isim> <göreli "
+"yol>\n"
+"\n"
+"örnekler:\n"
+"\n"
+"  urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'\n"
+"  urpmi.addmedia --mirrorlist '$MIRRORLIST' backports media/main/backports\n"
+"  urpmi.addmedia --distrib --zeroconf\n"
+"\n"
+"\n"
+"ve [seçenekler] de şunlardan biridir:\n"
 
 #: ../urpmi.addmedia:56 ../urpmi.update:33 ../urpmq:75
 #, c-format
@@ -3135,7 +3162,7 @@ msgstr ""
 #: ../urpmq:67
 #, c-format
 msgid "  --sources      - print source URLs of selected packages\n"
-msgstr ""
+msgstr "  --sources      - seçili paketlerin kaynak URL adreslerini yazdırır\n"
 
 #: ../urpmq:69
 #, c-format
