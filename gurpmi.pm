@@ -33,7 +33,7 @@ use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = qw(create_scrolled_window fatal but cancel_n_quit quit add_button_box new_label N);
 
-urpm::select::add_packages_to_priority_upgrade_list('gurpmi');
+urpm::select::add_packages_to_priority_upgrade_list('gurpmi', 'perl-Glib', 'perl-Gtk2');
 
 sub usage () {
     print N("urpmi version %s
