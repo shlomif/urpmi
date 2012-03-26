@@ -108,6 +108,7 @@ sub selected2local_and_blists {
 
     my @remaining_ids = sort { $a <=> $b } keys %id_map;
 
+    my %blists;
     my @blists = map {
 	my $medium = $_;
 	my %pkgs;
@@ -117,8 +118,12 @@ sub selected2local_and_blists {
 		$medium->{start} <= $id && $id <= $medium->{end} or last;
 		shift @remaining_ids;
 
+		my $maped_id = $id_map{$id};
+		# no duplicate package (especially noarch ones, eg from 32 & 64 bit media):
+		next if $blists{$maped_id};
+		$blists{$maped_id} = 1;
 		my $pkg = $urpm->{depslist}[$id];
-		$pkgs{$id_map{$id}} = $pkg;
+		$pkgs{$maped_id} = $pkg;
 	    }
 	}
 	%pkgs ? { medium => $medium, pkgs => \%pkgs } : ();
