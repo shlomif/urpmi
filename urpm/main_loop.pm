@@ -29,7 +29,7 @@ use urpm::select;
 use urpm::orphans;
 use urpm::get_pkgs;
 use urpm::signature;
-use urpm::util qw(untaint difference2 intersection member partition);
+use urpm::util qw(untaint difference2 find intersection member partition);
 
 # locking is left to callers
 sub run {
@@ -285,7 +285,7 @@ sub run {
                 if (@l) {
                     my ($raw_error, $translated) = partition { /^(badarch|bados|installed|badrelocate|conflicts|installed|diskspace|disknodes|requires|conflicts|unknown)\@/ } @l;
                     @l = @$translated;
-                    my $fatal = grep { /^disk/ } @$raw_error;
+                    my $fatal = find { /^disk/ } @$raw_error;
                     my $no_question = $fatal || $urpm->{options}{auto};
 
                     #- Warning : the following message is parsed in urpm::parallel_*
