@@ -29,7 +29,7 @@ use urpm::select;
 use urpm::orphans;
 use urpm::get_pkgs;
 use urpm::signature;
-use urpm::util qw(untaint difference2 find intersection member partition);
+use urpm::util qw(difference2 find intersection member partition untaint);
 
 # locking is left to callers
 sub run {
