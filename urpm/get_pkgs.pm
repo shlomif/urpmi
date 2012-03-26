@@ -126,7 +126,7 @@ sub selected2local_and_blists {
 		$pkgs{$maped_id} = $pkg;
 	    }
 	}
-	%pkgs ? { medium => $medium, pkgs => \%pkgs } : ();
+	%pkgs ? { medium => $medium, pkgs => \%pkgs } : @{[]};
     } (@{$urpm->{media} || []});
 
     if (@remaining_ids) {
