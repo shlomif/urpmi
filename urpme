@@ -163,10 +163,10 @@ if ($urpm->{options}{auto} || $env) {
     $force || message_input_(P("Remove %d package?", "Remove %d packages?", scalar(@toremove), scalar(@toremove)) . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/ or exit 0;
 }
 
-print $test ? 
+print($test ? 
   #- Warning : the following message is parsed in urpm::parallel_*
   N("testing removal of %s", join(' ', sort @toremove)) :
-  N("removing %s", join(' ', sort @toremove)), "\n";
+  N("removing %s", join(' ', sort @toremove)), "\n");
 
 exit 0 if $env;
 

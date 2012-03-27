@@ -23,7 +23,7 @@ where [options] are from
 
 my $urpm = urpm->new;
 
-while ($_ = shift) {
+while (my $_ = shift) {
     $_ eq '--root' and do {
 	my $root = shift;
 	$root and urpm::set_files($urpm, $root);

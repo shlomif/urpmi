@@ -416,12 +416,12 @@ if ($options{list_aliases}) {
 			} else {
 			    my $pkgs_text = join(' ', map { $_->name } @pkgs);
 			    if ($xml_info eq 'info') {
-				$urpm->{info}((int(@pkgs) == 1) ?
+				$urpm->{info}(int(@pkgs) == 1 ?
 						N("no xml info for medium \"%s\", only partial result for package %s", $medium->{name}, $pkgs_text)
 						  : N("no xml info for medium \"%s\", only partial result for packages %s", $medium->{name}, $pkgs_text));
 			    } else {
-				$urpm->{error}((int(@pkgs) == 1) ?
-						 N("no xml info for medium \"%s\", unable to return any result for package %s",$medium->{name}, $pkgs_text)
+				$urpm->{error}(int(@pkgs == 1) ?
+						 N("no xml info for medium \"%s\", unable to return any result for package %s", $medium->{name}, $pkgs_text)
 						   : N("no xml info for medium \"%s\", unable to return any result for packages %s", $medium->{name}, $pkgs_text));
 			    }
 			}
@@ -463,7 +463,7 @@ if ($options{list_aliases}) {
 			    my $media = URPM::pkg2media($urpm->{media}, $pkg);
 			    $media && $updates_descr->{$media->{name}}{$pkg->name};
 			};
-			if (my $description = ($updesc && $updesc->{description}) || $pkg->description) {
+			if (my $description = $updesc && $updesc->{description} || $pkg->description) {
 			    printf "%-12s:\n%s\n", "Description", $description;
 			}
 			if ($updesc) {

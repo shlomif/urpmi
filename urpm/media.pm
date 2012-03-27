@@ -646,7 +646,7 @@ sub configure {
 	   }
 	}
 	if ($options{update}) {
-	    foreach (grep { !$_->{ignore} && ($_->{update}) } @{$urpm->{media} || []}) {
+	    foreach (grep { !$_->{ignore} && $_->{update} } @{$urpm->{media} || []}) {
 	       #- Ensure update media are selected
 	       $_->{modified} = 1;
 	       _tempignore($_, 0);
