@@ -253,17 +253,13 @@ if ($options{list_aliases}) {
     }
 } elsif ($options{not_available}) {
     my %available;
-    my $to_string = sub {
-        my ($p) = @_;
-	$p->name . '-' . $p->version . '-' . $p->release . '.' . $p->arch
-    };
     foreach my $p (@{$urpm->{depslist}}) {
-        $available{$to_string->($p)} = 1;
+        $available{$p->fullname} = 1;
     }
     my $db = urpm::db_open_or_die_($urpm);
     $db->traverse(sub {
         my ($p) = @_;
-        my $s = $to_string->($p);
+        my $s = $p->fullname;
 	# FIXME Use $pkg_to_string if some options are set but default to this format ?
         # Magical packages like gpg-pubkey do not have arch and we do not want them
         $available{$s} || !$p->arch || print "$s\n";
