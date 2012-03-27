@@ -25,7 +25,7 @@ use urpm::args;
 use urpm::msg;
 use urpm::media;
 use urpm::select;
-use urpm::util qw(untaint difference2 member partition cat_);
+use urpm::util qw(untaint difference2 find member partition cat_);
 use urpm::main_loop;
 
 #- default options.
@@ -637,7 +637,7 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 	my $msg = N("Please insert the medium named \"%s\"", $_[0]);
 	if ($ENV{DISPLAY} && $::gui) {
 	    #- probably run from a drak tool
-	    (my $gmessage) = grep { -x $_ } '/usr/X11R6/bin/gmessage', '/usr/bin/gmessage';
+	    (my $gmessage) = find { -x $_ } '/usr/X11R6/bin/gmessage', '/usr/bin/gmessage';
 	    if ($gmessage) {
 		return system($gmessage, '-buttons', N("Ok") . ':1,' . N("Cancel") . ':0', "\n$msg\n");
 	    }
