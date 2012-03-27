@@ -182,7 +182,7 @@ sub set_files {
 	statedir      => "$urpmi_root/var/lib/urpmi",
 	cachedir      => "$urpmi_root/var/cache/urpmi",
 	root          => $urpmi_root,
-	$urpmi_root ? (urpmi_root => $urpmi_root) : (),
+	$urpmi_root ? (urpmi_root => $urpmi_root) : @{[]},
     );
     $urpm->{$_} = $h{$_} foreach keys %h;
 

@@ -260,7 +260,7 @@ my %needed_media_info = map { $_ => 1 } grep {
     int(grep { $usedtags{$_} } @$l);
 } keys %tags_per_media_info;
 
-my @needed_xml_info = map { s/xml_info__// ? $_ : () } keys %needed_media_info;
+my @needed_xml_info = map { s/xml_info__// ? $_ : @{[]} } keys %needed_media_info;
 if (@needed_xml_info > 1) {
     # we don't handle parallel parsing of xml files, default to hdlist
     $needed_media_info{hdlist} = 1;

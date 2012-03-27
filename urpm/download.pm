@@ -324,16 +324,16 @@ sub sync_wget {
     my $wget_command = join(" ", map { "'$_'" }
 	#- construction of the wget command-line
 	"/usr/bin/wget",
-	($options->{'limit-rate'} ? "--limit-rate=$options->{'limit-rate'}" : ()),
+	($options->{'limit-rate'} ? "--limit-rate=$options->{'limit-rate'}" : @{[]}),
 	($options->{resume} ? "--continue" : "--force-clobber"),
-	($options->{proxy} ? set_proxy({ type => "wget", proxy => $options->{proxy} }) : ()),
-	($options->{retry} ? ('-t', $options->{retry}) : ()),
+	($options->{proxy} ? set_proxy({ type => "wget", proxy => $options->{proxy} }) : @{[]}),
+	($options->{retry} ? ('-t', $options->{retry}) : @{[]}),
 	($options->{callback} ? ("--progress=bar:force", "-o", "-") :
 	    $options->{quiet} ? "-q" : @{[]}),
 	"--retr-symlinks",
-	($options->{"no-certificate-check"} ? "--no-check-certificate" : ()),
+	($options->{"no-certificate-check"} ? "--no-check-certificate" : @{[]}),
 	"--timeout=$CONNECT_TIMEOUT",
-	(defined $options->{'wget-options'} ? split /\s+/, $options->{'wget-options'} : ()),
+	(defined $options->{'wget-options'} ? split /\s+/, $options->{'wget-options'} : @{[]}),
 	'-P', $options->{dir},
 	@_
     ) . " |";
@@ -414,15 +414,15 @@ sub sync_curl {
 	#- prepare to get back size and time stamp of each file.
 	my $cmd = join(" ", map { "'$_'" } "/usr/bin/curl",
 	    "-q", # don't read .curlrc; some toggle options might interfer
-	    ($options->{'limit-rate'} ? ("--limit-rate", $options->{'limit-rate'}) : ()),
-	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
-	    ($options->{retry} ? ('--retry', $options->{retry}) : ()),
+	    ($options->{'limit-rate'} ? ("--limit-rate", $options->{'limit-rate'}) : @{[]}),
+	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : @{[]}),
+	    ($options->{retry} ? ('--retry', $options->{retry}) : @{[]}),
 	    "--stderr", "-", # redirect everything to stdout
 	    "--disable-epsv",
 	    "--connect-timeout", $CONNECT_TIMEOUT,
 	    "-s", "-I",
 	    "--anyauth",
-	    (defined $options->{'curl-options'} ? split /\s+/, $options->{'curl-options'} : ()),
+	    (defined $options->{'curl-options'} ? split /\s+/, $options->{'curl-options'} : @{[]}),
 	    @ftp_files);
 	$options->{debug} and $options->{debug}($cmd);
 	open my $curl, "$cmd |";
@@ -474,19 +474,19 @@ sub sync_curl {
 	my @l = (@ftp_files, @other_files);
 	my $cmd = join(" ", map { "'$_'" } "/usr/bin/curl",
 	    "-q", # don't read .curlrc; some toggle options might interfer
-	    ($options->{'limit-rate'} ? ("--limit-rate", $options->{'limit-rate'}) : ()),
-	    ($options->{resume} ? ("--continue-at", "-") : ()),
-	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
-	    ($options->{retry} ? ('--retry', $options->{retry}) : ()),
+	    ($options->{'limit-rate'} ? ("--limit-rate", $options->{'limit-rate'}) : @{[]}),
+	    ($options->{resume} ? ("--continue-at", "-") : @{[]}),
+	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : @{[]}),
+	    ($options->{retry} ? ('--retry', $options->{retry}) : @{[]}),
 	    ($options->{quiet} ? "-s" : @{[]}),
-	    ($options->{"no-certificate-check"} ? "-k" : ()),
+	    ($options->{"no-certificate-check"} ? "-k" : @{[]}),
 	    $location_trusted ? "--location-trusted" : @{[]},
 	    "-R",
 	    "-f",
 	    "--disable-epsv",
 	    "--connect-timeout", $CONNECT_TIMEOUT,
 	    "--anyauth",
-	    (defined $options->{'curl-options'} ? split /\s+/, $options->{'curl-options'} : ()),
+	    (defined $options->{'curl-options'} ? split /\s+/, $options->{'curl-options'} : @{[]}),
 	    "--stderr", "-", # redirect everything to stdout
 	    @all_files);
 	$options->{debug} and $options->{debug}($cmd);
@@ -576,7 +576,7 @@ sub sync_rsync {
 		   ("--timeout=$CONNECT_TIMEOUT",
 		    "--contimeout=$CONNECT_TIMEOUT")),
 		qw(--partial --no-whole-file --no-motd --copy-links),
-		(defined $options->{'rsync-options'} ? split /\s+/, $options->{'rsync-options'} : ()),
+		(defined $options->{'rsync-options'} ? split /\s+/, $options->{'rsync-options'} : @{[]}),
 		"'$file' '$options->{dir}' 2>&1");
 	    $options->{debug} and $options->{debug}($cmd);
 	    open(my $rsync, "$cmd |");
@@ -649,7 +649,7 @@ sub sync_prozilla {
     my $proz_command = join(" ", map { "'$_'" }
 	"/usr/bin/proz",
 	"--no-curses",
-	(defined $options->{'prozilla-options'} ? split /\s+/, $options->{'prozilla-options'} : ()),
+	(defined $options->{'prozilla-options'} ? split /\s+/, $options->{'prozilla-options'} : @{[]}),
 	@_
     );
     my $ret = system($proz_command);
@@ -675,7 +675,7 @@ sub sync_aria2 {
     my $stat_file = ($< ? $ENV{HOME} : '/root') . '/.aria2-adaptive-stats';
 
     my $aria2c_command = join(" ", map { "'$_'" }
-	"/usr/bin/aria2c", $options->{debug} ? ('--log', "$options->{dir}/.aria2.log") : (),
+	"/usr/bin/aria2c", $options->{debug} ? ('--log', "$options->{dir}/.aria2.log") : @{[]},
 	"--auto-file-renaming=false",
 	'--ftp-pasv',
 	"--follow-metalink=mem",
@@ -685,15 +685,15 @@ sub sync_aria2 {
 	'--lowest-speed-limit=20K', "--timeout", 3,
         '--metalink-servers=3', # maximum number of servers to use for one download
         '--uri-selector=adaptive', "--server-stat-if=$stat_file", "--server-stat-of=$stat_file",
-        $options->{is_versioned} ? () : '--max-file-not-found=3', # number of not found errors on different servers before aborting file download
+        $options->{is_versioned} ? @{[]} : '--max-file-not-found=3', # number of not found errors on different servers before aborting file download
         '--connect-timeout=6', # $CONNECT_TIMEOUT,
-      ) : (),
+      ) : @{[]},
 	"-Z", "-j1",
-	($options->{'limit-rate'} ? "--max-download-limit=" . $options->{'limit-rate'} : ()),
+	($options->{'limit-rate'} ? "--max-download-limit=" . $options->{'limit-rate'} : @{[]}),
 	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
-	($options->{proxy} ? set_proxy({ type => "aria2", proxy => $options->{proxy} }) : ()),
-	($options->{"no-certificate-check"} ? "--check-certificate=false" : ()),
-	(defined $options->{'aria2-options'} ? split /\s+/, $options->{'aria2-options'} : ()),
+	($options->{proxy} ? set_proxy({ type => "aria2", proxy => $options->{proxy} }) : @{[]}),
+	($options->{"no-certificate-check"} ? "--check-certificate=false" : @{[]}),
+	(defined $options->{'aria2-options'} ? split /\s+/, $options->{'aria2-options'} : @{[]}),
         _create_metalink_($urpm, $medium, $rel_files, $options));
 
     $options->{debug} and $options->{debug}($aria2c_command);
@@ -864,8 +864,8 @@ sub _all_options {
 	dir => "$urpm->{cachedir}/partial",
 	proxy => get_proxy_($urpm, $medium),
 	metalink => $medium->{mirrorlist},
-	$medium->{"disable-certificate-check"} ? "no-certificate-check" : (),
-	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
+	$medium->{"disable-certificate-check"} ? "no-certificate-check" : @{[]},
+	$urpm->{debug} ? (debug => $urpm->{debug}) : @{[]},
 	%$options,
     );
     foreach my $cpt (qw(compress limit-rate retry wget-options curl-options rsync-options prozilla-options aria2-options metalink)) {
@@ -977,7 +977,7 @@ sub _sync_webfetch_raw {
 	  }
 	}
     } elsif ($proto eq 'ssh') {
-	my @ssh_files = map { m!^ssh://([^/]*)(.*)! ? "$1:$2" : () } @$files;
+	my @ssh_files = map { m!^ssh://([^/]*)(.*)! ? "$1:$2" : @{[]} } @$files;
 	sync_ssh($options, @ssh_files);
     } else {
 	die N("unable to handle protocol: %s", $proto);

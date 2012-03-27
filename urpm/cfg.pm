@@ -141,7 +141,7 @@ sub load_config_raw {
 		$err = N("medium `%s' is defined twice, aborting", $name);
 		return;
 	    }
-	    $block = { name => $name, $url ? (url => $url) : () };
+	    $block = { name => $name, $url ? (url => $url) : @{[]} };
 	} elsif (/^(hdlist
 	  |list
 	  |with_hdlist
@@ -219,7 +219,7 @@ sub dump_config {
 
     my %global = (name => '', %{$config->{global}});
 
-    dump_config_raw($file, [ %global ? \%global : (), @{$config->{media}} ]);
+    dump_config_raw($file, [ %global ? \%global : @{[]}, @{$config->{media}} ]);
 }
 
 sub dump_config_raw {

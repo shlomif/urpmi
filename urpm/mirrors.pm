@@ -326,7 +326,7 @@ sub _product_id_mtime() { (stat('/etc/product.id'))[9] }
 
 sub parse_LDAP_namespace_structure {
     my ($s) = @_;
-    my %h = map { /(.*?)=(.*)/ ? ($1 => $2) : () } split(',', $s);
+    my %h = map { /(.*?)=(.*)/ ? ($1 => $2) : @{[]} } split(',', $s);
     \%h;
 }
 
