@@ -1237,7 +1237,7 @@ sub may_reconfig_urpmi {
 #-
 #- example of reconfig.urpmi:
 #-    # this is an urpmi reconfiguration file
-#-    /cooker /cooker/$ARCH
+#-    /cauldron /cauldron/$ARCH
 sub reconfig_urpmi {
     my ($urpm, $rfile, $medium) = @_;
     -r $rfile or return;
