@@ -435,7 +435,7 @@ sub _get_now_orphans_raw_msg {
     my ($urpm) = @_;
 
     my $orphans = get_orphans($urpm);
-    my @orphans = map { scalar $_->fullname } @$orphans or return '';
+    my @orphans = map { scalar $_->fullname } @$orphans or return;
 
     (scalar(@orphans), add_leading_spaces(join("\n", sort @orphans)));
 }
@@ -443,7 +443,7 @@ sub _get_now_orphans_raw_msg {
 sub get_now_orphans_gui_msg {
     my ($urpm) = @_;
 
-    my ($count, $list) = _get_now_orphans_raw_msg($urpm);
+    my ($count, $list) = _get_now_orphans_raw_msg($urpm) or return;
     join("\n",
        P("The following package:\n%s\nis now orphaned.",
          "The following packages:\n%s\nare now orphaned.", $count, $list),
@@ -456,7 +456,7 @@ sub get_now_orphans_gui_msg {
 sub get_now_orphans_msg {
     my ($urpm) = @_;
 
-    my ($count, $list) = _get_now_orphans_raw_msg($urpm);
+    my ($count, $list) = _get_now_orphans_raw_msg($urpm) or return;
     P("The following package:\n%s\nis now orphaned, if you wish to remove it, you can use \"urpme --auto-orphans\"",
       "The following packages:\n%s\nare now orphaned, if you wish to remove them, you can use \"urpme --auto-orphans\"",
       $count, $list) . "\n";
