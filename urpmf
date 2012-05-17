@@ -286,21 +286,21 @@ urpm::media::configure($urpm,
 
 # nb: we don't "my" $medium since it is used for $callback
 if ($needed_media_info{hdlist}) {
-    foreach my $medium (urpm::media::non_ignored_media($urpm)) {
+    foreach $medium (urpm::media::non_ignored_media($urpm)) {
 	my $hdlist = urpm::media::any_hdlist($urpm, $medium, $options{verbose} < 0) or 
 	  $urpm->{error}(N("no hdlist available for medium \"%s\"", $medium->{name})), next;
 	$urpm->{log}("getting information from $hdlist");
 	$urpm->parse_hdlist($hdlist, callback => $callback);
     }
 } elsif (!@needed_xml_info) {
-    foreach my $medium (urpm::media::non_ignored_media($urpm)) {
+    foreach $medium (urpm::media::non_ignored_media($urpm)) {
 	my $synthesis = urpm::media::any_synthesis($urpm, $medium) or 
 	  $urpm->{error}(N("no synthesis available for medium \"%s\"", $medium->{name})), next;
 	$urpm->{log}("getting information from $synthesis");
 	$urpm->parse_synthesis($synthesis, callback => $callback);
     }
 } elsif (my ($xml_info) = @needed_xml_info) {
-    foreach my $medium (urpm::media::non_ignored_media($urpm)) {
+    foreach $medium (urpm::media::non_ignored_media($urpm)) {
 	my $xml_info_file = urpm::media::any_xml_info($urpm, $medium, $xml_info, $options{verbose} < 0);
 	if (!$xml_info_file) {
 	    my $hdlist = urpm::media::any_hdlist($urpm, $medium, $options{verbose} < 0) or 
