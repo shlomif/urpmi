@@ -207,6 +207,19 @@ sub _log_installing {
     }
 }
 
+sub _run_parallel_transaction {
+    my ($urpm, $state, $test, $transaction_sources, $transaction_sources_install) = @_;
+    $urpm->{print}(N("distributing %s", join(' ', values $transaction_sources_install, values $transaction_sources)));
+    #- no remove are handle here, automatically done by each distant node.
+    $urpm->{log}("starting distributed install");
+    $urpm->{parallel_handler}->parallel_install(
+        $urpm,
+        [ keys %{$state->{rejected} || {}} ], $transaction_sources_install, $transaction_sources,
+        test => $test,
+        excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
+    );
+}
+
 # locking is left to callers
 sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
@@ -303,15 +316,7 @@ sub run {
         #- install/remove other packages
         if (keys(%transaction_sources_install) || keys(%$transaction_sources) || $set->{remove}) {
             if ($parallel) {
-                $urpm->{print}(N("distributing %s", join(' ', values %transaction_sources_install, values %$transaction_sources)));
-                #- no remove are handle here, automatically done by each distant node.
-                $urpm->{log}("starting distributed install");
-                $urpm->{parallel_handler}->parallel_install(
-                    $urpm,
-                    [ keys %{$state->{rejected} || {}} ], \%transaction_sources_install, $transaction_sources,
-                    test => $test,
-                    excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
-                );
+                _run_parallel_transaction($urpm, $state, $test, $transaction_sources, \%transaction_sources_install);
             } else {
                 if ($options{verbose} >= 0) {
                     _log_installing($urpm, \%transaction_sources_install, $transaction_sources);
