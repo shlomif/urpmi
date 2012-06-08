@@ -88,7 +88,6 @@ my %options_spec = (
 	'synthesis=s' => \$options{synthesis},
 	auto => sub { $urpm->{options}{auto} =  1 },
 	'allow-medium-change' => \$::allow_medium_change,
-	'gui' => \$::gui,
 	'auto-select' => \$::auto_select,
 	'auto-update' => sub { $::auto_update = $::auto_select = 1 },
 	'auto-orphans' => \$options{auto_orphans},
