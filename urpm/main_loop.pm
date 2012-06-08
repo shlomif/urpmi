@@ -106,6 +106,24 @@ sub _download_all {
     }
 }
 
+sub _verify_rpm {
+    my ($urpm, $callbacks, $transaction_sources_install, $transaction_sources) = @_;
+    $callbacks->{pre_check_sig} and $callbacks->{pre_check_sig}->();
+    # CHECK ME: rpmdrake passed "basename => 1" option:
+    my @bad_signatures = urpm::signature::check($urpm, $transaction_sources_install, $transaction_sources,
+                                                callback => $callbacks->{check_sig}
+                                            );
+
+    if (@bad_signatures) {
+        my $msg = @bad_signatures == 1 ?
+          N("The following package has bad signature")
+            : N("The following packages have bad signatures");
+        my $msg2 = N("Do you want to continue installation ?");
+        my $p = join "\n", @bad_signatures;
+        $callbacks->{bad_signature}->("$msg:\n$p\n", $msg2) or return 16;
+    }
+}
+
 # locking is left to callers
 sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
@@ -198,20 +216,7 @@ sub run {
         $callbacks->{post_extract} and $callbacks->{post_extract}->($set, $transaction_sources, \%transaction_sources_install);
 
         if (!$force && ($urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}})) {
-            $callbacks->{pre_check_sig} and $callbacks->{pre_check_sig}->();
-            # CHECK ME: rpmdrake passed "basename => 1" option:
-            my @bad_signatures = urpm::signature::check($urpm, \%transaction_sources_install, $transaction_sources,
-                                                        callback => $callbacks->{check_sig}
-                                                    );
-
-            if (@bad_signatures) {
-                my $msg = @bad_signatures == 1 ?
-                  N("The following package has bad signature")
-                    : N("The following packages have bad signatures");
-                my $msg2 = N("Do you want to continue installation ?");
-                my $p = join "\n", @bad_signatures;
-                $callbacks->{bad_signature}->("$msg:\n$p\n", $msg2) or return 16;
-            }
+            _verify_rpm($urpm, $callbacks, \%transaction_sources_install, $transaction_sources);
         }
 
         #- install source package only (whatever the user is root or not, but use rpm for that).
