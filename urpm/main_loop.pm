@@ -194,6 +194,19 @@ sub _init_common_options {
   );
 }
 
+sub _log_installing {
+    my ($urpm, $transaction_sources_install, $transaction_sources) = @_;
+    if (my @packnames = (values $transaction_sources_install, values $transaction_sources)) {
+        (my $common_prefix) = $packnames[0] =~ m!^(.*)/!;
+        if (length($common_prefix) && @packnames == grep { m!^\Q$common_prefix/! } @packnames) {
+            #- there's a common prefix, simplify message
+            $urpm->{print}(N("installing %s from %s", join(' ', map { s!.*/!!; $_ } @packnames), $common_prefix));
+        } else {
+            $urpm->{print}(N("installing %s", join "\n", @packnames));
+        }
+    }
+}
+
 # locking is left to callers
 sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
@@ -301,15 +314,7 @@ sub run {
                 );
             } else {
                 if ($options{verbose} >= 0) {
-                    if (my @packnames = (values %transaction_sources_install, values %$transaction_sources)) {
-                        (my $common_prefix) = $packnames[0] =~ m!^(.*)/!;
-                        if (length($common_prefix) && @packnames == grep { m!^\Q$common_prefix/! } @packnames) {
-                            #- there's a common prefix, simplify message
-                            $urpm->{print}(N("installing %s from %s", join(' ', map { s!.*/!!; $_ } @packnames), $common_prefix));
-                        } else {
-                            $urpm->{print}(N("installing %s", join "\n", @packnames));
-                        }
-                    }
+                    _log_installing($urpm, \%transaction_sources_install, $transaction_sources);
                 }
                 my $to_remove = $urpm->{options}{'allow-force'} ? [] : $set->{remove} || [];
                 bug_log(scalar localtime(), " ", join(' ', values %transaction_sources_install, values %$transaction_sources), "\n");
