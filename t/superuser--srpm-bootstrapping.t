@@ -13,7 +13,7 @@ urpmi_addmedia("$name $::pwd/media/$name");
 test("media/SRPMS-$name/$name-*.src.rpm");
 
 urpmi_addmedia("$name-src $::pwd/media/SRPMS-$name");
-test("--src $name");
+test("--buildrequires $name");
 
 sub test {
     my ($para) = @_;
