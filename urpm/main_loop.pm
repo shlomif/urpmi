@@ -163,6 +163,18 @@ sub _continue_on_error {
     return 1;
 }
 
+sub _handle_removable_media {
+    my ($urpm, $callbacks, $blists, $sources) = @_;
+    urpm::removable::try_mounting_non_cdroms($urpm, $blists);
+
+    $callbacks->{pre_removable} and $callbacks->{pre_removable}->();
+    require urpm::cdrom;
+    urpm::cdrom::copy_packages_of_removable_media($urpm,
+                                                  $blists, $sources,
+                                                  $callbacks->{copy_removable});
+    $callbacks->{post_removable} and $callbacks->{post_removable}->();
+}
+
 # locking is left to callers
 sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
@@ -183,14 +195,7 @@ sub run {
 
     my %sources = %$local_sources;
 
-    urpm::removable::try_mounting_non_cdroms($urpm, $blists);
-
-    $callbacks->{pre_removable} and $callbacks->{pre_removable}->();
-    require urpm::cdrom;
-    urpm::cdrom::copy_packages_of_removable_media($urpm,
-                                                  $blists, \%sources,
-                                                  $callbacks->{copy_removable});
-    $callbacks->{post_removable} and $callbacks->{post_removable}->();
+    _handle_removable_media($urpm, $callbacks, $blists, \%sources);
 
     if (exists $urpm->{options}{'download-all'}) {
         _download_all($urpm, $blists, \%sources, $force, $callbacks);
