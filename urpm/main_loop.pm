@@ -31,6 +31,11 @@ use urpm::get_pkgs;
 use urpm::signature;
 use urpm::util qw(difference2 find intersection member partition untaint);
 
+#- global boolean options
+my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test);
+#- global counters
+my ($ok, $nok);
+
 sub _download_callback {
     my ($urpm, $callbacks, $raw_msg, $msg) = @_;
     if (my $download_errors = delete $urpm->{download_errors}) {
@@ -225,7 +230,7 @@ sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
 
     #- global boolean options
-    my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test) =
+    ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test) =
       ($::auto_select, $::no_install, $::install_src, $::clean, $::noclean, $::force, $::parallel, $::test);
 
     urpm::get_pkgs::clean_all_cache($urpm) if $clean;
@@ -263,7 +268,7 @@ sub run {
 
     $options{debug__do_not_install} and exit 0;
 
-    my ($ok, $nok) = (0, 0);
+    ($ok, $nok) = (0, 0);
     my (@errors, @formatted_errors);
     my $exit_code = 0;
 
