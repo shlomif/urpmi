@@ -404,13 +404,21 @@ sub run {
 
     $callbacks->{completed} and $callbacks->{completed}->();
 
+    _finish($urpm, $state, $callbacks, \@errors, \@formatted_errors, $ask_unselect, $something_was_to_be_done);
+
+    $exit_code;
+}
+
+sub _finish {
+    my ($urpm, $state, $callbacks, $errors, $formatted_errors, $ask_unselect, $something_was_to_be_done) = @_;
+
     if ($nok) {
-        $callbacks->{trans_error_summary} and $callbacks->{trans_error_summary}->($nok, \@errors);
-        if (@formatted_errors) {
-            $urpm->{print}(join("\n", @formatted_errors));
+        $callbacks->{trans_error_summary} and $callbacks->{trans_error_summary}->($nok, $errors);
+        if (@$formatted_errors) {
+            $urpm->{print}(join("\n", @$formatted_errors));
         }
-        if (@errors) {
-            $urpm->{print}(N("Installation failed:") . join("\n", map { "\t$_" } @errors));
+        if (@$errors) {
+            $urpm->{print}(N("Installation failed:") . join("\n", map { "\t$_" } @$errors));
         }
         $exit_code ||= $ok ? 11 : 12;
     } else {
