@@ -225,8 +225,8 @@ sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
 
     #- global boolean options
-    my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test, $_env) =
-      ($::auto_select, $::no_install, $::install_src, $::clean, $::noclean, $::force, $::parallel, $::test, $::env);
+    my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test) =
+      ($::auto_select, $::no_install, $::install_src, $::clean, $::noclean, $::force, $::parallel, $::test);
 
     urpm::get_pkgs::clean_all_cache($urpm) if $clean;
 
