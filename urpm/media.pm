@@ -1141,18 +1141,18 @@ sub _cleanup_mediacfg_dir {
 	$medium->{mediacfg}[0]{root} or next;
 	my $dir = reduce_pathname(dirname($medium->{mediacfg}[0]{root}));
 	begins_with($medium->{mediacfg}[0]{root}, $dir) or next;
-	if (!grep { $_->{mediacfg}[0]{root} == $medium->{mediacfg}[0]{root} } @{$urpm->{media}}) {
+	if (!any { $_->{mediacfg}[0]{root} == $medium->{mediacfg}[0]{root} } @{$urpm->{media}}) {
 	    $urpm->{debug} and $urpm->{debug}("removing no longer used $dir");
 	    -d $dir and urpm::sys::clean_dir($dir);
 	    next;
 	}
 
 	if ($medium->{mirrorlist}) {
-	    if (!grep { $_->{mirrorlist} eq $medium->{mirrorlist} } @{$urpm->{media}}) {
+	    if (!any { $_->{mirrorlist} eq $medium->{mirrorlist} } @{$urpm->{media}}) {
 		_remove_medium_from_mediacfg($urpm, $dir, $medium->{mirrorlist}, 1);
 	    }
 	} elsif ($medium->{url}) {
-	    if (!grep { $_->{url} eq $medium->{url} } @{$urpm->{media}}) {
+	    if (!any { $_->{url} eq $medium->{url} } @{$urpm->{media}}) {
 		_remove_medium_from_mediacfg($urpm, $dir, $medium->{url}, 0);
 	    }
 	}

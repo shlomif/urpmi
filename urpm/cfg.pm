@@ -136,7 +136,7 @@ sub load_config_raw {
 	} elsif (/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/) { 
 	    #- medium definition
 	    my ($name, $url) = (unquotespace($1), unquotespace($2));
-	    if (grep { $_->{name} eq $name } @blocks) {
+	    if (any { $_->{name} eq $name } @blocks) {
 		#- hmm, somebody fudged urpmi.cfg by hand.
 		$err = N("medium `%s' is defined twice, aborting", $name);
 		return;

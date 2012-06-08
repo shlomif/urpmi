@@ -53,7 +53,7 @@ sub _check {
 		my $invalid_ids = 0;
 
 		foreach my $key_id ($verif =~ /(?:key id \w{8}|#)(\w+)/gi) {
-		    if (grep { hex($_) == hex($key_id) } split /[,\s]+/, $key_ids) {
+		    if (any { hex($_) == hex($key_id) } split /[,\s]+/, $key_ids) {
 			++$valid_ids;
 		    } else {
 			++$invalid_ids;
