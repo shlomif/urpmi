@@ -31,6 +31,14 @@ use urpm::get_pkgs;
 use urpm::signature;
 use urpm::util qw(difference2 find intersection member partition untaint);
 
+sub _download_callback {
+    my ($urpm, $callbacks, $raw_msg, $msg) = @_;
+    if (my $download_errors = delete $urpm->{download_errors}) {
+        $raw_msg = join("\n", @$download_errors, '');
+    }
+    $callbacks->{ask_yes_or_no}('', $raw_msg . "\n" . $msg . "\n" . N("Retry?"));
+}
+
 sub _download_packages {
     my ($urpm, $callbacks, $blists, $sources) = @_;
     my @error_sources;
@@ -42,11 +50,7 @@ sub _download_packages {
         quiet => $options{verbose} < 0,
         callback => $callbacks->{trans_log},
         ask_retry => !$urpm->{options}{auto} && ($callbacks->{ask_retry} || sub {
-                                                     my ($raw_msg, $msg) = @_;
-                                                     if (my $download_errors = delete $urpm->{download_errors}) {
-                                                         $raw_msg = join("\n", @$download_errors, '');
-                                                     }
-                                                     $callbacks->{ask_yes_or_no}('', $raw_msg . "\n" . $msg . "\n" . N("Retry?"));
+                                                     _download_callback($urpm, $callbacks, @_);
                                                  }),
     );
     my @msgs;
