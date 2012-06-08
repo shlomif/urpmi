@@ -115,9 +115,8 @@ sub _download_all {
 sub _verify_rpm {
     my ($urpm, $callbacks, $transaction_sources_install, $transaction_sources) = @_;
     $callbacks->{pre_check_sig} and $callbacks->{pre_check_sig}->();
-    # CHECK ME: rpmdrake passed "basename => 1" option:
     my @bad_signatures = urpm::signature::check($urpm, $transaction_sources_install, $transaction_sources,
-                                                callback => $callbacks->{check_sig}
+                                                callback => $callbacks->{check_sig}, basename => $options{basename}
                                             );
 
     if (@bad_signatures) {
