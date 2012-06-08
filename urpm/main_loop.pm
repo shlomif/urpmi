@@ -133,7 +133,8 @@ sub _install_src {
     my ($urpm, $transaction_sources_install, $transaction_sources) = @_;
     if (my @l = grep { /\.src\.rpm$/ } values %$transaction_sources_install, values %$transaction_sources) {
         my $rpm_opt = $options{verbose} >= 0 ? 'vh' : '';
-        system("rpm", "-i$rpm_opt", @l, ($urpm->{root} ? ("--root", $urpm->{root}) : @{[]}));
+        push @l, "--root", $urpm->{root} if $urpm->{root};
+        system("rpm", "-i$rpm_opt", @l);
         #- Warning : the following message is parsed in urpm::parallel_*
         if ($?) {
             $urpm->{print}(N("Installation failed"));
