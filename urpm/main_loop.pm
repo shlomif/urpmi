@@ -244,6 +244,7 @@ sub run {
     my $migrate_back_rpmdb_db_version = 
       $urpm->{root} && urpm::select::should_we_migrate_back_rpmdb_db_version($urpm, $state);
 
+    #- no process each remove/install transaction
     foreach my $set (@{$state->{transaction} || []}) {
 
         #- put a blank line to separate with previous transaction or user question.
@@ -260,9 +261,12 @@ sub run {
         }
 
         $callbacks->{post_download} and $callbacks->{post_download}->();
+
+        #- extract package that should be installed instead of upgraded,
         my %transaction_sources_install = %{$urpm->extract_packages_to_install($transaction_sources, $state) || {}};
         $callbacks->{post_extract} and $callbacks->{post_extract}->($set, $transaction_sources, \%transaction_sources_install);
 
+        #- verify packages
         if (!$force && ($urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}})) {
             _verify_rpm($urpm, $callbacks, \%transaction_sources_install, $transaction_sources);
         }
@@ -283,6 +287,7 @@ sub run {
             }
         }
 
+        #- install/remove other packages
         if (keys(%transaction_sources_install) || keys(%$transaction_sources) || $set->{remove}) {
             if ($parallel) {
                 $urpm->{print}(N("distributing %s", join(' ', values %transaction_sources_install, values %$transaction_sources)));
@@ -332,6 +337,7 @@ sub run {
                                                           $msg . N("Try installation without checking dependencies?"))) {
                             $urpm->{log}("starting installing packages without deps");
                             $install_options_common{nodeps} = 1;
+                            # try again:
                             goto install;
                         }
                     } elsif (!$no_question && !$install_options_common{force} && $urpm->{options}{'allow-force'}) {
@@ -339,6 +345,7 @@ sub run {
                                                           $msg . N("Try harder to install (--force)?"))) {
                             $urpm->{log}("starting force installing packages without deps");
                             $install_options_common{force} = 1;
+                            # try again:
                             goto install;
                         }
                     }
@@ -357,6 +364,7 @@ sub run {
         }
     }
 
+    #- migrate the chrooted rpmdb if needed
     if ($migrate_back_rpmdb_db_version) {
         urpm::sys::migrate_back_rpmdb_db_version($urpm, $urpm->{root});
     }
