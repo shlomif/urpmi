@@ -162,6 +162,7 @@ sub load_config_raw {
 	  |retry
 	  |default-media
 	  |download-all
+	  |tune-rpm
 	  |(?:curl|rsync|wget|prozilla|aria2)-options
 	  )\s*:\s*['"]?(.*?)['"]?$/x) {
 	    #- config values
