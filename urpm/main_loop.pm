@@ -393,9 +393,8 @@ sub run {
                    or last;
             }
         }
-        if ($callbacks->{is_canceled}) {
-            last if $callbacks->{is_canceled}->();
-        }
+
+        last if $callbacks->{is_canceled} && $callbacks->{is_canceled}->();
     }
 
     #- migrate the chrooted rpmdb if needed
