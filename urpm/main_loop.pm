@@ -80,7 +80,7 @@ sub _download_packages {
 }
 
 sub _download_all {
-    my ($urpm, $blists, $sources, $force, $callbacks) = @_;
+    my ($urpm, $blists, $sources, $callbacks) = @_;
     if ($urpm->{options}{'download-all'}) {
         $urpm->{cachedir} = $urpm->{'urpmi-root'} . $urpm->{options}{'download-all'};
         urpm::init_cache_dir($urpm, $urpm->{cachedir});
@@ -130,7 +130,7 @@ sub _verify_rpm {
 }
 
 sub _install_src {
-    my ($urpm, $nok, $transaction_sources_install, $transaction_sources) = @_;
+    my ($urpm, $transaction_sources_install, $transaction_sources) = @_;
     if (my @l = grep { /\.src\.rpm$/ } values %$transaction_sources_install, values %$transaction_sources) {
         my $rpm_opt = $options{verbose} >= 0 ? 'vh' : '';
         system("rpm", "-i$rpm_opt", @l, ($urpm->{root} ? ("--root", $urpm->{root}) : @{[]}));
@@ -148,7 +148,7 @@ sub _install_src {
 }
 
 sub _continue_on_error {
-    my ($urpm, $callbacks, $msgs, $error_sources, $formatted_errors, $ok, $exit_code) = @_;
+    my ($urpm, $callbacks, $msgs, $error_sources, $formatted_errors, $exit_code) = @_;
     my $go_on;
     if ($urpm->{options}{auto}) {
         push @$formatted_errors, @$msgs;
@@ -181,7 +181,7 @@ sub _handle_removable_media {
 }
 
 sub _init_common_options {
-  my ($urpm, $state, $callbacks, $test) = @_;
+  my ($urpm, $state, $callbacks) = @_;
   (
       urpm::install::options($urpm),
       test => $test,
@@ -213,7 +213,7 @@ sub _log_installing {
 }
 
 sub _run_parallel_transaction {
-    my ($urpm, $state, $test, $transaction_sources, $transaction_sources_install) = @_;
+    my ($urpm, $state, $transaction_sources, $transaction_sources_install) = @_;
     $urpm->{print}(N("distributing %s", join(' ', values $transaction_sources_install, values $transaction_sources)));
     #- no remove are handle here, automatically done by each distant node.
     $urpm->{log}("starting distributed install");
@@ -248,7 +248,7 @@ sub run {
     _handle_removable_media($urpm, $callbacks, $blists, \%sources);
 
     if (exists $urpm->{options}{'download-all'}) {
-        _download_all($urpm, $blists, \%sources, $force, $callbacks);
+        _download_all($urpm, $blists, \%sources, $callbacks);
     }
 
     #- now create transaction just before installation, this will save user impression of slowness.
@@ -288,7 +288,7 @@ sub run {
         my ($error_sources, $msgs) = _download_packages($urpm, $callbacks, $transaction_blists, $transaction_sources);
         if (@$error_sources) {
             $nok++;
-            last if !_continue_on_error($urpm, $callbacks, $msgs, $error_sources, \@formatted_errors, $ok, \$exit_code);
+            last if !_continue_on_error($urpm, $callbacks, $msgs, $error_sources, \@formatted_errors, \$exit_code);
         }
 
         $callbacks->{post_download} and $callbacks->{post_download}->();
@@ -304,7 +304,7 @@ sub run {
 
         #- install source package only (whatever the user is root or not, but use rpm for that).
         if ($install_src) {
-            _install_src($urpm, $nok, \%transaction_sources_install, $transaction_sources);
+            _install_src($urpm, \%transaction_sources_install, $transaction_sources);
             next;
         }
 
@@ -321,7 +321,7 @@ sub run {
         #- install/remove other packages
         if (keys(%transaction_sources_install) || keys(%$transaction_sources) || $set->{remove}) {
             if ($parallel) {
-                _run_parallel_transaction($urpm, $state, $test, $transaction_sources, \%transaction_sources_install);
+                _run_parallel_transaction($urpm, $state, $transaction_sources, \%transaction_sources_install);
             } else {
                 if ($options{verbose} >= 0) {
                     _log_installing($urpm, \%transaction_sources_install, $transaction_sources);
@@ -329,7 +329,7 @@ sub run {
                 my $to_remove = $urpm->{options}{'allow-force'} ? [] : $set->{remove} || [];
                 bug_log(scalar localtime(), " ", join(' ', values %transaction_sources_install, values %$transaction_sources), "\n");
                 $urpm->{log}("starting installing packages");
-                my %install_options_common = _init_common_options($urpm, $state, $callbacks, $test);
+                my %install_options_common = _init_common_options($urpm, $state, $callbacks);
 	    
                 urpm::orphans::add_unrequested($urpm, $state) if !$test;
 
