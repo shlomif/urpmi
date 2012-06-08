@@ -635,13 +635,6 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 				     \@ask_unselect, \%requested, {
     (!$urpm->{options}{auto} || $allow_medium_change ? (copy_removable =>  sub {
 	my $msg = N("Please insert the medium named \"%s\"", $_[0]);
-	if ($ENV{DISPLAY} && $::gui) {
-	    #- probably run from a drakx
-	    my $gmessage = '/usr/bin/gmessage';
-	    if (-x $gmessage) {
-		return system($gmessage, '-buttons', N("Ok") . ':1,' . N("Cancel") . ':0', "\n$msg\n");
-	    }
-	}
 	if (eval { require Hal::Cdroms; 1 }) {
 	    print "$msg\n";
 	    Hal::Cdroms->new->wait_for_insert;
