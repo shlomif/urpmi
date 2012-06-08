@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2008-03-30 14:22+0800\n"
 "Last-Translator: 汤诗语 <shiyu@mandriva.org>\n"
 "Language-Team: Mandriva Linux Simplified Chinese <cooker-i18n@mandrivalinux."
@@ -253,7 +253,7 @@ msgstr ""
 msgid "Warning"
 msgstr "警告"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "确定"
@@ -312,7 +312,7 @@ msgid "(%d package, %d MB)"
 msgid_plural "(%d packages, %d MB)"
 msgstr[0] "(%d 个软件包，%d MB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "无法读取源软件包，中止"
@@ -349,38 +349,41 @@ msgstr "...获取失败: %s"
 msgid "_Done"
 msgstr "完成(_D)"
 
-#: ../gurpmi2:402
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
 msgstr ""
-"安装失败，缺少下列文件:\n"
-"%s\n"
-"您可能需要更新您的 urpmi 数据库"
+"安装失败，缺少某些文件:\n"
+"%s"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
+msgstr "您可能需要更新您的 urpmi 数据库。"
+
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "安装失败: "
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "软件包已经安装"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "安装完成"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "正在删除 %s"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "重新启动 urpmi"
@@ -509,57 +512,57 @@ msgstr "注册本地软件包出错"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "运行于限制模式运行时，禁止执行此操作"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "命令行声明的代理服务器无效\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: 无法读取 rpm 文件“%s”\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr "意外表达式 %s"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr "%s 前缺少表达式"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr "意外表达式 %s(建议：使用 -a 或 -o?)"
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr "没有要关闭的表达式"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr "默认情况下，urpmf 使用正则表达式。您应该使用选项“--literal”"
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "chroot 目录不存在"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "没有 %2$s 无法使用 %1$s"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "无法和 %2$s 一起使用 %1$s"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "参数太多\n"
@@ -606,7 +609,7 @@ msgstr "无法读取配置文件[%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "介质“%s”定义了两次，正在退出"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "无法写入配置文件[%s]"
@@ -721,22 +724,22 @@ msgstr "        %s%% 已完成，速度为 %s"
 msgid "retrieving %s"
 msgstr "正在获取 %s"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr "已获取 %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "%s 中定义了未知的协议"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "未找到 webfetch，支持的 webfetch 是: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "无法处理协议: %s"
@@ -857,26 +860,17 @@ msgstr "%s 数据库已锁定。等候中..."
 msgid "aborting"
 msgstr "中止"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr "重试一次吗?"
 
-#: ../urpm/main_loop.pm:89
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr ""
-"安装失败，缺少某些文件:\n"
-"%s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, c-format
 msgid "You may need to update your urpmi database."
 msgstr "您可能需要更新您的 urpmi 数据库。"
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -885,7 +879,7 @@ msgstr ""
 "安装失败，rpm 有问题:\n"
 "%s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -895,68 +889,68 @@ msgstr ""
 "您的文件系统中没有足够空间可用来下载全部软件包(需要 %s，但只有 %s)。\n"
 "您确定想要继续吗?"
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "安装失败"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr "仍然继续吗? "
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "下列软件包的签名有错误"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "下列软件包的签名有错误"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "您想继续安装吗?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "安装失败"
+
+#: ../urpm/main_loop.pm:144
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "删除已安装的 rpm(%s)"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "正在分发 %s"
+msgid "Try to continue anyway?"
+msgstr "仍然继续吗? "
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "正在从 %2$s 安装 %1$s"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "正在安装 %s"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "正在分发 %s"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "尝试忽略相关性检查而安装吗?"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "尝试强制安装吗(使用 --force)?"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "软件包已为最新"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "可以安装"
@@ -1484,37 +1478,37 @@ msgstr "您应该使用“-a”来全部使用"
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "在 urpmi 数据库中找到软件包 %s，但全部都未安装"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "软件包 %s 已经安装"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "软件包 %s 已经安装"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "原因是与 %s 冲突"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "原因是不满足 %s"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "正在试图推广 %s"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "为了保留 %s"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1523,7 +1517,7 @@ msgstr ""
 "要升级其它软件包，需要先删除下列软件包:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1532,12 +1526,12 @@ msgstr ""
 "要升级其它软件包，需要先删除下列软件包:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "为了安装 %s"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "原因是丢失 %s"
@@ -2515,12 +2509,7 @@ msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "继续安装 %d 个软件包吗？"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "取消"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "挂载后按 Enter..."
@@ -3225,29 +3214,29 @@ msgstr "--list-nodes 仅能和 --parallel 一起使用"
 msgid "use -l to list files"
 msgstr "使用 -l 可列出文件"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr "由于介质“%s”没有 xml 信息，软件包 %s 只返回部分结果"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr "由于介质“%s”没有 xml 信息，软件包 %s 只返回部分结果"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr "由于介质“%s”没有 xml 信息，软件包 %s 无法返回任何结果"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr "由于介质“%s”没有 xml 信息，软件包 %s 无法返回任何结果"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "没有找到更新日志\n"
@@ -3259,6 +3248,18 @@ msgstr "软件安装程序"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "图形化安装 RPM 软件包"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "安装失败，缺少下列文件:\n"
+#~ "%s\n"
+#~ "您可能需要更新您的 urpmi 数据库"
+
+#~ msgid "Cancel"
+#~ msgstr "取消"
 
 #, fuzzy
 #~ msgid ""

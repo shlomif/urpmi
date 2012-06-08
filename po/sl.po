@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2012-03-22 16:02+0100\n"
 "Last-Translator: Filip Komar <filip.komar@gmail.com>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>, Translation list <mageia-"
@@ -260,7 +260,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "V redu"
@@ -322,7 +322,7 @@ msgstr[1] "(%d paketa, %d MiB)"
 msgstr[2] "(%d paketi, %d MiB)"
 msgstr[3] "(%d paketov, %d MiB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "paketov z izvorno kodo ni mogoče dobiti, predčasna prekinitev"
@@ -359,38 +359,41 @@ msgstr "... prenos je spodletel: %s"
 msgid "_Done"
 msgstr "_Opravljeno"
 
-#: ../gurpmi2:402
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
 msgstr ""
-"Namestitev ni uspela, ker manjkajo nekatere datoteke:\n"
-"%s\n"
-"Mogoče bi morali osvežiti podatkovno bazo urpmi"
+"Namestitev ni uspela, manjkajo nekatere datoteke:\n"
+"%s"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
+msgstr "Poskusite posodobiti podatkovno zbirko urpmi."
+
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "Namestitev ni uspela:"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "Paket(-i) so že nameščeni"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "Namestitev je končana"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "odstranjevanje %s"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "ponovno zaganjanje urpmi"
@@ -521,58 +524,58 @@ msgstr "napaka pri registraciji krajevnih paketov"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Ta postopek ni dovoljen v omejenem načinu"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "napačna deklaracija posredniškega strežnika v ukazni vrstici\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: datoteke rpm »%s« ni mogoče brati\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr "nepričakovan izraz %s"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr "manjkajoč izraz pred %s"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr "nepričakovan izraz %s (predlog: uporabite -a ali -o ?)"
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr "ni izraza za zaprtje"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 "Privzeto urpmf pričakuje regularni izraz. Uporabite argument »--literal«"
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "mapa za chroot ne obstaja"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "Ni mogoče uporabiti %s brez %s"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "Ni mogoče uporabiti %s z/s %s"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "Preveč argumentov\n"
@@ -621,7 +624,7 @@ msgstr "branje datoteke nastavitvene datoteke [%s] ni možno"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "vir »%s« je naveden dvakrat, prekinjam"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "zapisovanje nastavitvene datoteke [%s] ni možno"
@@ -738,22 +741,22 @@ msgstr "        %s%% preneseno, hitrost = %s"
 msgid "retrieving %s"
 msgstr "prenos %s"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr "prenešeno %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "za %s je določen neznan protokol "
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "ni programa za spletni prenos, podprti so: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "obravnava protokola »%s« ni možna"
@@ -876,26 +879,17 @@ msgstr "Podatkovna zbirka %s je zaklenjena, čakanje ..."
 msgid "aborting"
 msgstr "prekinjam"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr "Poskusim znova?"
 
-#: ../urpm/main_loop.pm:89
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr ""
-"Namestitev ni uspela, manjkajo nekatere datoteke:\n"
-"%s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, c-format
 msgid "You may need to update your urpmi database."
 msgstr "Poskusite posodobiti podatkovno zbirko urpmi."
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -904,7 +898,7 @@ msgstr ""
 "Namestitev ni uspela, napaka v paketu rpm:\n"
 "%s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -915,68 +909,68 @@ msgstr ""
 "razpoložljivo %s).\n"
 "Ali res želite nadaljevati?"
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "Namestitev ni uspela"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr "Ali želite vseeno nadaljevati?"
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Naslednji paket ima napačen podpis"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "Naslednji paketi imajo napačen podpis"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Ali želite nadaljevati namestitev?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "Namestitev ni uspela"
+
+#: ../urpm/main_loop.pm:144
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "odstranjevanje nameščenih rpm-jev (%s)"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "porazdeljevanje %s"
+msgid "Try to continue anyway?"
+msgstr "Ali želite vseeno nadaljevati?"
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "nameščanje %s iz %s"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "nameščanje %s"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "porazdeljevanje %s"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "Poskusim z namestitvijo brez preverjanj odvisnosti?"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "Poskusim s prisilno namestitvijo (--force)?"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "Paketi so posodobljeni"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "Namestitev je mogoča"
@@ -1544,37 +1538,37 @@ msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr ""
 "v zbirki podatkov za urpmi so bili najdeni paketi %s, a ni noben nameščen"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "Paket %s je že nameščen"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "Paketi %s so že nameščeni"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "zaradi konfliktov z/s %s"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "zaradi neizpolnjene odvisnosti %s"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "poskus podpiranja %s"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "za ohranitev %s"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1583,7 +1577,7 @@ msgstr ""
 "Naslednji paket mora biti odstranjen, da bodo drugi lahko nadgrajeni:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1592,12 +1586,12 @@ msgstr ""
 "Naslednji paketi morajo biti odstranjeni, da bodo drugi lahko nadgrajeni:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "za namestitev %s"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "zaradi manjkajočega %s"
@@ -2635,12 +2629,7 @@ msgstr[1] "Nadaljujem z namestitvijo %d paketov?"
 msgstr[2] "Nadaljujem z namestitvijo %d paketov?"
 msgstr[3] "Nadaljujem z namestitvijo %d paketov?"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "Prekliči"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "Pritisnite Enter, ko bo priklopljeno ..."
@@ -3399,17 +3388,17 @@ msgstr "--list-nodes je lahko uporabljeno samo s --parallel"
 msgid "use -l to list files"
 msgstr "uporabite -l za izpis seznama datotek"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr "za vir »%s« ni podatkov v obliki XML, samo delni rezultat za paket %s"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr "za vir »%s« ni podatkov v obliki XML, samo delni rezultat za pakete %s"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3417,7 +3406,7 @@ msgstr ""
 "za vir »%s« ni podatkov v obliki XML, ni mogoče vrniti nobenega rezultata za "
 "paket %s"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3425,7 +3414,7 @@ msgstr ""
 "za vir »%s« ni podatkov v obliki XML, ni mogoče vrniti nobenega rezultata za "
 "pakete %s"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "Dnevnik sprememb ni bil najden\n"
@@ -3437,3 +3426,15 @@ msgstr "Program za nameščanje"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "Grafični vmesnik za nameščanje datotek RPM"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "Namestitev ni uspela, ker manjkajo nekatere datoteke:\n"
+#~ "%s\n"
+#~ "Mogoče bi morali osvežiti podatkovno bazo urpmi"
+
+#~ msgid "Cancel"
+#~ msgstr "Prekliči"

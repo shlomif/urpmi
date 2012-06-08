@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2008-11-01 10:40+0800\n"
 "Last-Translator: Shiva Huang <shivahuang@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -262,7 +262,7 @@ msgstr ""
 msgid "Warning"
 msgstr "警告"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "確定"
@@ -321,7 +321,7 @@ msgid "(%d package, %d MB)"
 msgid_plural "(%d packages, %d MB)"
 msgstr[0] "(%d 個套件，共 %d MB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "無法取得原始碼套件，放棄"
@@ -358,38 +358,41 @@ msgstr "...擷取失敗：%s"
 msgid "_Done"
 msgstr "完成 (_D)"
 
-#: ../gurpmi2:402
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
 msgstr ""
 "安裝失敗，某些檔案遺失：\n"
-"%s\n"
-"您或許要更新您的 urpmi 資料庫"
+"%s"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
+msgstr "您或許要更新您的 urpmi 資料庫。"
+
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "安裝失敗；"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "每個套件都已經安裝了"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "安裝完畢"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "正在移除 %s"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "正在重新啟動 urpmi"
@@ -518,57 +521,57 @@ msgstr "註冊本地端套件錯誤"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "使用限制模式執行時禁止該操作程序"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "命令列傳入的代理伺服器宣告錯誤\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq：無法讀取 rpm 檔案 \"%s\"\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr "未預期的表示式 %s"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr "在 %s 前找不到表示式"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr "非預期的表示式 %s（建議：使用 -a 或 -o？）"
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, fuzzy, c-format
 msgid "no expression to close"
 msgstr "樣版表示式：\n"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr "預設 urpmf 需要正規表示式。您應該使用 \"--literal\" 選項"
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "chroot 目錄不存在"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "使用 %s 時不能沒有 %s"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "%s 不能跟 %s 一起用"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "參數太多\n"
@@ -615,7 +618,7 @@ msgstr "無法讀取設定檔 [%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "媒體 '%s' 被定義了兩次，正在取消"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "無法寫入設定檔 [%s]"
@@ -730,22 +733,22 @@ msgstr "        %s%% 完成，速度 = %s"
 msgid "retrieving %s"
 msgstr "正在取得 %s"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr ".已取得 %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "%s 中定義了未知的通訊協定"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "沒有找到 webfetch，支援的 webfetch 有：%s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "無法處理通訊協定：%s"
@@ -866,26 +869,17 @@ msgstr "%s 資料庫已被鎖定。等待中..."
 msgid "aborting"
 msgstr "放棄"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr "重試？"
 
-#: ../urpm/main_loop.pm:89
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr ""
-"安裝失敗，某些檔案遺失：\n"
-"%s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, c-format
 msgid "You may need to update your urpmi database."
 msgstr "您或許要更新您的 urpmi 資料庫。"
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -894,7 +888,7 @@ msgstr ""
 "安裝失敗，損毀的套件：\n"
 "%s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -904,68 +898,68 @@ msgstr ""
 "您的檔案系統沒有足夠的空間下載所有的套件（需要 %s 但只有 %s）。\n"
 "您確定要繼續嗎？"
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "安裝失敗"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr "試著強制進行下去？"
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "下列套件有不正確的簽章"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "下列套件有不正確的簽章"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "您要繼續安裝嗎？"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "安裝失敗"
+
+#: ../urpm/main_loop.pm:144
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "正在移除已安裝的套件 (%s)"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "正在發佈 %s"
+msgid "Try to continue anyway?"
+msgstr "試著強制進行下去？"
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "正在由 %2$s 安裝 %1$s"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "正在安裝 %s"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "正在發佈 %s"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "嘗試不檢查相依性直接安裝？"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "嘗試採用強制安裝的方式 (--force)？"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "套件都已經更新了"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "可以安裝"
@@ -1490,37 +1484,37 @@ msgstr "要指定所有的套件，您可以用 \"-a\""
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "在 urpmi 資料庫中找到套件 %s，但是並未安裝"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "%s 套件已經安裝了"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "%s 套件已經安裝了"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "由於與 %s 發生衝突"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "由於未滿足 %s"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "正在試著促進 %s"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "為了要保留 %s"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1529,7 +1523,7 @@ msgstr ""
 "下列套件必須移除給其他套件來升級：\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1538,12 +1532,12 @@ msgstr ""
 "下列套件必須移除給其他套件來升級：\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "為了要安裝 %s"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "由於遺失了 %s"
@@ -2525,12 +2519,7 @@ msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "繼續安裝這 %d 個套件？"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "取消"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "掛載好後請按 Enter..."
@@ -3233,33 +3222,33 @@ msgstr "--list-nodes 參數只能夠配合 --parallel 參數一起使用"
 msgid "use -l to list files"
 msgstr "使用 -l 列出檔案"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "注意：因為所有搜尋過的媒體都沒有使用 hdlists，所以 urpmf 無法回傳任何結果\n"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "注意：因為所有搜尋過的媒體都沒有使用 hdlists，所以 urpmf 無法回傳任何結果\n"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, fuzzy, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr ""
 "注意：因為所有搜尋過的媒體都沒有使用 hdlists，所以 urpmf 無法回傳任何結果\n"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, fuzzy, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr ""
 "注意：因為所有搜尋過的媒體都沒有使用 hdlists，所以 urpmf 無法回傳任何結果\n"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "沒有找到更新紀錄\n"
@@ -3271,6 +3260,18 @@ msgstr "軟體安裝程式"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "RPM 檔案安裝的圖形化前端"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "安裝失敗，某些檔案遺失：\n"
+#~ "%s\n"
+#~ "您或許要更新您的 urpmi 資料庫"
+
+#~ msgid "Cancel"
+#~ msgstr "取消"
 
 #, fuzzy
 #~ msgid ""

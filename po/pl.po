@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2010-01-11 22:17+0100\n"
 "Last-Translator: Marek Walczak <kubdat@poczta.fm>\n"
 "Language-Team:  <pl@li.org>\n"
@@ -275,7 +275,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Ostrzeżenie"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "Ok"
@@ -338,7 +338,7 @@ msgstr[0] "(%d pakiet, %d MB)"
 msgstr[1] "(%d pakietów, %d MB)"
 msgstr[2] "(%d pakietów, %d MB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "nie można pobrać pakietów źródłowych, zaniechanie"
@@ -375,38 +375,41 @@ msgstr "...pobieranie nie powiodło się: %s"
 msgid "_Done"
 msgstr "Gotowe"
 
-#: ../gurpmi2:402
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
 msgstr ""
-"Instalacja zakończona niepowodzeniem, brakuje kilku plików:\n"
-"%s\n"
-"Może zachodzić potrzeba aktualizacji bazy danych urpmi"
+"Instalacja nie powiodła się. Brak niektórych plików:\n"
+"%s"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
+msgstr "Być może konieczna jest aktualizacja bazy urpmi."
+
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "Instalacja nie powiodła się:"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "Wszystko zostało już zainstalowane"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "Instalacja zakończona"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "usuwanie %s"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "ponownie uruchamianie urpmi"
@@ -535,57 +538,57 @@ msgstr "błąd w trakcie rejestrowania pakietów lokalnych"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Operacja niedozwolona podczas pracy w trybie restrykcyjnym"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "niepoprawna deklaracja serwera pośredniczącego w wierszu poleceń\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: nie można odczytać pliku rpm \"%s\"\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr "niespodziewane wyrażenie %s"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr "brakujące wyrażenie przed %s"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr "niespodziewane wyrażenie %s (sugestia: użyj -a lub -o ?)"
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr "brak wyrażenia do zamknięcia"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr "w domyślnym ustawieniu urpmf oczekuje regexp. Użyj opcji \"--literal\""
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "Katalog chroot nie istnieje"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "Nie można użyć %s bez %s"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "Nie można użyć %s z %s"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "Zbyt wiele argumentów\n"
@@ -634,7 +637,7 @@ msgstr "odczytanie pliku konfiguracyjnego było niemożliwe [%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "nośnik %s jest dwukrotnie zdefiniowany, przerywanie"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "nie można zapisać pliku konfiguracyjnego [%s]"
@@ -751,22 +754,22 @@ msgstr "        %s%% zakończono, prędkość = %s"
 msgid "retrieving %s"
 msgstr "pobieranie %s"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr "...pobrano %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "nieznany protokół zdefiniowany dla %s"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "nie znaleziono narzędzia do pobierania stron, obsługiwanymi są: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "nie można obsłużyć protokołu: %s"
@@ -889,26 +892,17 @@ msgstr "%s baza danych zablokowana. Oczekiwanie..."
 msgid "aborting"
 msgstr "przerywanie"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr "Ponowić próbę?"
 
-#: ../urpm/main_loop.pm:89
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr ""
-"Instalacja nie powiodła się. Brak niektórych plików:\n"
-"%s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, c-format
 msgid "You may need to update your urpmi database."
 msgstr "Być może konieczna jest aktualizacja bazy urpmi."
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -917,7 +911,7 @@ msgstr ""
 "Instalacja nie powiodła się. Nieprawidłowe pakiety rpm:\n"
 "%s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -928,68 +922,68 @@ msgstr ""
 "wymagane, %s dostępne).\n"
 "Czy na pewno chcesz kontynuować?"
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "Instalacja nie powiodła się"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr "Czy po mimo to chcesz kontynuować?"
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Poniższy pakiet ma niepoprawny podpis"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "Następujące pakiety zawierają niepoprawne podpisy"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Czy chcesz kontynuować instalację ?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "Instalacja nie powiodła się"
+
+#: ../urpm/main_loop.pm:144
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "usuwanie zainstalowanych pakietów rpm (%s) "
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "rozpowszechnianie %s"
+msgid "Try to continue anyway?"
+msgstr "Czy po mimo to chcesz kontynuować?"
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "instalowanie %s z %s"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "instalowanie %s"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "rozpowszechnianie %s"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "Próbować instalować bez sprawdzania zależności?"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "Czy chcesz spróbować wymusić instalację (--force)?"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "Oprogramowanie jest zaktualizowane"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "Instalacja jest możliwa"
@@ -1550,37 +1544,37 @@ msgstr ""
 "odnaleziono pakiet(y) %s w bazie danych urpmi, ale żaden nie jest "
 "zainstalowany"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "Pakiet %s jest już zainstalowany w systemie"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "Pakiet %s jest już zainstalowany w systemie"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "z powodu kolizji z pakietem %s"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "z powodu niesatysfakcjonującego pakietu %s"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "próba ulepszenia %s"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "w celu zachowania pakietu %s"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1589,7 +1583,7 @@ msgstr ""
 "Poniższy pakiet musi zostać usunięte aby zaktualizować inne:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1598,12 +1592,12 @@ msgstr ""
 "Poniższe pakiety muszą być usunięte aby zaktualizować inne:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "w celu zainstalowania pakietu %s"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "z powodu brakującego %s"
@@ -2648,12 +2642,7 @@ msgstr[0] "Rozpocząć instalację jednego pakietu? "
 msgstr[1] "Rozpocząć instalację %d pakietów?"
 msgstr[2] "Rozpocząć instalację 1 pakietu? (%d MB)"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "Anuluj"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "Naciśnij Enter po zamontowaniu..."
@@ -3398,21 +3387,21 @@ msgstr "--list-nodes może być użyta tylko z opcją --parallel"
 msgid "use -l to list files"
 msgstr "użyj opcji -l aby wyświetlić listę plików"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "brak informacji xml dla nośnika \"%s\", uzyskano częściowe wyniki dla "
 "pakietu %s"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "brak  informacji xml  dla nośnika \"%s\", uzyskano częściowe wyniki dla "
 "pakietów %s"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3420,7 +3409,7 @@ msgstr ""
 "brak  informacji xml  dla nośnika \"%s\", uzyskanie wyników dla pakietu %s "
 "było niemożliwe"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3428,7 +3417,7 @@ msgstr ""
 "brak  informacji xml dla nośnika \"%s\", uzyskanie wyników dla pakietów %s "
 "było niemożliwe"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nie znaleziono dziennika zmian\n"
@@ -3440,6 +3429,18 @@ msgstr "Instalator oprogramowania"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "Graficzna nakładka dla instalatora plików RPM"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "Instalacja zakończona niepowodzeniem, brakuje kilku plików:\n"
+#~ "%s\n"
+#~ "Może zachodzić potrzeba aktualizacji bazy danych urpmi"
+
+#~ msgid "Cancel"
+#~ msgstr "Anuluj"
 
 #, fuzzy
 #~ msgid ""

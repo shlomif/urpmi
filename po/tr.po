@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2012-01-16 16:28+0000\n"
 "Last-Translator: Oliver Burger <oliver.bgr@googlemail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -253,7 +253,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Uyarı"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "Tamam"
@@ -316,7 +316,7 @@ msgid_plural "(%d packages, %d MB)"
 msgstr[0] "(%d paket, %d MB)"
 msgstr[1] "(%d paket, %d MB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "kaynak paketleri alınamadı, çıkılıyor"
@@ -353,38 +353,41 @@ msgstr "...getirme başarısız: [%s]"
 msgid "_Done"
 msgstr "_Bitti"
 
-#: ../gurpmi2:402
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
 msgstr ""
-"Kurulum başarısızlıkla sonuçlandı. Bazı dosyalar kayıp:\n"
-"%s\n"
-"Urpmi veritabanınızı güncellemek isteyebilirsiniz"
+"Kurulum başarısız oldu. Bazı dosyalar kayıp:\n"
+"%s"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
+msgstr "Urpmi veritabanı güncellemeniz gerekebilir."
+
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "Kurulum başarısız oldu"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "Herşey zaten kurulu"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "Kurulum tamamlandı"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "%s kaldırılıyor"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "urpmi yeniden başlatılıyor."
@@ -513,59 +516,59 @@ msgstr "yerel paketlerin sicil kaydı yapılırken hata"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Sınırlı kipte çalışılırken bu işlem yasaklanmıştır."
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "komut satırından kötü vekil sunucu bildirimi\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: \"%s\" rpm dosyası okunamıyor\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr "beklenmeyen ifade %s"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr "%s 'den önce kayıp ifade"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr "beklenmeyen ifade %s (öneri: -a or -o kullanın ?)"
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr "kapatmak için ifade yok"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 "varsayılan olarak upmf bir regexp bekler. \"--literal\" seçeneğini "
 "kullanmalısınız."
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "chroot dizini geçerli değil"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "%s, %s olmadan kullanılamaz"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "%s, %s ile kullanılamaz"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "Çok fazla parametre\n"
@@ -614,7 +617,7 @@ msgstr "yapılandırma dosyasına [%s] yazılamıyor"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "`%s' ortamı ikinci defa tanımlandı, iptal ediliyor"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "yapılandırma dosyasına [%s] yazılamıyor"
@@ -729,22 +732,22 @@ msgstr "        %s%% tamamlandı, hız = %s"
 msgid "retrieving %s"
 msgstr "%s getiriliyor"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr "getirildi: [%s]"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "%s için bilinmeyen protokol tanımlanmış"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "geçerli webfetch bulunamadı, desteklenen webfetch: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "%s protokolü ile ilgilenemiyor"
@@ -866,26 +869,17 @@ msgstr "%s veri tabanı kilitlendi. Bekleniyor..."
 msgid "aborting"
 msgstr "iptal ediliyor"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr "Yeniden dene?"
 
-#: ../urpm/main_loop.pm:89
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr ""
-"Kurulum başarısız oldu. Bazı dosyalar kayıp:\n"
-"%s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, c-format
 msgid "You may need to update your urpmi database."
 msgstr "Urpmi veritabanı güncellemeniz gerekebilir."
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -894,7 +888,7 @@ msgstr ""
 "Kurulum başarısız oldu. Hatalı rpm'ler:\n"
 "%s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -905,68 +899,68 @@ msgstr ""
 "gerekli, %s boş alan var:)\n"
 "Devam etmek istediğinize emin misiniz?"
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "Kurulum başarısız oldu."
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr "Yine de devam edilsin mi?"
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Sonraki paketler hatalı imza içeriyor"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "Sonraki paketler hatalı imza içeriyor"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Kuruluma devam etmek istiyor musunuz ?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "Kurulum başarısız oldu."
+
+#: ../urpm/main_loop.pm:144
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "kurulu rpm'ler (%s) kaldırılıyor."
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "%s dağıtılıyor"
+msgid "Try to continue anyway?"
+msgstr "Yine de devam edilsin mi?"
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "%s, %s konumundan kuruluyor"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "%s kuruluyor"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "%s dağıtılıyor"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "Paket bağımlılıklarını denetlemeksizin kurulum denensin mi?"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "Belki daha zorlayıcı bir seçenek gerekebilir (--force)?"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "Paketler güncel"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "Kurulum mümkün"
@@ -1502,37 +1496,37 @@ msgstr "Tümünü kullanabilmek için \"-a\" kullanmalısınız"
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "Urpmi veritabanında %s paket(ler)i bulundu, fakat hiçbiri kurulmamış"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "%s paketi kurulu"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "%s paketleri kurulu"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "%s paketi ile çelişkisinden"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "%s paketinden dolayı yetersiz"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "%s yükseltilmeye çalışılıyor."
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "%s 'in tutulması sırasında"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1542,7 +1536,7 @@ msgstr ""
 "gerekiyor:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1552,12 +1546,12 @@ msgstr ""
 "gerekiyor:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "%s 'in kurulumu sırasında"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "%s paketinin kayıplığından"
@@ -2583,12 +2577,7 @@ msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Bir adet paket yüklensin mi?(%d)"
 msgstr[1] "Bir adet paket yüklensin mi?(%d)"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "İptal"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "Hazır olduğunuzda Enter'a basın..."
@@ -3329,21 +3318,21 @@ msgstr "--list-nodes sadece --parallel ile kullanılabilir"
 msgid "use -l to list files"
 msgstr "dosyaları listelemek için -l kullanın"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "\"%s\" ortamı için xml bilgisi bulunamadı. %s paketi için herhangi bir kısmi "
 "sonuç döndürülemedi."
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "\"%s\" ortamı için xml bilgisi bulunamadı. %s paketleri için herhangi bir "
 "kısmi sonuç döndürülemedi."
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3351,7 +3340,7 @@ msgstr ""
 "\"%s\" ortamı için xml bilgisi bulunamadı. %s paketi için herhangi bir sonuç "
 "döndürülemedi."
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3359,7 +3348,7 @@ msgstr ""
 "\"%s\" ortamı için xml bilgisi bulunamadı. %s paketleri için herhangi bir "
 "sonuç döndürülemedi."
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "Değişiklik günlüğü bulunamadı!\n"
@@ -3371,6 +3360,18 @@ msgstr "Yazılım Yükleyici"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "RPM dosyaların kurulumu için bir grafik önyüz"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "Kurulum başarısızlıkla sonuçlandı. Bazı dosyalar kayıp:\n"
+#~ "%s\n"
+#~ "Urpmi veritabanınızı güncellemek isteyebilirsiniz"
+
+#~ msgid "Cancel"
+#~ msgstr "İptal"
 
 #~ msgid "curl is missing, cannot upload DUDF file.\n"
 #~ msgstr "curl bulunamadı. DUDF dosyası gönderilemeyecek.\n"

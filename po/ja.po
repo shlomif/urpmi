@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2009-03-22 20:56+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <cooker-i18n@mandrivalinux.org>\n"
@@ -251,7 +251,7 @@ msgstr ""
 msgid "Warning"
 msgstr "警告"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "OK"
@@ -310,7 +310,7 @@ msgid "(%d package, %d MB)"
 msgid_plural "(%d packages, %d MB)"
 msgstr[0] "(%d 個のパッケージ, %d MB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "ソースパッケージを取得できませんでした。中止します。"
@@ -347,38 +347,44 @@ msgstr "...取得に失敗: %s"
 msgid "_Done"
 msgstr "完了(_D)"
 
-#: ../gurpmi2:402
-#, c-format
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
+#, fuzzy, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
+msgstr ""
+"インストール失敗。不正な RPM です:\n"
+"%s"
+
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
 msgstr ""
 "インストールに失敗。以下のファイルがありません:\n"
 "%s\n"
 "urpmi データベースを更新してください。"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "インストール失敗:"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "パッケージは既にインストールされています"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "インストールが完了しました"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "%s を削除"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "urpmi を再スタートします"
@@ -507,58 +513,58 @@ msgstr "ローカルパッケージの登録中にエラーが発生"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "この操作は制限モードでは禁止されています"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "コマンドラインのプロキシ宣言が間違っています\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: RPM ファイル %s を読み込めません\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr "予期しない表現: %s"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr "%s の前に表現がありません"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr "予期しない表現 %s (提案: -a または -o を使用)"
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr "閉じる表現がありません"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 "urpmf はデフォルトで正規表現を期待します。\"--literal\" を使ってください。"
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "chroot ディレクトリが存在しません"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "%2$s なしで %1$s は使えません"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "%s は %s と一緒には使えません"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "引数が多すぎます\n"
@@ -607,7 +613,7 @@ msgstr "設定ファイル [%s] を読めません"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "メディア %s が二度定義されています。中止します。"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "設定ファイル [%s] を書き込めません"
@@ -722,22 +728,22 @@ msgstr "        %s%% 完了, 速度 = %s"
 msgid "retrieving %s"
 msgstr "%s を取得"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr "%s を取得しました"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "%s に不明なプロトコルが定義されています"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "webfetch が見つかりません。利用可能な webfetch: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "プロトコルを処理できません: %s"
@@ -860,21 +866,12 @@ msgstr "%s データベースがロックされています。待機します...
 msgid "aborting"
 msgstr "中止します"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr "やり直しますか？"
 
-#: ../urpm/main_loop.pm:89
-#, fuzzy, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr ""
-"インストール失敗。不正な RPM です:\n"
-"%s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, fuzzy, c-format
 msgid "You may need to update your urpmi database."
 msgstr ""
@@ -882,7 +879,7 @@ msgstr ""
 "%s\n"
 "urpmi データベースを更新してください。"
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -891,7 +888,7 @@ msgstr ""
 "インストール失敗。不正な RPM です:\n"
 "%s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -899,68 +896,68 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "インストールに失敗"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr "このまま続けますか？"
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "以下のパッケージは署名が間違っています"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "以下のパッケージは署名が間違っています"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "インストールを続けますか？"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "インストールに失敗"
+
+#: ../urpm/main_loop.pm:144
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "インストールされている RPM (%s) を削除"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "%s を配信"
+msgid "Try to continue anyway?"
+msgstr "このまま続けますか？"
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "%s を %s からインストール"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "%s をインストール"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "%s を配信"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "依存を確認せずにインストールを試みますか？"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "インストールを強行 (--force) してみますか？"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "パッケージは最新です"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "インストール可能です"
@@ -1494,37 +1491,37 @@ msgstr ""
 "パッケージ %s が urpmi データベースに見つかりましたが、どれもインストールされ"
 "ていません"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "パッケージ %s は既にインストールされています"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "パッケージ %s は既にインストールされています"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "%s と衝突するために"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "%s が依存を満たしていないために"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "%s をアップグレードするために"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "%s を維持するために"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1533,7 +1530,7 @@ msgstr ""
 "更新するには以下のパッケージを削除しなければなりません:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1542,12 +1539,12 @@ msgstr ""
 "更新するには以下のパッケージを削除しなければなりません:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "%s をインストールするために"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "%s がないために"
@@ -2548,12 +2545,7 @@ msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "%d 個のパッケージのインストールを開始しますか？"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "キャンセル"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "マウントされたら Enter を押してください"
@@ -3273,33 +3265,33 @@ msgstr "--list-nodes は --parallel と一緒にしか使えません"
 msgid "use -l to list files"
 msgstr "ファイルを一覧表示するには -l を使います"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "メディア %s に XML 情報がないため、パッケージ %s の検索結果は不完全です"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "メディア %s に XML 情報がないため、パッケージ %s の検索結果は不完全です"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr ""
 "メディア %s に XML 情報がないため、パッケージ %s の検索結果を返せません"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr ""
 "メディア %s に XML 情報がないため、パッケージ %s の検索結果を返せません"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "変更ログはありません\n"
@@ -3311,6 +3303,18 @@ msgstr "ソフトウェアインストーラ"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "RPM インストール用グラフィカルフロントエンド"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "インストールに失敗。以下のファイルがありません:\n"
+#~ "%s\n"
+#~ "urpmi データベースを更新してください。"
+
+#~ msgid "Cancel"
+#~ msgstr "キャンセル"
 
 #, fuzzy
 #~ msgid "Cannot write DUDF file.\n"

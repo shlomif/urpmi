@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2005-02-13 13:39+0600\n"
 "Last-Translator: Jamil Ahmed <jamil@bengalinux.org>\n"
 "Language-Team: Bangla <mdk-translation@bengalinux.org>\n"
@@ -267,7 +267,7 @@ msgstr ""
 msgid "Warning"
 msgstr "নোটিশ"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "ঠিক আছে"
@@ -330,7 +330,7 @@ msgid_plural "(%d packages, %d MB)"
 msgstr[0] "%d প্যাকেজ সমূহ"
 msgstr[1] "%d প্যাকেজ সমূহ"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "সোর্স প্যাকেজ গুলি পাওয়া যায়নি, থামানো হচ্ছে"
@@ -367,38 +367,42 @@ msgstr "...আনতে ব্যর্থ হয়েছি: %s"
 msgid "_Done"
 msgstr "_সম্পন্ন"
 
-#: ../gurpmi2:402
-#, c-format
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
+#, fuzzy, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
+msgstr "ইনস্টলেশন ব্যর্থ"
+
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
 msgstr ""
 "কিছু ফাইল নেই, ইনস্টলেশন ব্যর্থ হয়েছে:\n"
 "%s\n"
 "আপনি হয়তো আপনার urpmi ডাটাবেস আপডেট করতে চাইবেন"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, fuzzy, c-format
 msgid "Installation failed:"
 msgstr "ইনস্টলেশন ব্যর্থ"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "সবকিছু আগে থেকেই ইনস্টল করা আছে"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "ইনস্টলেশন প্রক্রিয়া সম্পূর্ণ হয়েছে"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "%s সরানো হচ্ছে"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "urpmi আবার শুরু করা হচ্ছে"
@@ -527,57 +531,57 @@ msgstr "স্থানীয় প্যাকেজসমূহ রেজিস�
 msgid "This operation is forbidden while running in restricted mode"
 msgstr ""
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "কমান্ড লাইনের ওপর বাজে প্রক্সি ঘোষণা\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: \"%s\" rpm ফাইল পড়া যাচ্ছেনা\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr ""
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, fuzzy, c-format
 msgid "missing expression before %s"
 msgstr "(%s) স্বাক্ষর পাওয়া যাচ্ছে না"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr ""
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr ""
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr ""
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr ""
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr ""
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr ""
@@ -624,7 +628,7 @@ msgstr "কনফিগ ফাইল [%s]-এ লেখা সম্ভব হ�
 msgid "medium `%s' is defined twice, aborting"
 msgstr ""
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "কনফিগ ফাইল [%s]-এ লেখা সম্ভব হয়নি"
@@ -739,22 +743,22 @@ msgstr ""
 msgid "retrieving %s"
 msgstr "%s সরানো হচ্ছে"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, fuzzy, c-format
 msgid "retrieved %s"
 msgstr "...আনতে ব্যর্থ হয়েছি: %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "অজানা প্রোটোকল নির্ধারনের জন্য %s"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "কোন webfetch পাওয়া যায়নি, সমর্থিত webfetch সমূহ হচ্ছে: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "%s প্রোটকল নিয়ন্ত্রন করা সম্ভব হয়নি"
@@ -876,19 +880,12 @@ msgstr "urpmi ডাটাবেস লক করা আছে"
 msgid "aborting"
 msgstr "নোটিশ"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:89
-#, fuzzy, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr "ইনস্টলেশন ব্যর্থ"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, fuzzy, c-format
 msgid "You may need to update your urpmi database."
 msgstr ""
@@ -896,14 +893,14 @@ msgstr ""
 "%s\n"
 "আপনি হয়তো আপনার urpmi ডাটাবেস আপডেট করতে চাইবেন"
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
 msgstr "ইনস্টলেশন ব্যর্থ"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -911,68 +908,68 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "ইনস্টলেশন ব্যর্থ"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr ""
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "নিম্নের প্যাকেজগুলিতে বাজে স্বাক্ষর রয়েছে"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "নিম্নের প্যাকেজগুলিতে বাজে স্বাক্ষর রয়েছে"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "আপনি কি ইনস্টলেশন চলিয়ে যেতে চাচ্ছেন ?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "ইনস্টলেশন ব্যর্থ"
+
+#: ../urpm/main_loop.pm:144
 #, fuzzy, c-format
 msgid "removing installed rpms (%s)"
 msgstr "%s ইনস্টল করা হচ্ছে %s থেকে"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "বিতরণ করা হচ্ছে %s"
+msgid "Try to continue anyway?"
+msgstr ""
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "%s ইনস্টল করা হচ্ছে %s থেকে"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "%s ইনস্টল করা হচ্ছে"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "বিতরণ করা হচ্ছে %s"
+
+#: ../urpm/main_loop.pm:264
 #, fuzzy, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "ডিপেন্ডেন্সিসমুহ পরীক্ষা না করে ইনস্টলেশনের চেষ্টা করবো? (y/N)"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, fuzzy, c-format
 msgid "Try harder to install (--force)?"
 msgstr "আরও জোরালোভাবে ইনস্টলের চেষ্টার করবো (--force)? (y/N)"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr ""
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "ইনস্টলেশন সম্ভব"
@@ -1502,37 +1499,37 @@ msgstr ""
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "সবকিছু আগে থেকেই ইনস্টল করা আছে"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, fuzzy, c-format
 msgid "Package %s is already installed"
 msgstr "সবকিছু আগে থেকেই ইনস্টল করা আছে"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, fuzzy, c-format
 msgid "Packages %s are already installed"
 msgstr "সবকিছু আগে থেকেই ইনস্টল করা আছে"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "%s-এর সাথে সংঘাতের কারনে"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "%s অসন্তুষ্টির কারনে"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "%s প্রোমট করার চেষ্টা করছি"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "%s রাখার জন্য"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, fuzzy, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1541,7 +1538,7 @@ msgstr ""
 "নিম্নলিখিত প্যাকেজগুলি অবশ্যই সরাতে হবে অন্যগুলি আপগ্রেড করার জন্য:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1550,12 +1547,12 @@ msgstr ""
 "নিম্নলিখিত প্যাকেজগুলি অবশ্যই সরাতে হবে অন্যগুলি আপগ্রেড করার জন্য:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "%s ইনস্টলের জন্য"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "%s অনুপস্থিতির কারনে"
@@ -2558,12 +2555,7 @@ msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "বাতিল"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, fuzzy, c-format
 msgid "Press Enter when mounted..."
 msgstr "প্রস্তুত হলে Enter চাপুন..."
@@ -3260,21 +3252,21 @@ msgstr "--list-nodes শুধুমাত্র --parallel এর সাথে 
 msgid "use -l to list files"
 msgstr "\"%s\"-এর তালিকা ফাইল লেখা যায়নি"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "নোট: যেহেতু কোনো মাধ্যম hdlists ব্যবহার করে সন্ধান করে নি, urpmf কোনো ফলাফল দিতে "
 "পারে নি\n"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "নোট: যেহেতু কোনো মাধ্যম hdlists ব্যবহার করে সন্ধান করে নি, urpmf কোনো ফলাফল দিতে "
 "পারে নি\n"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, fuzzy, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3282,7 +3274,7 @@ msgstr ""
 "নোট: যেহেতু কোনো মাধ্যম hdlists ব্যবহার করে সন্ধান করে নি, urpmf কোনো ফলাফল দিতে "
 "পারে নি\n"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, fuzzy, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3290,7 +3282,7 @@ msgstr ""
 "নোট: যেহেতু কোনো মাধ্যম hdlists ব্যবহার করে সন্ধান করে নি, urpmf কোনো ফলাফল দিতে "
 "পারে নি\n"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "changelog পাওয়া যায়নি\n"
@@ -3302,6 +3294,18 @@ msgstr "সফ্টওয়্যার ইনস্টলকারী"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "আর.পি.এম. ফাইল ইনস্টলের জন্য গ্রাফিকাল ফ্রন্ট-এন্ড"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "কিছু ফাইল নেই, ইনস্টলেশন ব্যর্থ হয়েছে:\n"
+#~ "%s\n"
+#~ "আপনি হয়তো আপনার urpmi ডাটাবেস আপডেট করতে চাইবেন"
+
+#~ msgid "Cancel"
+#~ msgstr "বাতিল"
 
 #, fuzzy
 #~ msgid "Cannot write DUDF file.\n"

@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2009-10-21 18:34+0300\n"
 "Last-Translator: Thomas Backlund <tmb@mandriva.org>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -264,7 +264,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Varning"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "OK"
@@ -326,7 +326,7 @@ msgid_plural "(%d packages, %d MB)"
 msgstr[0] "(%d paket, %d MB)"
 msgstr[1] "(%d paket, %d MB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "kunde inte läsa källan, avbryter"
@@ -363,38 +363,41 @@ msgstr "...hämtning misslyckades: %s"
 msgid "_Done"
 msgstr "_Klar"
 
-#: ../gurpmi2:402
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
 msgstr ""
 "Installationen misslyckades, vissa filer saknas:\n"
-"%s\n"
-"Du bör försöka uppdatera urpmi-databasen."
+"%s"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
+msgstr "Du bör försöka uppdatera urpmi-databasen."
+
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "Installationen misslyckades:"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "Allt är redan installerat"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "Installation slutförd"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "tar bort %s"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "startar om urpmi"
@@ -523,59 +526,59 @@ msgstr "fel vid registrering av lokala paket"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Denna operation är inte tillåten i begränsat läge"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "felaktig proxydeklaration på kommandorad\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: kan inte läsa rpm-fil \"%s\"\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr "oväntat uttryck %s"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr "uttryck saknas före %s"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr "oväntat uttryck %s (förslag: använd -a eller -o)"
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr "inget uttryck att stänga"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 "som standard väntar urpmf på en regexp. du borde använda alternativet \"--"
 "literal\""
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "chroot katalog existerar inte"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "Kan inte använda %s utan %s"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "Kan inte använda %s med %s"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "För många argument\n"
@@ -624,7 +627,7 @@ msgstr "kan inte läsa inställningsfil [%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "medium '%s' är definierat två gånger, avbryter"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "kan inte skriva inställningsfil [%s]"
@@ -741,22 +744,22 @@ msgstr "        %s%% klar, hastighet = %s"
 msgid "retrieving %s"
 msgstr "hämtar %s"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr "hämtade %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "okänt protokoll definierat för %s"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "ingen 'webfetch' hittad, supportad webfetch är: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "kan inte hantera protokoll: %s"
@@ -879,26 +882,17 @@ msgstr "%s databas låst. Väntar..."
 msgid "aborting"
 msgstr "avbryter"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr "Försök på nytt?"
 
-#: ../urpm/main_loop.pm:89
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr ""
-"Installationen misslyckades, vissa filer saknas:\n"
-"%s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, c-format
 msgid "You may need to update your urpmi database."
 msgstr "Du bör försöka uppdatera urpmi-databasen."
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -907,7 +901,7 @@ msgstr ""
 "Installationen misslyckades, felaktiga rpm:\n"
 "%s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -918,68 +912,68 @@ msgstr ""
 "alla paket (%s behövs, %s tillgängligt).\n"
 "Är du säker du vill fortsätta?"
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "Installationen misslyckades"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr "Försök fortsätta ändå?"
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Följande paket har felaktig signatur"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "Följande paket har felaktiga signaturer"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Vill du fortsätta installationen?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "Installationen misslyckades"
+
+#: ../urpm/main_loop.pm:144
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "tar bort installerade rpms (%s)"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "distribuerar %s"
+msgid "Try to continue anyway?"
+msgstr "Försök fortsätta ändå?"
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "installerar %s från %s"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "installerar %s"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "distribuerar %s"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "Prova att installera utan att kontrollera behov av andra filer?"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "Försök ännu hårdare att installera (--force)?"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "Paket är uppdaterade"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "Installation är möjlig"
@@ -1517,37 +1511,37 @@ msgstr "Du borde använda \"-a\" för att använda alla av dem"
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "Hittade paket(en) %s i urpmi db, men inget är installerat"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "Paket %s är redan installerat"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "Paketen %s är redan installerade"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "på grund av konflikter med %s"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "på grund av otillräckliga %s"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "försöker befordra %s"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "för att behålla %s"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1556,7 +1550,7 @@ msgstr ""
 "Följande paket måste tas bort för att andra ska bli uppdaterade:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1565,12 +1559,12 @@ msgstr ""
 "Följande paket måste tas bort för att andra ska bli uppdaterade:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "för att installera %s"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "för att %s saknas"
@@ -2592,12 +2586,7 @@ msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Fortsätt installationen ett paket?"
 msgstr[1] "Fortsätt installationen av %d paket?"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "Avbryt"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "Tryck Enter när klart..."
@@ -3328,33 +3317,33 @@ msgstr "--list-nodes kan endast användas med --parallel"
 msgid "use -l to list files"
 msgstr "använd -l för att lista filer"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "ingen xml-info för media \"%s\", endast ofullständigt resultat för paketet %s"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "ingen xml-info för media \"%s\", endast ofullständigt resultat för paketen %s"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr ""
 "ingen xml-info för media \"%s\", kan inte returnera resultat för paketet %s"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr ""
 "ingen xml-info för media \"%s\", kan inte returnera resultat för paketen %s"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "Ingen ändringslogg hittades\n"
@@ -3366,6 +3355,18 @@ msgstr "Programinstallerare"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "Grafiskt gränssnitt för RPM-installation"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "Installationen misslyckades, vissa filer saknas:\n"
+#~ "%s\n"
+#~ "Du bör försöka uppdatera urpmi-databasen."
+
+#~ msgid "Cancel"
+#~ msgstr "Avbryt"
 
 #, fuzzy
 #~ msgid ""

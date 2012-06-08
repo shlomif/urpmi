@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2012-03-10 11:20+0300\n"
 "Last-Translator: Marek Laane <bald@starman.ee>\n"
 "Language-Team: Estonian <linux-ee@lists.eenet.ee>\n"
@@ -257,7 +257,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Hoiatus"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "Olgu"
@@ -317,7 +317,7 @@ msgid_plural "(%d packages, %d MB)"
 msgstr[0] "(%d pakett, %d MB)"
 msgstr[1] "(%d paketti, %d MB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "pakette ei õnnestunud hankida, katkestatakse"
@@ -354,38 +354,41 @@ msgstr "...tõmbamine nurjus: %s"
 msgid "_Done"
 msgstr "_Tehtud"
 
-#: ../gurpmi2:402
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
 msgstr ""
 "Paigaldamine nurjus, mõned failid on puudu:\n"
-"%s\n"
-"Te võiksite ehk uuendada urpmi andmebaasi"
+"%s"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
+msgstr "Te võiksite ehk uuendada urpmi andmebaasi."
+
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "Paigaldamine nurjus:"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "Kõik on juba paigaldatud"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "Paigaldus lõpetatud"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "%s eemaldamine"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "urpmi taaskäivitamine"
@@ -515,58 +518,58 @@ msgstr "viga kohalike pakettide registreerimisel"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "See operatsioon on piiratud režiimis keelatud"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "käsureal on määratud vigane puhverserver\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: RPM-faili \"%s\" lugemine nurjus\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr "ootamatu avaldis %s"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr "avaldis puudub %s ees"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr "ootamatu avaldis %s (soovitus: kasutada võiks võtit -a või -o)"
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr "pole ühtegi avaldist lõpetada"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 "vaikimisi ootab urpmf regulaaravaldist, peaksite kasutama võtit \"--literal\""
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "chroot-kataloogi ei ole olemas"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "%s kasutamine on võimalik ainult koos %s-ga"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "%s kasutamine ei ole võimalik %s-ga"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "Liiga palju argumente\n"
@@ -615,7 +618,7 @@ msgstr "seadistustefaili [%s] lugemine nurjus"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "andmekandja '%s' on määratud kaks korda, loobutakse'"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "seadistustefaili [%s] kirjutamine nurjus"
@@ -730,22 +733,22 @@ msgstr "        %s%% valmis, kiirus: %s"
 msgid "retrieving %s"
 msgstr "%s tõmbamine"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr "tõmmati %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "tundmatu protokoll %s jaoks"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "veebitõmbajat ei leitud, toetatud on programm %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "ei suuda käsitleda protokolli: %s"
@@ -867,26 +870,17 @@ msgstr "%s andmebaas on lukus, oodatakse..."
 msgid "aborting"
 msgstr "loobutakse"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr "Kas proovida uuesti?"
 
-#: ../urpm/main_loop.pm:89
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr ""
-"Paigaldamine nurjus, mõned failid on puudu:\n"
-"%s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, c-format
 msgid "You may need to update your urpmi database."
 msgstr "Te võiksite ehk uuendada urpmi andmebaasi."
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -895,7 +889,7 @@ msgstr ""
 "Paigaldamine nurjus, vigased RPM-failid:\n"
 "%s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -906,68 +900,68 @@ msgstr ""
 "(vaja on %s, saadaval %s).\n"
 "Kas tõesti jätkata?"
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "Paigaldamine nurjus"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr "Kas proovida siiski jätkata?"
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Järgmisel paketil on vigane signatuur"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "Järgmistel pakettidel on vigane signatuur"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Kas jätkata paigaldusega?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "Paigaldamine nurjus"
+
+#: ../urpm/main_loop.pm:144
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "paigaldatud RPM-failide (%s) eemaldamine"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "%s jaotamine"
+msgid "Try to continue anyway?"
+msgstr "Kas proovida siiski jätkata?"
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "%s paigaldamine andmekandjalt %s"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "%s paigaldamine"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "%s jaotamine"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "Kas proovida paigaldust ilma sõltuvusi kontrollimata?"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "Kas proovida paigaldust veel jõulisemalt (--force)?"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "Pole ühtegi paketti uuendada"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "Paigaldamine on võimalik"
@@ -1513,37 +1507,37 @@ msgstr "Kõigi nende kasutamiseks tuleks anda \"-a\""
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "Urpmi andmebaasis leiti paketid %s, aga need ei ole paigaldatud"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "Pakett %s on juba paigaldatud"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "Paketid %s on juba paigaldatud"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "konflikti tõttu %s-ga"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "rahuldamata %s tõttu"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "püüdes välja pakkuda %s"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "säilitamaks %s"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1552,7 +1546,7 @@ msgstr ""
 "Teiste uuendamiseks tuleb eemaldada järgmine pakett:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1561,12 +1555,12 @@ msgstr ""
 "Teiste uuendamiseks tuleb eemaldada järgmised paketid:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "paigaldamaks %s"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "puuduva %s tõttu"
@@ -2601,12 +2595,7 @@ msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Kas paigaldada 1 pakett?"
 msgstr[1] "Kas paigaldada %d paketti?"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "Loobu"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "Vajutage Enter, kui see on tehtud..."
@@ -3351,33 +3340,33 @@ msgstr "võtit --list-nodes saab kasutada ainult koos võtmega --parallel"
 msgid "use -l to list files"
 msgstr "faililoendi nägemiseks kasutage võtit -l"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "andmekandjal \"%s\" puudub XML-info, paketil %s on ainult osaline tulemus"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "andmekandjal \"%s\" puudub XML-info, pakettidel %s on ainult osaline tulemus"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr ""
 "andmekandjal \"%s\" puudub XML-info, paketile %s ei ole mingit tulemust"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr ""
 "andmekandjal \"%s\" puudub XML-info, pakettidele %s ei ole mingit tulemust"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "Muutuste logi ei leitud\n"
@@ -3389,6 +3378,18 @@ msgstr "Tarkvara paigaldaja"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "Graafiline kasutajaliides pakettide paigaldamiseks"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "Paigaldamine nurjus, mõned failid on puudu:\n"
+#~ "%s\n"
+#~ "Te võiksite ehk uuendada urpmi andmebaasi"
+
+#~ msgid "Cancel"
+#~ msgstr "Loobu"
 
 #, fuzzy
 #~ msgid ""

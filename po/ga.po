@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2000-04-06 10:25+0100\n"
 "Last-Translator: Proinnsias Breathnach <breatpro@dublin.ml.com>\n"
 "Language-Team: Gaeilge <ga@li.org>\n"
@@ -217,7 +217,7 @@ msgstr "tá gach rud ann cheana féin"
 msgid "Warning"
 msgstr "Rabhadh"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "Ceart go Leor"
@@ -274,7 +274,7 @@ msgid_plural "(%d packages, %d MB)"
 msgstr[0] "%d pacáistí"
 msgstr[1] "%d pacáistí"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr ""
@@ -313,35 +313,39 @@ msgstr "Theip ar uathathmhéadú FAT: %s"
 msgid "_Done"
 msgstr "Críochnithe"
 
-#: ../gurpmi2:402
-#, c-format
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
+#, fuzzy, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
+msgstr "Theip ag feistiú"
+
+#: ../gurpmi2:405
+#, c-format
+msgid "You may want to update your urpmi database."
 msgstr ""
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, fuzzy, c-format
 msgid "Installation failed:"
 msgstr "Theip ag feistiú"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "tá gach rud ann cheana féin"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, fuzzy, c-format
 msgid "Installation finished"
 msgstr "Theip ag feistiú"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, fuzzy, c-format
 msgid "removing %s"
 msgstr "ag feistiú %s"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr ""
@@ -468,57 +472,57 @@ msgstr ""
 msgid "This operation is forbidden while running in restricted mode"
 msgstr ""
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr ""
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, fuzzy, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "Teip ag leámh comhad chlár: %s"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr ""
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr ""
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr ""
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr ""
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr ""
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr ""
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr ""
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr ""
@@ -565,7 +569,7 @@ msgstr "Téip ag oscailt comhad: %s\n"
 msgid "medium `%s' is defined twice, aborting"
 msgstr ""
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, fuzzy, c-format
 msgid "unable to write config file [%s]"
 msgstr "Téip ag oscailt comhad: %s\n"
@@ -680,22 +684,22 @@ msgstr ""
 msgid "retrieving %s"
 msgstr "ag feistiú %s"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, fuzzy, c-format
 msgid "retrieved %s"
 msgstr "Theip ar uathathmhéadú FAT: %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr ""
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr ""
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, fuzzy, c-format
 msgid "unable to handle protocol: %s"
 msgstr "Ag feistiál  pacáiste %s"
@@ -816,31 +820,24 @@ msgstr ""
 msgid "aborting"
 msgstr "Rabhadh"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:89
-#, fuzzy, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr "Theip ag feistiú"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, c-format
 msgid "You may need to update your urpmi database."
 msgstr ""
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
 msgstr "Theip ag feistiú"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -848,68 +845,68 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "Theip ag feistiú"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr ""
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "Tá ceann de na pacáistí seo de dhíth:"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, fuzzy, c-format
 msgid "The following packages have bad signatures"
 msgstr "Tá ceann de na pacáistí seo de dhíth:"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, fuzzy, c-format
 msgid "Do you want to continue installation ?"
 msgstr "An bhfuil tú ag iarraidh an cumraíocht a thrial?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "Theip ag feistiú"
+
+#: ../urpm/main_loop.pm:144
 #, fuzzy, c-format
 msgid "removing installed rpms (%s)"
 msgstr "ag feistiú %s\n"
 
-#: ../urpm/main_loop.pm:237
-#, fuzzy, c-format
-msgid "distributing %s"
-msgstr "ag feistiú %s\n"
+#: ../urpm/main_loop.pm:160
+#, c-format
+msgid "Try to continue anyway?"
+msgstr ""
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, fuzzy, c-format
 msgid "installing %s from %s"
 msgstr "ag feistiú %s\n"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, fuzzy, c-format
 msgid "installing %s"
 msgstr "ag feistiú %s\n"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "ag feistiú %s\n"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, fuzzy, c-format
 msgid "Try harder to install (--force)?"
 msgstr "téama le haighaidh taobh an fuinneog"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr ""
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, fuzzy, c-format
 msgid "Installation is possible"
 msgstr "Theip ag feistiú"
@@ -1435,56 +1432,56 @@ msgstr ""
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "tá gach rud ann cheana féin"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, fuzzy, c-format
 msgid "Package %s is already installed"
 msgstr "tá gach rud ann cheana féin"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, fuzzy, c-format
 msgid "Packages %s are already installed"
 msgstr "tá gach rud ann cheana féin"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, fuzzy, c-format
 msgid "due to conflicts with %s"
 msgstr "kdesu ar iarraidh"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, fuzzy, c-format
 msgid "due to unsatisfied %s"
 msgstr "kdesu ar iarraidh"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr ""
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, fuzzy, c-format
 msgid "in order to keep %s"
 msgstr "téama le haighaidh taobh an fuinneog"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, fuzzy, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
 "%s"
 msgstr "Tá %s ins na pacáistí a leanas: %s \n"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, fuzzy, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s"
 msgstr "Tá %s ins na pacáistí a leanas: %s \n"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, fuzzy, c-format
 msgid "in order to install %s"
 msgstr "téama le haighaidh taobh an fuinneog"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, fuzzy, c-format
 msgid "due to missing %s"
 msgstr "kdesu ar iarraidh"
@@ -2424,12 +2421,7 @@ msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "Cealaigh"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, fuzzy, c-format
 msgid "Press Enter when mounted..."
 msgstr "Brú Enter nuair atá sin déanta agat..."
@@ -3084,29 +3076,29 @@ msgstr ""
 msgid "use -l to list files"
 msgstr "Téip ag oscailt comhad: %s\n"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr ""
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr ""
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr ""
@@ -3119,6 +3111,9 @@ msgstr "Suiteálaí Clófhoirne"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr ""
+
+#~ msgid "Cancel"
+#~ msgstr "Cealaigh"
 
 #, fuzzy
 #~ msgid "Cannot write DUDF file.\n"

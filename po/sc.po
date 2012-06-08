@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-sc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2005-09-07 15:57+0100\n"
 "Last-Translator: Antoni Pistis <antonio.pistis@virgilio.it>\n"
 "Language-Team: Sardu\n"
@@ -257,7 +257,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Atentu"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "Andat"
@@ -320,7 +320,7 @@ msgid_plural "(%d packages, %d MB)"
 msgstr[0] "%d pakitus"
 msgstr[1] "%d pakitus"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "no potzu lompi a is pakitus mitza, bessu"
@@ -357,38 +357,42 @@ msgstr "...no agataus: %s"
 msgid "_Done"
 msgstr "_Fatu"
 
-#: ../gurpmi2:402
-#, c-format
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
+#, fuzzy, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
+msgstr "Aposentadura faddia"
+
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
 msgstr ""
 "Aposentadura faddia, amcncat cancu file:\n"
 "%s\n"
 "Forsis bolis ajorronai su database de urpmi"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, fuzzy, c-format
 msgid "Installation failed:"
 msgstr "Aposentadura faddia"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "Pakitu(s) jai aposentau(s)"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "Aposentadura acabada"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "srèxinu %s"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "torru a aberri urpmi"
@@ -517,57 +521,57 @@ msgstr "faddina assentendi is pakitus localis"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Custa cosa no fait a da fai candu ses in modalidadi strinta"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "decrarada de proxy mala in arraya de cumandu\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: no fait a ligi su file rpm \"%s\"\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr ""
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, fuzzy, c-format
 msgid "missing expression before %s"
 msgstr "Amancat sa firma (%s)"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr ""
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr ""
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr ""
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr ""
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr ""
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr ""
@@ -614,7 +618,7 @@ msgstr "no potzu scriri su file de assètiu [%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr ""
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "no potzu scriri su file de assètiu [%s]"
@@ -729,22 +733,22 @@ msgstr ""
 msgid "retrieving %s"
 msgstr "srèxinu %s"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, fuzzy, c-format
 msgid "retrieved %s"
 msgstr "...no agataus: %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "protocollu disconnotu indidau po %s"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "no apu agatau webfetch, cuddus suportaus funt: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "no potzu mainjai su protocollu: %s"
@@ -867,19 +871,12 @@ msgstr "su database de urpmi est serrau"
 msgid "aborting"
 msgstr "Atentu"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:89
-#, fuzzy, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr "Aposentadura faddia"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, fuzzy, c-format
 msgid "You may need to update your urpmi database."
 msgstr ""
@@ -887,14 +884,14 @@ msgstr ""
 "%s\n"
 "Forsis bolis ajorronai su database de urpmi"
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
 msgstr "Aposentadura faddia"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -902,68 +899,68 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "Aposentadura faddia"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr ""
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "Is pakitus ki sighint tenint firmas malas"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "Is pakitus ki sighint tenint firmas malas"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Bolis sighiri a aposentai?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "Aposentadura faddia"
+
+#: ../urpm/main_loop.pm:144
 #, fuzzy, c-format
 msgid "removing installed rpms (%s)"
 msgstr "aposentu %s de %s"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "seu distribuendi %s"
+msgid "Try to continue anyway?"
+msgstr ""
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "aposentu %s de %s"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "aposentu %s"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "seu distribuendi %s"
+
+#: ../urpm/main_loop.pm:264
 #, fuzzy, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "Provu a aposentai sentza de controllai is dependèntzias? (y/N) "
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, fuzzy, c-format
 msgid "Try harder to install (--force)?"
 msgstr "Provu a aposentai de manera finas prus forti (--force)? (y/N) "
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr ""
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "Fait a aposentai"
@@ -1491,37 +1488,37 @@ msgstr ""
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "Pakitu(s) jai aposentau(s)"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, fuzzy, c-format
 msgid "Package %s is already installed"
 msgstr "Pakitu(s) jai aposentau(s)"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, fuzzy, c-format
 msgid "Packages %s are already installed"
 msgstr "Pakitu(s) jai aposentau(s)"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "ca gherrat cun %s"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "ca no est satisfatu %s"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "provu a sçoberai %s"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "po podi apoderai %s"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, fuzzy, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1530,7 +1527,7 @@ msgstr ""
 "Is pakitus ki sighint bolint srexinaus po ndi podi ajorronai atrus:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1539,12 +1536,12 @@ msgstr ""
 "Is pakitus ki sighint bolint srexinaus po ndi podi ajorronai atrus:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "po podi aposentai %s"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "ca amancat %s"
@@ -2573,12 +2570,7 @@ msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "No fait a aposentai is pakitus (%s)!"
 msgstr[1] "No fait a aposentai is pakitus (%s)!"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "Annudda"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, fuzzy, c-format
 msgid "Press Enter when mounted..."
 msgstr "Craca Enter candu ses prontu..."
@@ -3288,21 +3280,21 @@ msgstr "--list-nodes fait a d'impreai feti cun --parallel"
 msgid "use -l to list files"
 msgstr "no potzu scriri sa list de \"%s\""
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "Noda: sendi ki is mèdius castiaus no tenint hdlist, urpmf no at pòtziu "
 "torrai arresurtau\n"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "Noda: sendi ki is mèdius castiaus no tenint hdlist, urpmf no at pòtziu "
 "torrai arresurtau\n"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, fuzzy, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3310,7 +3302,7 @@ msgstr ""
 "Noda: sendi ki is mèdius castiaus no tenint hdlist, urpmf no at pòtziu "
 "torrai arresurtau\n"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, fuzzy, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3318,7 +3310,7 @@ msgstr ""
 "Noda: sendi ki is mèdius castiaus no tenint hdlist, urpmf no at pòtziu "
 "torrai arresurtau\n"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "No apu agatau s'arrelata de is mudas\n"
@@ -3331,6 +3323,18 @@ msgstr "Aposentadori de Programas"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "Bisori gràfigu po aposentai file RPM"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "Aposentadura faddia, amcncat cancu file:\n"
+#~ "%s\n"
+#~ "Forsis bolis ajorronai su database de urpmi"
+
+#~ msgid "Cancel"
+#~ msgstr "Annudda"
 
 #, fuzzy
 #~ msgid "Cannot write DUDF file.\n"

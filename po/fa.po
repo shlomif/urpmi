@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-fa\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2005-02-06 08:42-0500\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
@@ -255,7 +255,7 @@ msgstr ""
 msgid "Warning"
 msgstr "هشدار"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "تایید"
@@ -314,7 +314,7 @@ msgid "(%d package, %d MB)"
 msgid_plural "(%d packages, %d MB)"
 msgstr[0] "(بسته‌های %d، %d مگابایت)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "نمب‌توان بسته های منبع را دریافت کرد، پایان داده می‌شود"
@@ -351,38 +351,42 @@ msgstr "...دریافت شکست خورد: %s"
 msgid "_Done"
 msgstr "_انجام شد"
 
-#: ../gurpmi2:402
-#, c-format
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
+#, fuzzy, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
+msgstr "نصب شکست خورد"
+
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
 msgstr ""
 "نصب شکست خورد، بعضی از پرونده‌ها وجود ندارند:\n"
 "%s\n"
 "بهتر است بانک اطلاعات urpmi را بروزسازی نمایید"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, fuzzy, c-format
 msgid "Installation failed:"
 msgstr "نصب شکست خورد"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "همه چیز قبلاً نصب شده است"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "نصب پایان یافت"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "برداشتن %s"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "راه‌اندازی دوباره‌ی urpmi"
@@ -511,57 +515,57 @@ msgstr "خطا در بایگانی کردن بسته‌های محلی"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr ""
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "تعریف بد پراکسی بر خط فرمان\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: نمی‌توان پرونده rpm \"%s\" را خواند\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr ""
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, fuzzy, c-format
 msgid "missing expression before %s"
 msgstr "عدم وجود امضا (%s)"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr ""
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr ""
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr ""
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr ""
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr ""
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr ""
@@ -608,7 +612,7 @@ msgstr "نمی‌توان پرونده‌ی تنظیم [%s] را نوشت"
 msgid "medium `%s' is defined twice, aborting"
 msgstr ""
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "نمی‌توان پرونده‌ی تنظیم [%s] را نوشت"
@@ -723,22 +727,22 @@ msgstr ""
 msgid "retrieving %s"
 msgstr "برداشتن %s"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, fuzzy, c-format
 msgid "retrieved %s"
 msgstr "...دریافت شکست خورد: %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "پایان‌نامه‌ی ناشناس برای %s تعیین شده است"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "هیچ webfetch یافت نشد، webfetch دارای پشتیبانی: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "نمی‌توان پایان‌نامه را اداره کرد: %s"
@@ -859,19 +863,12 @@ msgstr "بانک اطلاعات urpmi قفل شده است"
 msgid "aborting"
 msgstr "هشدار"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:89
-#, fuzzy, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr "نصب شکست خورد"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, fuzzy, c-format
 msgid "You may need to update your urpmi database."
 msgstr ""
@@ -879,14 +876,14 @@ msgstr ""
 "%s\n"
 "بهتر است بانک اطلاعات urpmi را بروزسازی نمایید"
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
 msgstr "نصب شکست خورد"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -894,68 +891,68 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "نصب شکست خورد"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr ""
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "بسته‌های بدنبال آمده امضاهای بد دارند"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "بسته‌های بدنبال آمده امضاهای بد دارند"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "آیا می‌خواهید نصب را ادامه دهید؟"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "نصب شکست خورد"
+
+#: ../urpm/main_loop.pm:144
 #, fuzzy, c-format
 msgid "removing installed rpms (%s)"
 msgstr "نصب %s از %s"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "انتشار دادن %s"
+msgid "Try to continue anyway?"
+msgstr ""
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "نصب %s از %s"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "نصب %s"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "انتشار دادن %s"
+
+#: ../urpm/main_loop.pm:264
 #, fuzzy, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "تلاش برای نصب بدون بررسی وابستگی‌ها؟ (y/N) "
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, fuzzy, c-format
 msgid "Try harder to install (--force)?"
 msgstr "تلاش برای نصب حتی قویتر (--force)؟ (y/N) "
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr ""
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "نصب ممکن می‌باشد"
@@ -1482,37 +1479,37 @@ msgstr ""
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "همه چیز قبلاً نصب شده است"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, fuzzy, c-format
 msgid "Package %s is already installed"
 msgstr "همه چیز قبلاً نصب شده است"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, fuzzy, c-format
 msgid "Packages %s are already installed"
 msgstr "همه چیز قبلاً نصب شده است"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "بدلیل اختلاف با %s"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "بدلیل عدم رضایت %s"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "تلاش برای ترفیع %s"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "برای نگهداشتن %s"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, fuzzy, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1521,7 +1518,7 @@ msgstr ""
 "بسته‌های بدنبال آمده باید برداشته شوند تا بسته‌های دیگر بتوانند ارتقا یابند:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1530,12 +1527,12 @@ msgstr ""
 "بسته‌های بدنبال آمده باید برداشته شوند تا بسته‌های دیگر بتوانند ارتقا یابند:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "برای نصب %s"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "بدلیل عدم وجود %s"
@@ -2531,12 +2528,7 @@ msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "لغو"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, fuzzy, c-format
 msgid "Press Enter when mounted..."
 msgstr "وقتی آماده‌اید ورود را فشار دهید..."
@@ -3241,21 +3233,21 @@ msgstr "--list-nodes فقط می‌توانند با --parallel استفاده �
 msgid "use -l to list files"
 msgstr "نمی توان پرونده لیست \"%s\" را نوشت"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "توجه: چون هیچ رسانه‌ای با استفاده از hdlists جستجو نگردید، urpmf قادر نبود "
 "نتیجه‌ای را بازگرداند\n"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "توجه: چون هیچ رسانه‌ای با استفاده از hdlists جستجو نگردید، urpmf قادر نبود "
 "نتیجه‌ای را بازگرداند\n"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, fuzzy, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3263,7 +3255,7 @@ msgstr ""
 "توجه: چون هیچ رسانه‌ای با استفاده از hdlists جستجو نگردید، urpmf قادر نبود "
 "نتیجه‌ای را بازگرداند\n"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, fuzzy, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3271,7 +3263,7 @@ msgstr ""
 "توجه: چون هیچ رسانه‌ای با استفاده از hdlists جستجو نگردید، urpmf قادر نبود "
 "نتیجه‌ای را بازگرداند\n"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "هیچ ثبت تغییری یافت نشد\n"
@@ -3284,6 +3276,18 @@ msgstr "نصب‌گر نرم‌افزار"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "ظاهر تصویری برای نصب پرونده‌های RPM"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "نصب شکست خورد، بعضی از پرونده‌ها وجود ندارند:\n"
+#~ "%s\n"
+#~ "بهتر است بانک اطلاعات urpmi را بروزسازی نمایید"
+
+#~ msgid "Cancel"
+#~ msgstr "لغو"
 
 #, fuzzy
 #~ msgid "Cannot write DUDF file.\n"

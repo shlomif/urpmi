@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2012-04-06 11:08+0100\n"
 "Last-Translator: Remco Rijnders <remco@webconquest.com>\n"
 "Language-Team: Nederlands <vertaling@vrijschrift.org>\n"
@@ -275,7 +275,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "Ok"
@@ -340,7 +340,7 @@ msgid_plural "(%d packages, %d MB)"
 msgstr[0] "(%d pakket, %d MB)"
 msgstr[1] "(%d pakketten, %d MB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "kan bronpakketten niet ontvangen, bezig met afbreken"
@@ -377,38 +377,41 @@ msgstr "...ontvangst mislukt: %s"
 msgid "_Done"
 msgstr "_Klaar"
 
-#: ../gurpmi2:402
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
 msgstr ""
-"Installatie is mislukt, sommige bestanden missen:\n"
-"%s\n"
-"Misschien moet u de urpmi database opwaarderen"
+"Installatie mislukt, sommige bestanden ontbreken:\n"
+"%s"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
+msgstr "U kunt proberen de urpmi-database bij te werken."
+
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "Installatie mislukt:"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "De pakketten zijn reeds geïnstalleerd"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "Installatie voltooid"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "verwijderen van %s"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "urpmi herstarten"
@@ -540,59 +543,59 @@ msgstr "registreren van lokale pakketten is mislukt"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Deze operatie is verboden tijdens het uitvoeren in beperkte modus"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "ongeldige proxy-aanduiding op opdrachtregel\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: kon rpm bestand \"%s\" niet lezen\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr "onverwachte uitdrukking %s"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr "uitdrukking vóór %s ontbreekt"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr "onverwachte uitdrukking %s (suggestie: gebruik -a of -o)"
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr "geen afsluitbare uitdrukking"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 "standaard verwacht urpmf een regexp, u dient de optie \"--literal\" te "
 "gebruiken"
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "chroot-map bestaat niet"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "Kan %s niet gebruiken zonder %s"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "Kan %s niet gebruiken samen met %s"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "Te veel argumenten\n"
@@ -641,7 +644,7 @@ msgstr "kan configuratiebestand [%s] niet lezen"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "medium \"%s\" is twee keer gedefinieerd, afbreken"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "kon configuratiebestand [%s] niet wegschrijven"
@@ -756,22 +759,22 @@ msgstr "        %s%% voltooid, snelheid = %s"
 msgid "retrieving %s"
 msgstr "ophalen van %s"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr "%s opgehaald"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "onbekend protocol gedefinieerd voor %s"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "geen ``webfetch'' gevonden, ondersteund zijn: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "kon protocol niet verwerken: %s"
@@ -894,26 +897,17 @@ msgstr "%s-database gesloten. Wachten..."
 msgid "aborting"
 msgstr "afbreken"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr "Opnieuw proberen?"
 
-#: ../urpm/main_loop.pm:89
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr ""
-"Installatie mislukt, sommige bestanden ontbreken:\n"
-"%s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, c-format
 msgid "You may need to update your urpmi database."
 msgstr "U kunt proberen de urpmi-database bij te werken."
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -922,7 +916,7 @@ msgstr ""
 "Installatie mislukt, onjuiste rpms:\n"
 "%s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -933,68 +927,68 @@ msgstr ""
 "downloaden (%s nodig, %s beschikbaar).\n"
 "Weet u zeker dat u door wilt gaan?"
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "Installatie mislukt"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr "Toch proberen om door te gaan?"
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Het volgende pakket is voorzien van een onjuiste handtekening"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "De volgende pakketten bevatten een onjuiste handtekening"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Wilt u doorgaan met de installatie?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "Installatie mislukt"
+
+#: ../urpm/main_loop.pm:144
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "verwijderen van geïnstalleerde rpms (%s)"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "distribueren van %s"
+msgid "Try to continue anyway?"
+msgstr "Toch proberen om door te gaan?"
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "installeren van %s vanaf %s"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "installeren van %s"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "distribueren van %s"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "Proberen te installeren zonder de afhankelijkheden te controleren?"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "Installatie trachten te forceren (--force)?"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "Pakketten zijn bijgewerkt"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "Installatie is mogelijk"
@@ -1542,37 +1536,37 @@ msgstr "Gebruik \"-a\" om ze allemaal te gebruiken"
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "pakket(ten) %s gevonden in urpmi-db, maar geen ervan is geïnstalleerd"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "Pakket %s is reeds geïnstalleerd"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "De pakketten %s zijn reeds geïnstalleerd"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "vanwege conflicten met %s"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "vanwege onvoldane %s"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "probeer %s op te waarderen"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "Om %s te behouden"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1581,7 +1575,7 @@ msgstr ""
 "Het volgende pakket moet worden verwijderd om andere te kunnen opwaarderen:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1591,12 +1585,12 @@ msgstr ""
 "opwaarderen:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "in volgorde om %s te installeren"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "vanwege ontbrekende %s"
@@ -2618,7 +2612,9 @@ msgstr[1] "De volgende weespakketten worden verwijderd."
 #: ../urpmi:600
 #, c-format
 msgid "WARNING: %s option is in use. Some strange problems may happen"
-msgstr "WAARSCHUWING: %s-optie is in gebruik. Er kunnen zich onverwachte problemen voordoen"
+msgstr ""
+"WAARSCHUWING: %s-optie is in gebruik. Er kunnen zich onverwachte problemen "
+"voordoen"
 
 #: ../urpmi:612
 #, c-format
@@ -2647,12 +2643,7 @@ msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Verdergaan met de installatie van 1 pakket?"
 msgstr[1] "Verdergaan met de installatie van de %d pakketten?"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "Annuleren"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "Druk op Enter wanneer de koppeling tot stand is gebracht..."
@@ -3397,19 +3388,19 @@ msgstr "--list-nodes kan alleen worden gebruikt met --parallel"
 msgid "use -l to list files"
 msgstr "gebruik -l om bestanden op te sommen"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "geen xml-info voor medium \"%s\", slechts een deelresultaat voor pakket %s"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "geen xml-info voor medium\"%s\", slechts een deelresultaat voor pakketten %s"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3417,7 +3408,7 @@ msgstr ""
 "geen xml-info voor medium \"%s\", niet in staat resultaten te geven voor "
 "pakket %s"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3425,7 +3416,7 @@ msgstr ""
 "geen xml-info voor medium \"%s\", niet in staat een resultaat te geven voor "
 "pakketten %s"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "Geen wijzigingslogboek gevonden\n"
@@ -3437,6 +3428,18 @@ msgstr "Software-installatie"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "Grafische schil voor het installeren van RPM bestanden"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "Installatie is mislukt, sommige bestanden missen:\n"
+#~ "%s\n"
+#~ "Misschien moet u de urpmi database opwaarderen"
+
+#~ msgid "Cancel"
+#~ msgstr "Annuleren"
 
 #, fuzzy
 #~ msgid "Cannot write DUDF file.\n"

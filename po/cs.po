@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2012-03-10 14:33+0000\n"
 "Last-Translator: Petos Safarik <petos@mandrivalinux.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -253,7 +253,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Varování"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "OK"
@@ -314,7 +314,7 @@ msgstr[0] "(%d balíček, %d MB)"
 msgstr[1] "(%d balíčky, %d MB)"
 msgstr[2] "(%d balíčků, %d MB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "nelze získat zdrojový balíček, končím"
@@ -351,38 +351,41 @@ msgstr "...načítání selhalo: %s"
 msgid "_Done"
 msgstr "_Hotovo"
 
-#: ../gurpmi2:402
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
 msgstr ""
-"Instalace selhala, některé soubory chybí:\n"
-"%s\n"
-"Možná potřebujete aktualizovat databázi urpmi"
+"Instalace selhala, chybí některé soubory:\n"
+"%s"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
+msgstr "Možná potřebujete aktualizovat vaši databázi urpmi."
+
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "Instalace selhala:"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "Balíčky jsou již nainstalovány"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "Instalace dokončena"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "odstraňuje se %s"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "restartuje se urpmi"
@@ -511,57 +514,57 @@ msgstr "chyba při registraci lokálních balíčků"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Tato operace je zakázána při běhu v omezeném režimu"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "špatně zadaná proxy na příkazové řádce\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: nemohu přečíst rpm soubor \"%s\"\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr "neočekávaný výraz %s"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr "chybí výraz před %s"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr "neočekávaný výraz %s (návrh: použijte -a nebo -o ?)"
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr "chybí výraz pro zavření"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr "urpmf očekává implicitně regulární výraz, použijte volbu \"--literal\""
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "adresář chroot neexistuje"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "Nelze použít %s bez %s"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "Nelze použít %s zároveň s %s"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "Příliš mnoho parametrů\n"
@@ -610,7 +613,7 @@ msgstr "nelze načíst soubor s nastavením [%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "zdroj `%s' je definovaný dvakrát, končím"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "nelze zapsat soubor s nastavením [%s]"
@@ -725,22 +728,22 @@ msgstr "        %s%% hotovo, rychlost = %s"
 msgid "retrieving %s"
 msgstr "přijímám %s"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr "přijato %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "neznámý protokol definovaný pro %s"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "nebyla nalezena aplikace pro stažení přes web, podporované jsou: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "nelze zpracovat protokol: %s"
@@ -863,26 +866,17 @@ msgstr "Databáze %s je zamčená, čekám..."
 msgid "aborting"
 msgstr "přerušuji"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr "Opakovat?"
 
-#: ../urpm/main_loop.pm:89
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr ""
-"Instalace selhala, chybí některé soubory:\n"
-"%s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, c-format
 msgid "You may need to update your urpmi database."
 msgstr "Možná potřebujete aktualizovat vaši databázi urpmi."
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -891,7 +885,7 @@ msgstr ""
 "Instalace selhala, vadné RPM balíčky:\n"
 "%s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -902,68 +896,68 @@ msgstr ""
 "potřeba %s, dostupné je %s).\n"
 "Opravdu chcete pokračovat?"
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "Chyba při instalaci"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr "Přesto zkusit pokračovat?"
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Následující balíček má špatnou signaturu"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "Následující balíčky mají špatné signatury"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Chcete pokračovat v instalaci?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "Chyba při instalaci"
+
+#: ../urpm/main_loop.pm:144
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "odstraňují se instalované RPM balíčky (%s)"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "distribuuji %s"
+msgid "Try to continue anyway?"
+msgstr "Přesto zkusit pokračovat?"
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "instaluji %s z %s"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "instaluji %s"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "distribuuji %s"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "Pokusit se o instalaci bez kontroly závislostí?"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "Pokusit se o instalaci razantněji (--force)?"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "Balíčky jsou aktuální"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "Instalace je možná"
@@ -1524,37 +1518,37 @@ msgstr "Chcete-li použít všechny, použijte volbu \"-a\""
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "nalezeny balíčky %s v db urpmi, ale žádný není instalovaný"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "Balíček %s je již nainstalován"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "Balíčky %s jsou již nainstalovány"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "z důvodu konfliktů s %s"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "z důvodu nesplněného %s"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "pokouším se postoupit %s"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "aby bylo možné zachovat %s"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1563,7 +1557,7 @@ msgstr ""
 "Následující balíček musí být odstraněn, aby bylo možné jiné aktualizovat:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1572,12 +1566,12 @@ msgstr ""
 "Následující balíčky musí být odstraněny, aby bylo možné jiné aktualizovat:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "pro instalaci %s"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "z důvodu chybějícího %s"
@@ -2616,12 +2610,7 @@ msgstr[0] "Pokračovat v instalaci %d balíčku?"
 msgstr[1] "Pokračovat v instalaci %d balíčků?"
 msgstr[2] "Pokračovat v instalaci %d balíčků?"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "Zrušit"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "Po připojení stiskněte Enter..."
@@ -3360,20 +3349,20 @@ msgstr "volbu --list-nodes lze použít pouze s volbou --parallel"
 msgid "use -l to list files"
 msgstr "použijte -l pro seznam souborů"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "pro zdroj \"%s\" neexistuje xml info, pouze částečný výsledek pro balíček %s"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "pro zdroj \"%s\" neexistuje soubor xml info, pouze částečný výsledek pro "
 "balíčky %s"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3381,7 +3370,7 @@ msgstr ""
 "pro zdroj \"%s\" neexistuje soubor xml info, nelze vrátit žádný výsledek pro "
 "balíček %s"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3389,7 +3378,7 @@ msgstr ""
 "pro zdroj \"%s\" neexistuje soubor xml info, nelze vrátit žádný výsledek pro "
 "balíčky %s"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nebyl nalezen záznam změn\n"
@@ -3401,6 +3390,18 @@ msgstr "Instalace software"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "Grafické rozhraní pro instalaci balíčků RPM"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "Instalace selhala, některé soubory chybí:\n"
+#~ "%s\n"
+#~ "Možná potřebujete aktualizovat databázi urpmi"
+
+#~ msgid "Cancel"
+#~ msgstr "Zrušit"
 
 #~ msgid ""
 #~ "# Here are logs of your DUDF uploads.\n"

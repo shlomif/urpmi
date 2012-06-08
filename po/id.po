@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2007-03-22 08:14+0700\n"
 "Last-Translator: Willy Sudiarto Raharjo <willysr@gmail.com>\n"
 "Language-Team: Indonesia <mdk-id@yahoogroups.com>\n"
@@ -262,7 +262,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Peringatan"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "Ok"
@@ -322,7 +322,7 @@ msgid_plural "(%d packages, %d MB)"
 msgstr[0] "(%d paket, %d MB)"
 msgstr[1] "(%d paket, %d MB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "tidak dapat mengambil paket sumber, dibatalkan"
@@ -359,38 +359,42 @@ msgstr "...pengambilan gagal: %s"
 msgid "_Done"
 msgstr "_Selesai"
 
-#: ../gurpmi2:402
-#, c-format
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
+#, fuzzy, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
+msgstr "Installasi gagal pada node %s"
+
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
 msgstr ""
 "Instalasi gagal, beberapa file hilang:\n"
 "%s\n"
 "Anda mungkin perlu meng-update database urpmi Anda"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "Instalasi gagal:"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "Semua paket telah terinstal"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "Instalasi selesai"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "menghapus %s"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "jalankan ulang urpmi"
@@ -519,57 +523,57 @@ msgstr "kesalahan meregistrasi paket lokal"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Operasi ini dilarang ketika berjalan dalam mode terbatas"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "deklarasi proxy buruk pada pada perintah baris\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: tidak dapat membaca file rpm \"%s\"\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, fuzzy, c-format
 msgid "unexpected expression %s"
 msgstr "Pola ekspresi:\n"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, fuzzy, c-format
 msgid "missing expression before %s"
 msgstr "Tanda tangan hilang (%s)"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr ""
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, fuzzy, c-format
 msgid "no expression to close"
 msgstr "Pola ekspresi:\n"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "Direktori chroot tidak ada"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "Tidak bisa menggunakan %s tanpa %s"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "Tidak bisa menggunakan %s dengan %s"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "Terlalu banyak argumen\n"
@@ -616,7 +620,7 @@ msgstr "tidak dapat membaca file konfigurasi [%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "media `%s' didefinisikan dua kali, membatalkan diri"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "gagal menulis ke file konfigurasi [%s]"
@@ -731,22 +735,22 @@ msgstr "        %s%% selesai, kecepatan = %s"
 msgid "retrieving %s"
 msgstr "menerima %s"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr "menerima %s"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "protokol tidak dikenal didefinisikan untuk %s"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "webfetch tidak ditemukan, webfetch yang didukung adalah: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "gagal menangani protokol: %s"
@@ -868,19 +872,12 @@ msgstr "database %s terkunci"
 msgid "aborting"
 msgstr "Peringatan"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:89
-#, fuzzy, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr "Installasi gagal pada node %s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, fuzzy, c-format
 msgid "You may need to update your urpmi database."
 msgstr ""
@@ -888,14 +885,14 @@ msgstr ""
 "%s\n"
 "Anda mungkin perlu meng-update database urpmi Anda"
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
 msgstr "Installasi gagal pada node %s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -903,68 +900,68 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "Instalasi gagal"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr ""
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Paket berikut memiliki tandatangan yang cacat"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "Paket berikut memiliki tandatangan yang cacat"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Apakah Anda hendak melanjutkan instalasi ?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "Instalasi gagal"
+
+#: ../urpm/main_loop.pm:144
 #, fuzzy, c-format
 msgid "removing installed rpms (%s)"
 msgstr "menghapus rpm yang terinstall (%s) dari %s"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "sebarkan %s"
+msgid "Try to continue anyway?"
+msgstr ""
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "menginstall %s dari %s"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "menginstall %s"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "sebarkan %s"
+
+#: ../urpm/main_loop.pm:264
 #, fuzzy, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "Mencoba installasi tanpa menguji ketergantungan? (y/T) "
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, fuzzy, c-format
 msgid "Try harder to install (--force)?"
 msgstr "Mencoba installasi lebih keras (--force)? (y/T) "
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "Paket-paket sudah update"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "Installasi dimungkinkan"
@@ -1492,37 +1489,37 @@ msgstr ""
 msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr "Paket-paket %s tidak bisa diinstall"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "Paket %s telah terinstall"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "Paket-paket %s telah terinstal"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "karena konflik dengan %s"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "karena %s tidak terpenuhi"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "mencoba mempromosikan %s"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "untuk menjaga %s"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1531,7 +1528,7 @@ msgstr ""
 "Paket berikut harus dihapus agar yang lain dapat di-upgrade:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1540,12 +1537,12 @@ msgstr ""
 "Paket berikut harus dihapus agar yang lain dapat di-upgrade:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "untuk menginstall %s"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "karena %s hilang"
@@ -2571,12 +2568,7 @@ msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Lanjutkan dengan installasi satu paket?"
 msgstr[1] "Lanjutkan dengan installasi paket-paket %d?"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "Batal"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, fuzzy, c-format
 msgid "Press Enter when mounted..."
 msgstr "Tekan [Enter] jika siap.."
@@ -3298,19 +3290,19 @@ msgstr "--list-nodes hanya dapat dipakai dengan --parallel"
 msgid "use -l to list files"
 msgstr "gagal menulis file list \"%s\""
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "tidak ada hdlist untuk media \"%s\", hanya hasil parsial untuk paket %s"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "tidak ada hdlist untuk media \"%s\", hanya hasil parsial untuk paket-paket %s"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, fuzzy, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3318,7 +3310,7 @@ msgstr ""
 "tidak ada hdlist untuk media \"%s\", tidak dapat mengembalikan hasil untuk "
 "paket %s"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, fuzzy, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3326,7 +3318,7 @@ msgstr ""
 "tidak ada hdlist untuk media \"%s\", tidak dapat mengembalikan hasil untuk "
 "paket-paket %s"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "Changelog tidak ditemukan\n"
@@ -3338,6 +3330,18 @@ msgstr "Penginstall perangkat lunak"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "Tampilan grafis untuk menginstall file RPM"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "Instalasi gagal, beberapa file hilang:\n"
+#~ "%s\n"
+#~ "Anda mungkin perlu meng-update database urpmi Anda"
+
+#~ msgid "Cancel"
+#~ msgstr "Batal"
 
 #, fuzzy
 #~ msgid "Cannot write DUDF file.\n"

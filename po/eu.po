@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:44+0100\n"
+"POT-Creation-Date: 2012-06-08 19:19+0200\n"
 "PO-Revision-Date: 2009-11-01 09:36+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-doc@kde.org>\n"
@@ -262,7 +262,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Kontuz"
 
-#: ../gurpmi2:155 ../urpmi:642
+#: ../gurpmi2:155
 #, c-format
 msgid "Ok"
 msgstr "Ados"
@@ -322,7 +322,7 @@ msgid_plural "(%d packages, %d MB)"
 msgstr[0] "(pakete %d, %d MB)"
 msgstr[1] "(%d pakete, %d MB)"
 
-#: ../gurpmi2:287 ../urpm/main_loop.pm:49
+#: ../gurpmi2:287 ../urpm/main_loop.pm:304
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "ezin dira iturburuko paketeak lortu, abortatzen"
@@ -359,38 +359,41 @@ msgstr "...berreskuratzeak huts egin du: %s"
 msgid "_Done"
 msgstr "_Eginda"
 
-#: ../gurpmi2:402
+#: ../gurpmi2:402 ../urpm/main_loop.pm:69
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
+"%s"
 msgstr ""
-"Huts egin du instalatzean, fitxategi batzuk falta dira:\n"
-"%s\n"
-"Zure urpmi datu-basea eguneratzea komeni da"
+"Instalaketak huts egin du, fitxategi batzuk falta dira:\n"
+"%s"
 
-#: ../gurpmi2:408 ../urpm/main_loop.pm:292 ../urpm/main_loop.pm:335
+#: ../gurpmi2:405
+#, fuzzy, c-format
+msgid "You may want to update your urpmi database."
+msgstr "Zure urpmi datu-basea eguneratzea komeni da."
+
+#: ../gurpmi2:409 ../urpm/main_loop.pm:261 ../urpm/main_loop.pm:421
 #, c-format
 msgid "Installation failed:"
 msgstr "Instalaketak huts egin du:"
 
-#: ../gurpmi2:413
+#: ../gurpmi2:414
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "Dena dago instalatuta"
 
-#: ../gurpmi2:415
+#: ../gurpmi2:416
 #, c-format
 msgid "Installation finished"
 msgstr "Instalazioa amaitu da"
 
-#: ../gurpmi2:416 ../urpme:169
+#: ../gurpmi2:417 ../urpme:169
 #, c-format
 msgid "removing %s"
 msgstr "%s kentzen"
 
-#: ../gurpmi2:427 ../urpmi:705
+#: ../gurpmi2:428 ../urpmi:695
 #, c-format
 msgid "restarting urpmi"
 msgstr "urpmi berrabiarazten"
@@ -519,59 +522,59 @@ msgstr "errorea pakete lokalak erregistratzean"
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Eragiketa hau debekatuta dago modu murriztuan exekutatzerakoan"
 
-#: ../urpm/args.pm:152 ../urpm/args.pm:161
+#: ../urpm/args.pm:151 ../urpm/args.pm:160
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "proxy-adierazpen okerra komando-lerroan\n"
 
-#: ../urpm/args.pm:307
+#: ../urpm/args.pm:306
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: ezin da \"%s\" rpm fitxategia irakurri\n"
 
-#: ../urpm/args.pm:384
+#: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s"
 msgstr "%s ezusteko adierazpena"
 
-#: ../urpm/args.pm:385
+#: ../urpm/args.pm:384
 #, c-format
 msgid "missing expression before %s"
 msgstr "%s-ren aurretik adierazpena falta da"
 
-#: ../urpm/args.pm:391
+#: ../urpm/args.pm:390
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
 msgstr "%s ezusteko adierazpena (iradokizuna: erabili -a edo -o ?)"
 
-#: ../urpm/args.pm:395
+#: ../urpm/args.pm:394
 #, c-format
 msgid "no expression to close"
 msgstr "ez dago itxi beharreko adierazpenik"
 
-#: ../urpm/args.pm:404
+#: ../urpm/args.pm:403
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
 "era lehenetsian urpmf-k regexp bat espero du. \"--literal\" aukera erabili "
 "beharko zenuke"
 
-#: ../urpm/args.pm:478
+#: ../urpm/args.pm:477
 #, c-format
 msgid "chroot directory doesn't exist"
 msgstr "chroot direktorioa ez da existitzen"
 
-#: ../urpm/args.pm:501
+#: ../urpm/args.pm:500
 #, c-format
 msgid "Can't use %s without %s"
 msgstr "Ezin da %s %s gabe erabili"
 
-#: ../urpm/args.pm:504 ../urpm/args.pm:507 ../urpmq:159
+#: ../urpm/args.pm:503 ../urpm/args.pm:506 ../urpmq:159
 #, c-format
 msgid "Can't use %s with %s"
 msgstr "Ezin da %s %s-rekin erabili"
 
-#: ../urpm/args.pm:515
+#: ../urpm/args.pm:514
 #, c-format
 msgid "Too many arguments\n"
 msgstr "Argumentu gehiegi\n"
@@ -620,7 +623,7 @@ msgstr "ezin da konfig fitxategia irakurri [%s]"
 msgid "medium `%s' is defined twice, aborting"
 msgstr "'%s' euskarria bitan definituta dago, galarazten"
 
-#: ../urpm/cfg.pm:252 ../urpm/media.pm:541
+#: ../urpm/cfg.pm:254 ../urpm/media.pm:541
 #, c-format
 msgid "unable to write config file [%s]"
 msgstr "ezin da [%s] konfigurazio-fitxategia idatzi"
@@ -736,22 +739,22 @@ msgstr "        %s%% osatuta, abiadura = %s"
 msgid "retrieving %s"
 msgstr "%s berreskuratzen"
 
-#: ../urpm/download.pm:890
+#: ../urpm/download.pm:894
 #, c-format
 msgid "retrieved %s"
 msgstr "%s eskuratuta"
 
-#: ../urpm/download.pm:954
+#: ../urpm/download.pm:958
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "%s(e)rako protokolo ezezaguna definitu da"
 
-#: ../urpm/download.pm:968
+#: ../urpm/download.pm:972
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "webfetch ez da aurkitu, webfetch hauek onartzen dira: %s\n"
 
-#: ../urpm/download.pm:983
+#: ../urpm/download.pm:987
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "ezin da protokoloa maneiatu: %s"
@@ -875,26 +878,17 @@ msgstr "%s datubasea giltzatuta dago. Itxoiten..."
 msgid "aborting"
 msgstr "galarazten"
 
-#: ../urpm/main_loop.pm:79
+#: ../urpm/main_loop.pm:45
 #, c-format
 msgid "Retry?"
 msgstr "Berriz saiatu?"
 
-#: ../urpm/main_loop.pm:89
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s"
-msgstr ""
-"Instalaketak huts egin du, fitxategi batzuk falta dira:\n"
-"%s"
-
-#: ../urpm/main_loop.pm:92
+#: ../urpm/main_loop.pm:72
 #, c-format
 msgid "You may need to update your urpmi database."
 msgstr "Zure urpmi datu-basea eguneratzea komeni da."
 
-#: ../urpm/main_loop.pm:95
+#: ../urpm/main_loop.pm:75
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -903,7 +897,7 @@ msgstr ""
 "Instalaketak huts egin du, rpm okerrak:\n"
 "%s"
 
-#: ../urpm/main_loop.pm:113
+#: ../urpm/main_loop.pm:94
 #, c-format
 msgid ""
 "There is not enough space on your filesystem to download all packages (%s "
@@ -914,68 +908,68 @@ msgstr ""
 "beharrezkoa, %s eskuragarri).\n"
 "Ziur zaude jarraitu nahi duzula?"
 
-#: ../urpm/main_loop.pm:173 ../urpm/main_loop.pm:213 ../urpm/main_loop.pm:294
-#: ../urpm/main_loop.pm:301
-#, c-format
-msgid "Installation failed"
-msgstr "Instalazioak huts egin du"
-
-#: ../urpm/main_loop.pm:174
-#, c-format
-msgid "Try to continue anyway?"
-msgstr "Hala ere jarraitzen saiatu?"
-
-#: ../urpm/main_loop.pm:198
+#: ../urpm/main_loop.pm:124
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Ondoko paketeak sinadura okerra dauka"
 
-#: ../urpm/main_loop.pm:199
+#: ../urpm/main_loop.pm:125
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "Ondoko pakete hauek sinadura okerra dute"
 
-#: ../urpm/main_loop.pm:200
+#: ../urpm/main_loop.pm:126
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Instalatzen jarraitu nahi duzu?"
 
-#: ../urpm/main_loop.pm:217
+#: ../urpm/main_loop.pm:140 ../urpm/main_loop.pm:159 ../urpm/main_loop.pm:263
+#: ../urpm/main_loop.pm:271
+#, c-format
+msgid "Installation failed"
+msgstr "Instalazioak huts egin du"
+
+#: ../urpm/main_loop.pm:144
 #, c-format
 msgid "removing installed rpms (%s)"
 msgstr "instalatutako rpm-ak ezabatzen (%s)"
 
-#: ../urpm/main_loop.pm:237
+#: ../urpm/main_loop.pm:160
 #, c-format
-msgid "distributing %s"
-msgstr "%s banatzen"
+msgid "Try to continue anyway?"
+msgstr "Hala ere jarraitzen saiatu?"
 
-#: ../urpm/main_loop.pm:252
+#: ../urpm/main_loop.pm:209
 #, c-format
 msgid "installing %s from %s"
 msgstr "%s %s-tik instalatzen"
 
-#: ../urpm/main_loop.pm:254
+#: ../urpm/main_loop.pm:211
 #, c-format
 msgid "installing %s"
 msgstr "%s instalatzen"
 
-#: ../urpm/main_loop.pm:295
+#: ../urpm/main_loop.pm:218
+#, c-format
+msgid "distributing %s"
+msgstr "%s banatzen"
+
+#: ../urpm/main_loop.pm:264
 #, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "Mendekotasunak egiaztatu gabe instalatzen saiatu nahi duzu?"
 
-#: ../urpm/main_loop.pm:302
+#: ../urpm/main_loop.pm:272
 #, c-format
 msgid "Try harder to install (--force)?"
 msgstr "Instalaketa behartu (--force)?"
 
-#: ../urpm/main_loop.pm:345
+#: ../urpm/main_loop.pm:431
 #, c-format
 msgid "Packages are up to date"
 msgstr "Paketeak egunean daude"
 
-#: ../urpm/main_loop.pm:356 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:442 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "Instalazioa posible da"
@@ -1524,37 +1518,37 @@ msgid "found package(s) %s in urpmi db, but none are installed"
 msgstr ""
 "%s paketea(k) aurkitu d(ir)a urpmi db-an, baino ez dago batere instalatuta"
 
-#: ../urpm/select.pm:555
+#: ../urpm/select.pm:554
 #, c-format
 msgid "Package %s is already installed"
 msgstr "%s paketea dagoeneko instalatuta dago"
 
-#: ../urpm/select.pm:556
+#: ../urpm/select.pm:555
 #, c-format
 msgid "Packages %s are already installed"
 msgstr "%s paketeak dagoeneko instalatuta daude"
 
-#: ../urpm/select.pm:573 ../urpm/select.pm:660
+#: ../urpm/select.pm:572 ../urpm/select.pm:659
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "%s(r)ekin gatazkak daudelako"
 
-#: ../urpm/select.pm:574 ../urpm/select.pm:654
+#: ../urpm/select.pm:573 ../urpm/select.pm:653
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "%s bete gabe dagoelako"
 
-#: ../urpm/select.pm:580
+#: ../urpm/select.pm:579
 #, c-format
 msgid "trying to promote %s"
 msgstr "%s jaso nahian"
 
-#: ../urpm/select.pm:581
+#: ../urpm/select.pm:580
 #, c-format
 msgid "in order to keep %s"
 msgstr "%s gordetzeko"
 
-#: ../urpm/select.pm:622
+#: ../urpm/select.pm:621
 #, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
@@ -1563,7 +1557,7 @@ msgstr ""
 "Ondoko paketea ezabatu behar da besteak berritu ahal daitezen:\n"
 "%s"
 
-#: ../urpm/select.pm:623
+#: ../urpm/select.pm:622
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1572,12 +1566,12 @@ msgstr ""
 "Pakete hauek kendu egin behar dira besteak berritzeko:\n"
 "%s"
 
-#: ../urpm/select.pm:650
+#: ../urpm/select.pm:649
 #, c-format
 msgid "in order to install %s"
 msgstr "%s instalatzeko"
 
-#: ../urpm/select.pm:656
+#: ../urpm/select.pm:655
 #, c-format
 msgid "due to missing %s"
 msgstr "%s falta delako"
@@ -2613,12 +2607,7 @@ msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Pakete baten instalaketarekin arrera jarraitu nahi duzu?"
 msgstr[1] "%d paketeen instalaketarekin jarraitu nahi duzu?"
 
-#: ../urpmi:642
-#, c-format
-msgid "Cancel"
-msgstr "Utzi"
-
-#: ../urpmi:650
+#: ../urpmi:643
 #, c-format
 msgid "Press Enter when mounted..."
 msgstr "Sakatu 'Sartu' muntatuta dagoenean..."
@@ -3368,21 +3357,21 @@ msgstr "--nodo-zerrendak honekin bakarrik erabil daitezke: --parallel"
 msgid "use -l to list files"
 msgstr "erabili -l fitxategiak zerrendatzeko"
 
-#: ../urpmq:424
+#: ../urpmq:420
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
 "ez dago \"%s\" euskarriarentzako xml info, %s paketearentzako emaitza "
 "partzialak soilik"
 
-#: ../urpmq:425
+#: ../urpmq:421
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
 "ez dago \"%s\" euskarriarentzako xml info, %s paketeentzako emaitza "
 "partzialak soilik"
 
-#: ../urpmq:428
+#: ../urpmq:424
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
@@ -3390,7 +3379,7 @@ msgstr ""
 "ez dago \"%s\" euskarriarentzako xml info, ezin da %s paketearentzako "
 "inolako emaitzarik itzuli"
 
-#: ../urpmq:429
+#: ../urpmq:425
 #, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
@@ -3398,7 +3387,7 @@ msgstr ""
 "ez dago \"%s\" euskarriarentzako xml info, ezin da %s paketeentzako inolako "
 "emaitzarik itzuli"
 
-#: ../urpmq:496
+#: ../urpmq:492
 #, c-format
 msgid "No changelog found\n"
 msgstr "Ez da changelog  aurkitu\n"
@@ -3410,6 +3399,18 @@ msgstr "Software Instalatzailea"
 #: ../gurpmi.desktop.in.h:2
 msgid "Graphical front end to install RPM files"
 msgstr "RPM fitxategiak instalatzeko interfaze grafikoa"
+
+#~ msgid ""
+#~ "Installation failed, some files are missing:\n"
+#~ "%s\n"
+#~ "You may want to update your urpmi database"
+#~ msgstr ""
+#~ "Huts egin du instalatzean, fitxategi batzuk falta dira:\n"
+#~ "%s\n"
+#~ "Zure urpmi datu-basea eguneratzea komeni da"
+
+#~ msgid "Cancel"
+#~ msgstr "Utzi"
 
 #, fuzzy
 #~ msgid ""
