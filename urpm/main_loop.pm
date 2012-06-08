@@ -74,6 +74,38 @@ sub _download_packages {
     (\@error_sources, \@msgs);
 }
 
+sub _download_all {
+    my ($urpm, $blists, $sources, $force, $callbacks) = @_;
+    if ($urpm->{options}{'download-all'}) {
+        $urpm->{cachedir} = $urpm->{'urpmi-root'} . $urpm->{options}{'download-all'};
+        urpm::init_cache_dir($urpm, $urpm->{cachedir});
+    }
+    my (undef, $available) = urpm::sys::df("$urpm->{cachedir}/rpms");
+
+    if (!$urpm->{options}{ignoresize}) {
+        my ($download_size) = urpm::get_pkgs::get_distant_media_filesize($urpm, $blists, $sources); 
+        if ($download_size >= $available*1000) {
+            my $p = N("There is not enough space on your filesystem to download all packages (%s needed, %s available).\nAre you sure you want to continue?", formatXiB($download_size), formatXiB($available*1000)); 
+            $force || urpm::msg::ask_yes_or_no($p) or return 10;
+        }	
+    }
+
+    #download packages one by one so that we don't try to download them again
+    #and again if the user has to restart urpmi because of some failure
+    my %downloaded_pkgs;
+    foreach my $blist (@$blists) {
+        foreach my $pkg (keys %{$blist->{pkgs}}) {
+            next if $downloaded_pkgs{$pkg};
+            my $blist_one = [{ pkgs => { $pkg => $blist->{pkgs}{$pkg} }, medium => $blist->{medium} }];
+            my ($error_sources) = _download_packages($urpm, $callbacks, $blist_one, $sources);
+            if (@$error_sources) {
+                return 10;
+            }
+            $downloaded_pkgs{$pkg} = 1;
+        }
+    }
+}
+
 # locking is left to callers
 sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
@@ -104,34 +136,7 @@ sub run {
     $callbacks->{post_removable} and $callbacks->{post_removable}->();
 
     if (exists $urpm->{options}{'download-all'}) {
-        if ($urpm->{options}{'download-all'}) {
-            $urpm->{cachedir} = $urpm->{'urpmi-root'} . $urpm->{options}{'download-all'};
-            urpm::init_cache_dir($urpm, $urpm->{cachedir});
-        }
-        my (undef, $available) = urpm::sys::df("$urpm->{cachedir}/rpms");
-
-        if (!$urpm->{options}{ignoresize}) {
-            my ($download_size) = urpm::get_pkgs::get_distant_media_filesize($urpm, $blists, \%sources); 
-            if ($download_size >= $available*1000) {
-                my $p = N("There is not enough space on your filesystem to download all packages (%s needed, %s available).\nAre you sure you want to continue?", formatXiB($download_size), formatXiB($available*1000)); 
-                $force || urpm::msg::ask_yes_or_no($p) or return 10;
-            }	
-        }
-
-        #download packages one by one so that we don't try to download them again
-        #and again if the user has to restart urpmi because of some failure
-        my %downloaded_pkgs;
-        foreach my $blist (@$blists) {
-            foreach my $pkg (keys %{$blist->{pkgs}}) {
-                next if $downloaded_pkgs{$pkg};
-                my $blist_one = [{ pkgs => { $pkg => $blist->{pkgs}{$pkg} }, medium => $blist->{medium} }];
-                my ($error_sources) = _download_packages($urpm, $callbacks, $blist_one, \%sources);
-                if (@$error_sources) {
-                    return 10;
-                }
-                $downloaded_pkgs{$pkg} = 1;
-            }
-        }
+        _download_all($urpm, $blists, \%sources, $force, $callbacks);
     }
 
     #- now create transaction just before installation, this will save user impression of slowness.
