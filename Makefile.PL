@@ -75,6 +75,8 @@ sub manifypods {
     my $inherited = shift->SUPER::manifypods(@_);
     #- TODO repartition of man pages in sections by pod2man is incorrect
     #- TODO as more languages are added adapt the following quick hack
+    # Adjust captions to make them look less like perl packages
+    $inherited =~ s/^(POD2MAN_EXE\s*=\s*)(.+)$/$1$2 -c "Mageia Package Management" -r "Mageia Linux"/m;
     $inherited;
 }
 
