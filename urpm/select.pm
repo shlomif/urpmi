@@ -449,7 +449,6 @@ sub find_packages_to_remove {
 		#- check if only name was given.
 		$db->traverse_tag('name', [ $_ ], sub {
 			my ($p) = @_;
-			$p->name eq $_ or return;
 			$urpm->resolve_rejected($db, $state, $p, removed => 1);
 			push @m, scalar $p->fullname;
 			$found = 1;
