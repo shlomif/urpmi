@@ -31,6 +31,45 @@ use urpm::get_pkgs;
 use urpm::signature;
 use urpm::util qw(difference2 find intersection member partition untaint);
 
+sub _download_packages {
+    my ($urpm, $callbacks, $blists, $sources) = @_;
+    my @error_sources;
+    urpm::get_pkgs::download_packages_of_distant_media(
+        $urpm,
+        $blists,
+        $sources,
+        \@error_sources,
+        quiet => $options{verbose} < 0,
+        callback => $callbacks->{trans_log},
+        ask_retry => !$urpm->{options}{auto} && ($callbacks->{ask_retry} || sub {
+                                                     my ($raw_msg, $msg) = @_;
+                                                     if (my $download_errors = delete $urpm->{download_errors}) {
+                                                         $raw_msg = join("\n", @$download_errors, '');
+                                                     }
+                                                     $callbacks->{ask_yes_or_no}('', $raw_msg . "\n" . $msg . "\n" . N("Retry?"));
+                                                 }),
+    );
+    my @msgs;
+    if (@error_sources) {
+        $_->[0] = urpm::download::hide_password($_->[0]) foreach @error_sources;
+        my @bad = grep { $_->[1] eq 'bad' } @error_sources;
+        my @missing = grep { $_->[1] eq 'missing' } @error_sources;
+
+        if (@missing) {
+            push @msgs, N("Installation failed, some files are missing:\n%s", 
+                          join("\n", map { "    $_->[0]" } @missing))
+              . "\n" .
+                N("You may need to update your urpmi database.");
+        }
+        if (@bad) {
+            push @msgs, N("Installation failed, bad rpms:\n%s",
+                          join("\n", map { "    $_->[0]" } @bad));
+        }
+    }
+    
+    (\@error_sources, \@msgs);
+}
+
 # locking is left to callers
 sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
@@ -60,46 +99,6 @@ sub run {
                                                   $callbacks->{copy_removable});
     $callbacks->{post_removable} and $callbacks->{post_removable}->();
 
-    # use a anonymous subroutine, as it force perl to rebind external variables, like
-    # $callbacks and $urpm, as showed by warnings.pm. Fix #54842
-    my $download_packages = sub {
-        my ($blists, $sources) = @_;
-        my @error_sources;
-        urpm::get_pkgs::download_packages_of_distant_media($urpm,
-                                                           $blists,
-                                                           $sources,
-                                                           \@error_sources,
-                                                           quiet => $options{verbose} < 0,
-                                                           callback => $callbacks->{trans_log},
-                                                           ask_retry => !$urpm->{options}{auto} && ($callbacks->{ask_retry} || sub {
-                                                                                                        my ($raw_msg, $msg) = @_;
-                                                                                                        if (my $download_errors = delete $urpm->{download_errors}) {
-                                                                                                            $raw_msg = join("\n", @$download_errors, '');
-                                                                                                        }
-                                                                                                        $callbacks->{ask_yes_or_no}('', $raw_msg . "\n" . $msg . "\n" . N("Retry?"));
-                                                                                                    }),
-                                                       );
-        my @msgs;
-        if (@error_sources) {
-            $_->[0] = urpm::download::hide_password($_->[0]) foreach @error_sources;
-            my @bad = grep { $_->[1] eq 'bad' } @error_sources;
-            my @missing = grep { $_->[1] eq 'missing' } @error_sources;
-
-            if (@missing) {
-                push @msgs, N("Installation failed, some files are missing:\n%s", 
-                              join("\n", map { "    $_->[0]" } @missing))
-                  . "\n" .
-                    N("You may need to update your urpmi database.");
-            }
-            if (@bad) {
-                push @msgs, N("Installation failed, bad rpms:\n%s",
-                              join("\n", map { "    $_->[0]" } @bad));
-            }
-        }
-    
-        (\@error_sources, \@msgs);
-    };
-
     if (exists $urpm->{options}{'download-all'}) {
         if ($urpm->{options}{'download-all'}) {
             $urpm->{cachedir} = $urpm->{'urpmi-root'} . $urpm->{options}{'download-all'};
@@ -122,7 +121,7 @@ sub run {
             foreach my $pkg (keys %{$blist->{pkgs}}) {
                 next if $downloaded_pkgs{$pkg};
                 my $blist_one = [{ pkgs => { $pkg => $blist->{pkgs}{$pkg} }, medium => $blist->{medium} }];
-                my ($error_sources) = &$download_packages($blist_one, \%sources);
+                my ($error_sources) = _download_packages($urpm, $callbacks, $blist_one, \%sources);
                 if (@$error_sources) {
                     return 10;
                 }
@@ -164,7 +163,7 @@ sub run {
           urpm::install::prepare_transaction($urpm, $set, $blists, \%sources);
 
         #- first, filter out what is really needed to download for this small transaction.
-        my ($error_sources, $msgs) = &$download_packages($transaction_blists, $transaction_sources);
+        my ($error_sources, $msgs) = _download_packages($urpm, $callbacks, $transaction_blists, $transaction_sources);
         if (@$error_sources) {
             $nok++;
             my $go_on;
