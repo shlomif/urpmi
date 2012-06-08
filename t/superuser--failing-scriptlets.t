@@ -4,13 +4,17 @@ use strict;
 use lib '.', 't';
 use helper;
 use Test::More 'no_plan';
+require urpm::select;
 
 my $medium_name = 'failing-scriptlets';
 
 need_root_and_prepare();
 
 test_install_rpm_fail('pre');
-test_install_rpm('pretrans');
+#%pretrans scriptlet failure now fails the install of the package (similarly to %pre and %preun semantics):
+if (urpm::select::_rpm_version() lt 4.10.0) {
+    test_install_rpm('pretrans');
+}
 test_install_rpm('post');
 test_install_rpm('preun');
 test_install_rpm('postun');
