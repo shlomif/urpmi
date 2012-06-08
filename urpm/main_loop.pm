@@ -124,6 +124,24 @@ sub _verify_rpm {
     }
 }
 
+sub _install_src {
+    my ($urpm, $nok, $transaction_sources_install, $transaction_sources) = @_;
+    if (my @l = grep { /\.src\.rpm$/ } values %$transaction_sources_install, values %$transaction_sources) {
+        my $rpm_opt = $options{verbose} >= 0 ? 'vh' : '';
+        system("rpm", "-i$rpm_opt", @l, ($urpm->{root} ? ("--root", $urpm->{root}) : @{[]}));
+        #- Warning : the following message is parsed in urpm::parallel_*
+        if ($?) {
+            $urpm->{print}(N("Installation failed"));
+            ++$nok;
+        } elsif ($urpm->{options}{'post-clean'}) {
+            if (my @tmp_srpm = grep { urpm::is_temporary_file($urpm, $_) } @l) {
+                $urpm->{log}(N("removing installed rpms (%s)", join(' ', @tmp_srpm)));
+                unlink @tmp_srpm;
+            }
+        }
+    }
+}
+
 # locking is left to callers
 sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
@@ -221,20 +239,7 @@ sub run {
 
         #- install source package only (whatever the user is root or not, but use rpm for that).
         if ($install_src) {
-            if (my @l = grep { /\.src\.rpm$/ } values %transaction_sources_install, values %$transaction_sources) {
-                my $rpm_opt = $options{verbose} >= 0 ? 'vh' : '';
-                system("rpm", "-i$rpm_opt", @l, ($urpm->{root} ? ("--root", $urpm->{root}) : @{[]}));
-                #- Warning : the following message is parsed in urpm::parallel_*
-                if ($?) {
-                    $urpm->{print}(N("Installation failed"));
-                    ++$nok;
-                } elsif ($urpm->{options}{'post-clean'}) {
-                    if (my @tmp_srpm = grep { urpm::is_temporary_file($urpm, $_) } @l) {
-                        $urpm->{log}(N("removing installed rpms (%s)", join(' ', @tmp_srpm)));
-                        unlink @tmp_srpm;
-                    }
-                }
-            }
+            _install_src($urpm, $nok, \%transaction_sources_install, $transaction_sources);
             next;
         }
 
