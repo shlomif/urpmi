@@ -665,8 +665,8 @@ sub translate_why_removed_one {
     $fullname . ($s ? "\n ($s)" : '');
 }
 
-sub _libdb_version { $_[0] =~ /libdb-(\S+)\.so/ ? eval "v$1" : () }
-sub _rpm_version() { `rpm --version` =~ /version ([0-9.]+)$/ ? eval "v$1" : () }
+sub _libdb_version { $_[0] =~ /libdb-(\S+)\.so/ ? version->new("v$1") : () }
+sub _rpm_version() { `rpm --version` =~ /version ([0-9.]+)$/ ? version->new("v$1") : () }
 
 sub should_we_migrate_back_rpmdb_db_version {
     my ($urpm, $state) = @_;
@@ -674,7 +674,7 @@ sub should_we_migrate_back_rpmdb_db_version {
     my ($pkg) = urpm::select::selected_packages_providing($urpm, $state, 'rpm') or return;
     urpm::select::was_pkg_name_installed($state->{rejected}, 'rpm') and return;
     my ($rooted_librpm_version) = map { _libdb_version($_) } $pkg->requires; # perl_checker: $self = revision
-    my $rooted_rpm_version = eval "v" . $pkg->version; # perl_checker: $self = revision
+    my $rooted_rpm_version = version->new("v" . $pkg->version); # perl_checker: $self = revision
 
     my $urpmi_librpm_version = _libdb_version(scalar `ldd /bin/rpm`); # perl_checker: $self = revision
 
