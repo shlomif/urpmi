@@ -162,10 +162,10 @@ WriteMakefile(
 	map {
 	    my $targ = $_;
 	    $targ =~ s{^pod/}{};
-	    $targ =~ s/\.(\d)\.pod$//;
+	    $targ =~ s{^(\d)/(.*)\.pod$}{$2};
 	    my $section = $1 || 1;
 	    ( $_ => "\$(INST_MAN${section}DIR)/$targ.$section" );
-	} <pod/*.pod>, $with_po ? <pod/*/*.pod> : ()
+	} <pod/*/*.pod>, $with_po ? <pod/*/*.pod> : ()
     },
     dist		=> { COMPRESS => "xz -f", SUFFIX => ".xz" },
 );
