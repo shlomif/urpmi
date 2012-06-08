@@ -399,9 +399,10 @@ sub do_install_3 () {
         },
         missing_files_summary => sub {
             my ($error_sources) = @_;
-            $progress_label->set_label(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
+            $progress_label->set_label(N("Installation failed, some files are missing:\n%s",
                                          join("\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" }
-                                                values %$error_sources)));
+                                                values %$error_sources))
+                                   . "\n" . N("You may want to update your urpmi database."));
         },
         trans_error_summary => sub {
             my ($_nok, $errors) = @_;
