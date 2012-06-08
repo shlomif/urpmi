@@ -38,7 +38,7 @@ sub test {
     system_should_fail("echo n | " . urpmi_cmd() . " @$wanted");
     check_installed_fullnames(map { "$_-1" } @$first);
 
-    urpmi("--auto @$wanted");
+    urpmi_partial("--auto @$wanted");
 
     if (system("rpm -q --quiet --root $::pwd/root ".@$result1[0]) == 0) {
 	check_installed_fullnames_and_remove(map { "$_-1" } @$result1);

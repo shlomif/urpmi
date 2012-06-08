@@ -43,7 +43,7 @@ urpmi_addmedia("$name $::pwd/media/$name");
 # bug #50666
 urpmi("--auto a-1 c-1 b-1");
 check_installed_fullnames("a-1-1", "c-1-1", "b-1-1");
-urpmi("--auto a");
+urpmi_partial("--auto a");
 check_installed_fullnames_and_remove("a-2-1");
 
 # bug #57224
