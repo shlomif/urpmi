@@ -229,7 +229,10 @@ sub _run_parallel_transaction {
 sub _run_transaction {
     my ($urpm, $state, $callbacks, $set, $transaction_sources_install, $transaction_sources, $errors) = @_;
 
-    my $to_remove = $urpm->{options}{'allow-force'} ? [] : $set->{remove} || [];
+    my $options = $urpm->{options};
+    my $allow_force = $options->{'allow-force'};
+
+    my $to_remove = $allow_force ? [] : $set->{remove} || [];
 
     $urpm->{log}("starting installing packages");
 	    
@@ -252,11 +255,11 @@ sub _run_transaction {
     my ($raw_error, $translated) = partition { /^(badarch|bados|installed|badrelocate|conflicts|installed|diskspace|disknodes|requires|conflicts|unknown)\@/ } @l;
     @l = @$translated;
     my $fatal = find { /^disk/ } @$raw_error;
-    my $no_question = $fatal || $urpm->{options}{auto};
+    my $no_question = $fatal || $options->{auto};
 
     #- Warning : the following message is parsed in urpm::parallel_*
     my $msg = N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @l) . "\n";
-    if (!$no_question && !$install_options_common{nodeps} && ($urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'})) {
+    if (!$no_question && !$install_options_common{nodeps} && ($options->{'allow-nodeps'} || $allow_force)) {
         if ($callbacks->{ask_yes_or_no}->(N("Installation failed"), 
                                           $msg . N("Try installation without checking dependencies?"))) {
             $urpm->{log}("starting installing packages without deps");
@@ -264,7 +267,7 @@ sub _run_transaction {
             # try again:
             goto install;
         }
-    } elsif (!$no_question && !$install_options_common{force} && $urpm->{options}{'allow-force'}) {
+    } elsif (!$no_question && !$install_options_common{force} && $allow_force) {
         if ($callbacks->{ask_yes_or_no}->(N("Installation failed"),
                                           $msg . N("Try harder to install (--force)?"))) {
             $urpm->{log}("starting force installing packages without deps");
@@ -291,9 +294,11 @@ sub run {
 
     urpm::get_pkgs::clean_all_cache($urpm) if $clean;
 
+    my $options = $urpm->{options};
+
     my ($local_sources, $blists) = urpm::get_pkgs::selected2local_and_blists($urpm,
                                                                              $state->{selected},
-                                                                             clean_other => !$noclean && $urpm->{options}{'pre-clean'},
+                                                                             clean_other => !$noclean && $options->{'pre-clean'},
                                                                          );
     if (!$local_sources && !$blists) {
         $urpm->{fatal}(3, N("unable to get source packages, aborting"));
@@ -303,17 +308,17 @@ sub run {
 
     _handle_removable_media($urpm, $callbacks, $blists, \%sources);
 
-    if (exists $urpm->{options}{'download-all'}) {
+    if (exists $options->{'download-all'}) {
         _download_all($urpm, $blists, \%sources, $callbacks);
     }
 
     #- now create transaction just before installation, this will save user impression of slowness.
     #- split of transaction should be disabled if --test is used.
     urpm::install::build_transaction_set_($urpm, $state,
-                                          nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
-                                          keep => $urpm->{options}{keep},
-                                          split_level => $urpm->{options}{'split-level'},
-                                          split_length => !$test && $urpm->{options}{'split-length'});
+                                          nodeps => $options->{'allow-nodeps'} || $options->{'allow-force'},
+                                          keep => $options->{keep},
+                                          split_level => $options->{'split-level'},
+                                          split_length => !$test && $options->{'split-length'});
 
     if ($options{debug__do_not_install}) {
 	$urpm->{debug} = sub { print STDERR "$_[0]\n" };
@@ -354,7 +359,7 @@ sub run {
         $callbacks->{post_extract} and $callbacks->{post_extract}->($set, $transaction_sources, \%transaction_sources_install);
 
         #- verify packages
-        if (!$force && ($urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}})) {
+        if (!$force && ($options->{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}})) {
             _verify_rpm($urpm, $callbacks, \%transaction_sources_install, $transaction_sources);
         }
 
