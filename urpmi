@@ -57,7 +57,7 @@ my @src_files;
 my @names;
 my @src_names;
 
-$ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
+$ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 $ENV{HOME} ||= "/root";
 $ENV{USER} ||= "root";
@@ -637,8 +637,8 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 	my $msg = N("Please insert the medium named \"%s\"", $_[0]);
 	if ($ENV{DISPLAY} && $::gui) {
 	    #- probably run from a drak tool
-	    (my $gmessage) = find { -x $_ } '/usr/X11R6/bin/gmessage', '/usr/bin/gmessage';
-	    if ($gmessage) {
+	    my $gmessage = '/usr/bin/gmessage';
+	    if (-x $gmessage) {
 		return system($gmessage, '-buttons', N("Ok") . ':1,' . N("Cancel") . ':0', "\n$msg\n");
 	    }
 	}

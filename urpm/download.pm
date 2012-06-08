@@ -886,7 +886,11 @@ sub sync_rel {
     my @result_files = map { $all_options->{dir} . '/' . basename($_) } @$rel_files;
     unlink @result_files if $all_options->{preclean};
 
-    if (eval { _sync_webfetch_raw($urpm, $medium, $rel_files, \@files, $all_options); 1 }) {
+    (my $cwd) = getcwd() =~ /(.*)/;
+    eval { _sync_webfetch_raw($urpm, $medium, $rel_files, \@files, $all_options) };
+    my $err = $@;
+    chdir $cwd;
+    if (!$err) {
 	$urpm->{log}(N("retrieved %s", $files_text));
 	\@result_files;
     } else {
