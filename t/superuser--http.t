@@ -4,6 +4,7 @@ use strict;
 use lib '.', 't';
 use helper;
 use Test::More 'no_plan';
+use Cwd 'getcwd';
 
 
 need_root_and_prepare();
@@ -25,6 +26,10 @@ sub test {
 }
 
 sub test_exotic_medium_name {
+    if (getcwd() =~ m!^/root/!) {
+        warn "SKIPing test_exotic_medium_name() due to nobody having no access to /root/rpm*\n";
+	return;
+    }
     my $medium_name = 'the medium (+name+)';
     urpmi_addmedia("'$medium_name' $url/media/various");
 
