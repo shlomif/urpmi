@@ -35,6 +35,7 @@ use urpm::util qw(difference2 find intersection member partition untaint);
 my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test);
 #- global counters
 my ($ok, $nok);
+my $exit_code;
 
 sub _download_callback {
     my ($urpm, $callbacks, $raw_msg, $msg) = @_;
@@ -148,7 +149,7 @@ sub _install_src {
 }
 
 sub _continue_on_error {
-    my ($urpm, $callbacks, $msgs, $error_sources, $formatted_errors, $exit_code) = @_;
+    my ($urpm, $callbacks, $msgs, $error_sources, $formatted_errors) = @_;
     my $go_on;
     if ($urpm->{options}{auto}) {
         push @$formatted_errors, @$msgs;
@@ -161,7 +162,7 @@ sub _continue_on_error {
     if (!$go_on) {
         my @missing = grep { $_->[1] eq 'missing' } @$error_sources;
         if (@missing) {
-            $$exit_code = $ok ? 13 : 14;
+            $exit_code = $ok ? 13 : 14;
         }
         return 0;
     }
@@ -270,7 +271,7 @@ sub run {
 
     ($ok, $nok) = (0, 0);
     my (@errors, @formatted_errors);
-    my $exit_code = 0;
+    $exit_code = 0;
 
     my $migrate_back_rpmdb_db_version = 
       $urpm->{root} && urpm::select::should_we_migrate_back_rpmdb_db_version($urpm, $state);
@@ -288,7 +289,7 @@ sub run {
         my ($error_sources, $msgs) = _download_packages($urpm, $callbacks, $transaction_blists, $transaction_sources);
         if (@$error_sources) {
             $nok++;
-            last if !_continue_on_error($urpm, $callbacks, $msgs, $error_sources, \@formatted_errors, \$exit_code);
+            last if !_continue_on_error($urpm, $callbacks, $msgs, $error_sources, \@formatted_errors);
         }
 
         $callbacks->{post_download} and $callbacks->{post_download}->();
