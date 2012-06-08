@@ -636,7 +636,7 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
     (!$urpm->{options}{auto} || $allow_medium_change ? (copy_removable =>  sub {
 	my $msg = N("Please insert the medium named \"%s\"", $_[0]);
 	if ($ENV{DISPLAY} && $::gui) {
-	    #- probably run from a drak tool
+	    #- probably run from a drakx
 	    my $gmessage = '/usr/bin/gmessage';
 	    if (-x $gmessage) {
 		return system($gmessage, '-buttons', N("Ok") . ':1,' . N("Cancel") . ':0', "\n$msg\n");
