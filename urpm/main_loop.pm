@@ -226,6 +226,61 @@ sub _run_parallel_transaction {
     );
 }
 
+sub _run_transaction {
+    my ($urpm, $state, $callbacks, $set, $transaction_sources_install, $transaction_sources, $errors) = @_;
+
+    my $to_remove = $urpm->{options}{'allow-force'} ? [] : $set->{remove} || [];
+
+    $urpm->{log}("starting installing packages");
+	    
+    urpm::orphans::add_unrequested($urpm, $state) if !$test;
+
+    my %install_options_common = _init_common_options($urpm, $state, $callbacks);
+
+  install:
+    my @l = urpm::install::install($urpm,
+                                   $to_remove,
+                                   $transaction_sources_install, $transaction_sources,
+                                   %install_options_common,
+                               );
+
+    if (!@l) {
+        ++$ok;
+        return 1;
+    }
+
+    my ($raw_error, $translated) = partition { /^(badarch|bados|installed|badrelocate|conflicts|installed|diskspace|disknodes|requires|conflicts|unknown)\@/ } @l;
+    @l = @$translated;
+    my $fatal = find { /^disk/ } @$raw_error;
+    my $no_question = $fatal || $urpm->{options}{auto};
+
+    #- Warning : the following message is parsed in urpm::parallel_*
+    my $msg = N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @l) . "\n";
+    if (!$no_question && !$install_options_common{nodeps} && ($urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'})) {
+        if ($callbacks->{ask_yes_or_no}->(N("Installation failed"), 
+                                          $msg . N("Try installation without checking dependencies?"))) {
+            $urpm->{log}("starting installing packages without deps");
+            $install_options_common{nodeps} = 1;
+            # try again:
+            goto install;
+        }
+    } elsif (!$no_question && !$install_options_common{force} && $urpm->{options}{'allow-force'}) {
+        if ($callbacks->{ask_yes_or_no}->(N("Installation failed"),
+                                          $msg . N("Try harder to install (--force)?"))) {
+            $urpm->{log}("starting force installing packages without deps");
+            $install_options_common{force} = 1;
+            # try again:
+            goto install;
+        }
+    }
+    $urpm->{log}($msg);
+
+    ++$nok;
+    push @$errors, @l;
+
+    !$fatal;
+}
+
 # locking is left to callers
 sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
@@ -327,52 +382,10 @@ sub run {
                 if ($options{verbose} >= 0) {
                     _log_installing($urpm, \%transaction_sources_install, $transaction_sources);
                 }
-                my $to_remove = $urpm->{options}{'allow-force'} ? [] : $set->{remove} || [];
                 bug_log(scalar localtime(), " ", join(' ', values %transaction_sources_install, values %$transaction_sources), "\n");
-                $urpm->{log}("starting installing packages");
-                my %install_options_common = _init_common_options($urpm, $state, $callbacks);
-	    
-                urpm::orphans::add_unrequested($urpm, $state) if !$test;
 
-              install:
-                my @l = urpm::install::install($urpm,
-                                               $to_remove,
-                                               \%transaction_sources_install, $transaction_sources,
-                                               %install_options_common,
-                                           );
-                if (@l) {
-                    my ($raw_error, $translated) = partition { /^(badarch|bados|installed|badrelocate|conflicts|installed|diskspace|disknodes|requires|conflicts|unknown)\@/ } @l;
-                    @l = @$translated;
-                    my $fatal = find { /^disk/ } @$raw_error;
-                    my $no_question = $fatal || $urpm->{options}{auto};
-
-                    #- Warning : the following message is parsed in urpm::parallel_*
-                    my $msg = N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @l) . "\n";
-                    if (!$no_question && !$install_options_common{nodeps} && ($urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'})) {
-                        if ($callbacks->{ask_yes_or_no}->(N("Installation failed"), 
-                                                          $msg . N("Try installation without checking dependencies?"))) {
-                            $urpm->{log}("starting installing packages without deps");
-                            $install_options_common{nodeps} = 1;
-                            # try again:
-                            goto install;
-                        }
-                    } elsif (!$no_question && !$install_options_common{force} && $urpm->{options}{'allow-force'}) {
-                        if ($callbacks->{ask_yes_or_no}->(N("Installation failed"),
-                                                          $msg . N("Try harder to install (--force)?"))) {
-                            $urpm->{log}("starting force installing packages without deps");
-                            $install_options_common{force} = 1;
-                            # try again:
-                            goto install;
-                        }
-                    }
-                    $urpm->{log}($msg);
-
-                    ++$nok;
-                    push @errors, @l;
-                    $fatal and last;
-                } else {
-                    ++$ok;
-                }
+                _run_transaction($urpm, $state, $callbacks, $set, \%transaction_sources_install, $transaction_sources, \@errors)
+                   or last;
             }
         }
         if ($callbacks->{is_canceled}) {
