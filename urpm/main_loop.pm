@@ -142,6 +142,27 @@ sub _install_src {
     }
 }
 
+sub _continue_on_error {
+    my ($urpm, $callbacks, $msgs, $error_sources, $formatted_errors, $ok, $exit_code) = @_;
+    my $go_on;
+    if ($urpm->{options}{auto}) {
+        push @$formatted_errors, @$msgs;
+    } else {
+        my $sub = $callbacks->{ask_for_bad_or_missing} || $callbacks->{ask_yes_or_no};
+        $go_on = $sub->(
+            N("Installation failed"),
+            join("\n\n", @$msgs, N("Try to continue anyway?")));
+    }
+    if (!$go_on) {
+        my @missing = grep { $_->[1] eq 'missing' } @$error_sources;
+        if (@missing) {
+            $$exit_code = $ok ? 13 : 14;
+        }
+        return 0;
+    }
+    return 1;
+}
+
 # locking is left to callers
 sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
@@ -211,22 +232,7 @@ sub run {
         my ($error_sources, $msgs) = _download_packages($urpm, $callbacks, $transaction_blists, $transaction_sources);
         if (@$error_sources) {
             $nok++;
-            my $go_on;
-            if ($urpm->{options}{auto}) {
-                push @formatted_errors, @$msgs;
-            } else {
-                my $sub = $callbacks->{ask_for_bad_or_missing} || $callbacks->{ask_yes_or_no};
-                $go_on = $sub->(
-                    N("Installation failed"),
-                    join("\n\n", @$msgs, N("Try to continue anyway?")));
-            }
-            if (!$go_on) {
-                my @missing = grep { $_->[1] eq 'missing' } @$error_sources;
-                if (@missing) {
-                    $exit_code = $ok ? 13 : 14;
-                }
-                last;
-            }
+            last if !_continue_on_error($urpm, $callbacks, $msgs, $error_sources, \@formatted_errors, $ok, \$exit_code);
         }
 
         $callbacks->{post_download} and $callbacks->{post_download}->();
