@@ -117,13 +117,16 @@ sub run {
 
         #download packages one by one so that we don't try to download them again
         #and again if the user has to restart urpmi because of some failure
+        my %downloaded_pkgs;
         foreach my $blist (@$blists) {
             foreach my $pkg (keys %{$blist->{pkgs}}) {
+                next if $downloaded_pkgs{$pkg};
                 my $blist_one = [{ pkgs => { $pkg => $blist->{pkgs}{$pkg} }, medium => $blist->{medium} }];
                 my ($error_sources) = &$download_packages($blist_one, \%sources);
                 if (@$error_sources) {
                     return 10;
                 }
+                $downloaded_pkgs{$pkg} = 1;
             }
         }
     }
