@@ -906,7 +906,7 @@ sub _register_media_cfg {
     if ($url) {
 	my $filename = $media_path . "/url";
 	my @urls = split(/\n/, scalar cat_($filename));
-	if (!grep { $url eq $_ } @urls) { 
+	if (!member($url, @urls)) { 
 	    append_to_file($filename, $url . "\n");
 	}
     }
@@ -917,7 +917,7 @@ sub _register_media_cfg {
 	}
 	my $filename = $media_path . "/mirrorlist";
 	my @mirrorlists = split(/\n/, scalar cat_($filename));
-	if (!grep { $mirrorlist eq $_ } @mirrorlists) { 
+	if (!member($mirrorlist, @mirrorlists)) { 
 	    append_to_file($filename, $mirrorlist . "\n");
 	}
     }
