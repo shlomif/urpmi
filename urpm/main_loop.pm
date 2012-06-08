@@ -175,6 +175,25 @@ sub _handle_removable_media {
     $callbacks->{post_removable} and $callbacks->{post_removable}->();
 }
 
+sub _init_common_options {
+  my ($urpm, $state, $callbacks, $test) = @_;
+  (
+      urpm::install::options($urpm),
+      test => $test,
+      verbose => $options{verbose},
+      script_fd => $urpm->{options}{script_fd},
+      oldpackage => $state->{oldpackage},
+      justdb => $options{justdb},
+      replacepkgs => $options{replacepkgs},
+      callback_close_helper => $callbacks->{close_helper},
+      callback_inst => $callbacks->{inst},
+      callback_open_helper => $callbacks->{open_helper},
+      callback_trans => $callbacks->{trans},
+      callback_report_uninst => $callbacks->{callback_report_uninst},
+      raw_message => 1,
+  );
+}
+
 # locking is left to callers
 sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
@@ -290,21 +309,7 @@ sub run {
                 my $to_remove = $urpm->{options}{'allow-force'} ? [] : $set->{remove} || [];
                 bug_log(scalar localtime(), " ", join(' ', values %transaction_sources_install, values %$transaction_sources), "\n");
                 $urpm->{log}("starting installing packages");
-                my %install_options_common = (
-                    urpm::install::options($urpm),
-                    test => $test,
-                    verbose => $options{verbose},
-                    script_fd => $urpm->{options}{script_fd},
-                    oldpackage => $state->{oldpackage},
-                    justdb => $options{justdb},
-                    replacepkgs => $options{replacepkgs},
-                    callback_close_helper => $callbacks->{close_helper},
-                    callback_inst => $callbacks->{inst},
-                    callback_open_helper => $callbacks->{open_helper},
-                    callback_trans => $callbacks->{trans},
-                    callback_report_uninst => $callbacks->{callback_report_uninst},
-                    raw_message => 1,
-                );
+                my %install_options_common = _init_common_options($urpm, $state, $callbacks, $test);
 	    
                 urpm::orphans::add_unrequested($urpm, $state) if !$test;
 
