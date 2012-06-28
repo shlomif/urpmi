@@ -408,46 +408,7 @@ sub find_packages_to_remove {
 	    foreach (@$l) {
 		my ($n, $found);
 
-		#- check if name-version-release.architecture was given.
-		if (($n) = $_ =~ $fullname2name_re) {
-		    $db->traverse_tag('name', [ $n ], sub {
-			    my ($p) = @_;
-			    $p->fullname eq $_ or return;
-			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
-			    push @m, scalar $p->fullname;
-			    $found = 1;
-			});
-		    $found and next;
-		}
-
-		#- check if name-version-release was given.
-		if (($n) = /^(.*)-[^\-]*-[^\-]*$/) {
-		    $db->traverse_tag('name', [ $n ], sub {
-			    my ($p) = @_;
-			    my ($name, $version, $release) = $p->fullname;
-			    "$name-$version-$release" eq $_ or return;
-			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
-			    push @m, scalar $p->fullname;
-			    $found = 1;
-			});
-		    $found and next;
-		}
-
-		#- check if name-version was given.
-		if (($n) = /^(.*)-[^\-]*$/) {
-		    $db->traverse_tag('name', [ $n ], sub {
-			    my ($p) = @_;
-			    my ($name, $version) = $p->fullname;
-			    "$name-$version" eq $_ or return;
-			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
-			    push @m, scalar $p->fullname;
-			    $found = 1;
-			});
-		    $found and next;
-		}
-
-		#- check if only name was given.
-		$db->traverse_tag('name', [ $_ ], sub {
+		$db->traverse_tag('nvra', [ $_ ], sub {
 			my ($p) = @_;
 			$urpm->resolve_rejected($db, $state, $p, removed => 1);
 			push @m, scalar $p->fullname;
