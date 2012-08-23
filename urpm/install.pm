@@ -107,7 +107,7 @@ sub install_logger {
 sub get_README_files {
     my ($urpm, $trans, $pkg) = @_;
 
-    foreach my $file ($pkg->files) { 
+    foreach my $file ($pkg->doc_files) { 
 	my ($kind) = $file =~ m!/README([^/]*)\.urpmi$! or next;
 	my $valid;
 	if ($kind eq '') {
