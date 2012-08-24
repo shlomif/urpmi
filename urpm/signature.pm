@@ -51,7 +51,6 @@ sub _check {
 		$urpm->{log}(N("NOT checking %s\n", $filepath));
 		next;
 	    }
-	    next if defined $medium->{'verify-rpm'} && !$medium->{'verify-rpm'};
 
 	    my $key_ids = $medium->{'key-ids'} || $urpm->{options}{'key-ids'};
 	    #- check that the key ids of the medium match the key ids of the package.
