@@ -31,6 +31,9 @@ sub _check {
 	if ($verif =~ /NOT OK/) {
 	    $verif =~ s/\n//g;
 	    $invalid_sources{$filepath} = N("Invalid signature (%s)", $verif);
+	} elsif ($verif =~ /OK \(\(none\)\)/ ) {
+	    $verif =~ s/\n//g;
+	    $invalid_sources{$filepath} = N("Missing signature (%s)", $verif);
 	} else {
 	    unless ($medium && urpm::media::is_valid_medium($medium) &&
 		    $medium->{start} <= $id && $id <= $medium->{end})
