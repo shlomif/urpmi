@@ -70,6 +70,7 @@ sub _download_packages {
                           join("\n", map { "    $_->[0]" } @missing))
               . "\n" .
                 N("You may need to update your urpmi database.");
+            $urpm->{nb_install} -= scalar @missing;
         }
         if (@bad) {
             push @msgs, N("Installation failed, bad rpms:\n%s",
