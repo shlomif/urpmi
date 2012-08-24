@@ -72,6 +72,8 @@ sub _check {
 		} elsif (!$valid_ids) {
 		    $invalid_sources{$filepath} = N("Missing signature (%s)", $verif);
 		}
+	    } else {
+		$invalid_sources{$filepath} = N("Medium without signature (%s)", $verif);
 	    }
 	    #- invoke check signature callback.
 	    $options{callback} and $options{callback}->(
