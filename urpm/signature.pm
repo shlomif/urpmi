@@ -31,7 +31,7 @@ sub _check {
 	if ($verif =~ /NOT OK/) {
 	    $verif =~ s/\n//g;
 	    $invalid_sources{$filepath} = N("Invalid signature (%s)", $verif);
-	} elsif ($verif =~ /OK \(\(none\)\)/ ) {
+	} elsif ($verif =~ /OK \(\(none\)\)/) {
 	    $verif =~ s/\n//g;
 	    $invalid_sources{$filepath} = N("Missing signature (%s)", $verif);
 	} else {
