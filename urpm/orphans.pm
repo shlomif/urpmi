@@ -100,8 +100,11 @@ sub _installed_req_and_unreq_and_update_unrequested_list {
     my ($unreq, $req) = partition { $unrequested->{$_->name} } @$pkgs;
     
     # update the list (to filter dups and now-removed-pkgs)
+    my @old = keys %$unrequested;
     my @new = map { $_->name } @$unreq;
-    _write_unrequested_list__file($urpm, \@new);
+    if (@new != @old) {
+        _write_unrequested_list__file($urpm, \@new);
+    }
 
     ($req, $unreq, $unrequested);
 }
