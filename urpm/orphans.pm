@@ -80,6 +80,7 @@ sub _installed_and_unrequested_lists {
 #- side-effects: <root>/var/lib/rpm/installed-through-deps.list
 sub _write_unrequested_list__file {
     my ($urpm, $unreq) = @_;
+    return if $>;
 
     $urpm->{info}("writing " . unrequested_list__file($urpm));
     
