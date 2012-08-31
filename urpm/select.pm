@@ -538,7 +538,7 @@ sub find_packages_to_remove {
 	find_removed_from_basesystem($urpm, $db, $state, $options{callback_base})
 	    or return ();
     }
-    removed_packages($urpm, $state);
+    removed_packages($state);
 }
 
 sub find_removed_from_basesystem {
@@ -555,7 +555,7 @@ sub find_removed_from_basesystem {
 sub _prohibit_packages_that_would_be_removed {
     my ($urpm, $db, $state) = @_;
 
-    my @to_remove = removed_packages($urpm, $state) or return 1;
+    my @to_remove = removed_packages($state) or return 1;
 
     my @dont_remove = ('basesystem', 'basesystem-minimal', 
 		       split /,\s*/, $urpm->{global_config}{'prohibit-remove'});
@@ -647,7 +647,7 @@ sub was_pkg_name_installed {
 }
 
 sub removed_packages {
-    my (undef, $state) = @_;
+    my ($state) = @_;
     grep {
 	$state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted};
     } keys %{$state->{rejected} || {}};
@@ -677,7 +677,7 @@ sub conflicting_packages_msg {
 
 sub removed_packages_msgs {
     my ($urpm, $state) = @_;
-    map { translate_why_removed_one($urpm, $state, $_) } sort(removed_packages($urpm, $state));
+    map { translate_why_removed_one($urpm, $state, $_) } sort(removed_packages($state));
 }
 
 sub translate_why_removed {
