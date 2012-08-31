@@ -31,9 +31,6 @@ sub _check {
 	if ($verif =~ /NOT OK/) {
 	    $verif =~ s/\n//g;
 	    $invalid_sources{$filepath} = N("Invalid signature (%s)", $verif);
-	} elsif ($verif =~ /OK \(\(none\)\)/) {
-	    $verif =~ s/\n//g;
-	    $invalid_sources{$filepath} = N("Missing signature (%s)", $verif);
 	} else {
 	    unless ($medium && urpm::media::is_valid_medium($medium) &&
 		    $medium->{start} <= $id && $id <= $medium->{end})
@@ -45,7 +42,13 @@ sub _check {
 		}
 	    }
 	    #- no medium found for this rpm ?
-	    next if !$medium;
+	    if (!$medium) {
+		if ($verif =~ /OK \(\(none\)\)/) {
+	            $verif =~ s/\n//g;
+	            $invalid_sources{$filepath} = N("Missing signature (%s)", $verif);
+	        }
+		next;
+	    }
 	    #- check whether verify-rpm is specifically disabled for this medium
 	    if (defined $medium->{'verify-rpm'} && !$medium->{'verify-rpm'}) {
 		$urpm->{log}(N("NOT checking %s\n", $filepath));
