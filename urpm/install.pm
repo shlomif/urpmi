@@ -28,7 +28,7 @@ sub _hash_intersect_list {
 }
 
 sub prepare_transaction {
-    my ($_urpm, $set, $blists, $sources) = @_;
+    my ($set, $blists, $sources) = @_;
 
     my @blists_subset = map {
 	+{ %$_, pkgs => _hash_intersect_list($_->{pkgs}, $set->{upgrade}) };

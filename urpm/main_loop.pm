@@ -355,7 +355,7 @@ sub run {
         $urpm->{print}("\n") if $options{verbose} >= 0;
 
         my ($transaction_blists, $transaction_sources) = 
-          urpm::install::prepare_transaction($urpm, $set, $blists, \%sources);
+          urpm::install::prepare_transaction($set, $blists, \%sources);
 
         #- first, filter out what is really needed to download for this small transaction.
         my ($error_sources, $msgs) = _download_packages($urpm, $callbacks, $transaction_blists, $transaction_sources);
