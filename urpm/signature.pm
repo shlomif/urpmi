@@ -74,13 +74,13 @@ sub _check {
 	    if (!$medium) {
 		if ($verif =~ /OK \(\(none\)\)/) {
 	            $verif =~ s/\n//g;
-	            $urpm->{info}(N("SECURITY: The following package has no signature (%s): %s\n", $verif, $filepath));
+	            $urpm->{info}(N("SECURITY: The following package is _NOT_ signed (%s): %s\n", $verif, $filepath));
 	        }
 		next;
 	    }
 	    #- check whether verify-rpm is specifically disabled for this medium
 	    if (defined $medium->{'verify-rpm'} && !$medium->{'verify-rpm'}) {
-		$urpm->{info}(N("SECURITY: NOT checking %s\n", $filepath));
+		$urpm->{info}(N("SECURITY: NOT checking package \"%s\" (due to configuration)\n", $filepath));
 		next;
 	    }
 
