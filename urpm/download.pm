@@ -843,11 +843,11 @@ Default logger (callback) suitable for sync operation on STDERR only.
 =cut
 
 sub sync_logger {
-    my ($mode, $file, $percent, $_total, $_eta, $_speed) = @_;
+    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
     if ($mode eq 'start') {
 	print STDERR "    $file\n";
     } elsif ($mode eq 'progress') {
-	my $text = &progress_text;
+	my $text = progress_text($mode, $file, $percent, $total, $eta, $speed);
 	if (length($text) > $wchar) { $text = substr($text, 0, $wchar) }
 	if (bytes::length($text) < $wchar) {
 	    # clearing more than needed in case the terminal is not handling utf8 and we have a utf8 string

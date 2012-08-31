@@ -348,13 +348,14 @@ sub do_install_3 () {
             1;
         },
         trans_log => sub {
-	    my ($mode, $file, $percent, $_total, $_eta, $_speed) = @_;
+	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
 
             urpm::download::sync_logger(@_);
 
             if (member($mode, 'start', 'progress')) {
 		$file =~ s|/*\s*$||; $file =~ s|.*/||;
-                $progress_label->set_label(N("Downloading package `%s'...", $file) . "\n" . &urpm::download::progress_text);
+                $progress_label->set_label(N("Downloading package `%s'...", $file) . "\n" .
+                                             &urpm::download::progress_text($mode, $file, $percent, $total, $eta, $speed));
 	    }
             if ($mode eq 'start') {
 		$download_nb++;
