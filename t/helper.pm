@@ -68,7 +68,7 @@ sub urpmi_cmd() { urpm_cmd('urpmi') }
 
 sub urpmi_addmedia {
     my ($para) = @_;
-    system_(urpm_cmd('urpmi.addmedia') . " $para");
+    system_(urpm_cmd('urpmi.addmedia --no-verify-rpm') . " $para");
 }
 sub urpmi_removemedia {
     my ($para) = @_;
