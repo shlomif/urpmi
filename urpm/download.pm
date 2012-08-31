@@ -173,7 +173,7 @@ sub remove_proxy_media {
 }
 
 sub get_proxy_ {
-    my ($urpm, $_medium) = @_;
+    my ($urpm) = @_;
 
     -e $PROXY_CFG && !-r $PROXY_CFG and $urpm->{error}(N("can not read proxy settings (not enough rights to read %s)", $PROXY_CFG));
 
@@ -900,7 +900,7 @@ sub _all_options {
 
     my %all_options = ( 
 	dir => "$urpm->{cachedir}/partial",
-	proxy => get_proxy_($urpm, $medium),
+	proxy => get_proxy_($urpm),
 	metalink => $medium->{mirrorlist},
 	$medium->{"disable-certificate-check"} ? "no-certificate-check" : @{[]},
 	$urpm->{debug} ? (debug => $urpm->{debug}) : @{[]},
