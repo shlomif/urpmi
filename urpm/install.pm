@@ -195,7 +195,7 @@ sub install {
 
     my $db = urpm::db_open_or_die_($urpm, !$options{test}); #- open in read/write mode unless testing installation.
 
-    my $trans = $db->create_transaction();
+    my $trans = $db->create_transaction;
     if ($trans) {
 	sys_log("transaction on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/', scalar(@{$remove || []}), scalar(values %$install), scalar(values %$upgrade));
 	$urpm->{log}(N("created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/',
