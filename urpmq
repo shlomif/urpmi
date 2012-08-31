@@ -38,12 +38,14 @@ our @src_names;
 
 sub usage() {
     print N("urpmq version %s
-Copyright (C) 2000-2010 Mandriva.
-Copyright (C) 2012 Mageia.
+%s
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
-", $urpm::VERSION) . N("  --help         - print this help message.
+", $urpm::VERSION,
+	    N("Copyright (C) %s by %s", '2000-2010', 'Mandriva') .
+	    N("Copyright (C) %s by %s", '2012', 'Mandriva')
+	) . N("  --help         - print this help message.
 ") . N("  --update       - use only update media.
 ") . N("  --media        - use only the given media, separated by comma.
 ") . N("  --searchmedia  - use only the given media to search requested (or updated) packages.

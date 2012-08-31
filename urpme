@@ -39,12 +39,14 @@ my $yesexpr =
 
 sub usage() {
     print N("urpme version %s
-Copyright (C) 1999-2010 Mandriva.
-Copyright (C) 2012 Mageia.
+%s
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
-", $urpm::VERSION) . N("  --help         - print this help message.
+", $urpm::VERSION,
+	    N("Copyright (C) %s by %s", "1999-2010", "Mandriva") .
+	    N("Copyright (C) %s by %s", "2012", "Mageia")
+	) . N("  --help         - print this help message.
 ") . N("  --auto         - automatically select a package in choices.
 ") . N("  --auto-orphans - remove orphans
 ") . N("  --test         - verify if the removal can be achieved correctly.

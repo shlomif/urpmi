@@ -64,12 +64,14 @@ $ENV{USER} ||= "root";
 
 sub usage () {
     print N("urpmi version %s
-Copyright (C) 1999-2010 Mandriva.
-Copyright (C) 2011-2012 Mageia.
+%s
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
-", $urpm::VERSION) . N("  --help         - print this help message.
+", $urpm::VERSION,
+	    N("Copyright (C) %s by %s", "1999-2010", "Mandriva") .
+	    N("Copyright (C) %s by %s", "2011-2012", "Mageia")
+	) . N("  --help         - print this help message.
 ") . N("  --media        - use only the given media, separated by comma.
 ") . N("  --excludemedia - do not use the given media, separated by comma.
 ") . N("  --update       - use only update media.

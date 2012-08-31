@@ -37,11 +37,12 @@ urpm::select::add_packages_to_priority_upgrade_list('gurpmi', 'perl-Glib', 'perl
 
 sub usage () {
     print N("urpmi version %s
-Copyright (C) 1999-2010 Mandriva.
+%s
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
-", $urpm::VERSION) . "    gurpmi <rpm> [ <rpm>... ]
+", $urpm::VERSION, N("Copyright (C) %s by %s", "1999-2010", "Mandriva")
+	) . "    gurpmi <rpm> [ <rpm>... ]
 " . N("Options:") . "\n"
  . N("  --help         - print this help message.
 ") . N("  --auto         - non-interactive mode, assume default answers to questions.
