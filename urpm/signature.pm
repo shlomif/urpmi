@@ -80,7 +80,7 @@ sub _check {
 	    }
 	    #- check whether verify-rpm is specifically disabled for this medium
 	    if (defined $medium->{'verify-rpm'} && !$medium->{'verify-rpm'}) {
-		$urpm->{log}(N("NOT checking %s\n", $filepath));
+		$urpm->{info}(N("NOT checking %s\n", $filepath));
 		next;
 	    }
 
