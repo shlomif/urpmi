@@ -356,7 +356,7 @@ sub do_install_3 () {
             if (member($mode, 'start', 'progress')) {
 		$file =~ s|/*\s*$||; $file =~ s|.*/||;
                 $progress_label->set_label(N("Downloading package `%s'...", $file) . "\n" .
-                                             &urpm::download::progress_text($mode, $file, $percent, $total, $eta, $speed));
+                                             &urpm::download::progress_text($mode, $percent, $total, $eta, $speed));
 	    }
             if ($mode eq 'start') {
 		$download_nb++;
