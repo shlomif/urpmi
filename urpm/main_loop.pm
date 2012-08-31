@@ -150,6 +150,16 @@ sub _install_src {
     }
 }
 
+sub clean_trans_sources_from_src_packages {
+    my ($urpm, $transaction_sources_install, $transaction_sources) = @_;
+    foreach ($transaction_sources_install, $transaction_sources) {
+        foreach my $id (keys %$_) {
+            my $pkg = $urpm->{depslist}[$id] or next;
+            $pkg->arch eq 'src' and delete $_->{$id};
+        }
+    }
+}
+
 sub _continue_on_error {
     my ($urpm, $callbacks, $msgs, $error_sources, $formatted_errors) = @_;
     my $go_on;
@@ -375,12 +385,7 @@ sub run {
         next if $no_install;
 
         #- clean to remove any src package now.
-        foreach (\%transaction_sources_install, $transaction_sources) {
-            foreach my $id (keys %$_) {
-                my $pkg = $urpm->{depslist}[$id] or next;
-                $pkg->arch eq 'src' and delete $_->{$id};
-            }
-        }
+        clean_trans_sources_from_src_packages($urpm, \%transaction_sources_install, $transaction_sources);
 
         #- install/remove other packages
         if (keys(%transaction_sources_install) || keys(%$transaction_sources) || $set->{remove}) {
