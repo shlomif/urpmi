@@ -34,33 +34,6 @@ Writes the value fetched from ldap, in case of server failure. This should not
 be used to reduce the load of the ldap server, as fetching is still needed, and
 therefore, caching is useless if server is up.
 
-=item check_ldap_medium($medium)
-
-Checks if the ldap medium has all required attributes.
-
-=item read_ldap_cache($urpm)
-
-Reads the cache created by the C<write_ldap_cache> function. Should be called
-if the ldap server doesn't answer (upgrade, network problem, mobile user, etc.)
-
-=item clean_ldap_cache($urpm)
-
-Cleans the ldap cache, removes all files in the directory.
-
-=item load_ldap_media($urpm)
-
-Loads urpmi media configuration from ldap.
-
-=item get_ldap_config()
-
-=item get_ldap_config_file($file)
-
-=item get_ldap_config_dns()
-
-Not implemented yet.
-
-=back
-
 =cut
 
 sub write_ldap_cache($$) {
@@ -80,6 +53,13 @@ sub write_ldap_cache($$) {
     return 1;
 }
 
+
+=item check_ldap_medium($medium)
+
+Checks if the ldap medium has all required attributes.
+
+=cut
+
 sub check_ldap_medium($) {
     my ($medium) = @_;
     return $medium->{name} && $medium->{url};
@@ -97,6 +77,13 @@ sub get_vars_from_sh {
     %l;
 }
 
+=item read_ldap_cache($urpm)
+
+Reads the cache created by the C<write_ldap_cache> function. Should be called
+if the ldap server doesn't answer (upgrade, network problem, mobile user, etc.)
+
+=cut
+
 sub read_ldap_cache {
     my ($urpm) = @_;
     foreach (glob("$urpm->{cachedir}/ldap/*")) {
@@ -107,15 +94,30 @@ sub read_ldap_cache {
     }
 }
 
+=item clean_ldap_cache($urpm)
+
+Cleans the ldap cache, removes all files in the directory.
+
+=cut
+
 #- clean the cache, before writing a new one
 sub clean_ldap_cache($) {
     my ($urpm) = @_;
     unlink glob("$urpm->{cachedir}/ldap/*");
 }
 
+
+=item get_ldap_config()
+
+=cut
+
 sub get_ldap_config() {
     return get_ldap_config_file($LDAP_CONFIG_FILE);
 }
+
+=item get_ldap_config_file($file)
+
+=cut
 
 sub get_ldap_config_file {
     my ($file) = @_;
@@ -132,6 +134,13 @@ sub get_ldap_config_file {
     return %config && \%config;
 }
 
+
+=item get_ldap_config_dns()
+
+Not implemented yet.
+
+=cut
+
 sub get_ldap_config_dns() {
     # TODO
     die "not implemented yet\n";
@@ -144,6 +153,12 @@ my %ldap_changed_attributes = (
     'ftp-proxy' => 'ftp_proxy',
     'media-info-dir' => 'media_info_dir',
 );
+
+=item load_ldap_media($urpm)
+
+Loads urpmi media configuration from ldap.
+
+=cut
 
 sub load_ldap_media {
     my ($urpm) = @_;
@@ -219,6 +234,8 @@ sub load_ldap_media {
 1;
 
 __END__
+
+=back
 
 =head1 COPYRIGHT
 

@@ -27,6 +27,16 @@ my $proxy_config;
 our $CONNECT_TIMEOUT = 60; #-  (in seconds)
 
 
+=head1 NAME
+
+urpm::download - download routines for the urpm* tools
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=cut
+
 
 sub ftp_http_downloaders() { qw(curl wget prozilla aria2) }
 
@@ -1058,14 +1068,6 @@ sub _create_metalink_ {
 1;
 
 __END__
-
-=head1 NAME
-
-urpm::download - download routines for the urpm* tools
-
-=head1 SYNOPSIS
-
-=head1 DESCRIPTION
 
 =head1 COPYRIGHT
 
