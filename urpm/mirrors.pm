@@ -297,9 +297,9 @@ sub _mirrors_filtered {
 
 sub _MIRRORLIST() {
     my $product_id = parse_LDAP_namespace_structure(cat_('/etc/product.id'));
-    _mandriva_mirrorlist($product_id);
+    _mageia_mirrorlist($product_id);
 }
-sub _mandriva_mirrorlist {
+sub _mageia_mirrorlist {
     my ($product_id, $o_arch) = @_;
 
     #- contact the following URL to retrieve the list of mirrors.
