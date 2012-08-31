@@ -5,7 +5,7 @@ package urpm::args;
 use strict;
 use warnings;
 no warnings 'once';
-use Getopt::Long;# 2.33;
+use Getopt::Long;
 use urpm::download;
 use urpm::msg;
 use urpm::util 'file2absolute_file';
