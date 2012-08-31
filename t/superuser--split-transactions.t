@@ -40,6 +40,7 @@ sub test_urpmi {
 
     $s =~ s/\s*#{40}#*//g;
     $s =~ s/^installing .*//gm;
+    $s =~ s/^SECURITY.*//gm;
     $s =~ s/^\n//gm;
 
     ok($s eq $wanted_a || $s eq $wanted_b, "$wanted_a in $s");
