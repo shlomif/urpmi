@@ -75,7 +75,7 @@ sub _check {
 		    $invalid_sources{$filepath} = N("Missing signature (%s)", $verif);
 		}
 	    } else {
-		$invalid_sources{$filepath} = N("Medium without signature (%s)", $verif);
+		$invalid_sources{$filepath} = N("Medium without key (%s)", $verif);
 	    }
 	    #- invoke check signature callback.
 	    $options{callback} and $options{callback}->(
