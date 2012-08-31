@@ -394,7 +394,7 @@ sub is_delta_installable {
 #- - for inst.list (cf flag disable_obsolete)
 #- sources is a hash of id -> source rpm filename.
 sub extract_packages_to_install {
-    my ($urpm, $sources, $_state) = @_;
+    my ($urpm, $sources) = @_;
     my %inst;
 
     foreach (keys %$sources) {

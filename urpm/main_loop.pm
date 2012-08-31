@@ -367,7 +367,7 @@ sub run {
         $callbacks->{post_download} and $callbacks->{post_download}->();
 
         #- extract packages that should be installed instead of upgraded,
-        my %transaction_sources_install = %{$urpm->extract_packages_to_install($transaction_sources, $state) || {}};
+        my %transaction_sources_install = %{$urpm->extract_packages_to_install($transaction_sources) || {}};
         $callbacks->{post_extract} and $callbacks->{post_extract}->($set, $transaction_sources, \%transaction_sources_install);
 
         #- verify packages
