@@ -45,7 +45,7 @@ sub _check {
 	    if (!$medium) {
 		if ($verif =~ /OK \(\(none\)\)/) {
 	            $verif =~ s/\n//g;
-	            $invalid_sources{$filepath} = N("Missing signature (%s)", $verif);
+	            $urpm->{info}(N("The following package has no signature (%s): %s\n", $verif, $filepath));
 	        }
 		next;
 	    }
