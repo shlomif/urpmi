@@ -74,6 +74,8 @@ sub _check {
 		} elsif (!$valid_ids) {
 		    $invalid_sources{$filepath} = N("Missing signature (%s)", $verif);
 		}
+	    } elsif ($urpm::args::options{usedistrib} && $medium->{virtual}) {
+		$urpm->{info}(N("SECURITY: Medium \"%s\" has no key (%s)!", $verif));
 	    } else {
 		$invalid_sources{$filepath} = N("Medium without key (%s)", $verif);
 	    }
