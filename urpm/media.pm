@@ -836,6 +836,7 @@ sub add_medium {
     my $medium = { name => $name, 
 		url => $url, 
 		modified => !$options{ignore}, 
+		(defined $options{'verify-rpm'} ? ('verify-rpm' => $options{'verify-rpm'}) : ()),
 	    };
     foreach (qw(downloader update ignore media_info_dir mirrorlist with-dir xml-info)) {
 	$medium->{$_} = $options{$_} if exists $options{$_};

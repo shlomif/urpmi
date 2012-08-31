@@ -151,6 +151,7 @@ if ($options{distrib}) {
 	probe_with => $options{probe_with},
 	nolock => $options{nolock},
 	ask_media => $add_media_callback,
+	'verify-rpm' => $options{'verify-rpm'},
 	'xml-info' => $options{'xml-info'},
     ) or $urpm->{fatal}(10, N("unable to add medium"));
     $ok = urpm::media::update_media($urpm, %options, 
@@ -172,6 +173,7 @@ if ($options{distrib}) {
         zeroconf => $options{zeroconf},
 	'with-dir' => $with_dir,
 	virtual => $options{virtual},
+	'verify-rpm' => $options{'verify-rpm'},
 	update => $options{update},
 	ignore => $options{raw},
 	nolock => $options{nolock},

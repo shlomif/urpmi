@@ -351,6 +351,7 @@ my %options_spec = (
 	virtual => \$options{virtual},
 	nopubkey => \$options{nopubkey},
 	raw => \$options{raw},
+	'verify-rpm!' => sub { ${options}{'verify-rpm'} = $_[1] },
     },
 
     'urpmi.recover' => {
