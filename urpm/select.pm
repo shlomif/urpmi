@@ -444,9 +444,6 @@ sub get_preferred {
     $best ? [$best] : [], [@prefer, @l];
 }
 
-my $fullname2name_re = qr/^(.*)-[^\-]*-[^\-]*\.[^\.\-]*$/;
-
-
 =item find_packages_to_remove($urpm, $state, $l, %options)
 
 Find packages to remove.
@@ -483,7 +480,7 @@ sub find_packages_to_remove {
 
 	if (!$options{matches}) {
 	    foreach (@$l) {
-		my ($n, $found);
+		my ($found);
 
 		$db->traverse_tag('nvra', [ $_ ], sub {
 			my ($p) = @_;
