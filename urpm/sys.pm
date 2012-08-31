@@ -23,8 +23,13 @@ urpm::sys - OS-related routines for urpmi
 
 =cut 
 
-#- get the list of packages that should not be upgraded or installed,
-#- typically from the inst.list or skip.list files.
+=item get_packages_list($file, $o_extra)
+
+Get the list of packages that should not be upgraded or installed,
+typically from the inst.list or skip.list files.
+
+=cut
+
 sub get_packages_list {
     my ($file, $o_extra) = @_;
     my @l = split(/,/, $o_extra || '');
@@ -50,6 +55,12 @@ sub _read_fstab_or_mtab {
     }
     @l;
 }
+
+=item find_a_mntpoint($dir)
+
+Find used mount point from a pathname
+
+=cut
 
 sub find_a_mntpoint {
     my ($dir) = @_;
@@ -104,7 +115,12 @@ sub _find_a_mntpoint {
     undef;
 }
 
-#- return the size of the partition and its free space in KiB
+=item df($mntpoint)
+
+Return the size of the partition and its free space in KiB
+
+=cut
+
 sub df {
     my ($mntpoint) = @_;
     require Filesys::Df;
@@ -160,7 +176,13 @@ sub proc_mounts() {
     @l;
 }
 
-#- returns the first unused loop device, or an empty string if none is found.
+
+=item first_free_loopdev()
+
+Returns the first unused loop device, or an empty string if none is found.
+
+=cut
+
 sub first_free_loopdev () {
     my %loopdevs = map { $_ => 1 } grep { ! -d $_ } glob('/dev/loop*');
     foreach (proc_mounts()) {
@@ -181,7 +203,12 @@ sub trim_until_d {
     $dir;
 }
 
-#- checks if the main filesystems are writeable for urpmi to install files in
+=item check_fs_writable()
+
+Checks if the main filesystems are writeable for urpmi to install files in
+
+=cut
+
 sub check_fs_writable () {
     foreach (proc_mounts()) {
 	(undef, our $mountpoint, undef, my $opts) = split ' ';
@@ -288,12 +315,25 @@ sub migrate_back_rpmdb_db_version {
     clean_rpmdb_shared_regions($root);
 }
 
-#- create a plain rpm from an installed rpm and a delta rpm (in the current directory)
-#- returns the new rpm filename in case of success
-#- params :
-#-	$deltarpm : full pathname of the deltarpm
-#-	$o_dir : directory where to put the produced rpm (optional)
-#-	$o_pkg : URPM::Package object corresponding to the deltarpm (optional)
+
+=item apply_delta_rpm($deltarpm, $o_dir, $o_pkg)
+
+Create a plain rpm from an installed rpm and a delta rpm (in the current directory)
+Returns the new rpm filename in case of success.
+Params :
+
+=over
+
+=item * $deltarpm : full pathname of the deltarpm
+
+=item * $o_dir : directory where to put the produced rpm (optional)
+
+=item * $o_pkg : URPM::Package object corresponding to the deltarpm (optional)
+
+=back
+
+=cut
+
 our $APPLYDELTARPM = '/usr/bin/applydeltarpm';
 sub apply_delta_rpm {
     my ($deltarpm, $o_dir, $o_pkg) = @_;

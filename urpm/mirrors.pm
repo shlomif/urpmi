@@ -18,9 +18,12 @@ urpm::mirrors - Mirrors routines for urpmi
 
 =over
 
-=cut 
+=item try($urpm, $medium, $try)
 
-#- $medium fields used: mirrorlist, with-dir
+$medium fields used: mirrorlist, with-dir
+
+=cut
+
 #- side-effects: $medium->{url}
 #-   + those of _pick_one ($urpm->{mirrors_cache})
 sub try {
@@ -36,10 +39,15 @@ sub try {
     0;
 }
 
-#- similar to try() above, but failure is "normal"
-#- (useful when we lookup a file)
-#-
-#- $medium fields used: mirrorlist, with-dir
+=item try_probe($urpm, $medium, $try)
+
+Similar to try() above, but failure is "normal" (useful when we lookup
+a file)
+
+$medium fields used: mirrorlist, with-dir
+
+=cut
+
 #- side-effects: $medium->{url}
 #-   + those of list_urls ($urpm->{mirrors_cache})
 sub try_probe {

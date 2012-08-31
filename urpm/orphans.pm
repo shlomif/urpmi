@@ -203,9 +203,15 @@ sub add_unrequested {
     append_to_file(unrequested_list__file($urpm), join('', map { "$_\t\t$l{$_}\n" } keys %l));
 }
 
-#- we don't want to check orphans on every auto-select,
-#- doing it only after many packages have been added
-#-
+=item check_unrequested_orphans_after_auto_select($urpm)
+
+We don't want to check orphans on every auto-select.
+We do it only after many packages have been added.
+
+Returns whether we should look for orphans depending on a threshold.
+
+=cut
+
 #- side-effects: none
 sub check_unrequested_orphans_after_auto_select {
     my ($urpm) = @_;
@@ -214,13 +220,20 @@ sub check_unrequested_orphans_after_auto_select {
     $nb_added >= $urpm->{options}{'nb-of-new-unrequested-pkgs-between-auto-select-orphans-check'};
 }
 
-#- this function computes wether removing $toremove packages will create
-#- unrequested orphans.
-#-
-#- it does not return the new orphans since "whatsuggests" is not available,
-#- if it detects there are new orphans, _all_unrequested_orphans()
-#- must be used to have the list of the orphans
-#-
+
+=item unrequested_orphans_after_remove($urpm, $toremove)
+
+This function computes wether removing $toremove packages will create
+unrequested orphans.
+
+It does not return the new orphans since "whatsuggests" is not
+available,
+
+If it detects there are new orphans, _all_unrequested_orphans() must
+be used to have the list of the orphans
+
+=cut
+
 #- side-effects: none
 sub unrequested_orphans_after_remove {
     my ($urpm, $toremove) = @_;

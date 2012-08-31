@@ -178,7 +178,13 @@ sub verify_partial_rpm_and_move {
     "$cachedir/rpms/$filename";
 }
 
-# get the filesize of packages to download from remote media.
+
+=item get_distant_media_filesize(undef, $blists, $sources)
+
+Get the filesize of packages to download from remote media.
+
+=cut
+
 sub get_distant_media_filesize {
     my (undef, $blists, $sources) = @_;
 
@@ -199,10 +205,15 @@ sub get_distant_media_filesize {
     $filesize;
 }
 
-# download packages listed in $blists,
-# and put the result in $sources or $error_sources
-#
-#- options: quiet, callback, 
+=item download_packages_of_distant_media($urpm, $blists, $sources, $error_sources, %options)
+
+Download packages listed in $blists, and put the result in $sources or
+$error_sources
+
+Options: quiet, callback, 
+
+=cut
+
 sub download_packages_of_distant_media {
     my ($urpm, $blists, $sources, $error_sources, %options) = @_;
 

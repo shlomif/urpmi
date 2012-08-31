@@ -180,9 +180,14 @@ sub get_proxy_ {
     get_proxy($urpm);
 }
 
-#- reads and loads the proxy.cfg file ;
-#- returns the global proxy settings (without arguments) or the
-#- proxy settings for the specified media (with a media name as argument)
+=item get_proxy($media)
+
+Reads and loads the proxy.cfg file ;
+Returns the global proxy settings (without arguments) or the
+proxy settings for the specified media (with a media name as argument)
+
+=cut
+
 sub get_proxy (;$) {
     my ($o_media) = @_; $o_media ||= '';
     load_proxy_config();
@@ -226,7 +231,12 @@ sub copy_cmd_line_proxy {
     }
 }
 
-#- overrides the config file proxy settings with values passed via command-line
+=item set_cmdline_proxy(%h)
+
+Overrides the config file proxy settings with values passed via command-line
+
+=cut
+
 sub set_cmdline_proxy {
     my (%h) = @_;
     load_proxy_config();
@@ -239,7 +249,12 @@ sub set_cmdline_proxy {
     $proxy_config->{cmd_line}{$_} = $h{$_} foreach keys %h;
 }
 
-#- changes permanently the proxy settings
+=item set_proxy_config($key, $value, $o_media)
+
+Changes permanently the proxy settings
+
+=cut
+
 sub set_proxy_config {
     my ($key, $value, $o_media) = @_;
     $proxy_config->{$o_media || ''}{$key} = $value;
@@ -821,7 +836,12 @@ sub progress_text {
 	 N("        %s%% completed, speed = %s", $percent, $speed)) : '';
 }
 
-#- default logger suitable for sync operation on STDERR only.
+=item sync_logger($mode, $file, $percent, $_total, $_eta, $_speed)
+
+Default logger (callback) suitable for sync operation on STDERR only.
+
+=cut
+
 sub sync_logger {
     my ($mode, $file, $percent, $_total, $_eta, $_speed) = @_;
     if ($mode eq 'start') {

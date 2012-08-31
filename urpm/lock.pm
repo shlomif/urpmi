@@ -27,16 +27,33 @@ urpm::lock - urpm/rpm DB locking related routines for urpmi
 ################################################################################
 #- class functions
 
-#- lock policy concerning chroot :
-#  - lock rpm db in chroot
-#  - lock urpmi db in /
-# (options: nofatal, wait)
+
+=item rpm_db($urpm, $b_exclusive, %options)
+
+Lock urpmi DB.
+
+Lock policy concerning chroot : lock rpm db in chroot
+
+Options: nofatal, wait
+
+=cut
+
 sub rpm_db {
     my ($urpm, $b_exclusive, %options) = @_;
     my $f = ($urpm->{root} ? "$urpm->{root}/" : '') . "/var/lib/rpm/.RPMLOCK";
     urpm::lock->new($urpm, $f, 'rpm', $b_exclusive, %options);
 }
-# (options: nofatal, wait)
+
+=item urpmi_db($urpm, $b_exclusive, %options)
+
+Lock urpmi DB.
+
+Lock policy concerning chroot : lock urpmi db in /
+
+Options: nofatal, wait
+
+=cut
+
 sub urpmi_db {
     my ($urpm, $b_exclusive, %options) = @_;
     urpm::lock->new($urpm, "$urpm->{statedir}/.LOCK", 'urpmi', $b_exclusive, %options);

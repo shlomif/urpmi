@@ -178,15 +178,17 @@ sub options {
 
 =item install($urpm, $remove, $install, $upgrade, %options)
 
+Install packages according to each hash (remove, install or upgrade).
+
+options: 
+     test, excludepath, nodeps, noorder (unused), delta, 
+     callback_inst, callback_trans, callback_report_uninst,
+     post_clean_cache, verbose
+  (more options for trans->run)
+     excludedocs, nosize, noscripts, oldpackage, repackage, replacepkgs, justdb, ignorearch
+
 =cut
 
-#- install packages according to each hash (remove, install or upgrade).
-#- options: 
-#-      test, excludepath, nodeps, noorder (unused), delta, 
-#-      callback_inst, callback_trans, callback_report_uninst,
-#-      post_clean_cache, verbose
-#-   (more options for trans->run)
-#-      excludedocs, nosize, noscripts, oldpackage, repackage, replacepkgs, justdb, ignorearch
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     $options{translate_message} = 1;
