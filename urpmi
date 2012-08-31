@@ -633,7 +633,7 @@ if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env && !$opt
 
 my $exit_code = urpm::main_loop::run($urpm, $state, 
 				     int(@names || @src_names || @files || @src_files), 
-				     \@ask_unselect, \%requested, {
+				     \@ask_unselect, {
     (!$urpm->{options}{auto} || $allow_medium_change ? (copy_removable =>  sub {
 	my $msg = N("Please insert the medium named \"%s\"", $_[0]);
 	if (eval { require Hal::Cdroms; 1 }) {

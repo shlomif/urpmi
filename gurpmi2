@@ -331,7 +331,7 @@ sub do_install_3 () {
 		sync();
 	    };
 
-    my $exit_code = urpm::main_loop::run($urpm, $state, scalar(@gurpmi::names),  \@ask_unselect, \%requested, {
+    my $exit_code = urpm::main_loop::run($urpm, $state, scalar(@gurpmi::names),  \@ask_unselect, {
         bad_signature => sub {
             my ($msg, $msg2) = @_;
             $urpm->{log}("$msg\n$msg2");

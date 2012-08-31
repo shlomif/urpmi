@@ -349,7 +349,7 @@ Warning: locking is left to callers...
 
 
 sub run {
-    my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
+    my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $callbacks) = @_;
 
     #- global boolean options
     ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test) =
