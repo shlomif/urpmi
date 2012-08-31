@@ -5,21 +5,36 @@ package urpm::util;
 use strict;
 use Exporter;
 our @ISA = 'Exporter';
-our @EXPORT = qw(min max quotespace unquotespace
-    add2hash_
+our @EXPORT = qw(add2hash_
     any
-    find
-    remove_internal_name
-    reduce_pathname offset_pathname
-    untaint
-    copy_and_own
-    same_size_and_mtime
-    partition put_in_hash uniq uniq_
+    append_to_file
+    basename
     begins_with
-    difference2 intersection member 
-    file_size cat_ cat_utf8 wc_l
-    output_safe append_to_file dirname basename
+    cat_
+    cat_utf8
+    copy_and_own
+    difference2
+    dirname
     file2absolute_file
+    file_size
+    find
+    intersection
+    max
+    member 
+    min
+    offset_pathname
+    output_safe
+    partition
+    put_in_hash
+    quotespace
+    reduce_pathname
+    remove_internal_name
+    same_size_and_mtime
+    uniq
+    uniq_
+    unquotespace
+    untaint
+    wc_l
 );
 
 (our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
