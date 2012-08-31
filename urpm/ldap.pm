@@ -109,6 +109,8 @@ sub clean_ldap_cache($) {
 
 =item get_ldap_config()
 
+parse the system LDAP configuration file and return its config values
+
 =cut
 
 sub get_ldap_config() {
@@ -116,6 +118,8 @@ sub get_ldap_config() {
 }
 
 =item get_ldap_config_file($file)
+
+parse a given LDAP configuration file and return its config values
 
 =cut
 

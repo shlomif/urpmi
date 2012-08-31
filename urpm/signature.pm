@@ -18,9 +18,26 @@ urpm::signature - Package signature routines for urpmi
 
 =over
 
+=item check($urpm, $sources_install, $sources, %options)
+
+Checks a package signature, return a list of error messages
+
+Options:
+
+=over
+
+=item * basename
+
+whether to show full file paths or only file names in messages (used by rpmdrake)
+
+=item * callback
+
+A callback called on package verification (used by rpmdrake in order to update its progressbar)
+
+=back
+
 =cut
 
-#- options: callback, basename
 sub check {
     my ($urpm, $sources_install, $sources, %options) = @_;
     sort(_check($urpm, $sources_install, %options),

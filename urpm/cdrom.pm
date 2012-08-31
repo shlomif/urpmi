@@ -220,6 +220,12 @@ sub _copy_from_cdrom__if_needed {
 	}
 }
 
+
+=item copy_packages_of_removable_media($urpm, $blists, $sources, $o_ask_for_medium)
+
+=cut
+
+
 #- side-effects:
 #-   + those of _may_eject_cdrom ($urpm->{cdrom_mounted}, "hal_umount", "hal_eject")
 #-   + those of _mount_cdrom ($urpm->{cdrom_mounted}, $blists->[_]{medium}{mntpoint}, "hal_mount", "hal_eject")

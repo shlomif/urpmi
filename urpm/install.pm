@@ -39,6 +39,11 @@ sub _hash_intersect_list {
     \%h;
 }
 
+=item prepare_transaction($set, $blists, $sources)
+
+=cut
+
+
 sub prepare_transaction {
     my ($set, $blists, $sources) = @_;
 
@@ -79,6 +84,12 @@ sub transaction_set_to_string {
     } @$set;
 }
 
+=item install_logger($urpm, $type, $id, $subtype, $amount, $total)
+
+Standard logger for transactions
+
+=cut
+
 # install logger callback
 sub install_logger {
     my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
@@ -115,6 +126,10 @@ sub install_logger {
 	}
     }
 }
+
+=item get_README_files($urpm, $trans, $pkg)
+
+=cut
 
 sub get_README_files {
     my ($urpm, $trans, $pkg) = @_;
@@ -160,6 +175,10 @@ sub options {
 	replacefiles => $urpm->{options}{replacefiles},
     );
 }
+
+=item install($urpm, $remove, $install, $upgrade, %options)
+
+=cut
 
 #- install packages according to each hash (remove, install or upgrade).
 #- options: 

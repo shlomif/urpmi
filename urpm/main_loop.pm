@@ -309,7 +309,45 @@ sub _run_transaction {
     !$fatal;
 }
 
-# locking is left to callers
+=item run($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks)
+
+Run the main urpm loop:
+
+=over
+
+=item * mount removable media if needed
+
+=item * split the work in smaller transactions
+
+=item * for each transaction:
+
+=over
+
+=item * prepare the transaction
+
+=item * download packages needed for this small transaction
+
+=item * verify packages
+
+=item * split package that should be installed instead of upgraded,
+
+=item * install source package only (whatever the user is root or not, but use rpm for that)
+
+=item * install/remove other packages
+
+=back
+
+=item * migrate the chrooted rpmdb if needed
+
+=item * display the final success/error message(s)
+
+=back
+
+Warning: locking is left to callers...
+
+=cut
+
+
 sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
 

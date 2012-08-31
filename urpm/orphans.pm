@@ -36,6 +36,13 @@ sub installed_packages_packed {
     \@l;
 }
 
+
+=item unrequested_list__file($urpm)
+
+Return the path of the unrequested list file.
+
+=cut
+
 #- side-effects: none
 sub unrequested_list__file {
     my ($urpm) = @_;
@@ -51,6 +58,13 @@ sub unrequested_list {
 	$_ => 1;
     } cat_(unrequested_list__file($urpm)) };
 }
+
+=item mark_as_requested($urpm, $state, $test)
+
+Mark some packages as explicitely requested (usually because
+they were manually installed).
+
+=cut
 
 #- side-effects: those of _write_unrequested_list__file
 sub mark_as_requested {
@@ -418,6 +432,12 @@ sub _all_unrequested_orphans {
     [ values %l ];
 }
 
+=item compute_future_unrequested_orphans($urpm, $state)
+
+Compute the list of packages that will be unrequested and
+could potently be removed.
+
+=cut
 
 #- side-effects: $state->{orphans_to_remove}
 #-   + those of _installed_and_unrequested_lists (<root>/var/lib/rpm/installed-through-deps.list)
@@ -441,8 +461,16 @@ sub compute_future_unrequested_orphans {
     # nb: $state->{orphans_to_remove} is used when computing ->selected_size
 }
 
-#- it is quite fast. the slow part is the creation of $installed_packages_packed
-#- (using installed_packages_packed())
+
+=item get_orphans($urpm)
+
+Returns the list of unrequested packages (aka orphans).
+
+It is quite fast. the slow part is the creation of
+$installed_packages_packed (using installed_packages_packed())
+
+=cut
+
 #
 #- side-effects:
 #-   + those of _installed_req_and_unreq (<root>/var/lib/rpm/installed-through-deps.list)
@@ -464,6 +492,15 @@ sub _get_now_orphans_raw_msg {
     (scalar(@orphans), add_leading_spaces(join("\n", sort @orphans)));
 }
 
+=item get_now_orphans_gui_msg($urpm)
+
+Like get_now_orphans_msg() but more suited for GUIes, it return
+message about orphan packages.
+
+Used by rpmdrake.
+
+=cut
+
 sub get_now_orphans_gui_msg {
     my ($urpm) = @_;
 
@@ -477,6 +514,14 @@ sub get_now_orphans_gui_msg {
     );
 }
 
+
+=item get_now_orphans_msg($urpm)
+
+Similar to get_now_orphans_gui_msg() but more suited for CLI, it
+return message about orphan packages.
+
+=cut
+
 sub get_now_orphans_msg {
     my ($urpm) = @_;
 
@@ -486,6 +531,12 @@ sub get_now_orphans_msg {
       $count, $list) . "\n";
 }
 
+
+=item add_leading_spaces($string)
+
+Add leading spaces to the string and return it.
+
+=cut
 
 #- side-effects: none
 sub add_leading_spaces {
