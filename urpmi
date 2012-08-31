@@ -502,7 +502,7 @@ that are older than the installed ones:\n%s", $list);
     $urpm::postponed_code = 17;
 }
 
-my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
+my @ask_unselect = urpm::select::unselected_packages($state);
 if (@ask_unselect) {
     my $list = urpm::select::translate_why_unselected($urpm, $state, @ask_unselect);
     my $msg = @ask_unselect == 1 ?

@@ -106,7 +106,7 @@ my $restart_itself = urpm::select::resolve_dependencies($urpm,
     auto_select => $::auto_select,
     priority_upgrade => $urpm->{options}{'priority-upgrade'},
 );
-my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
+my @ask_unselect = urpm::select::unselected_packages($state);
 
 # If there are some unselected packages, designate that we are going to return nonzero code.
 if (@ask_unselect) {

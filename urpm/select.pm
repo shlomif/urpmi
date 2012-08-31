@@ -572,14 +572,14 @@ sub _prohibit_packages_that_would_be_removed {
 }
 
 
-=item unselected_packages(undef, $state)
+=item unselected_packages($state)
 
 misc functions to help finding ask_unselect and ask_remove elements with their reasons translated.
 
 =cut
 
 sub unselected_packages {
-    my (undef, $state) = @_;
+    my ($state) = @_;
     grep { $state->{rejected}{$_}{backtrack} } keys %{$state->{rejected} || {}};
 }
 
