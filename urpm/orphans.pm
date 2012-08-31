@@ -28,6 +28,7 @@ sub unrequested_list__file {
     my ($urpm) = @_;
     ($urpm->{env_dir} || "$urpm->{root}/var/lib/rpm") . '/installed-through-deps.list';
 }
+
 #- side-effects: none
 sub unrequested_list {
     my ($urpm) = @_;
@@ -68,6 +69,7 @@ sub _installed_req_and_unreq {
     my ($req, $unreq, $_unrequested) = _installed_req_and_unreq_and_update_unrequested_list($urpm);
     ($req, $unreq);
 }
+
 #- side-effects:
 #-   + those of _installed_req_and_unreq_and_update_unrequested_list (<root>/var/lib/rpm/installed-through-deps.list)
 sub _installed_and_unrequested_lists {
@@ -157,6 +159,7 @@ sub _renamed_unrequested {
     }
     %l;
 }
+
 sub new_unrequested {
     my ($urpm, $state) = @_;
     (
@@ -164,6 +167,7 @@ sub new_unrequested {
 	_renamed_unrequested($urpm, $state->{selected}, $state->{rejected}),
     );
 }
+
 #- side-effects: <root>/var/lib/rpm/installed-through-deps.list
 sub add_unrequested {
     my ($urpm, $state) = @_;
@@ -198,6 +202,7 @@ sub unrequested_orphans_after_remove {
     my %toremove = map { $_ => 1 } @$toremove;
     _unrequested_orphans_after_remove_once($urpm, $db, unrequested_list($urpm), \%toremove);
 }
+
 #- side-effects: none
 sub _unrequested_orphans_after_remove_once {
     my ($urpm, $db, $unrequested, $toremove) = @_;
@@ -233,6 +238,7 @@ sub _unrequested_orphans_after_remove_once {
     }
     0;
 }
+
 #- return true if $pkg will no more be required after removing $toremove
 #-
 #- nb: it may wrongly return false for complex loops,
