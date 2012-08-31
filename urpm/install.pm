@@ -8,6 +8,18 @@ use urpm::msg;
 use urpm::util;
 
 
+=head1 NAME
+
+urpm::install - Package installation transactin routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut
+
 # size of the installation progress bar
 my $progress_size = 45;
 eval {
@@ -300,3 +312,15 @@ sub install {
 }
 
 1;
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 1999-2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+Copyright (C) 2011-2012 Mageia
+
+=cut

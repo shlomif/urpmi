@@ -8,6 +8,18 @@ use urpm::media;
 use urpm::util;
 
 
+=head1 NAME
+
+urpm::signature - Package signature routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut
+
 #- options: callback, basename
 sub check {
     my ($urpm, $sources_install, $sources, %options) = @_;
@@ -93,3 +105,15 @@ sub _check {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+=cut

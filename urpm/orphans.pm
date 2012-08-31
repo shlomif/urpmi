@@ -9,6 +9,19 @@ use urpm;
 
 my $fullname2name_re = qr/^(.*)-[^\-]*-[^\-]*\.[^\.\-]*$/;
 
+
+=head1 NAME
+
+urpm::orphans - The orphan management code for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut
+
 #- side-effects: none
 sub installed_packages_packed {
     my ($urpm) = @_;
@@ -508,3 +521,15 @@ sub installed_leaves {
 }
 
 1;
+
+
+=back
+
+=head1 COPYRIGHT
+
+
+Copyright (C) 2008-2010 Mandriva SA
+
+Copyright (C) 2011-2012 Mageia
+
+=cut

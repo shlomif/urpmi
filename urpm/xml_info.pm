@@ -3,6 +3,18 @@ package urpm::xml_info;
 use strict;
 use XML::LibXML::Reader;
 
+=head1 NAME
+
+urpm::xml_info - XML data manipulation related routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut 
+
 # throw an exception on error
 sub get_nodes {
     my ($xml_info, $xml_info_file, $fullnames) = @_;
@@ -174,3 +186,13 @@ sub _iterate_on_nodes {
 
 1;
 
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+=cut

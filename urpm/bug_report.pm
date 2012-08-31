@@ -4,6 +4,18 @@ use strict;
 use urpm;
 use urpm::msg;
 
+=head1 NAME
+
+urpm::bug_report - Bug reporting routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut
+
 
 sub rpmdb_to_synthesis {
     my ($urpm, $synthesis) = @_;
@@ -58,3 +70,15 @@ sub copy_requested {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+=cut

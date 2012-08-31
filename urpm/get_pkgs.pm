@@ -10,6 +10,19 @@ use urpm::media;
 use urpm 'file_from_local_url';
 # perl_checker: require urpm::select
 
+
+=head1 NAME
+
+urpm::get_pkgs - Package retrieving routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut 
+
 sub clean_all_cache {
     my ($urpm) = @_;
     #- clean download directory, do it here even if this is not the best moment.
@@ -284,3 +297,15 @@ sub _download_packages_of_distant_media {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+=cut

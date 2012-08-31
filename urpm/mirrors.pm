@@ -8,6 +8,18 @@ use urpm::msg;
 use urpm::download;
 
 
+=head1 NAME
+
+urpm::mirrors - Mirrors routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut 
+
 #- $medium fields used: mirrorlist, with-dir
 #- side-effects: $medium->{url}
 #-   + those of _pick_one ($urpm->{mirrors_cache})
@@ -331,3 +343,15 @@ sub parse_LDAP_namespace_structure {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+=cut

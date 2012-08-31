@@ -37,6 +37,19 @@ my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel
 my ($ok, $nok);
 my $exit_code;
 
+
+=head1 NAME
+
+urpm::main_loop - The install/remove main loop for urpm based programs (urpmi, gurpmi, rpmdrake, drakx)
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut
+
 sub _download_callback {
     my ($urpm, $callbacks, $raw_msg, $msg) = @_;
     if (my $download_errors = delete $urpm->{download_errors}) {
@@ -474,3 +487,15 @@ sub handle_need_restart {
 }
 
 1;
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 1999-2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+Copyright (C) 2011-2012 Mageia
+
+=cut

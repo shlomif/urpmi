@@ -4,6 +4,19 @@ use strict;
 use urpm::util;
 use urpm::msg;
 
+
+=head1 NAME
+
+urpm::md5sum - Meta-data checking routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut 
+
 sub parse {
     my ($md5sum_file) = @_;
 
@@ -57,3 +70,15 @@ sub compute {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+=cut

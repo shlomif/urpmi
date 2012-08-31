@@ -10,6 +10,20 @@ use urpm::util;
 my ($LOCK_SH, $LOCK_EX, $LOCK_NB, $LOCK_UN) = (1, 2, 4, 8);
 
 
+
+=head1 NAME
+
+urpm::lock - urpm/rpm DB locking related routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut 
+
+
 ################################################################################
 #- class functions
 
@@ -107,3 +121,14 @@ sub DESTROY {
     my ($lock) = @_;
     unlock($lock) if $lock->{fh};
 }
+__END__
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+=cut

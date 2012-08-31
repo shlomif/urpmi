@@ -2,6 +2,18 @@ package urpm::xml_info_pkg;
 
 use strict;
 
+=head1 NAME
+
+urpm::xml_info_pkg - XML Package data retrieving related routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut 
+
 # proxy object: returns the xml info if available, otherwise redirects to URPM::Package
 
 sub new {
@@ -46,3 +58,13 @@ sub filename { $_[0]{fn} . '.rpm' }
 
 
 1;
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+=cut

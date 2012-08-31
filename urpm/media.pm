@@ -48,6 +48,18 @@ my @media_info_prefix_suffix = (
     (map { [ $_, '.xml.lzma' ] } @xml_media_info),
 );
 
+=head1 NAME
+
+urpm::media - Media routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut 
+
 
 sub get_medium_option {
     my ($urpm, $medium, $option_name) = @_;
@@ -2048,3 +2060,15 @@ sub clean {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+=cut

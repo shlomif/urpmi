@@ -10,6 +10,19 @@ use urpm 'file_from_local_medium';
 
 
 
+=head1 NAME
+
+urpm::removable - Removable media routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=over
+
+=cut 
+
+
 sub file_or_synthesis_dir {
     my ($medium, $o_url) = @_;
     
@@ -153,3 +166,15 @@ sub _blist_first_url {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+=cut
