@@ -965,21 +965,6 @@ sub sync_rel_to {
     $result_file;
 }
 
-#- deprecated, use sync_url() or sync_rel() instead
-#-
-#- $medium can be undef
-#- known options: quiet, resume, callback, ask_retry
-sub sync {
-    my ($urpm, $medium, $files, %options) = @_;
-
-    if ($medium) {
-	$urpm->{error}("deprecated urpm::download::sync() called with a medium, this is not handled anymore, not using the medium and only taking the protocol into account");
-    }
-    sync_url($urpm, $_, %options) or return foreach @$files;
-    1;
-}
-
-
 =item get_content($urpm, $url, %o_options)
 
 Retrieve a file and return its content.
