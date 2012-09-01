@@ -36,7 +36,7 @@ our @EXPORT = qw(create_scrolled_window fatal but cancel_n_quit quit add_button_
 urpm::select::add_packages_to_priority_upgrade_list('gurpmi', 'perl-Glib', 'perl-Gtk2');
 
 sub usage () {
-    print N("urpmi version %s
+    print N("gurpmi version %s
 %s
 This is free software and may be redistributed under the terms of the GNU GPL.
 
