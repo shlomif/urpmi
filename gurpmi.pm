@@ -36,13 +36,8 @@ our @EXPORT = qw(create_scrolled_window fatal but cancel_n_quit quit add_button_
 urpm::select::add_packages_to_priority_upgrade_list('gurpmi', 'perl-Glib', 'perl-Gtk2');
 
 sub usage () {
-    print N("gurpmi version %s
-%s
-This is free software and may be redistributed under the terms of the GNU GPL.
-
-usage:
-", $urpm::VERSION, N("Copyright (C) %s by %s", "1999-2010", "Mandriva")
-	) . "    gurpmi <rpm> [ <rpm>... ]
+    print urpm::args::copyright('gurpmi', [ '1999-2010', 'Mandriva' ])
+	. "    gurpmi <rpm> [ <rpm>... ]
 " . N("Options:") . "\n"
  . N("  --help         - print this help message.
 ") . N("  --auto         - non-interactive mode, assume default answers to questions.

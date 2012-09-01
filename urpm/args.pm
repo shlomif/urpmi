@@ -518,6 +518,18 @@ sub parse_cmdline {
     $ret;
 }
 
+sub copyright {
+    my ($prog_name, @copyrights) = @_;
+    N("%s version %s
+%s
+This is free software and may be redistributed under the terms of the GNU GPL.
+
+usage:
+", $prog_name, $urpm::VERSION,
+      join("\n", map { N("Copyright (C) %s by %s", @$_) } @copyrights)
+	);
+}
+
 1;
 
 __END__
