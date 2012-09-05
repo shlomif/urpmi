@@ -36,7 +36,7 @@ sub open_lzma {
     my ($xml_info_file) = @_;
 
     $xml_info_file =~ s/'/'\\''/g;
-    open(my $F, "lzma -dc '$xml_info_file' |");
+    open(my $F, "xz -dc '$xml_info_file' |");
     $F;    
 }
 
