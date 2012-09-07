@@ -1533,10 +1533,6 @@ Fix the new menu so gurpmi is run when double-clicking on an rpm
 
 * Sat Aug 12 2006 rafael
 
-XDG migration
-
-* Sat Aug 12 2006 rafael
-
 - New manpage: urpmihowto
 - Misc. doc fixes
 - Use --anyauth with curl downloads
@@ -1731,7 +1727,6 @@ Version 4.8.0 - Nov 14 2005, by Rafael Garcia-Suarez <rgarciasuarez@mandriva.com
 - Fix download with rsync over ssh
 - Use the --no-check-certificate option for downloading with wget
 - Use MDV::Packdrakeng; avoid requiring File::Temp, MDK::Common and packdrake
-- rpmtools is no longer a PreReq
 - Build process improvements
 - Reorganize urpmq docs; make urpmq more robust; make urpmq require less locks
 
@@ -1902,7 +1897,6 @@ Version 4.6.23 - Mar 10 2005, by Rafael Garcia-Suarez <rgarciasuarez@mandrakesof
 
 Version 4.6.22-2mdk - Mar 09 2005, by Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
 
-- Fix requires on perl-Locale-gettext
 - Warn when a chroot doesn't has a /dev
 
 Version 4.6.22 - Mar 08 2005, by Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
@@ -1920,7 +1914,6 @@ Version 4.6.21 - Mar 07 2005, by Rafael Garcia-Suarez <rgarciasuarez@mandrakesof
 Version 4.6.20 - Feb 25 2005, by Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
 
 - Output takes now into account the locale's charset
-- Don't require drakxtools anymore
 - Fix log error in urpmi-parallel
 - Docs, language updates
 
@@ -2006,8 +1999,6 @@ Version 4.6.8 - Dec 13 2004, by Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft
 
 - Adding a media should not fail when there is no pubkey file available
   (bug #12646)
-- Require packdrake
-- Can't drop rpmtools yet, urpmq uses rpm2header
 
 Version 4.6.7 - Dec 10 2004, by Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
 
@@ -2188,7 +2179,6 @@ Version 4.5-12mdk - Jul 06 2004, by Rafael Garcia-Suarez <rgarciasuarez@mandrake
 
 - Disallow two medias with the same name
 - urpmi.removemedia no longer performs a fuzzy match on media names
-- gettext is no longer required
 
 Version 4.5-11mdk - Jul 01 2004, by Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
 
@@ -2370,7 +2360,6 @@ Version 4.4-49mdk - Jan 04 2004, by Olivier Thauvin <thauvin@aerov.jussieu.fr>
 
 - apply Guillaume Rousse patch
 - Fix bug #6666
-- Requires bash-completion (Guillaume Rousse)
 
 Version 4.4-48mdk - Dec 24 2003, by Olivier Thauvin <thauvin@aerov.jussieu.fr>
 
@@ -2395,12 +2384,6 @@ Version 4.4-43mdk - Nov 05 2003, by Guillaume Cottenceau <gc@mandrakesoft.com>
 
 - urpmi: fix exitcode always true when running in gurpmi mode, by
   using _exit instead of exit, probably some atexit gtk stuff in the way
-
-Version 4.4-42mdk - Nov 05 2003, by Guillaume Rousse <guillomovitch@linux-mandrake.com>
-
-- added bash-completion
-- spec cleanup
-- bziped additional sources
 
 Version 4.4-41mdk - Oct 30 2003, by François Pons <fpons@mandrakesoft.com>
 
@@ -2537,7 +2520,6 @@ Version 4.4-21mdk - Aug 11 2003, by François Pons <fpons@mandrakesoft.com>
   is requested more or less).
 - fixed rsync:// and ssh:// protocol with integer limit-rate not
   multiple of 1024.
-- removed requires on perl-DateManip (as it now optional).
 
 Version 4.4-20mdk - Aug 11 2003, by François Pons <fpons@mandrakesoft.com>
 
@@ -2787,10 +2769,6 @@ Version 4.2-31mdk - Mar 10 2003, by François Pons <fpons@mandrakesoft.com>
 
 - try to be somewhat perl_checker compliant.
 - strict require on urpmi.
-
-Version 4.2-30mdk - Mar 06 2003, by Pons François <fpons@mandrakesoft.com>
-
-- fixed %post script to be simpler and much faster.
 
 Version 4.2-29mdk - Mar 06 2003, by François Pons <fpons@mandrakesoft.com>
 
@@ -3158,8 +3136,6 @@ Version 4.0-12mdk - Sep 05 2002, by François Pons <fpons@mandrakesoft.com>
 Version 4.0-11mdk - Aug 30 2002, by François Pons <fpons@mandrakesoft.com>
 
 - fixed no post-clean when testing or if errors occured.
-- (fcrozat) fixed missing %post and %postun for gurpmi, fixed
-  bad consolehelper require.
 
 Version 4.0-10mdk - Aug 30 2002, by François Pons <fpons@mandrakesoft.com>
 
@@ -3276,7 +3252,6 @@ Version 3.9-2mdk - Jul 23 2002, by François Pons <fpons@mandrakesoft.com>
 - updated urpme to use perl-URPM and speed it up (no more
   rpm -e --test ...).
 - updated rpm-find-leaves to use perl-URPM.
-- dropped build requires to rpmtools (but need rpm >= 4.0.3).
 
 Version 3.9 - Jul 23 2002, by François Pons <fpons@mandrakesoft.com>
 
@@ -3485,7 +3460,6 @@ Version 3.3-16mdk - Feb 27 2002, by François Pons <fpons@mandrakesoft.com>
 
 Version 3.3-15mdk - Feb 25 2002, by François Pons <fpons@mandrakesoft.com>
 
-- fixed not to require Fcntl module (in perl package).
 - fixed bad behaviour on src package as user (no message).
 - fixed src package listed on package to be installed (which is
   wrong).
@@ -3525,7 +3499,6 @@ Version 3.3-9mdk - Feb 18 2002, by François Pons <fpons@mandrakesoft.com>
 
 Version 3.3-8mdk - Feb 18 2002, by François Pons <fpons@mandrakesoft.com>
 
-- added missing build requires on rpmtools.
 - fixed too verbose erroneous output that may hurt the user.
 - fixed reduce_pathname with real url which reduce a bit
   too much.
@@ -3697,7 +3670,6 @@ Version 3.0-6mdk - Dec 12 2001, by François Pons <fpons@mandrakesoft.com>
 
 Version 3.0-5mdk - Dec 10 2001, by François Pons <fpons@mandrakesoft.com>
 
-- fixed %post again.
 - added kernel-source in /etc/urpmi/inst.list.
 
 Version 3.0-4mdk - Dec 07 2001, by François Pons <fpons@mandrakesoft.com>
@@ -3713,7 +3685,6 @@ Version 3.0-3mdk - Dec 07 2001, by François Pons <fpons@mandrakesoft.com>
 
 Version 3.0-2mdk - Dec 07 2001, by François Pons <fpons@mandrakesoft.com>
 
-- fixed %post with exit code.
 - removing sense data in provides (internally).
 - optimized depslist relocation for provides cleaning.
 - optimized synthesis parsing.
@@ -3724,7 +3695,6 @@ Version 3.0 - Dec 06 2001, by François Pons <fpons@mandrakesoft.com>
 - 3.0 so urpm library interface change and method removal.
 - depslist*, compss, provides are obsoleted, synthesis file
   are now used instead (this will help rpmdrake caching).
-- added missing requires on perl for autoirpm.
 
 Version 2.2-2mdk - Dec 06 2001, by François Pons <fpons@mandrakesoft.com>
 
@@ -3745,7 +3715,6 @@ Version 2.1-7mdk - Nov 29 2001, by François Pons <fpons@mandrakesoft.com>
 Version 2.1-6mdk - Nov 28 2001, by François Pons <fpons@mandrakesoft.com>
 
 - updated requires to webfetch.
-- updated requires to last rpmtools needed.
 
 Version 2.1-5mdk - Nov 28 2001, by François Pons <fpons@mandrakesoft.com>
 
@@ -3756,7 +3725,6 @@ Version 2.1-4mdk - Nov 28 2001, by François Pons <fpons@mandrakesoft.com>
 
 - fixed incovation of sync method even when no files to sync.
 - fixed urpmq option management (-m|-M equ -du but necessary by default).
-- fixed %preun of autoirpm to check previous installation.
 - added small doc in /etc/urpmi/inst.list file.
 
 Version 2.1-3mdk - Nov 27 2001, by François Pons <fpons@mandrakesoft.com>
@@ -3856,7 +3824,6 @@ Version 1.7-9mdk - Sep 10 2001, by François Pons <fpons@mandrakesoft.com>
 
 Version 1.7-8mdk - Sep 03 2001, by François Pons <fpons@mandrakesoft.com>
 
-- updated fr man pages (pablo).
 - avoid eject removable medium if --auto is given.
 - avoid stat in /dev directory.
 
@@ -3888,10 +3855,6 @@ Version 1.7-2mdk - Jul 25 2001, by François Pons <fpons@mandrakesoft.com>
 Version 1.7 - Jul 23 2001, by François Pons <fpons@mandrakesoft.com>
 
 - updated to use newer rpmtools 3.1.
-
-Version 1.6-14mdk - Jul 16 2001, by Daouda Lo <daouda@mandrakesoft.com>
-
-- resync with cvs.
 
 Version 1.6-13mdk - Jul 14 2001, by Daouda Lo <daouda@mandrakesoft.com>
 
@@ -3954,10 +3917,8 @@ Version 1.6-2mdk - Jun 21 2001, by François Pons <fpons@mandrakesoft.com>
 Version 1.6 - Jun 20 2001, by François Pons <fpons@mandrakesoft.com>
 
 - simplified urpmf.
-- fixed typo in %post.
 - fix i18n support and allow l10n of all error message.
 - simplified error code of urpmi/urpmq.
-- new version.
 
 Version 1.5-41mdk - Jun 14 2001, by François Pons <fpons@mandrakesoft.com>
 
@@ -4179,7 +4140,6 @@ Version 1.4-4mdk - Jan 25 2001, by François Pons <fpons@mandrakesoft.com>
 
 - added code to search for source rpms file to install.
 - modified manipulation of ignore flag, keep media name unique.
-- added missing cache directory in spec file.
 - lot of fixes on urpm core library.
 
 Version 1.4-3mdk - Jan 25 2001, by François Pons <fpons@mandrakesoft.com>
@@ -4189,7 +4149,6 @@ Version 1.4-3mdk - Jan 25 2001, by François Pons <fpons@mandrakesoft.com>
 
 Version 1.4-2mdk - Jan 17 2001, by François Pons <fpons@mandrakesoft.com>
 
-- removed PreReq on genbasefiles, now PreReq rpmtools-2.1-8mdk or above.
 - fixed glitches in urpm.pm module about old format of urpmi.cfg.
 
 Version 1.4 - Jan 16 2001, by François Pons <fpons@mandrakesoft.com>
@@ -4259,8 +4218,6 @@ Version 1.3 - Aug 28 2000, by François Pons <fpons@mandrakesoft.com>
 
 Version 1.2-4mdk - Aug 06 2000, by Pixel <pixel@mandrakesoft.com>
 
-- use %lang for i18n'd files
-- clean /var/lib/urpmi on removal
 - urpmi local_file only if local_file ends with .rpm
 
 Version 1.2-3mdk - Jul 19 2000, by Pixel <pixel@mandrakesoft.com>
@@ -4271,10 +4228,6 @@ Version 1.2-3mdk - Jul 19 2000, by Pixel <pixel@mandrakesoft.com>
 Version 1.2 - Jun 29 2000, by Pixel <pixel@mandrakesoft.com>
 
 - nice fixes from diablero (mainly better generation of list.*)
-
-Version 1.1-7mdk - Jun 13 2000, by Pixel <pixel@mandrakesoft.com>
-
-- add require wget (needed for ftp hdlist's)
 
 Version 1.1-6mdk - May 04 2000, by Pixel <pixel@mandrakesoft.com>
 
@@ -4313,7 +4266,6 @@ Version 1.0-2mdk - Feb 28 2000, by Pixel <pixel@mandrakesoft.com>
 
 Version 1.0 - Feb 12 2000, by Pixel <pixel@mandrakesoft.com>
 
-- 1.0
 - small urpmi man page change
 
 Version 0.9-40mdk - Feb 10 2000, by Pixel <pixel@mandrakesoft.com>
@@ -4347,9 +4299,6 @@ Version 0.9-34mdk - Jan 04 2000, by Chmouel Boudjnah <chmouel@mandrakesoft.com>
 * Mon Dec 27 1999 Pixel <pixel@mandrakesoft.com>
 - fixed a bug in urpmi.addmedia
 
-* Fri Dec 24 1999 Pixel <pixel@mandrakesoft.com>
-- more i18n
-
 * Wed Dec 22 1999 Pixel <pixel@mandrakesoft.com>
 - added urpmi_rpm-find-leaves
 
@@ -4360,9 +4309,6 @@ Version 0.9-34mdk - Jan 04 2000, by Chmouel Boudjnah <chmouel@mandrakesoft.com>
 - bug fix for autoirpm (bad directory)
 - enhancement to urpmi (in place gzip'ing)
 - small cute enhancements
-
-* Sat Dec 18 1999 Pixel <pixel@mandrakesoft.com>
-- a lot of i18n added (thx2pablo)
 
 * Fri Dec 17 1999 Pixel <pixel@mandrakesoft.com>
 - changed a message
