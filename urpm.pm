@@ -102,13 +102,18 @@ sub prefer_rooted {
     -e "$root$file" ? "$root$file" : $file;
 }
 
+sub check_cache_dir {
+    my ($urpm, $dir) = @_;
+    -d $dir && ! -l $dir or $urpm->{fatal}(1, N("fail to create directory %s", $dir));
+    -o $dir && -w $dir or $urpm->{fatal}(1, N("invalid owner for directory %s", $dir));
+}
+
 sub init_cache_dir {
     my ($urpm, $dir) = @_;
 
     mkdir $dir, 0755; # try to create it
 
-    -d $dir && ! -l $dir or $urpm->{fatal}(1, N("fail to create directory %s", $dir));
-    -o $dir && -w $dir or $urpm->{fatal}(1, N("invalid owner for directory %s", $dir));
+    check_cache_dir($urpm, $dir);
 
     mkdir "$dir/partial";
     mkdir "$dir/rpms";
