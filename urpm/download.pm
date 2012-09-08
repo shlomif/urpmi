@@ -515,7 +515,7 @@ sub sync_curl {
 	    "--stderr", "-", # redirect everything to stdout
 	    @all_files);
 	$options->{debug} and $options->{debug}($cmd);
-	$result = _curl_action($cmd,$options,@l);
+	$result = _curl_action($cmd, $options, @l);
     }
     chdir $cwd;
     $result;
