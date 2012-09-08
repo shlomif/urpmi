@@ -14,8 +14,6 @@ use Exporter;
 our @ISA = 'Exporter';
 our @EXPORT = '%options';
 
-(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
-
 # The program that invokes us
 (my $tool = $0) =~ s!.*/!!;
 

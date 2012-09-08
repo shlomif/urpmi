@@ -7,8 +7,6 @@ use warnings;
 use urpm::util;
 use urpm::msg 'N';
 
-(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
-
 =head1 NAME
 
 urpm::cfg - routines to handle the urpmi configuration files

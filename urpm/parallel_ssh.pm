@@ -12,8 +12,6 @@ use urpm::parallel;
 
 our @ISA = 'urpm::parallel';
 
-(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
-
 sub _localhost { $_[0] eq 'localhost' }
 sub _ssh       { &_localhost ? '' : "ssh $_[0] " }
 sub _host      { &_localhost ? '' : "$_[0]:" }

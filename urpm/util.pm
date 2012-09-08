@@ -37,8 +37,6 @@ our @EXPORT = qw(add2hash_
     wc_l
 );
 
-(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
-
 sub min  { my $n = shift; $_ < $n and $n = $_ foreach @_; $n }
 sub max  { my $n = shift; $_ > $n and $n = $_ foreach @_; $n }
 

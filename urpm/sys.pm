@@ -8,8 +8,6 @@ use urpm::util;
 use urpm::msg;
 use POSIX ();
 
-(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
-
 
 =head1 NAME
 

@@ -12,7 +12,6 @@ use urpm::parallel;
 
 our @ISA = 'urpm::parallel';
 
-(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
 our $mput_command = $ENV{URPMI_MPUT_COMMAND};
 our $rshp_command = $ENV{URPMI_RSHP_COMMAND};
 

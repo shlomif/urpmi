@@ -17,8 +17,6 @@ our @EXPORT = qw(get_proxy
 	set_proxy_config dump_proxy_config
 );
 
-(our $VERSION) = q($Revision: 271299 $) =~ /(\d+)/;
-
 #- proxy config file.
 our $PROXY_CFG = '/etc/urpmi/proxy.cfg';
 my $proxy_config;
