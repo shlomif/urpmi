@@ -477,7 +477,7 @@ on a Mageia Linux distribution.
 =item urpm->new()
 
 The constructor creates a new urpm object. It's a blessed hash that
-contains fields from C<URPM>, and also the following fields:
+contains fields from L<URPM>, and also the following fields:
 
 B<source>: { id => src_rpm_file|spec_file }
 
