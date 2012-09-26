@@ -156,7 +156,7 @@ if ($urpm->{options}{auto} || $env) {
     $test and print STDOUT $msg;
 } elsif ($parallel || @toremove > @cmdline_pkgs_to_remove) {
     print STDOUT $msg;
-    $force || message_input_(P("Remove %d package?", "Remove %d packages?", scalar(@toremove), scalar(@toremove)) . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/ or exit 0;
+    $force || message_input(P("Remove %d package?", "Remove %d packages?", scalar(@toremove), scalar(@toremove)) . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/ or exit 0;
 }
 
 print($test ? 

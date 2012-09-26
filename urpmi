@@ -439,7 +439,7 @@ sub ask_choice {
 	print N("In order to satisfy the '%s' dependency, one of the following packages is needed:", $virtual_pkg_name), "\n";
 	my $i = 0;
 	foreach (@l) { print " " . ++$i . "- $_\n" }
-	$n = message_input_(N("What is your choice? (1-%d) ", $i), default => $prefer, range_min => 0, range => $i);
+	$n = message_input(N("What is your choice? (1-%d) ", $i), default => $prefer, range_min => 0, range => $i);
 	defined($n) && $n ne "0" or exit 1; # abort.
 	if ($n =~ /\D/) {
 	    my @nn = map { $choices[$_ - 1] } grep { !/\D/ } split /[, \t]+/, $n;
@@ -490,7 +490,7 @@ that are older than the installed ones:\n%s", $list);
     } else {
 	my $noexpr = N("Nn");
 	$msg .= N("\nContinue installation anyway?");
-	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
+	$force || message_input($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
     }
     # Whatever option we selected, the overall installation should fail if some packages are unselected
     $urpm::postponed_msg .= $msg . "\n";
@@ -508,7 +508,7 @@ if (@ask_unselect) {
     } else {
 	my $noexpr = N("Nn");
 	$msg .= N("\nContinue installation anyway?");
-	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
+	$force || message_input($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
     }
     # Whatever option we selected, the overall installation should fail if some packages are unselected
     $urpm::postponed_msg .= $msg . "\n";
@@ -623,7 +623,7 @@ if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env && !$opt
 	exit 0; #- exit now for specific environment.
     }
     my $noexpr = N("Nn");
-    $force || message_input_($p . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
+    $force || message_input($p . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 17;
 }
 
 my $exit_code = urpm::main_loop::run($urpm, $state, 
@@ -637,7 +637,7 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 	    1;
 	} else {
 	    my $msg2 = N("Press Enter when mounted...");
-	    defined message_input_("$msg\n$msg2 ");
+	    defined message_input("$msg\n$msg2 ");
 	}
     }) : ()),
     trans_log => &urpm::download::sync_logger,

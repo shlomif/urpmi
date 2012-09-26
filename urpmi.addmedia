@@ -132,7 +132,7 @@ if ($options{distrib}) {
 	    my ($medianame, $add_by_default) = @_;
 	    my $yesexpr = N("Yy");
 	    $add_by_default = 1 if $options{allmedia};
-	    my $answer = message_input_(
+	    my $answer = message_input(
 		N("\nDo you want to add media '%s'?", $medianame) . ($add_by_default ? N(" (Y/n) ") : N(" (y/N) ")),
 		boolean => 1,
 	    );
