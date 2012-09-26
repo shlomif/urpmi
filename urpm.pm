@@ -411,12 +411,6 @@ sub extract_packages_to_install {
     \%inst;
 }
 
-#- deprecated
-sub install { require urpm::install; &urpm::install::install }
-
-#- deprecated
-sub parallel_remove { &urpm::parallel::remove }
-
 #- get reason of update for packages to be updated
 #- use all update medias if none given
 sub get_updates_description {
