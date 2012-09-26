@@ -359,7 +359,7 @@ sub select_replacepkgs {
 
     my $db = urpm::db_open_or_die_($urpm);
     foreach my $id (keys %$requested) {
-	my @pkgs = $urpm->find_candidate_packages_($id);
+	my @pkgs = $urpm->find_candidate_packages($id);
 	if (my ($pkg) = grep { URPM::is_package_installed($db, $_) } @pkgs) {
 		$urpm->{debug_URPM}("selecting replacepkg " . $pkg->fullname) if $urpm->{debug_URPM};
 		$pkg->set_flag_requested;
