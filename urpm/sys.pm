@@ -65,16 +65,6 @@ sub find_a_mntpoint {
     _find_a_mntpoint($dir, {});
 }
 
-# deprecated
-sub find_mntpoints {
-    my ($dir, $infos) = @_;
-    if (my $entry = _find_a_mntpoint($dir, $infos)) {
-	$entry->{mntpoint};
-    } else {
-	();
-    }
-}
-
 sub read_mtab() { _read_fstab_or_mtab('/etc/mtab') }
 
 #- find used mount point from a pathname
