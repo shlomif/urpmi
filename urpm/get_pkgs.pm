@@ -157,14 +157,6 @@ sub _create_old_list_from_blists {
     } @$media ];
 }
 
-# deprecated, use selected2local_and_blists() instead
-sub selected2list {
-    my ($urpm, $selected, %options) = @_;
-
-    my ($local_sources, $blists) = selected2local_and_blists($urpm, $selected, %options);
-    ($local_sources, _create_old_list_from_blists($urpm->{media}, $blists));
-}
-
 sub verify_partial_rpm_and_move {
     my ($urpm, $cachedir, $filename) = @_;
 
