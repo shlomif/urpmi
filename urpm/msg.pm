@@ -14,7 +14,7 @@ BEGIN {
 }
 
 our @ISA = 'Exporter';
-our @EXPORT = qw(N N_ P translate bug_log message_input message_input_ toMb formatXiB sys_log);
+our @EXPORT = qw(N N_ P translate bug_log message_input_ toMb formatXiB sys_log);
 
 #- I18N.
 use Locale::gettext;
@@ -104,9 +104,6 @@ sub ask_yes_or_no {
     my ($msg) = @_;
     message_input_($msg . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/;
 }
-
-#- deprecated, use message_input_() instead
-sub message_input { &_message_input }
 
 sub message_input_ {
     my ($msg, %o_opts) = @_;
