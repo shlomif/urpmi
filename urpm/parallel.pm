@@ -235,8 +235,7 @@ sub _simple_resolve_dependencies {
     foreach (keys %$requested) {
 	if (/\|/) {
 	    #- taken from URPM::Resolve to filter out choices, not complete though.
-	    my $packages = $urpm->find_candidate_packages($_);
-	    foreach (values %$packages) {
+	    foreach ($urpm->find_candidate_packages_($_)) {
 		my ($best_requested, $best);
 		foreach (@$_) {
 		    exists $state->{selected}{$_->id} and $best_requested = $_, last;
