@@ -235,7 +235,8 @@ sub _simple_resolve_dependencies {
     foreach (keys %$requested) {
 	if (/\|/) {
 	    #- taken from URPM::Resolve to filter out choices, not complete though.
-	    foreach ($urpm->find_candidate_packages($_)) {
+	    my @packages = $urpm->find_candidate_packages($_);
+	    foreach (@packages) {
 		my ($best_requested, $best);
 		foreach (@$_) {
 		    exists $state->{selected}{$_->id} and $best_requested = $_, last;
@@ -254,7 +255,7 @@ sub _simple_resolve_dependencies {
 		$_ = $best_requested || $best;
 	    }
 	    #- simplified choice resolution.
-	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ values %$packages ]);
+	    my $choice = $options{callback_choices}->($urpm, undef, $state, \@packages);
 	    if ($choice) {
 		push @pkgs, $choice;
 	    }
