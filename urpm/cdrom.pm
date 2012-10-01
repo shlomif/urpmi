@@ -53,7 +53,7 @@ sub _look_for_mounted_cdrom_in_mtab() {
 }
 
 #- side-effects:
-#-   + those of _try_mounting_cdrom_using_hal ($urpm->{cdrom_mounted}, "hal_mount")
+#-   + those of _try_mounting_cdrom_using_udisks ($urpm->{cdrom_mounted}, "hal_mount")
 #-   + those of _find_blist_matching ($blists->[_]{medium}{mntpoint})
 sub try_mounting_cdrom {
     my ($urpm, $blists) = @_;
@@ -65,14 +65,14 @@ sub try_mounting_cdrom {
     @blists = map { _find_blist_matching($urpm, $blists, $_) } @mntpoints;
 
     if (!@blists) {
-	@mntpoints = _try_mounting_cdrom_using_hal($urpm);
+	@mntpoints = _try_mounting_cdrom_using_udisks($urpm);
 	@blists = map { _find_blist_matching($urpm, $blists, $_) } @mntpoints;
     }
     @blists;
 }
 
 #- side-effects: $urpm->{cdrom_mounted}, "hal_mount"
-sub _try_mounting_cdrom_using_hal {
+sub _try_mounting_cdrom_using_udisks {
     my ($urpm) = @_;
 
     $urpm->{cdrom_mounted} = {}; # reset
