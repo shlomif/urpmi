@@ -79,14 +79,14 @@ sub _try_mounting_cdrom_using_udisks {
 
     eval { require Hal::Cdroms; 1 } or $urpm->{error}(10, N("You must mount CD-ROM yourself (or install perl-Hal-Cdroms to have it done automatically)")), return();
 
-    my $hal_cdroms = eval { Hal::Cdroms->new } or $urpm->{fatal}(10, N("Udisks daemon (udisks-daemon) is not running or not ready"));
+    my $cdroms = eval { Hal::Cdroms->new } or $urpm->{fatal}(10, N("Udisks daemon (udisks-daemon) is not running or not ready"));
 
-    foreach my $udisks_path ($hal_cdroms->list) {
-	my $mntpoint = $hal_cdroms->get_mount_point($udisks_path);
+    foreach my $udisks_path ($cdroms->list) {
+	my $mntpoint = $cdroms->get_mount_point($udisks_path);
 	if (!$mntpoint) {
 	    $urpm->{log}("trying to mount $udisks_path");
-	    $mntpoint = $hal_cdroms->ensure_mounted($udisks_path)
-	      or $urpm->{error}("failed to mount $udisks_path: $hal_cdroms->{error}"), next;
+	    $mntpoint = $cdroms->ensure_mounted($udisks_path)
+	      or $urpm->{error}("failed to mount $udisks_path: $cdroms->{error}"), next;
 	}
 	$urpm->{cdrom_mounted}{$udisks_path} = $mntpoint;
     }
@@ -137,14 +137,14 @@ sub _eject_cdrom {
 
     eval { require Hal::Cdroms; 1 } or return;
 
-    my $hal_cdroms = Hal::Cdroms->new;
-    $hal_cdroms->unmount($udisks_path) or do {
-	my $mntpoint = $hal_cdroms->get_mount_point($udisks_path);
+    my $cdroms = Hal::Cdroms->new;
+    $cdroms->unmount($udisks_path) or do {
+	my $mntpoint = $cdroms->get_mount_point($udisks_path);
 	#- trying harder. needed when the cdrom was not mounted by hal
 	$mntpoint && system("umount '$mntpoint' 2>/dev/null") == 0
-	  or $urpm->{error}("failed to umount $udisks_path: $hal_cdroms->{error}");
+	  or $urpm->{error}("failed to umount $udisks_path: $cdroms->{error}");
     };
-    $hal_cdroms->eject($udisks_path);
+    $cdroms->eject($udisks_path);
     1;
 }
 
