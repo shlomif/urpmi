@@ -60,7 +60,7 @@ sub try_mounting_cdrom {
 
     my @blists;
 
-    # first try without hal, it allows users where hal fails to work (with one CD only)
+    # first try without UDisks, it allows users where UDisks fails to work (with one CD only)
     my @mntpoints = _look_for_mounted_cdrom_in_mtab();
     @blists = map { _find_blist_matching($urpm, $blists, $_) } @mntpoints;
 
@@ -140,7 +140,7 @@ sub _eject_cdrom {
     my $cdroms = Hal::Cdroms->new;
     $cdroms->unmount($udisks_path) or do {
 	my $mntpoint = $cdroms->get_mount_point($udisks_path);
-	#- trying harder. needed when the cdrom was not mounted by hal
+	#- trying harder. needed when the cdrom was not mounted by UDisks
 	$mntpoint && system("umount '$mntpoint' 2>/dev/null") == 0
 	  or $urpm->{error}("failed to umount $udisks_path: $cdroms->{error}");
     };
