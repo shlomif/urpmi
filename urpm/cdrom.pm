@@ -81,14 +81,14 @@ sub _try_mounting_cdrom_using_hal {
 
     my $hal_cdroms = eval { Hal::Cdroms->new } or $urpm->{fatal}(10, N("Udisks daemon (udisks-daemon) is not running or not ready"));
 
-    foreach my $hal_path ($hal_cdroms->list) {
-	my $mntpoint = $hal_cdroms->get_mount_point($hal_path);
+    foreach my $udisks_path ($hal_cdroms->list) {
+	my $mntpoint = $hal_cdroms->get_mount_point($udisks_path);
 	if (!$mntpoint) {
-	    $urpm->{log}("trying to mount $hal_path");
-	    $mntpoint = $hal_cdroms->ensure_mounted($hal_path)
-	      or $urpm->{error}("failed to mount $hal_path: $hal_cdroms->{error}"), next;
+	    $urpm->{log}("trying to mount $udisks_path");
+	    $mntpoint = $hal_cdroms->ensure_mounted($udisks_path)
+	      or $urpm->{error}("failed to mount $udisks_path: $hal_cdroms->{error}"), next;
 	}
-	$urpm->{cdrom_mounted}{$hal_path} = $mntpoint;
+	$urpm->{cdrom_mounted}{$udisks_path} = $mntpoint;
     }
     values %{$urpm->{cdrom_mounted}};
 }
@@ -130,21 +130,21 @@ sub _may_eject_cdrom {
 
 #- side-effects: $urpm->{cdrom_mounted}, "hal_umount", "hal_eject"
 sub _eject_cdrom {
-    my ($urpm, $hal_path) = @_;
+    my ($urpm, $udisks_path) = @_;
 
-    my $mntpoint = delete $urpm->{cdrom_mounted}{$hal_path};
-    $urpm->{debug} and $urpm->{debug}("umounting and ejecting $mntpoint (cdrom $hal_path)");
+    my $mntpoint = delete $urpm->{cdrom_mounted}{$udisks_path};
+    $urpm->{debug} and $urpm->{debug}("umounting and ejecting $mntpoint (cdrom $udisks_path)");
 
     eval { require Hal::Cdroms; 1 } or return;
 
     my $hal_cdroms = Hal::Cdroms->new;
-    $hal_cdroms->unmount($hal_path) or do {
-	my $mntpoint = $hal_cdroms->get_mount_point($hal_path);
+    $hal_cdroms->unmount($udisks_path) or do {
+	my $mntpoint = $hal_cdroms->get_mount_point($udisks_path);
 	#- trying harder. needed when the cdrom was not mounted by hal
 	$mntpoint && system("umount '$mntpoint' 2>/dev/null") == 0
-	  or $urpm->{error}("failed to umount $hal_path: $hal_cdroms->{error}");
+	  or $urpm->{error}("failed to umount $udisks_path: $hal_cdroms->{error}");
     };
-    $hal_cdroms->eject($hal_path);
+    $hal_cdroms->eject($udisks_path);
     1;
 }
 
