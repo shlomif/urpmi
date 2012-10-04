@@ -411,6 +411,19 @@ sub extract_packages_to_install {
     \%inst;
 }
 
+#- deprecated, use find_candidate_packages_() directly
+#-
+#- side-effects: none
+sub find_candidate_packages_ {
+    my ($urpm, $id_prop) = @_;
+
+    my %packages;
+    foreach ($urpm->find_candidate_packages($id_prop)) {
+	push @{$packages{$_->name}}, $_;
+    }
+    values %packages;
+}
+
 #- get reason of update for packages to be updated
 #- use all update medias if none given
 sub get_updates_description {
