@@ -235,7 +235,7 @@ sub _simple_resolve_dependencies {
     foreach (keys %$requested) {
 	if (/\|/) {
 	    #- taken from URPM::Resolve to filter out choices, not complete though.
-	    my @packages = $urpm->find_candidate_packages($_);
+	    my @packages = $urpm->find_candidate_packages_($_);
 	    foreach (@packages) {
 		my ($best_requested, $best);
 		foreach (@$_) {

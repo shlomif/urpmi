@@ -313,7 +313,7 @@ if ($options{list_aliases}) {
 	    #- finally conflicts that will force a new upgrade or a remove.
 	    while (defined ($dep = shift @properties)) {
 		#- take the best package for each choices of same name.
-		foreach ($urpm->find_candidate_packages($dep)) {
+		foreach ($urpm->find_candidate_packages_($dep)) {
 		    my ($best_requested, $best);
 		    foreach (@$_) {
 			if ($best_requested || exists $requested{$_->id}) {
