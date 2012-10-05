@@ -79,6 +79,8 @@ B<media>: [ {
    unknown_media_info => bool, 
  } ],
 
+All C<URPM> methods are available on an urpm object.
+
 =cut
 
 sub new {
