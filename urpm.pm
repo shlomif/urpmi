@@ -330,6 +330,12 @@ sub is_cdrom_url {
     protocol_from_url($url) eq 'cdrom';
 }
 
+=item db_open_or_die($urpm, $b_write_perm)
+
+Open RPM database (RW or not) and die if it fails
+
+=cut
+
 sub db_open_or_die_ {
     my ($urpm, $b_write_perm) = @_;
     my $db;
