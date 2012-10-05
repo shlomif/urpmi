@@ -352,16 +352,6 @@ my %options_spec = (
 	'verify-rpm!' => sub { ${options}{'verify-rpm'} = $_[1] },
     },
 
-    'urpmi.recover' => {
-	'list=s' => \$::listdate,
-	'list-all' => sub { $::listdate = -1 },
-	'list-safe' => sub { $::listdate = 'checkpoint' },
-	checkpoint => \$::do_checkpoint,
-	'rollback=s' => \$::rollback,
-	noclean => \$::noclean,
-	disable => \$::disable,
-    },
-
 );
 
 # generate urpmf options callbacks
