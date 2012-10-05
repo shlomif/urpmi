@@ -26,6 +26,22 @@ our $postponed_code = 0;
 use URPM;
 use URPM::Resolve;
 
+
+=head1 NAME
+
+urpm - Mageia perl tools to handle the urpmi database
+
+=head1 DESCRIPTION
+
+C<urpm> is used by urpmi executables to manipulate packages and media
+on a Mageia Linux distribution.
+
+=head2 The urpm class
+
+=over 4
+
+=cut
+
 #- this violently overrides is_arch_compat() to always return true.
 sub shunt_ignorearch {
     eval q( sub URPM::Package::is_arch_compat { 1 } );
@@ -47,7 +63,24 @@ sub default_options {
     };
 }
 
-#- create a new urpm object.
+=item urpm->new()
+
+The constructor creates a new urpm object. It's a blessed hash that
+contains fields from L<URPM>, and also the following fields:
+
+B<source>: { id => src_rpm_file|spec_file }
+
+B<media>: [ { 
+   start => int, end => int, name => string, url => string,
+   virtual => bool, media_info_dir => string, with_synthesis => string,
+   no-media-info => bool,
+   iso => string, downloader => string,
+   ignore => bool, update => bool, modified => bool, really_modified => bool,
+   unknown_media_info => bool, 
+ } ],
+
+=cut
+
 sub new {
     my ($class) = @_;
     my $self;
@@ -467,35 +500,6 @@ sub DESTROY {}
 1;
 
 __END__
-
-=head1 NAME
-
-urpm - Mageia perl tools to handle the urpmi database
-
-=head1 DESCRIPTION
-
-C<urpm> is used by urpmi executables to manipulate packages and media
-on a Mageia Linux distribution.
-
-=head2 The urpm class
-
-=over 4
-
-=item urpm->new()
-
-The constructor creates a new urpm object. It's a blessed hash that
-contains fields from L<URPM>, and also the following fields:
-
-B<source>: { id => src_rpm_file|spec_file }
-
-B<media>: [ { 
-   start => int, end => int, name => string, url => string,
-   virtual => bool, media_info_dir => string, with_synthesis => string,
-   no-media-info => bool,
-   iso => string, downloader => string,
-   ignore => bool, update => bool, modified => bool, really_modified => bool,
-   unknown_media_info => bool, 
- } ],
 
 =back
 
