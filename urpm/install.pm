@@ -167,7 +167,6 @@ sub options {
     (
 	excludepath => $urpm->{options}{excludepath},
 	excludedocs => $urpm->{options}{excludedocs},
-	repackage   => $urpm->{options}{repackage},
 	post_clean_cache => $urpm->{options}{'post-clean'},
 	nosize => $urpm->{options}{ignoresize},
 	ignorearch => $urpm->{options}{ignorearch},
@@ -185,7 +184,7 @@ options:
      callback_inst, callback_trans, callback_report_uninst,
      post_clean_cache, verbose
   (more options for trans->run)
-     excludedocs, nosize, noscripts, oldpackage, repackage, replacepkgs, justdb, ignorearch
+     excludedocs, nosize, noscripts, oldpackage, replacepkgs, justdb, ignorearch
 
 =cut
 

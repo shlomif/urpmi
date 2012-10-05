@@ -184,7 +184,6 @@ sub load_config_raw {
 	    |keep
 	    |ignoresize
 	    |auto
-	    |repackage
 	    |strict-arch
 	    |nopubkey
 	    |resume)(?:\s*:\s*(.*))?$/x

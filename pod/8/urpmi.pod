@@ -349,18 +349,6 @@ architecture of the host. This is equivalent to C<rpm --ignorearch>.
 Don't check file systems for sufficient disk space before installation.
 This is equivalent to C<rpm --ignoresize>.
 
-=item B<--repackage>
-
-Save previous state of upgraded packages; in other words, save the old
-rpms (usually in F</var/spool/repackage>, but you can override this with
-an rpm macro.) This is equivalent to providing the B<--repackage> flag to
-rpm.
-
-I<Note:> if you use C<urpmi.recover> to set up a repackage policy, you
-don't need this option, because C<urpmi.recover> will globally override
-the appropriate rpm macro that enables repacking of all rpm transactions
-system-wide.
-
 =item B<--noscripts>
 
 Don't execute the scriptlets.

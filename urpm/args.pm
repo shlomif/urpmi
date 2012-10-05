@@ -178,7 +178,6 @@ my %options_spec = (
 	'ignorearch' => sub { $urpm->{options}{ignorearch} = 1 },
 	noscripts => sub { $urpm->{options}{noscripts} = 1 },
 	replacefiles => sub { $urpm->{options}{replacefiles} = 1 },
-	repackage => sub { $urpm->{options}{repackage} = 1 },
 	'more-choices' => sub { $urpm->{options}{morechoices} = 1 },
 	'expect-install!' => \$::urpm::main_loop::expect_install,
 	'nolock' => \$options{nolock},
@@ -407,7 +406,7 @@ foreach my $k ('allow-medium-change', 'auto', 'auto-select', 'clean', 'download-
 $options_spec{gurpmi2} = $options_spec{gurpmi};
 
 foreach my $k ("test!", "force", "root=s", "use-distrib=s", 'env=s',
-    'repackage', 'noscripts', 'auto', 'auto-orphans', 'justdb',
+    'noscripts', 'auto', 'auto-orphans', 'justdb',
     "parallel=s")
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
