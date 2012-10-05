@@ -538,6 +538,15 @@ __END__
 The C<URPM> package is used to manipulate at a lower level synthesis and rpm
 files.
 
+See also submodules: L<urpm::args>, L<urpm::bug_report>,
+L<urpm::cdrom>, L<urpm::cfg>, L<urpm::download>, L<urpm::get_pkgs>,
+L<urpm::install>, L<urpm::ldap>, L<urpm::lock>, L<urpm::main_loop>,
+L<urpm::md5sum>, L<urpm::media>, L<urpm::mirrors>, L<urpm::msg>,
+L<urpm::orphans>, L<urpm::parallel_ka_run>, L<urpm::parallel>,
+L<urpm::parallel_ssh>, L<urpm::prompt>, L<urpm::removable>,
+L<urpm::select>, L<urpm::signature>, L<urpm::sys>, L<urpm::util>,
+L<urpm::xml_info_pkg>, L<urpm::xml_info>
+
 =head1 COPYRIGHT
 
 Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 MandrakeSoft SA
