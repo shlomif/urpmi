@@ -535,7 +535,7 @@ __END__
 
 =head1 SEE ALSO
 
-The C<URPM> package is used to manipulate at a lower level synthesis and rpm
+The L<URPM> package is used to manipulate at a lower level synthesis and rpm
 files.
 
 See also submodules: L<urpm::args>, L<urpm::bug_report>,
