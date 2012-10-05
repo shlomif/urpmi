@@ -353,7 +353,12 @@ sub db_open_or_die {
     $db;
 }
 
-#- register local packages for being installed, keep track of source.
+=item register_rpms($urpm, @files)
+
+Register local packages for being installed, keep track of source.
+
+=cut
+
 sub register_rpms {
     my ($urpm, @files) = @_;
     my ($start, $id, $error, %requested);
@@ -408,10 +413,15 @@ sub register_rpms {
     %requested;
 }
 
-#- checks whether the delta RPM represented by $pkg is installable wrt the
-#- RPM DB on $root. For this, it extracts the rpm version to which the
-#- delta applies from the delta rpm filename itself. So naming conventions
-#- do matter :)
+=item is_delta_installable($urpm, $pkg, $root)
+
+checks whether the delta RPM represented by $pkg is installable wrt the
+RPM DB on $root. For this, it extracts the rpm version to which the
+delta applies from the delta rpm filename itself. So naming conventions
+do matter :)
+
+=cut
+
 sub is_delta_installable {
     my ($urpm, $pkg, $root) = @_;
     $pkg->flag_installed or return 0;
@@ -427,10 +437,17 @@ sub is_delta_installable {
     $v_match eq $v_installed;
 }
 
-#- extract package that should be installed instead of upgraded,
-#- installing instead of upgrading is useful
-#- - for inst.list (cf flag disable_obsolete)
-#- sources is a hash of id -> source rpm filename.
+
+=item extract_packages_to_install($urpm, $sources)
+
+Extract package that should be installed instead of upgraded,
+installing instead of upgrading is useful
+- for inst.list (cf flag disable_obsolete)
+
+Sources is a hash of id -> source rpm filename.
+
+=cut
+
 sub extract_packages_to_install {
     my ($urpm, $sources) = @_;
     my %inst;
@@ -457,8 +474,13 @@ sub find_candidate_packages_ {
     values %packages;
 }
 
-#- get reason of update for packages to be updated
-#- use all update medias if none given
+=item get_updates_description($urpm, @update_medias)
+
+Get reason of update for packages to be updated.
+Use all update medias if none given.
+
+=cut
+
 sub get_updates_description {
     my ($urpm, @update_medias) = @_;
     my %update_descr;
