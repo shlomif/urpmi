@@ -152,7 +152,7 @@ sub configure_urpm() {
 	}
 	my $nb_lines = $message =~ tr/\n/\n/;
 	my $w;
-	if ($nb_lines > 30) {
+	if ($nb_lines > 30 || $message =~ /^transaction is too small/) {
 	    $w  = Gtk2::Dialog->new(N("Warning"), $mainw, [qw(modal destroy-with-parent)], N("Ok"), 'ok');
 	    $w->vbox->add(my $f = Gtk2::Frame->new);
 	    my $sw = create_scrolled_window(my $text = Gtk2::TextView->new);
