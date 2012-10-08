@@ -157,6 +157,7 @@ sub configure_urpm() {
 	    $w->vbox->add(my $f = Gtk2::Frame->new);
 	    my $sw = create_scrolled_window(my $text = Gtk2::TextView->new);
 	    $sw->set_border_width(2);
+	    $text->set_wrap_mode('word');
 	    $f->add($sw);
 	    $text->get_buffer->set_text($message);
 	    $text->set_editable(0);
