@@ -143,7 +143,7 @@ sub check_dir {
     -o $dir && -w $dir or $urpm->{fatal}(1, N("invalid owner for directory %s", $dir));
 }
 
-sub init_cache_dir {
+sub init_dir {
     my ($urpm, $dir) = @_;
 
     mkdir $dir, 0755; # try to create it
@@ -165,7 +165,7 @@ sub userdir {
     $< or return;
 
     my $dir = ($urpm->{urpmi_root} || '') . userdir_prefix($urpm) . $<;
-    init_cache_dir($urpm, $dir);
+    init_dir($urpm, $dir);
 }
 sub ensure_valid_cachedir {
     my ($urpm) = @_;
