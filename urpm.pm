@@ -159,6 +159,15 @@ sub userdir_prefix {
     my ($_urpm) = @_;
     '/tmp/.urpmi-';
 }
+
+sub valid_statedir {
+    my ($urpm) = @_;
+    $< or return;
+
+    my $dir = ($urpm->{urpmi_root} || '') . userdir_prefix($urpm) . $< . "/lib";
+    init_dir($urpm, $dir);
+}
+
 sub userdir {
     #mdkonline uses userdir because it runs as user
     my ($urpm) = @_;
