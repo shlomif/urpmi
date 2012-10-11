@@ -155,6 +155,7 @@ sub init_dir {
 
     $dir;
 }
+
 sub userdir_prefix {
     my ($_urpm) = @_;
     '/tmp/.urpmi-';
@@ -176,6 +177,7 @@ sub userdir {
     my $dir = ($urpm->{urpmi_root} || '') . userdir_prefix($urpm) . $<;
     init_dir($urpm, $dir);
 }
+
 sub ensure_valid_cachedir {
     my ($urpm) = @_;
     if (my $dir = userdir($urpm)) {
@@ -183,6 +185,7 @@ sub ensure_valid_cachedir {
     }
     -w "$urpm->{cachedir}/partial" or $urpm->{fatal}(1, N("Can not download packages into %s", "$urpm->{cachedir}/partial"));
 }
+
 sub valid_cachedir {
     my ($urpm) = @_;
     userdir($urpm) || $urpm->{cachedir};
