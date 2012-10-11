@@ -169,7 +169,12 @@ my %options_spec = (
 	'skip=s' => \$options{skip},
 	'prefer=s' => \$options{prefer},
  	'root=s' => sub { set_root($urpm, $_[1]) },
-	'use-distrib=s' => \$options{usedistrib},
+	'use-distrib=s' => sub {
+	    $options{usedistrib} = $_[1];
+	    return if !$>;
+	    $urpm->{cachedir} = $urpm->valid_cachedir;
+	    $urpm->{statedir} = $urpm->valid_statedir;
+	},
 	'probe-synthesis' => sub { $options{probe_with} = 'synthesis' },
 	'probe-hdlist' => sub { $options{probe_with} = 'synthesis' }, #- ignored, kept for compatibility
 	'excludepath|exclude-path=s' => sub { $urpm->{options}{excludepath} = $_[1] },
