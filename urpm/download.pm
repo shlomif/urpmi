@@ -706,7 +706,7 @@ sub sync_aria2 {
 	'--metalink-enable-unique-protocol=false', # so that it can try both ftp and http access on the same server. aria2 will only do this on first calls
 	'--max-tries=1', # nb: not using $options->{retry}
 	'--lowest-speed-limit=20K', "--timeout", 3,
-        '--metalink-servers=3', # maximum number of servers to use for one download
+        '--split=3', # maximum number of servers to use for one download
         '--uri-selector=adaptive', "--server-stat-if=$stat_file", "--server-stat-of=$stat_file",
         $options->{is_versioned} ? @{[]} : '--max-file-not-found=3', # number of not found errors on different servers before aborting file download
         '--connect-timeout=6', # $CONNECT_TIMEOUT,
