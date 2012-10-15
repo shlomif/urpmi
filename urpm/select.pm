@@ -147,15 +147,16 @@ sub _search_packages {
 
 	if (!$options{fuzzy}) {
 	    #- try to search through provides.
-	    if (my @l = map {
+	    my @l = map {
 		    $_
 		    && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat)
 		    && ($options{use_provides} || $_->name eq $v)
 		    && defined($_->id)
 		    && (!$urpm->{searchmedia} || pkg_in_searchmedia($urpm, $_))
 		    ? $_ : @{[]};
-		} $urpm->packages_providing($v))
-	    {
+	    } $urpm->packages_providing($v);
+
+	    if (@l) {
 		$exact{$v} = _search_packages_keep_best($v, \@l, $options{all});
 		next;
 	    }
