@@ -372,7 +372,7 @@ sub _kernel_callback {
     # only consider kernels (and not main 'kernel' package):
     # but perform a pass on their requires for dkms like packages that require a specific kernel:
     if ($shortname !~ /kernel-/) {
-	foreach (grep { /kernel/ } $pkg->requires) {
+	foreach (grep { /kernel/ } $pkg->requires_nosense) {
 	    $requested_kernels{$_}{$shortname} = $pkg;
 	}
 	return;
