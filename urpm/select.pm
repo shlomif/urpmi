@@ -105,7 +105,7 @@ Recognized options:
 
 =item * fuzzy
 
-=item * no_substring
+=item * no_substring: in --auto, do not allow to install a package substring match (you can use -a to force it)
 
 =item * src
 
