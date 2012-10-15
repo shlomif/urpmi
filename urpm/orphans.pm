@@ -384,7 +384,7 @@ sub _kernel_callback {
     # ignore requested kernels (aka that are not in /var/lib/rpm/installed-through-deps.list)
     return if !$unreq_list->{$shortname} && $shortname !~ /latest/;
 
-    # keep track of latest kernels in order not to try removing requested kernels:
+    # keep track of packages required by latest kernels in order not to try removing requested kernels:
     if ($n =~ /latest/) {
         push @latest_kernels, $pkg->requires;
     } else {
