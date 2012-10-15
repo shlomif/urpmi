@@ -363,7 +363,7 @@ sub _get_current_kernel_package() {
 # do not care about (eg: kernel-devel, kernel-firmware, kernel-latest)
 # so it's useless to look at them
 #
-my (@latest_kernels, %requested_kernels, %kernels);
+my (@req_by_latest_kernels, %requested_kernels, %kernels);
 sub _kernel_callback { 
     my ($pkg, $unreq_list) = @_;
     my $shortname = $pkg->name;
@@ -386,7 +386,7 @@ sub _kernel_callback {
 
     # keep track of packages required by latest kernels in order not to try removing requested kernels:
     if ($n =~ /latest/) {
-        push @latest_kernels, $pkg->requires;
+        push @req_by_latest_kernels, $pkg->requires;
     } else {
         $kernels{$shortname} = $pkg;
     }
@@ -396,7 +396,7 @@ sub _kernel_callback {
 # - returns list of orphan kernels
 sub _get_orphan_kernels() {
     # keep kernels required by kernel-*-latest:
-    delete $kernels{$_} foreach @latest_kernels;
+    delete $kernels{$_} foreach @req_by_latest_kernels;
     # return list of unused/orphan kernels:
     %kernels;
 }
