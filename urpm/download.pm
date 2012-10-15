@@ -93,13 +93,6 @@ sub preferred_downloader {
 	    $urpm->{log}(N("%s is not available, falling back on %s", $requested_downloader, $preferred));
 	}
     }
-    # in some cases, we may want not to use metalink (aria2) since it can 
-    # cause issues, see #53434 for example
-    if ($metalink_disabled && member($preferred, @metalink_downloaders)) {
-	$urpm->{log}("not using $preferred since metalink has been disabled");
-	my @no_metalink = urpm::util::difference2(\@available, \@metalink_downloaders);
-	$preferred = $no_metalink[0];
-    }
 
     if ($$use_metalink && !member($preferred, @metalink_downloaders)) {
 	$warned{not_using_metalink}++ or 
@@ -699,19 +692,24 @@ sub sync_aria2 {
 
     my $aria2c_command = join(" ", map { "'$_'" }
 	"/usr/bin/aria2c", $options->{debug} ? ('--log', "$options->{dir}/.aria2.log") : @{[]},
-	"--auto-file-renaming=false",
+	'--auto-file-renaming=false',
 	'--ftp-pasv',
-	"--follow-metalink=mem",
+	'--summary-interval=0',
+	'--follow-metalink=mem',
       $medium->{mirrorlist} ? (
-	'--metalink-enable-unique-protocol=false', # so that it can try both ftp and http access on the same server. aria2 will only do this on first calls
-	'--max-tries=1', # nb: not using $options->{retry}
+	'--metalink-enable-unique-protocol=true', # do not try to connect to the same server using the same protocol
+	 '--metalink-preferred-protocol=http', # try http as first protocol as they're stateless and
+	                                       # will put less strain on ie. the ftp servers which connections
+	                                       # are statefull for, causing unhappy mirror admins complaining
+	                                       # about increase of connections, increasing resource usage.
+	'--max-tries=5', # nb: not using $options->{retry}
 	'--lowest-speed-limit=20K', "--timeout", 3,
         '--split=3', # maximum number of servers to use for one download
         '--uri-selector=adaptive', "--server-stat-if=$stat_file", "--server-stat-of=$stat_file",
-        $options->{is_versioned} ? @{[]} : '--max-file-not-found=3', # number of not found errors on different servers before aborting file download
+        $options->{is_versioned} ? @{[]} : '--max-file-not-found=9', # number of not found errors on different servers before aborting file download
         '--connect-timeout=6', # $CONNECT_TIMEOUT,
       ) : @{[]},
-	"-Z", "-j1",
+	'-Z', '-j1',
 	($options->{'limit-rate'} ? "--max-download-limit=" . $options->{'limit-rate'} : @{[]}),
 	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
 	($options->{proxy} ? set_proxy({ type => "aria2", proxy => $options->{proxy} }) : @{[]}),
