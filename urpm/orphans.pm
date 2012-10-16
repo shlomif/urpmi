@@ -398,7 +398,7 @@ sub _get_orphan_kernels() {
     # keep kernels required by kernel-*-latest:
     delete $kernels{$_} foreach @req_by_latest_kernels;
     # return list of unused/orphan kernels:
-    %kernels;
+    \%kernels;
 }
 
 
@@ -432,7 +432,7 @@ sub _all_unrequested_orphans {
     }
 
     # add orphan kernels to the list:
-    my $a = { _get_orphan_kernels() };
+    my $a = _get_orphan_kernels();
     add2hash_(\%l, $a);
 
     # add packages that require orphan kernels to the list:
