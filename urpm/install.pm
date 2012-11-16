@@ -174,39 +174,8 @@ sub options {
     );
 }
 
-=item install($urpm, $remove, $install, $upgrade, %options)
-
-Install packages according to each hash (remove, install or upgrade).
-
-options: 
-     test, excludepath, nodeps, noorder (unused), delta, 
-     callback_inst, callback_trans, callback_report_uninst,
-     post_clean_cache, verbose
-  (more options for trans->run)
-     excludedocs, nosize, noscripts, oldpackage, replacepkgs, justdb, ignorearch
-
-=cut
-
-sub install {
-    my ($urpm, $remove, $install, $upgrade, %options) = @_;
-    $options{translate_message} = 1;
-
-    my $db = urpm::db_open_or_die_($urpm, !$options{test}); #- open in read/write mode unless testing installation.
-
-    my $trans = $db->create_transaction;
-    if ($trans) {
-	sys_log("transaction on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/', scalar(@{$remove || []}), scalar(values %$install), scalar(values %$upgrade));
-	$urpm->{log}(N("created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/',
-		       scalar(@{$remove || []}), scalar(values %$install), scalar(values %$upgrade)));
-    } else {
-	return N("unable to create transaction");
-    }
-
-    $trans->set_script_fd($options{script_fd}) if $options{script_fd};
-
-    my ($update, @errors) = 0;
-    my @produced_deltas;
-
+sub _schedule_packages_for_erasing {
+    my ($urpm, $trans, $remove) = @_;
     foreach (@$remove) {
 	if ($trans->remove($_)) {
 	    $urpm->{debug} and $urpm->{debug}("trans: scheduling removal of $_");
@@ -214,8 +183,11 @@ sub install {
 	    $urpm->{error}("unable to remove package " . $_);
 	}
     }
+}
 
-    my @trans_pkgs;
+sub _schedule_packages {
+    my ($urpm, $trans, $install, $upgrade, $update, %options) = @_;
+    my (@trans_pkgs, @produced_deltas);
     foreach my $mode ($install, $upgrade) {
 	foreach (keys %$mode) {
 	    my $pkg = $urpm->{depslist}[$_];
@@ -247,6 +219,44 @@ sub install {
 	}
 	++$update;
     }
+    \@produced_deltas, @trans_pkgs;
+}
+
+=item install($urpm, $remove, $install, $upgrade, %options)
+
+Install packages according to each hash (remove, install or upgrade).
+
+options: 
+     test, excludepath, nodeps, noorder (unused), delta, 
+     callback_inst, callback_trans, callback_report_uninst,
+     post_clean_cache, verbose
+  (more options for trans->run)
+     excludedocs, nosize, noscripts, oldpackage, replacepkgs, justdb, ignorearch
+
+=cut
+
+sub install {
+    my ($urpm, $remove, $install, $upgrade, %options) = @_;
+    $options{translate_message} = 1;
+
+    my $db = urpm::db_open_or_die_($urpm, !$options{test}); #- open in read/write mode unless testing installation.
+
+    my $trans = $db->create_transaction;
+    if ($trans) {
+	sys_log("transaction on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/', scalar(@{$remove || []}), scalar(values %$install), scalar(values %$upgrade));
+	$urpm->{log}(N("created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/',
+		       scalar(@{$remove || []}), scalar(values %$install), scalar(values %$upgrade)));
+    } else {
+	return N("unable to create transaction");
+    }
+
+    $trans->set_script_fd($options{script_fd}) if $options{script_fd};
+
+    my ($update, @errors) = 0;
+
+    _schedule_packages_for_erasing($urpm, $trans, $remove);
+
+    my ($produced_deltas, @trans_pkgs) = _schedule_packages($urpm, $trans, $install, $upgrade, $update, %options);
 
     if (!$options{nodeps} && (@errors = $trans->check(%options))) {
     } elsif (!$options{noorder} && (@errors = $trans->order)) {
@@ -324,7 +334,7 @@ sub install {
 	}
     }
 
-    unlink @produced_deltas;
+    unlink @$produced_deltas;
 
     urpm::sys::may_clean_rpmdb_shared_regions($urpm, $options{test});
 
