@@ -214,6 +214,7 @@ sub install {
 	    $urpm->{error}("unable to remove package " . $_);
 	}
     }
+
     my @trans_pkgs;
     foreach my $mode ($install, $upgrade) {
 	foreach (keys %$mode) {
@@ -247,6 +248,7 @@ sub install {
 	}
 	++$update;
     }
+
     if (!$options{nodeps} && (@errors = $trans->check(%options))) {
     } elsif (!$options{noorder} && (@errors = $trans->order)) {
     } else {
@@ -274,6 +276,7 @@ sub install {
 	    get_README_files($urpm, $trans, $urpm->{depslist}[$pkgid]) if !$is_test;
 	    close $fh if defined $fh;
 	};
+
 	#- ensure perl does not create a circular reference below, otherwise all this won't be collected,
 	#  and rpmdb won't be closed
 	my ($verbose, $callback_report_uninst) = ($options{verbose}, $options{callback_report_uninst});
@@ -293,10 +296,12 @@ sub install {
 		$index++;
 	    }
 	};
+
 	if ($options{verbose} >= 0 && @trans_pkgs) {
 	    $options{callback_inst}  ||= \&install_logger;
 	    $options{callback_trans} ||= \&install_logger;
 	}
+
 	@errors = $trans->run($urpm, %options);
 
 	#- don't clear cache if transaction failed. We might want to retry.
@@ -319,6 +324,7 @@ sub install {
 	    }
 	}
     }
+
     unlink @produced_deltas;
 
     urpm::sys::may_clean_rpmdb_shared_regions($urpm, $options{test});
