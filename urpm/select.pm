@@ -489,9 +489,12 @@ sub find_packages_to_remove {
 			push @m, scalar $p->fullname;
 			$found = 1;
 		    });
-		$found and next;
 
-		push @notfound, $_;
+		if ($found) {
+		    next;
+		} else {
+		    push @notfound, $_;
+		}
 	    }
 	    if (!$options{force} && @notfound && @$l > 1) {
 		$options{callback_notfound} && $options{callback_notfound}->($urpm, @notfound)
