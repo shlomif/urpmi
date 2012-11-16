@@ -187,6 +187,23 @@ sub _schedule_packages_for_erasing {
     }
 }
 
+sub _apply_delta_rpm {
+    my ($urpm, $path, $mode, $pkg) = @_;
+    my $true_rpm = urpm::sys::apply_delta_rpm($path, "$urpm->{cachedir}/rpms", $pkg);
+    my $true_pkg;
+    if ($true_rpm) {
+	if (my ($id) = $urpm->parse_rpm($true_rpm)) {
+	    $true_pkg = defined $id && $urpm->{depslist}[$id];
+	    $mode->{$id} = $true_rpm;
+	} else {
+	    $urpm->{error}("Failed to parse $true_pkg");
+	}
+    } else {
+	$urpm->{error}(N("unable to extract rpm from delta-rpm package %s", $path));
+    }
+    $true_rpm, $true_pkg;
+}
+
 sub _schedule_packages {
     my ($urpm, $trans, $install, $upgrade, $update, %options) = @_;
     my (@trans_pkgs, @produced_deltas);
@@ -194,20 +211,10 @@ sub _schedule_packages {
 	foreach (keys %$mode) {
 	    my $pkg = $urpm->{depslist}[$_];
 	    $pkg->update_header($mode->{$_}, keep_all_tags => 1);
-	    my $true_pkg;
+	    my ($true_rpm, $true_pkg);
 	    if ($pkg->payload_format eq 'drpm') { #- handle deltarpms
-		my $true_rpm = urpm::sys::apply_delta_rpm($mode->{$_}, "$urpm->{cachedir}/rpms", $pkg);
-		if ($true_rpm) {
-		    push @produced_deltas, ($mode->{$_} = $true_rpm); #- fix path
-		    if (my ($id) = $urpm->parse_rpm($true_rpm)) {
-		        $true_pkg = defined $id && $urpm->{depslist}[$id];
-			$mode->{$id} = $true_rpm;
-		    } else {
-			$urpm->{error}("Failed to parse $true_pkg");
-		    }
-		} else {
-		    $urpm->{error}(N("unable to extract rpm from delta-rpm package %s", $mode->{$_}));
-		}
+		($true_rpm, $true_pkg) = _apply_delta_rpm($urpm, $_, $mode, $pkg);
+		push @produced_deltas, ($mode->{$_} = $true_rpm); #- fix path
 	    }
 	    if ($trans->add($true_pkg || $pkg, update => $update,
 		    $options{excludepath} ? (excludepath => [ split /,/, $options{excludepath} ]) : ())) {
