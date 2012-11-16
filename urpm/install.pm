@@ -148,6 +148,8 @@ sub get_README_files {
 		foreach my $i (0 .. $trans->NElements - 1) {
 		    $trans->Element_name($i) eq $pkg->name or next;
 
+		    # handle README.<version>-<release>.upgrade.urpmi:
+		    # the content is displayed when upgrading from rpm older than <version>
 		    my $vr = $trans->Element_version($i) . '-' . $trans->Element_release($i);
 		    if (URPM::ranges_overlap("== $vr", "< $version")) {
 			$valid = 1;
