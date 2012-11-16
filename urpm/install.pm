@@ -238,6 +238,59 @@ sub _schedule_packages {
     \@produced_deltas, @trans_pkgs;
 }
 
+sub _get_callbacks {
+    my ($urpm, $db, $trans, $options, $install, $upgrade, $have_pkgs) = @_;
+    my $index;
+    my $fh;
+
+    my $is_test = $options->{test}; # fix circular reference
+    #- assume default value for some parameter.
+    $options->{delta} ||= 1000;
+
+    #- ensure perl does not create a circular reference below, otherwise all this won't be collected,
+    #  and rpmdb won't be closed:
+    my ($callback_open_helper, $callback_close_helper) = ($options->{callback_open_helper}, $options->{callback_close_helper});
+    $options->{callback_open} = sub {
+	my ($_data, $_type, $id) = @_;
+	$index++;
+	$callback_open_helper and $callback_open_helper->(@_);
+	$fh = urpm::sys::open_safe($urpm, '<', $install->{$id} || $upgrade->{$id});
+	$fh ? fileno $fh : undef;
+    };
+    $options->{callback_close} = sub {
+	my ($urpm, undef, $pkgid) = @_;
+	return unless defined $pkgid;
+	$callback_close_helper and $callback_close_helper->($db, @_);
+	get_README_files($urpm, $trans, $urpm->{depslist}[$pkgid]) if !$is_test;
+	close $fh if defined $fh;
+    };
+
+    #- ensure perl does not create a circular reference below, otherwise all this won't be collected,
+    #  and rpmdb won't be closed
+    my ($verbose, $callback_report_uninst) = ($options->{verbose}, $options->{callback_report_uninst});
+    $options->{callback_uninst} = sub { 	    
+	my ($_urpm, undef, undef, $subtype) = @_;
+	if ($subtype eq 'start') {
+	    my ($name, $fullname) = ($trans->Element_name($index), $trans->Element_fullname($index));
+	    my @previous = map { $trans->Element_name($_) } 0 .. ($index - 1);
+	    # looking at previous packages in transaction
+	    # we should be looking only at installed packages, but it should not give a different result
+	    if (member($name, @previous)) {
+		$urpm->{log}("removing upgraded package $fullname");
+	    } else {
+		$callback_report_uninst and $callback_report_uninst->(N("Removing package %s", $fullname));
+		$urpm->{print}(N("removing package %s", $fullname)) if $verbose >= 0;
+	    }
+	    $index++;
+	}
+    };
+
+    if ($options->{verbose} >= 0 && $have_pkgs) {
+	$options->{callback_inst}  ||= \&install_logger;
+	$options->{callback_trans} ||= \&install_logger;
+    }
+}
+
 =item install($urpm, $remove, $install, $upgrade, %options)
 
 Install packages according to each hash (remove, install or upgrade).
@@ -278,54 +331,8 @@ sub install {
     } elsif (!$options{noorder} && (@errors = $trans->order)) {
     } else {
 	$urpm->{readmes} = {};
-	my $index;
-	my $fh;
-	my $is_test = $options{test}; # fix circular reference
-	#- assume default value for some parameter.
-	$options{delta} ||= 1000;
 
-	#- ensure perl does not create a circular reference below, otherwise all this won't be collected,
-	#  and rpmdb won't be closed:
-	my ($callback_open_helper, $callback_close_helper) = ($options{callback_open_helper}, $options{callback_close_helper});
-	$options{callback_open} = sub {
-	    my ($_data, $_type, $id) = @_;
-	    $index++;
-	    $callback_open_helper and $callback_open_helper->(@_);
-	    $fh = urpm::sys::open_safe($urpm, '<', $install->{$id} || $upgrade->{$id});
-	    $fh ? fileno $fh : undef;
-	};
-	$options{callback_close} = sub {
-	    my ($urpm, undef, $pkgid) = @_;
-	    return unless defined $pkgid;
-	    $callback_close_helper and $callback_close_helper->($db, @_);
-	    get_README_files($urpm, $trans, $urpm->{depslist}[$pkgid]) if !$is_test;
-	    close $fh if defined $fh;
-	};
-
-	#- ensure perl does not create a circular reference below, otherwise all this won't be collected,
-	#  and rpmdb won't be closed
-	my ($verbose, $callback_report_uninst) = ($options{verbose}, $options{callback_report_uninst});
-	$options{callback_uninst} = sub { 	    
-	    my ($_urpm, undef, undef, $subtype) = @_;
-	    if ($subtype eq 'start') {
-		my ($name, $fullname) = ($trans->Element_name($index), $trans->Element_fullname($index));
-		my @previous = map { $trans->Element_name($_) } 0 .. ($index - 1);
-		# looking at previous packages in transaction
-		# we should be looking only at installed packages, but it should not give a different result
-		if (member($name, @previous)) {
-		    $urpm->{log}("removing upgraded package $fullname");
-		} else {
-		    $callback_report_uninst and $callback_report_uninst->(N("Removing package %s", $fullname));
-		    $urpm->{print}(N("removing package %s", $fullname)) if $verbose >= 0;
-		}
-		$index++;
-	    }
-	};
-
-	if ($options{verbose} >= 0 && @trans_pkgs) {
-	    $options{callback_inst}  ||= \&install_logger;
-	    $options{callback_trans} ||= \&install_logger;
-	}
+	_get_callbacks($urpm, $db, $trans, \%options, $install, $upgrade, scalar @trans_pkgs);
 
 	@errors = $trans->run($urpm, %options);
 
