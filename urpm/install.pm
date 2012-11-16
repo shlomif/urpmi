@@ -312,9 +312,10 @@ sub install {
 
     my $trans = $db->create_transaction;
     if ($trans) {
-	sys_log("transaction on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/', scalar(@{$remove || []}), scalar(values %$install), scalar(values %$upgrade));
+	my ($rm_count, $inst_count, $up_count) = (scalar(@{$remove || []}), scalar(values %$install), scalar(values %$upgrade));
+	sys_log("transaction on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/', $rm_count, $inst_count, $up_count);
 	$urpm->{log}(N("created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/',
-		       scalar(@{$remove || []}), scalar(values %$install), scalar(values %$upgrade)));
+		       $rm_count, $inst_count, $up_count));
     } else {
 	return N("unable to create transaction");
     }
