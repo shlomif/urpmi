@@ -107,7 +107,6 @@ sub install_logger {
 	    my $pname = $pkg ? $pkg->name : '';
 	    ++$urpm->{logger_count} if $pname;
 	    my $cnt = $pname ? $urpm->{logger_count} : '-';
-	    $pname ||= N("[repackaging]");
 	    my $s = sprintf("%9s: %-22s", $cnt . "/" . $total_pkg, $pname);
 	    print $s;
 	    $s =~ / $/ or printf "\n%9s  %-22s", '', '';
