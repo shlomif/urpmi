@@ -229,8 +229,7 @@ sub install {
 		}
 	    }
 	    if ($trans->add($pkg, update => $update,
-		    $options{excludepath} ? (excludepath => [ split /,/, $options{excludepath} ]) : ()
-	    )) {
+		    $options{excludepath} ? (excludepath => [ split /,/, $options{excludepath} ]) : ())) {
 		$urpm->{debug} and $urpm->{debug}(
 		    sprintf('trans: scheduling %s of %s (id=%d, file=%s)', 
 		      $update ? 'update' : 'install', 
