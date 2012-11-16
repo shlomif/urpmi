@@ -94,6 +94,8 @@ sub build_listid_ {
 
 Search packages registered by their names by storing their ids into the $packages hash.
 
+Returns either 0 (error), 1 (OK) or 'substring' (fuzzy match).
+
 Recognized options:
 
 =over
@@ -145,6 +147,7 @@ sub _search_packages {
 	my @found;
 	$qv = '(?i)' . $qv if $options{caseinsensitive};
 
+	# First: try to find an exact match
 	if (!$options{fuzzy}) {
 	    #- try to search through provides.
 	    my @l = map {
@@ -164,6 +167,7 @@ sub _search_packages {
 	    _findindeps($urpm, \%found, $qv, $v, $options{caseinsensitive}, $options{src});
 	}
 
+	# Second pass: try to find a partial match (substring) [slow]
 	foreach my $id (build_listid_($urpm)) {
 	    my $pkg = $urpm->{depslist}[$id];
 	    ($options{src} ? $pkg->arch eq 'src' : $pkg->is_arch_compat) or next;
