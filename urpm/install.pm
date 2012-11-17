@@ -213,7 +213,7 @@ sub _schedule_packages {
 	    $pkg->update_header($mode->{$_}, keep_all_tags => 1);
 	    my ($true_rpm, $true_pkg);
 	    if ($pkg->payload_format eq 'drpm') { #- handle deltarpms
-		($true_rpm, $true_pkg) = _apply_delta_rpm($urpm, $_, $mode, $pkg);
+		($true_rpm, $true_pkg) = _apply_delta_rpm($urpm, $mode->{$_}, $mode, $pkg);
 		push @produced_deltas, ($mode->{$_} = $true_rpm); #- fix path
 	    }
 	    if ($trans->add($true_pkg || $pkg, update => $update,
