@@ -178,7 +178,7 @@ sub _parse_urpmq_output {
 	#- distant urpmq returned a choices, check if it has already been chosen
 	#- or continue iteration to make sure no more choices are left.
 	$$cont ||= 1; #- invalid transitory state (still choices is strange here if next sentence is not executed).
-	unless (grep { exists $chosen->{$_} } split /\|/, $s) {
+	unless (any { exists $chosen->{$_} } split /\|/, $s) {
 	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ map { $urpm->search($_) } split /\|/, $s ]);
 	    if ($choice) {
 		$chosen->{scalar $choice->fullname} = $choice;

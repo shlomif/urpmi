@@ -403,9 +403,9 @@ sub _resolve_priority_upgrades {
     my %priority_requested = map { $_->id => undef } @$priority_pkgs;
 
     $urpm->resolve_requested($db, \%priority_state, \%priority_requested, %options);
-    if (grep { ! exists $priority_state{selected}{$_} } keys %priority_requested) {
+    if (any { ! exists $priority_state{selected}{$_} } keys %priority_requested) {
 	#- some packages which were selected previously have not been selected, strange!
-    } elsif (grep { ! exists $priority_state{selected}{$_} } keys %$selected) {
+    } elsif (any { ! exists $priority_state{selected}{$_} } keys %$selected) {
 	#- there are other packages to install after this priority transaction.
 	%$state = %priority_state;
 	$need_restart = 1;
@@ -572,7 +572,7 @@ sub _prohibit_packages_that_would_be_removed {
     });
 
     grep {
-	! grep { $base{$_} } rejected_unsatisfied($state, $_);
+	! any { $base{$_} } rejected_unsatisfied($state, $_);
     } intersection(\@to_remove, \@base_fn);
 }
 
