@@ -16,11 +16,11 @@ our $mput_command = $ENV{URPMI_MPUT_COMMAND};
 our $rshp_command = $ENV{URPMI_RSHP_COMMAND};
 
 if (!$mput_command) {
-    ($mput_command) = grep { -x $_ } qw(/usr/bin/mput2 /usr/bin/mput);
+    ($mput_command) = find { -x $_ } qw(/usr/bin/mput2 /usr/bin/mput);
 }
 $mput_command ||= 'mput';
 if (!$rshp_command) {
-    ($rshp_command) = grep { -x $_ } qw(/usr/bin/rshp2 /usr/bin/rshp);
+    ($rshp_command) = find { -x $_ } qw(/usr/bin/rshp2 /usr/bin/rshp);
 }
 $rshp_command ||= 'rshp';
 
