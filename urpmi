@@ -639,7 +639,7 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 	    defined message_input("$msg\n$msg2 ");
 	}
     }) : ()),
-    trans_log => &urpm::download::sync_logger,
+    trans_log => \&urpm::download::sync_logger,
     bad_signature => sub {
 	    my ($msg, $msg2) = @_;
 	    #- rurpmi always abort here
