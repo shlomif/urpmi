@@ -178,14 +178,12 @@ sub _search_packages {
 	    if (!$options{fuzzy}) {
 		if ($pack eq $v) {
 		    $exact{$v} = $id;
-		    next;
 		} elsif ($pack_a eq $v) {
 		    push @{$exact_a{$v}}, $id;
-		    next;
 		} elsif ($pack_ra eq $v || $options{src} && $pack_name eq $v) {
 		    push @{$exact_ra{$v}}, $id;
-		    next;
 		}
+		next;
 	    }
 	    if ($pack =~ /$qv/) {
 		next if member($pack, @found);
