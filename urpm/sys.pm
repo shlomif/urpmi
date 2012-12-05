@@ -193,7 +193,7 @@ sub trim_until_d {
 
 =item check_fs_writable()
 
-Checks if the main filesystems are writeable for urpmi to install files in
+Checks if the main filesystems are writable for urpmi to install files in
 
 =cut
 

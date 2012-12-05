@@ -61,7 +61,7 @@ sub unrequested_list {
 
 =item mark_as_requested($urpm, $state, $test)
 
-Mark some packages as explicitely requested (usually because
+Mark some packages as explicitly requested (usually because
 they were manually installed).
 
 =cut
