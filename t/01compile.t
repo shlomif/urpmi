@@ -2,14 +2,10 @@
 
 use strict;
 use warnings;
+use Test::More tests => 26;
 
-use English qw(-no_match_vars);
-use Test::More;
-
-eval {
-    require Test::Compile;
-    Test::Compile->import();
-};
-plan(skip_all => 'Test::Compile required') if $EVAL_ERROR;
-
-all_pm_files_ok(all_pm_files('urpm'));
+for my $module (glob("urpm/*.pm")) {
+    $module =~ s,/,::,g;
+    $module =~ s,\.pm$,,;
+    use_ok $module;
+}
