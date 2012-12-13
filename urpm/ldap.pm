@@ -40,14 +40,12 @@ sub write_ldap_cache($$) {
     # FIXME what perm for cache ?
     -d $ldap_cache or mkdir $ldap_cache
 	or die N("Cannot create ldap cache directory");
-    open my $cache, ">", "$ldap_cache/$medium->{name}"
-	or die N("Cannot write cache file for ldap\n");
-    print $cache "# internal cache file for disconnect ldap operation, do not edit\n";
-    foreach (keys %$medium) {
-        defined $medium->{$_} or next;
-        print $cache "$_ = $medium->{$_}\n";
-    }
-    close $cache;
+    output_safe("$ldap_cache/$medium->{name}",
+		join("\n",
+		     "# internal cache file for disconnect ldap operation, do not edit",
+		     map { "$_ = $medium->{$_}" } grep { $medium->{$_} } keys %$medium
+		)
+	) or die N("Cannot write cache file for ldap\n");
     return 1;
 }
 
