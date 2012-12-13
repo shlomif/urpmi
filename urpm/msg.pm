@@ -6,6 +6,7 @@ use strict;
 no warnings;
 use Exporter;
 use URPM;
+use urpm::util;
 
 my $encoding;
 BEGIN {
@@ -92,12 +93,7 @@ sub sys_log { defined &syslog and eval { syslog("info", @_) } }
 
 #- writes only to logfile, not to screen
 sub bug_log {
-    if ($::logfile) {
-	open my $fh, ">>$::logfile"
-	    or die "Can't output to log file [$::logfile]: $!\n";
-	print $fh @_;
-	close $fh;
-    }
+    append_to_file($::logfile, @_) if $::logfile;
 }
 
 sub ask_yes_or_no {
