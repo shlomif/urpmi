@@ -182,7 +182,7 @@ sub _read_config__read_media_info {
 
 	my $media_cfg = $media_dir . '/media.cfg';
 	my $distribconf = MDV::Distribconf->new($media_cfg, undef) or next;
-	$distribconf->settree('mandriva');
+	$distribconf->settree('mageia');
 	$distribconf->parse_mediacfg($media_cfg) or next;
     
 	foreach (cat_($media_dir . '/url')) {
@@ -953,7 +953,7 @@ sub add_distrib_media {
 	urpm::removable::try_mounting_medium_($urpm, $m) or $urpm->{error}(N("directory %s does not exist", $url));
 
 	$distribconf = MDV::Distribconf->new(file_from_file_url($url) || $url, undef);
-	$distribconf->settree('mandriva');
+	$distribconf->settree('mageia');
 
 	my $dir = file_from_local_medium($m);
 	my $media_cfg = reduce_pathname("$dir/" . $distribconf->getpath(undef, 'infodir') . '/media.cfg');
@@ -1068,7 +1068,7 @@ sub _new_distribconf_and_download {
     my ($urpm, $medium) = @_;
 
     my $distribconf = MDV::Distribconf->new($medium->{url}, undef);
-    $distribconf->settree('mandriva');
+    $distribconf->settree('mageia');
 
     $urpm->{log}(N("retrieving media.cfg file..."));
     my $url = $medium->{url};
