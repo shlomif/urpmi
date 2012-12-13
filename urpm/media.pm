@@ -185,26 +185,19 @@ sub _read_config__read_media_info {
 	$distribconf->settree('mandriva');
 	$distribconf->parse_mediacfg($media_cfg) or next;
     
-	if (open(my $URLS, '<', $media_dir . '/url')) {
-	    local $_;
-	    while (<$URLS>) {
-		chomp($_);
-		foreach my $medium ($distribconf->listmedia) {
-		    my $medium_path = reduce_pathname($_ . '/' . $distribconf->getpath($medium, 'path'));
-		    $url2mediamap{$medium_path} = [$distribconf, $medium];
-		}
+	foreach (cat_($media_dir . '/url')) {
+	    chomp($_);
+	    foreach my $medium ($distribconf->listmedia) {
+		my $medium_path = reduce_pathname($_ . '/' . $distribconf->getpath($medium, 'path'));
+		$url2mediamap{$medium_path} = [$distribconf, $medium];
 	    }
 	}
 
-	if (open(my $MIRRORLISTS, '<', $media_dir . '/mirrorlist')) {
-	    local $_;
-	    while (<$MIRRORLISTS>) {
-		my $mirrorlist = $_;
-		chomp($mirrorlist);
-		foreach my $medium ($distribconf->listmedia) {
-		    my $medium_path = $distribconf->getpath($medium, 'path');
-		    $mirrorlist2mediamap{$mirrorlist}{$medium_path} = [ $distribconf, $medium ];
-		}
+	foreach my $mirrorlist (cat_($media_dir . '/mirrorlist')) {
+	    chomp($mirrorlist);
+	    foreach my $medium ($distribconf->listmedia) {
+		my $medium_path = $distribconf->getpath($medium, 'path');
+		$mirrorlist2mediamap{$mirrorlist}{$medium_path} = [ $distribconf, $medium ];
 	    }
 	}
     }

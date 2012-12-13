@@ -64,13 +64,7 @@ sub get_arch () { _init_arch_release(); $arch }
 sub get_release () { _init_arch_release(); $release }
 
 sub get_host () {
-    my $h;
-    if (open my $f, '/proc/sys/kernel/hostname') {
-	$h = <$f>;
-	close $f;
-    } else {
-	$h = $ENV{HOSTNAME} || `/bin/hostname`;
-    }
+    my $h = cat_('/proc/sys/kernel/hostname') || $ENV{HOSTNAME} || `/bin/hostname`;
     chomp $h;
     $h;
 }

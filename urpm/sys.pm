@@ -31,9 +31,7 @@ typically from the inst.list or skip.list files.
 sub get_packages_list {
     my ($file, $o_extra) = @_;
     my @l = split(/,/, $o_extra || '');
-    if ($file && open(my $f, '<', $file)) {
-	push @l, <$f>;
-    }
+    push @l, cat_($file);
     [ grep { $_ } map {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	$_;
