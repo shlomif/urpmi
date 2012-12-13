@@ -1055,6 +1055,12 @@ sub add_distrib_media {
 	);
 	++$medium_index;
     }
+
+    # associate newly added medias with their description in a media.cfg file
+    # @media content will be modified and then add_existing medium will take 
+    # care of copying the media to $urpm
+    _associate_media_with_mediacfg($urpm, [ map { name2medium($urpm, $_) } @newnames ]);
+
     return @newnames;
 }
 
