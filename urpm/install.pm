@@ -348,7 +348,7 @@ sub install {
 	    }
 	}
 
-	if ($options{verbose} >= 0) {
+	if ($options{verbose} >= 0 && !$options{justdb}) {
 	    foreach (keys %{$urpm->{readmes}}) {
 		$urpm->{print}("-" x 70 .  "\n" .
                                  N("More information on package %s", $urpm->{readmes}{$_}));
