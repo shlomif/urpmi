@@ -217,8 +217,13 @@ sub _associate_media_with_mediacfg {
     }
 }
 
-#- Loads /etc/urpmi/urpmi.cfg and performs basic checks.
-#- Does not handle old format: <name> <url> [with <path_hdlist>]
+=item read_config($urpm, $nocheck)
+
+Loads /etc/urpmi/urpmi.cfg and performs basic checks.
+It does not handle old format: <name> <url> [with <path_hdlist>]
+
+=cut
+
 sub read_config {
     my ($urpm, $nocheck) = @_;
     return if $urpm->{media}; #- media already loaded
@@ -527,7 +532,12 @@ sub _migrate_removable_url {
 }
 
 
-#- Writes the urpmi.cfg file.
+=item write_urpmi_cfg($urpm)
+
+Writes the urpmi.cfg file.
+
+=cut
+
 sub write_urpmi_cfg {
     my ($urpm) = @_;
 
@@ -563,26 +573,74 @@ sub _tempignore {
     $medium->{ignore} = $ignore;
 }
 
-#- read urpmi.cfg file as well as necessary synthesis files
-#- options :
-#-	root (deprecated, set directly $urpm->{root})
-#-	cmdline_skiplist
-#-      download_callback (used by _auto_update_media)
-#-
-#-	callback (urpmf)
-#-	nodepslist (for urpmq, urpmf: when we don't need the synthesis)
-#-	no_skiplist (urpmf)
-#-
-#-	synthesis (use this synthesis file, and only this synthesis file)
-#-
-#-	parallel
-#-	usedistrib (otherwise uses urpmi.cfg)
-#-	  media
-#-	  excludemedia
-#-	  sortmedia
-#-
-#-	  update
-#-	  searchmedia
+=item configure($urpm, %options)
+
+Read urpmi.cfg file as well as necessary synthesis files.
+
+Options :
+
+=over
+
+=item *
+
+root (deprecated, set directly $urpm->{root})
+
+=item *
+
+cmdline_skiplist
+
+=item *
+
+download_callback (used by _auto_update_media)
+
+=item *
+
+callback (urpmf)
+
+=item *
+
+nodepslist (for urpmq, urpmf: when we don't need the synthesis)
+
+=item *
+
+no_skiplist (urpmf)
+
+=item *
+
+synthesis (use this synthesis file, and only this synthesis file)
+
+=item *
+
+parallel
+
+=item *
+
+usedistrib (otherwise uses urpmi.cfg)
+
+=item *
+
+media
+
+=item *
+
+excludemedia
+
+=item *
+
+sortmedia
+
+=item *
+
+update
+
+=item *
+
+searchmedia
+
+=back
+
+=cut
+
 sub configure {
     my ($urpm, %options) = @_;
 
@@ -811,10 +869,17 @@ sub find_zeroconf_repository {
     return;
 }
 
-#- add a new medium, sync the config file accordingly.
-#- returns the new medium's name. (might be different from the requested
-#- name if index_name was specified)
-#- options: ignore, index_name, nolock, update, virtual, media_info_dir, mirrorlist, zeroconf, with-dir, xml-info, on_the_fly
+=item add_medium($urpm, $name, $url, $with_synthesis, %options)
+
+Add a new medium and sync the config file accordingly.
+
+It returns the new medium's name (might be different from the requested
+name if index_name was specified).
+
+Options: ignore, index_name, nolock, update, virtual, media_info_dir, mirrorlist, zeroconf, with-dir, xml-info, on_the_fly
+
+=cut
+
 sub add_medium {
     my ($urpm, $name, $url, $with_synthesis, %options) = @_;
 
@@ -929,16 +994,45 @@ sub _register_media_cfg {
     }
 }
 
-#- add distribution media, according to url given.
-#- returns the list of names of added media.
-#- options :
-#- - initial_number : when adding several numbered media, start with this number
-#- - probe_with : force use of rpms instead of using synthesis
-#- - ask_media : callback to know whether each media should be added
-#- - only_updates : only add "update" media (used by rpmdrake)
-#- - mirrorlist
-#- - zeroconf
-#- other options are passed to add_medium(): ignore, nolock, virtual
+=item add_distrib_media($urpm, $name, $url, %options)
+
+Add distribution media, according to url given.
+Returns the list of names of added media.
+
+Options :
+
+=over
+
+=item *
+
+initial_number : when adding several numbered media, start with this number
+
+=item *
+
+probe_with : force use of rpms instead of using synthesis
+
+=item *
+
+ask_media : callback to know whether each media should be added
+
+=item *
+
+only_updates : only add "update" media (used by rpmdrake)
+
+=item *
+
+mirrorlist
+
+=item *
+
+zeroconf
+
+=back
+
+Other options are passed to add_medium(): ignore, nolock, virtual
+
+=cut
+
 sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
 
@@ -1240,16 +1334,24 @@ sub may_reconfig_urpmi {
     $reconfigured;
 }
 
-#- read a reconfiguration file for urpmi, and reconfigure media accordingly
-#- $rfile is the reconfiguration file (local), $name is the media name
-#-
-#- the format is similar to the RewriteRule of mod_rewrite, so:
-#-    PATTERN REPLACEMENT [FLAG]
-#- where FLAG can be L or N
-#-
-#- example of reconfig.urpmi:
-#-    # this is an urpmi reconfiguration file
-#-    /cauldron /cauldron/$ARCH
+=item reconfig_urpmi($urpm, $rfile, $medium)
+
+Read a reconfiguration file for urpmi, and reconfigure media accordingly.
+$rfile is the reconfiguration file (local), $name is the media name
+
+the format is similar to the RewriteRule of mod_rewrite, so:
+
+   PATTERN REPLACEMENT [FLAG]
+
+where FLAG can be L or N
+
+example of reconfig.urpmi:
+
+   # this is an urpmi reconfiguration file
+   /cauldron /cauldron/$ARCH
+
+=cut
+
 sub reconfig_urpmi {
     my ($urpm, $rfile, $medium) = @_;
     -r $rfile or return;
@@ -1859,21 +1961,64 @@ sub _update_medium {
     $rc;
 }
 
-#- Update the urpmi database w.r.t. the current configuration.
-#- Takes care of modifications, and tries some tricks to bypass
-#- the recomputation of base files.
-#- Recognized options :
-#-   all         : all medias are being rebuilt
-#- allow_failures: whereas failing to update a medium is non fatal
-#-   ask_retry   : function called when a download fails. if it returns true, the download is retried
-#-   callback    : UI callback
-#-   forcekey    : force retrieval of pubkey
-#-   force       : try to force rebuilding base files
-#-   nomd5sum    : don't verify MD5SUM of retrieved files
-#-   nopubkey    : don't use rpm pubkeys
-#-   probe_with  : probe synthesis or rpms
-#-   quiet       : download synthesis quietly
-#-   wait_lock   : block until lock can be acquired
+=item update_media($urpm, %options)
+
+Update the urpmi database w.r.t. the current configuration.
+Takes care of modifications, and tries some tricks to bypass
+the recomputation of base files.
+
+Recognized options :
+
+=over
+
+=item *
+
+all         : all medias are being rebuilt
+
+=item *
+
+allow_failures: whereas failing to update a medium is non fatal
+
+=item *
+
+ask_retry   : function called when a download fails. if it returns true, the download is retried
+
+=item *
+
+callback    : UI callback
+
+=item *
+
+forcekey    : force retrieval of pubkey
+
+=item *
+
+force       : try to force rebuilding base files
+
+=item *
+
+nomd5sum    : don't verify MD5SUM of retrieved files
+
+=item *
+
+nopubkey    : don't use rpm pubkeys
+
+=item *
+
+probe_with  : probe synthesis or rpms
+
+=item *
+
+quiet       : download synthesis quietly
+
+=item *
+
+wait_lock   : block until lock can be acquired
+
+=back
+
+=cut
+
 sub update_media {
     my ($urpm, %options) = @_;
 
@@ -2045,7 +2190,12 @@ sub try__maybe_mirrorlist {
     }
 }
 
-#- clean params and depslist computation zone.
+=item clean($urpm)
+
+Clean params and depslist computation zone.
+
+=cut
+
 sub clean {
     my ($urpm) = @_;
 
@@ -2069,5 +2219,7 @@ __END__
 Copyright (C) 2005 MandrakeSoft SA
 
 Copyright (C) 2005-2010 Mandriva SA
+
+Copyright (C) 2011-2012 Mageia
 
 =cut
