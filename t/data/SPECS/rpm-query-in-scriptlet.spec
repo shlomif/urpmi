@@ -20,6 +20,13 @@ for i in sh rpm; do
 done
 grep '/' list | (cd / ; cpio -pumd --dereference %buildroot)
 
+# prelinked libraries/binaries	 which
+# cause rpm to abort installation on md5sum errors while package signature does
+# be OK :-( :
+if [ -x /usr/sbin/prelink ]; then
+   for i in $(find %{buildroot}/ -type f);do /usr/sbin/prelink -u $i || : ;done
+fi
+
 find %buildroot
 
 %post
