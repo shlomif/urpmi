@@ -33,6 +33,7 @@ sub test1 {
       1/2: c
       2/2: b
 removing package a-1-1.%s
+      1/1: a
 EOF
     check_installed_and_remove('b', 'c');
 }

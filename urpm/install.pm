@@ -269,7 +269,11 @@ sub _get_callbacks {
     #  and rpmdb won't be closed
     my ($verbose, $callback_report_uninst) = ($options->{verbose}, $options->{callback_report_uninst});
     $options->{callback_uninst} = sub { 	    
-	my ($_urpm, undef, undef, $subtype) = @_;
+	my ($urpm, undef, undef, $subtype, $amount, $total) = @_;
+
+	my $total_pkg = $trans->NElements - $urpm->{nb_install};
+	local $| = 1;
+
 	if ($subtype eq 'start') {
 	    my ($name, $fullname) = ($trans->Element_name($index), $trans->Element_fullname($index));
 	    my @previous = map { $trans->Element_name($_) } 0 .. ($index - 1);
@@ -282,6 +286,26 @@ sub _get_callbacks {
 		$urpm->{print}(N("removing package %s", $fullname)) if $verbose >= 0;
 	    }
 	    $index++;
+
+	    $urpm->{logger_uninst_progress} = 0;
+	    ++$urpm->{logger_uninst_count} if $name;
+	    my $cnt = $name ? $urpm->{logger_uninst_count} : '-';
+	    my $s = sprintf("%9s: %-22s", $cnt . "/" . $total_pkg, $name);
+	    print $s;
+	    $s =~ / $/ or printf "\n%9s  %-22s", '', '';
+
+	} elsif ($subtype eq 'stop') {
+	    if ($urpm->{logger_uninst_progress} < $progress_size) {
+		$urpm->{print}('#' x ($progress_size - $urpm->{logger_uninst_progress}));
+		$urpm->{logger_uninst_progress} = 0;
+	    }
+	} elsif ($subtype eq 'progress') {
+	    my $new_progress = $total > 0 ? int($progress_size * $amount / $total) : $progress_size;
+	    if ($new_progress > $urpm->{logger_uninst_progress}) {
+		print '#' x ($new_progress - $urpm->{logger_uninst_progress});
+		$urpm->{logger_uninst_progress} = $new_progress;
+		$urpm->{logger_uninst_progress} == $progress_size and print "\n";
+	    }
 	}
     };
 
