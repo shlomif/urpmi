@@ -309,6 +309,12 @@ sub _get_callbacks {
 	}
     };
 
+    $options->{callback_error} = sub {
+	my ($urpm, undef, $id, $subtype) = @_;
+	my $n = $urpm->{depslist}[$id]->fullname;
+	$urpm->{error}("ERROR: '$subtype' failed for $n: ");
+    };
+
     if ($options->{verbose} >= 0 && $have_pkgs) {
 	$options->{callback_inst}  ||= \&install_logger;
 	$options->{callback_trans} ||= \&install_logger;
