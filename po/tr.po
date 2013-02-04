@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "POT-Creation-Date: 2012-10-05 17:55+0200\n"
 "PO-Revision-Date: 2012-01-16 16:28+0000\n"
-"Last-Translator: Oliver Burger <oliver.bgr@googlemail.com>\n"
+"Last-Translator: Atilla ÖNTAŞ <tarakbumba@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
 #: ../gurpmi:32
 #, c-format
@@ -298,7 +298,7 @@ msgstr ""
 msgid "(%d package, %d MB)"
 msgid_plural "(%d packages, %d MB)"
 msgstr[0] "(%d paket, %d MB)"
-msgstr[1] "(%d paket, %d MB)"
+msgstr[1] "(%d paketler, %d MB)"
 
 #: ../gurpmi2:288 ../urpm/main_loop.pm:367
 #, c-format
@@ -347,9 +347,9 @@ msgstr ""
 "%s"
 
 #: ../gurpmi2:407
-#, fuzzy, c-format
+#, c-format
 msgid "You may want to update your urpmi database."
-msgstr "Urpmi veritabanı güncellemeniz gerekebilir."
+msgstr "Urpmi veritabanınızı güncellemek isteyebilirsiniz."
 
 #: ../gurpmi2:411 ../urpm/main_loop.pm:286 ../urpm/main_loop.pm:480
 #, c-format
@@ -423,12 +423,12 @@ msgstr "Urpmi kısıtlı kipte çalışıyor..."
 #: ../urpm.pm:23
 #, c-format
 msgid "While some packages may have been installed, there were failures.\n"
-msgstr ""
+msgstr "Bazı paketler kurulurken hatalar oldu.\n"
 
 #: ../urpm.pm:142
 #, c-format
 msgid "fail to create directory %s"
-msgstr "%s oluşturulamıyor."
+msgstr "%s dizini oluşturulamıyor."
 
 #: ../urpm.pm:143
 #, c-format
@@ -1362,12 +1362,20 @@ msgid_plural ""
 "%s\n"
 "are now orphaned."
 msgstr[0] ""
+"Aşağıdaki paket:\n"
+"%s\n"
+"artık gereksiz."
+msgstr[1] ""
+"Aşağıdaki paketler:\n"
+"%s\n"
+"artık gereksiz."
 
 #: ../urpm/orphans.pm:525
 #, c-format
 msgid "You may wish to remove it."
 msgid_plural "You may wish to remove them."
-msgstr[0] ""
+msgstr[0] "O'nu kaldırmak isteyebilirsiniz."
+msgstr[1] "Onları kaldırmak isteyebilirsiniz."
 
 #: ../urpm/orphans.pm:542
 #, c-format
@@ -1382,7 +1390,7 @@ msgid_plural ""
 "are now orphaned, if you wish to remove them, you can use \"urpme --auto-"
 "orphans\""
 msgstr[0] ""
-"Aşağıdaki paketler artık gereksiz:\n"
+"Aşağıdaki paket artık gereksiz:\n"
 "%s\n"
 ", \"urpme --auto-orphans\" kullanarak sistemden kaldırabilirsiniz."
 msgstr[1] ""
@@ -1393,12 +1401,12 @@ msgstr[1] ""
 #: ../urpm/parallel.pm:15
 #, c-format
 msgid "unable to parse \"%s\" in file [%s]"
-msgstr "\"%2$s\" dosyasındaki \"%1$s\" ayrıştırılamıyor"
+msgstr "[%s] dosyasındaki \"%s\" ayrıştırılamıyor"
 
 #: ../urpm/parallel.pm:24
 #, c-format
 msgid "examining parallel handler in file [%s]"
-msgstr "\"%s\" dosyasındaki paralel işleyici inceleniyor"
+msgstr "[%s] dosyasındaki paralel işleyici inceleniyor"
 
 #: ../urpm/parallel.pm:35
 #, c-format
@@ -1562,14 +1570,14 @@ msgid "Invalid signature (%s)"
 msgstr "Geçersiz imza (%s)"
 
 #: ../urpm/signature.pm:77
-#, fuzzy, c-format
+#, c-format
 msgid "SECURITY: The following package is _NOT_ signed (%s): %s"
-msgstr "Bu paketler %s içeriyor: %s"
+msgstr "GÜVENLİK: Aşağıdaki paket imzasızdır (%s): %s"
 
 #: ../urpm/signature.pm:83
 #, c-format
 msgid "SECURITY: NOT checking package \"%s\" (due to configuration)"
-msgstr ""
+msgstr "GÜVENLİK: \"%s\" paketi kontrol edilmiyor (yapılandırmadan dolayı)"
 
 #: ../urpm/signature.pm:102
 #, c-format
@@ -1584,12 +1592,12 @@ msgstr "Kayıp imza (%s)"
 #: ../urpm/signature.pm:107
 #, c-format
 msgid "SECURITY: Medium \"%s\" has no key (%s)!"
-msgstr ""
+msgstr "GÜVENLİK: \"%s\" ortamının anahtarı (%s) yok!"
 
 #: ../urpm/signature.pm:109
 #, c-format
 msgid "Medium without key (%s)"
-msgstr ""
+msgstr "Anahtarsız (%s) ortam"
 
 #: ../urpm/sys.pm:213
 #, c-format
@@ -1652,7 +1660,7 @@ msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - rpm kaldırma için bir başka kök kullanıcı kullan.\n"
 
 #: ../urpme:49 ../urpmf:35 ../urpmi:106 ../urpmi.addmedia:73
-#: ../urpmi.removemedia:45 ../urpmi.update:48 ../urpmq:68
+#: ../urpmi.removemedia:45 ../urpmi.update:48 ../urpmq:686
 #, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr ""
@@ -1735,7 +1743,7 @@ msgstr[1] ""
 #, c-format
 msgid "(orphan package)"
 msgid_plural "(orphan packages)"
-msgstr[0] "(gereksiz paketler)"
+msgstr[0] "(gereksiz paket)"
 msgstr[1] "(gereksiz paketler)"
 
 #: ../urpme:158
@@ -2530,13 +2538,13 @@ msgstr ""
 #, c-format
 msgid "The following orphan package will be removed."
 msgid_plural "The following orphan packages will be removed."
-msgstr[0] "Aşağıdaki gereksiz paketler kaldırılacak"
+msgstr[0] "Aşağıdaki gereksiz paket kaldırılacak"
 msgstr[1] "Aşağıdaki gereksiz paketler kaldırılacak"
 
 #: ../urpmi:595
 #, c-format
 msgid "WARNING: %s option is in use. Some strange problems may happen"
-msgstr ""
+msgstr "UYARI: %s seçeneği kullanımdadır. Bazı garip sorunlar meydana gelebilir."
 
 #: ../urpmi:607
 #, c-format
@@ -2562,8 +2570,8 @@ msgstr "Paketler için %s alınacak"
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
-msgstr[0] "Bir adet paket yüklensin mi?(%d)"
-msgstr[1] "Bir adet paket yüklensin mi?(%d)"
+msgstr[0] "Bir paketin kurulumuna devam edilsin mi?"
+msgstr[1] "%d Paketlerinin kurulumuna devam edilsin mi?"
 
 #: ../urpmi:638
 #, c-format
@@ -2864,9 +2872,9 @@ msgstr ""
 "kullan.\n"
 
 #: ../urpmi.update:50
-#, fuzzy, c-format
+#, c-format
 msgid "  -a             - select all enabled non-removable media.\n"
-msgstr "  -a             - tüm kaldırılamaz kaynakları seçer.\n"
+msgstr "  -a             - bütün etkin çıkarılamaz kaynağı seçin.\n"
 
 #: ../urpmi.update:51
 #, c-format
