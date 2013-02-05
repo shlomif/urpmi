@@ -398,6 +398,6 @@ Copyright (C) 1999-2005 MandrakeSoft SA
 
 Copyright (C) 2005-2010 Mandriva SA
 
-Copyright (C) 2011-2012 Mageia
+Copyright (C) 2011-2013 Mageia
 
 =cut
