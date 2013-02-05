@@ -10,7 +10,7 @@ use urpm::util;
 
 =head1 NAME
 
-urpm::install - Package installation transactin routines for urpmi
+urpm::install - Package installation transaction routines for urpmi
 
 =head1 SYNOPSIS
 
