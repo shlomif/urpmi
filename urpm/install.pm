@@ -205,7 +205,8 @@ sub _apply_delta_rpm {
 }
 
 sub _schedule_packages {
-    my ($urpm, $trans, $install, $upgrade, $update, %options) = @_;
+    my ($urpm, $trans, $install, $upgrade, %options) = @_;
+    my $update = 0;
     my (@trans_pkgs, @produced_deltas);
     foreach my $mode ($install, $upgrade) {
 	foreach (keys %$mode) {
@@ -352,11 +353,11 @@ sub install {
 
     $trans->set_script_fd($options{script_fd}) if $options{script_fd};
 
-    my ($update, @errors) = 0;
+    my @errors;
 
     _schedule_packages_for_erasing($urpm, $trans, $remove);
 
-    my ($produced_deltas, @trans_pkgs) = _schedule_packages($urpm, $trans, $install, $upgrade, $update, %options);
+    my ($produced_deltas, @trans_pkgs) = _schedule_packages($urpm, $trans, $install, $upgrade, %options);
 
     if (!$options{nodeps} && (@errors = $trans->check(%options))) {
     } elsif (!$options{noorder} && (@errors = $trans->order)) {
