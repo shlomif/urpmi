@@ -91,9 +91,9 @@ Standard logger for transactions
 =cut
 
 # install logger callback
+my ($erase_logger, $index);
 sub install_logger {
-    my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
-    my $pkg = defined $id && $urpm->{depslist}[$id];
+    my ($urpm, $type, undef, $subtype, $amount, $total) = @_;
     my $total_pkg = $urpm->{nb_install};
     local $| = 1;
 
@@ -104,7 +104,14 @@ sub install_logger {
 	    my $p = N("Preparing...");
 	    print $p, " " x (33 - length $p);
 	} else {
-	    my $pname = $pkg ? $pkg->name : '';
+	    my $pname;
+	    if ($type eq 'uninst') {
+		$pname = N("removing %s", $urpm->{trans}->Element_fullname($index));
+		$erase_logger->($urpm, undef, undef, $subtype);
+	    } else {
+		# index already got bumped in {callback_open}:
+		$pname = $urpm->{trans}->Element_name($index-1);
+	    }
 	    ++$urpm->{logger_count} if $pname;
 	    my $cnt = $pname ? $urpm->{logger_count} : '-';
 	    my $s = sprintf("%9s: %-22s", $cnt . "/" . $total_pkg, $pname);
@@ -241,7 +248,7 @@ sub _schedule_packages {
 
 sub _get_callbacks {
     my ($urpm, $db, $trans, $options, $install, $upgrade, $have_pkgs) = @_;
-    my $index;
+    $index = 0;
     my $fh;
 
     my $is_test = $options->{test}; # fix circular reference
@@ -269,11 +276,8 @@ sub _get_callbacks {
     #- ensure perl does not create a circular reference below, otherwise all this won't be collected,
     #  and rpmdb won't be closed
     my ($verbose, $callback_report_uninst) = ($options->{verbose}, $options->{callback_report_uninst});
-    $options->{callback_uninst} = sub { 	    
-	my ($urpm, undef, undef, $subtype, $amount, $total) = @_;
-
-	my $total_pkg = $trans->NElements - $urpm->{nb_install};
-	local $| = 1;
+    $erase_logger = sub {
+	my ($urpm, undef, undef, $subtype) = @_;
 
 	if ($subtype eq 'start') {
 	    my ($name, $fullname) = ($trans->Element_name($index), $trans->Element_fullname($index));
@@ -287,28 +291,10 @@ sub _get_callbacks {
 		$urpm->{print}(N("removing package %s", $fullname)) if $verbose >= 0;
 	    }
 	    $index++;
-
-	    $urpm->{logger_uninst_progress} = 0;
-	    ++$urpm->{logger_uninst_count} if $name;
-	    my $cnt = $name ? $urpm->{logger_uninst_count} : '-';
-	    my $s = sprintf("%9s: %-22s", $cnt . "/" . $total_pkg, $name);
-	    print $s;
-	    $s =~ / $/ or printf "\n%9s  %-22s", '', '';
-
-	} elsif ($subtype eq 'stop') {
-	    if ($urpm->{logger_uninst_progress} < $progress_size) {
-		$urpm->{print}('#' x ($progress_size - $urpm->{logger_uninst_progress}));
-		$urpm->{logger_uninst_progress} = 0;
-	    }
-	} elsif ($subtype eq 'progress') {
-	    my $new_progress = $total > 0 ? int($progress_size * $amount / $total) : $progress_size;
-	    if ($new_progress > $urpm->{logger_uninst_progress}) {
-		print '#' x ($new_progress - $urpm->{logger_uninst_progress});
-		$urpm->{logger_uninst_progress} = $new_progress;
-		$urpm->{logger_uninst_progress} == $progress_size and print "\n";
-	    }
 	}
     };
+
+    $options->{callback_uninst} = $options->{verbose} >= 0 ? \&install_logger : $erase_logger;
 
     $options->{callback_error} = sub {
 	my ($urpm, undef, $id, $subtype) = @_;
@@ -366,7 +352,9 @@ sub install {
 
 	_get_callbacks($urpm, $db, $trans, \%options, $install, $upgrade, scalar @trans_pkgs);
 
+	local $urpm->{trans} = $trans;
 	@errors = $trans->run($urpm, %options);
+	delete $urpm->{trans};
 
 	#- don't clear cache if transaction failed. We might want to retry.
 	if (!@errors && !$options{test} && $options{post_clean_cache}) {
