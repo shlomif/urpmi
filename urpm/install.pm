@@ -91,29 +91,33 @@ Standard logger for transactions
 =cut
 
 # install logger callback
-my ($erase_logger, $index);
+my ($erase_logger, $index, $total_pkg, $uninst_count);
 sub install_logger {
     my ($urpm, $type, undef, $subtype, $amount, $total) = @_;
-    my $total_pkg = $urpm->{nb_install};
     local $| = 1;
 
     if ($subtype eq 'start') {
 	$urpm->{logger_progress} = 0;
 	if ($type eq 'trans') {
+	    $total_pkg = $urpm->{nb_install};
 	    $urpm->{logger_count} ||= 0;
+	    $uninst_count = 0;
 	    my $p = N("Preparing...");
 	    print $p, " " x (33 - length $p);
 	} else {
 	    my $pname;
+	    my $cnt;
 	    if ($type eq 'uninst') {
+		$total_pkg = $urpm->{trans}->NElements - $index if !$uninst_count;
+		$cnt = ++$uninst_count;
 		$pname = N("removing %s", $urpm->{trans}->Element_fullname($index));
 		$erase_logger->($urpm, undef, undef, $subtype);
 	    } else {
 		# index already got bumped in {callback_open}:
 		$pname = $urpm->{trans}->Element_name($index-1);
+		++$urpm->{logger_count} if $pname;
+		$cnt = $pname ? $urpm->{logger_count} : '-';
 	    }
-	    ++$urpm->{logger_count} if $pname;
-	    my $cnt = $pname ? $urpm->{logger_count} : '-';
 	    my $s = sprintf("%9s: %-22s", $cnt . "/" . $total_pkg, $pname);
 	    print $s;
 	    $s =~ / $/ or printf "\n%9s  %-22s", '', '';

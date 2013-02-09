@@ -29,7 +29,7 @@ use urpm::select;
 use urpm::orphans;
 use urpm::get_pkgs;
 use urpm::signature;
-use urpm::util qw(any difference2 find intersection member partition untaint);
+use urpm::util qw(difference2 find intersection member partition untaint);
 
 #- global boolean options
 my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test);
@@ -309,32 +309,6 @@ sub _run_transaction {
     !$fatal;
 }
 
-# computes the number of packages to install or to erase -
-# side-effects: urpm->{nb_install}
-my $fullname2name_re = qr/^(.*)-[^\-]*-[^\-]*\.[^\.\-]*$/;
-sub _compute_pkg_total {
-    my ($urpm, $state, $options) = @_;
-    $urpm->{nb_install} = 0;
-
-    # first account for install/erasures we will schedule (upgrades count twice as they involve erasure of the older package):
-    foreach my $set (@{$state->{transaction} || []}) {
-	my ($install, $upgrade) = partition {
-	    my $pkg = $urpm->{depslist}[$_];
-	    $pkg && !$pkg->flag_installed;
-	} @{$set->{upgrade}};
-	my $remove = $options->{'allow-force'} ? [] : $set->{remove} || [];
-	my ($rm_count, $inst_count, $up_count) = (scalar(@$remove), scalar(values @$install), scalar(keys @$upgrade));
-	$urpm->{nb_install} += $rm_count + $inst_count + 2 * $up_count;
-    }
-
-    # account for erases added by rpm (removal through obsoletes):
-    foreach my $fn (keys %{$state->{transaction_state}{rejected} || {}}) {
-	my ($n) = $fn =~ $fullname2name_re;
-	next if !keys %{$state->{transaction_state}{rejected}{$fn}{obsoleted}};
-	$urpm->{nb_install}++ if any { !/^\Q$n/ } keys %{$state->{transaction_state}{rejected}{$fn}{obsoleted}};
-    }
-}
-
 =item run($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks)
 
 Run the main urpm loop:
@@ -424,9 +398,6 @@ sub run {
 
     my $migrate_back_rpmdb_db_version = 
       $urpm->{root} && urpm::select::should_we_migrate_back_rpmdb_db_version($urpm, $state);
-
-    #- compute package total:
-    _compute_pkg_total($urpm, $state, $options);
 
     #- now process each remove/install transaction
     foreach my $set (@{$state->{transaction} || []}) {
