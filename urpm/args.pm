@@ -124,6 +124,7 @@ my %options_spec = (
 	'no-suggests' => sub { $urpm->{options}{'no-suggests'} = 1 },
 	'allow-nodeps' => sub { $urpm->{options}{'allow-nodeps'} = 1 },
 	'allow-force' => sub { $urpm->{options}{'allow-force'} = 1 },
+	'downgrade' => sub { $urpm->{options}{downgrade} = 1 },
 	'parallel=s' => \$::parallel,
 
 	'metalink!' => sub { $urpm->{options}{metalink} = $_[1] },
