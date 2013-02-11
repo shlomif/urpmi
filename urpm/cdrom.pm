@@ -14,7 +14,7 @@ use urpm 'file_from_local_medium';
 
 =head1 NAME
 
-urpm::install - Package installation transactin routines for urpmi
+urpm::cdrom - Retrieving packages from removable media
 
 =head1 SYNOPSIS
 
