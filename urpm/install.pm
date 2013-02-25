@@ -298,9 +298,9 @@ sub _get_callbacks {
 	}
     };
 
-    $options->{callback_uninst} = $options->{verbose} >= 0 ? \&install_logger : $erase_logger;
+    $options->{callback_uninst} ||= $options->{verbose} >= 0 ? \&install_logger : $erase_logger;
 
-    $options->{callback_error} = sub {
+    $options->{callback_error} ||= sub {
 	my ($urpm, undef, $id, $subtype) = @_;
 	my $n = $urpm->{depslist}[$id]->fullname;
 	$urpm->{error}("ERROR: '$subtype' failed for $n: ");

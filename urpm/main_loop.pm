@@ -217,6 +217,7 @@ sub _init_common_options {
       justdb => $options{justdb},
       replacepkgs => $options{replacepkgs},
       callback_close_helper => $callbacks->{close_helper},
+      callback_error => $callbacks->{error},
       callback_inst => $callbacks->{inst},
       callback_open_helper => $callbacks->{open_helper},
       callback_trans => $callbacks->{trans},
@@ -410,6 +411,8 @@ Parameters:
 =item inst() called for package opening/progress/end
 
 =item trans() called for transaction opening/progress/end
+
+=item error() called for cpio, script or unpacking errors
 
 =item callback_report_uninst(): called for erasure progrses
 
