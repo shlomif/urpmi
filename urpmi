@@ -382,7 +382,7 @@ my $rpm_lock = !$env && !$options{nolock} && urpm::lock::rpm_db($urpm, 'exclusiv
 my $search_result = '';
 if (@names) {
     $search_result = urpm::select::search_packages($urpm,
-	\%requested, [ @names ],
+	\%requested, \@names,
 	all => $all,
 	use_provides => $use_provides,
 	fuzzy => $urpm->{options}{fuzzy},
@@ -395,7 +395,7 @@ if (@names) {
     }
 }
 if (@src_names) {
-    $search_result = urpm::select::search_packages($urpm, \%requested, [ @src_names ],
+    $search_result = urpm::select::search_packages($urpm, \%requested, \@src_names,
 	all => $all,
 	use_provides => $use_provides,
 	fuzzy => $urpm->{options}{fuzzy},
