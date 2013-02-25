@@ -33,6 +33,21 @@ use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = qw(create_scrolled_window fatal but cancel_n_quit quit add_button_box new_label N);
 
+=head1 NAME
+
+gurpmi - Mageia perl tools to handle the urpmi database
+
+=head1 DESCRIPTION
+
+C<gurpmi> is used by gurpmi* executables to manipulate packages and media
+on a Mageia Linux distribution.
+
+=head2 The urpm class
+
+=over 4
+
+=cut
+
 urpm::select::add_packages_to_priority_upgrade_list('gurpmi', 'perl-Glib', 'perl-Gtk2');
 
 sub usage () {
@@ -58,9 +73,13 @@ sub usage () {
 #- fatal gurpmi initialisation error (*not* fatal urpmi errors)
 sub fatal { my $s = $_[0]; print STDERR "$s\n"; exit 1 }
 
-#- Parse command line
-#- puts options in %gurpmi::options
-#- puts bare names (not rpm filenames) in @gurpmi::names
+=item parse_command_line()
+
+Parse command line,
+puts options in %gurpmi::options and puts bare names (not rpm filenames) in @gurpmi::names
+
+=cut
+
 sub parse_command_line() {
     my @all_rpms;
     our %options;
@@ -99,6 +118,12 @@ sub parse_command_line() {
 
 sub but($) { "    $_[0]    " }
 
+=item quit()
+
+Quits top level gtk+ main loop or, if not such a loop, terminates with 1 as exit code
+
+=cut
+
 sub quit() {
     if (Gtk2->main_level) {
         Gtk2->main_quit;
@@ -108,10 +133,22 @@ sub quit() {
     }
 }
 
+=item cancel_n_quit()
+
+Quits gtk+ main loop and terminates with 1 as exit code
+
+=cut
+
 sub cancel_n_quit() {
     Gtk2->main_quit;
     exit(1);
 }
+
+=item add_button_box($vbox, @buttons)
+
+Packs the buttons in an horizontal ButtonBox, on edges.
+
+=cut
 
 sub add_button_box {
     my ($vbox, @buttons) = @_;
@@ -120,6 +157,13 @@ sub add_button_box {
     $hbox->set_layout('edge');
     $_->set_alignment(0.5, 0.5), $hbox->add($_) foreach @buttons;
 }
+
+=item new_label($msg)
+
+Creates a new Gtk2::Label widget.
+If messages is too big, it's wrapped in a scrolled window
+
+=cut
 
 sub new_label {
     my ($msg) = @_;
@@ -134,6 +178,12 @@ sub new_label {
 	return $label;
     }
 }
+
+=item create_scrolled_window($W, $o_policy, $o_viewport_shadow)
+
+Creates a scrolled window around the $W widget
+
+=cut
 
 # copied from ugtk2:
 sub create_scrolled_window {
@@ -159,5 +209,29 @@ sub create_scrolled_window {
 	$w;
     }
 }
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+Copyright (C) 2011-2013 Mageia SA
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+=cut
 
 1;

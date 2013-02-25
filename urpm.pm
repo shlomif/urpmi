@@ -602,7 +602,7 @@ __END__
 The L<URPM> package is used to manipulate at a lower level synthesis and rpm
 files.
 
-See also submodules: L<urpm::args>, L<urpm::bug_report>,
+See also submodules: L<gurpmi>, L<urpm::args>, L<urpm::bug_report>,
 L<urpm::cdrom>, L<urpm::cfg>, L<urpm::download>, L<urpm::get_pkgs>,
 L<urpm::install>, L<urpm::ldap>, L<urpm::lock>, L<urpm::main_loop>,
 L<urpm::md5sum>, L<urpm::media>, L<urpm::mirrors>, L<urpm::msg>,
