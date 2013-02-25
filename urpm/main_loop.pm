@@ -309,7 +309,7 @@ sub _run_transaction {
     !$fatal;
 }
 
-=item run($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks)
+=item run($urpm, $state, $something_was_to_be_done, $ask_unselect, $callbacks)
 
 Run the main urpm loop:
 
