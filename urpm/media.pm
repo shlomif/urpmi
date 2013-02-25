@@ -733,10 +733,10 @@ sub configure {
 
 	_pick_mirror_if_needed($urpm, $_, '') foreach non_ignored_media($urpm, $options{update});
 
-	parse_media($urpm, \%options) if !$options{nodepslist};
-
-    #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
     if (!$options{nodepslist}) {
+	parse_media($urpm, \%options);
+
+	#- determine package to withdraw (from skip.list file) only if something should be withdrawn.
 	_compute_flags_for_skiplist($urpm, $options{cmdline_skiplist}) if !$options{no_skiplist};
 	_compute_flags_for_instlist($urpm);
     }
