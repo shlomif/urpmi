@@ -319,6 +319,7 @@ Install packages according to each hash (remove, install or upgrade).
 options: 
      test, excludepath, nodeps, noorder (unused), delta, 
      callback_inst, callback_trans, callback_report_uninst,
+     callback_open_helper, callback_close_helper,
      post_clean_cache, verbose
   (more options for trans->run)
      excludedocs, nosize, noscripts, oldpackage, replacepkgs, justdb, ignorearch
