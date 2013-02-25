@@ -29,8 +29,7 @@ package MY;
 # Don't install gurpmi.pm if we don't install gui
 sub libscan {
     my ($self, $path) = @_;
-    if (!$with_gui && $path =~ /gurpmi/) { return '' }
-    return $path;
+    return !$with_gui && $path =~ /gurpmi/ ? '' : $path;
 }
 
 # Make proper sbin/man5/man8 dirs in blib
