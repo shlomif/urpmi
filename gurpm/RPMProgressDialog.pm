@@ -38,6 +38,7 @@ use Gtk2;
 use urpm::download;
 use urpm::msg 'N';
 use urpm::util qw(max member);
+use Scalar::Util qw(weaken);
 
 our @ISA = qw(Gtk2::Window);
 
@@ -46,7 +47,7 @@ sub title {
 }
 
 # package variable needed in order to simplify callbacks
-my $mainw;
+my ($mainw, $urpm);
 
 my $progressbar_size = 450;
 my ($progress_nb, $download_nb);
@@ -66,9 +67,10 @@ Arguments are an urpm object and a quit routine reference.
 
 
 sub new {
-    my ($self, $urpm, $o_quit) = @_;
+    my ($self, $global_urpm, $o_quit) = @_;
     # my $w = ugtk2->new($title, %options, default_width => 600, width => 600);
     my $w = $mainw = bless(Gtk2::Window->new('toplevel'), $self);
+
     $::main_window = $w;
     $w->set_border_width(12);
     $w->set_title($w->title);
@@ -79,7 +81,13 @@ sub new {
     $w->set_modal(1);	  # for matchbox window manager during install
     $w->{mainbox} = Gtk2::VBox->new(0, 5);
     $w->add($w->{mainbox});
-    $w->{urpm} = $urpm;
+    $urpm = $global_urpm;
+
+    # Prevent cycle:
+    weaken($urpm); # fixes GC but not ideal
+    weaken($mainw);
+    weaken($::main_window);
+
     bless($w, $self);
 }
 
@@ -175,7 +183,7 @@ Update the progress bar
 sub set_progressbar {
     my ($w, $local_ratio) = @_;
     if ($progress_nb || $download_nb) { # this happens when computing transaction
-	$w->{global_progressbar}->set_fraction(($download_nb + $progress_nb - 1 + $local_ratio) / 2 / $w->{urpm}{nb_install});
+	$w->{global_progressbar}->set_fraction(($download_nb + $progress_nb - 1 + $local_ratio) / 2 / $urpm->{nb_install});
     }
     $w->{progressbar}->set_fraction($local_ratio);
 }
@@ -260,10 +268,20 @@ sub callback_download {
 	$mainw->set_progressbar(1);
     } elsif ($mode eq 'error') {
 	#- error is 3rd argument, saved in $percent
-	push @{$mainw->{urpm}{download_errors}}, N("...retrieving failed: %s", $percent);
+	push @{$urpm->{download_errors}}, N("...retrieving failed: %s", $percent);
     }
     $mainw->sync;
 }
+
+sub DESTROY {
+    my ($self) = @_;
+    undef $mainw;
+    undef $urpm;
+
+    $self and $self->destroy;
+    $self = undef;
+}
+
 
 =back
 
