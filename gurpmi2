@@ -30,7 +30,12 @@ our $test = 0;
 our $use_provides = 1;
 
 my $progressbar_size = 450;
-Glib->enable_exceptions2;
+
+# For other distros w/o exception support:
+eval { Glib->enable_exceptions2 };
+if (my $err = $@) {
+   warn "Error: $err\n";
+}
 
 #- GUI globals
 my ($mainw, $mainbox);
