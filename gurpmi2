@@ -11,7 +11,7 @@ BEGIN { #- set up a safe path and environment
 }
 
 use gurpmi;
-use urpm::download;
+use gurpm::RPMProgressDialog;
 use urpm::install;
 use urpm::media;
 use urpm::signature;
@@ -29,8 +29,6 @@ our $force = 0;
 our $test = 0;
 our $use_provides = 1;
 
-my $progressbar_size = 450;
-
 # For other distros w/o exception support:
 eval { Glib->enable_exceptions2 };
 if (my $err = $@) {
@@ -38,32 +36,7 @@ if (my $err = $@) {
 }
 
 #- GUI globals
-my ($mainw, $mainbox);
-
-#- Replaces the contents of the main window with the specified box
-#- (avoids popup multiplication)
-sub change_mainw {
-    $mainw->remove($mainbox);
-    ($mainbox) = @_;
-    $mainw->add($mainbox);
-    $mainw->show_all;
-}
-
-sub sync () {
-    $mainw->show;
-    Gtk2->main_iteration while Gtk2->events_pending;
-}
-
-#- sets the window to a please-wait message
-sub wait_label {
-    my ($o_text) = @_;
-    my $wait_vbox = Gtk2::VBox->new(0, 5);
-    my $wait_label = Gtk2::Label->new($o_text || N("Please wait..."));
-    $wait_label->set_alignment(0.5, 0.5);
-    $wait_vbox->pack_start($wait_label, 1, 1, 0);
-    change_mainw($wait_vbox);
-    sync();
-}
+my $mainw;
 
 my @all_rpms = gurpmi::parse_command_line();
 
@@ -73,25 +46,22 @@ $> and fatal(N("Must be root"));
 
 Gtk2->init;
 
-my $title = $::auto_select ? N("Distribution Upgrade") : N("Packages installation");
+#- Initialize urpm
+
+my $urpm;
+{ 
+    local @ARGV = @ARGV;
+    $urpm = urpm->new_parse_cmdline;
+}
 
 #- Create main window
 
-$mainw = Gtk2::Window->new('toplevel');
-$::main_window = $mainw;
-$mainw->set_border_width(12);
-$mainw->set_title($title);
-$mainw->signal_connect(destroy => \&quit);
-$mainw->set_position('center');
-$mainw->set_default_size($progressbar_size, 60);
-$mainw->set_type_hint('dialog'); # for matchbox window manager during install
-$mainw->set_modal(1);		 # for matchbox window manager during install
-$mainbox = Gtk2::VBox->new(0, 5);
-$mainw->add($mainbox);
+$mainw = gurpm::RPMProgressDialog->new($urpm, \&quit);
 
 #- Performs installation
 
-my $urpm = configure_urpm();
+configure_urpm($urpm);
+
 my $state = {};
 my %requested = $urpm->register_rpms(@all_rpms);
 if (@gurpmi::names) {
@@ -100,7 +70,7 @@ if (@gurpmi::names) {
                               ) || $force or exit 1;
 }
 
-wait_label(N("Preparing packages installation..."));
+$mainw->label(N("Preparing packages installation..."));
 
 #- return value is true if program should be restarted (in order to take care of important
 #- packages being upgraded (problably urpmi and perl-URPM, but maybe rpm too, and glibc also ?).
@@ -134,12 +104,8 @@ Gtk2->main;
 my ($rpm_lock, $urpmi_lock);
 
 #- Creates and configure an urpm object for this application to use.
-sub configure_urpm() {
-    my $urpm;
-    { 
-        local @ARGV = @ARGV;
-        $urpm = urpm->new_parse_cmdline;
-    }
+sub configure_urpm {
+    my ($urpm) = @_;
 
     $urpm->{fatal} = sub {
 	printf STDERR "%s\n", $_[1];
@@ -184,7 +150,6 @@ sub configure_urpm() {
         update      => $::update,
     );
     $urpm->{options}{'verify-rpm'} = 0 if $gurpmi::options{'no-verify-rpm'};
-    $urpm;
 }
 
 #- Callback for choices
@@ -230,7 +195,7 @@ sub ask_continue {
     $quit_button->signal_connect(clicked => sub { $urpm->{log}("=> cancel"); &quit(); exit 1 });
     $continue_button->signal_connect(clicked => sub { $urpm->{log}("=> ok"); goto &$nextclosure });
     add_button_box($vbox, $quit_button, $continue_button);
-    change_mainw($vbox);
+    $mainw->change_widget($vbox);
     # default is to continue, but according to some HIG, warning should reverse the choise and defaults to abort
     $mainw->set_focus($continue_button); # also set_default should be called but it gives a warning!
 }
@@ -257,7 +222,7 @@ sub ask_continue_blocking {
 }
 
 sub do_install {
-    wait_label();
+    $mainw->label;
     my @ask_remove = urpm::select::removed_packages($state);
     @ask_remove
 	? ask_continue_if_no_auto(N(
@@ -289,54 +254,11 @@ sub do_install_2 () {
 }
 
 sub do_install_3 () {
-    wait_label($title);
+    $mainw->label($mainw->title);
     my ($local_sources, $blists) = urpm::get_pkgs::selected2local_and_blists($urpm, $state->{selected});
     $local_sources || $blists or $urpm->{fatal}(3, N("unable to get source packages, aborting"));
-    my $vbox = Gtk2::VBox->new(0, 5);
 
-    my $global_label = gtk_new_Label_Left("<b>$title</b>");
-    $global_label->set_use_markup(1);
-    $vbox->pack_start($global_label, 0, 0, 0);
-
-    my $global_progressbar = Gtk2::ProgressBar->new;
-    $vbox->pack_start($global_progressbar, 0, 0, 0);
-
-    my $progress_label = gtk_new_Label_Left('-');
-    $vbox->pack_start($progress_label, 1, 1, 0);
-
-
-    my $progressbar = Gtk2::ProgressBar->new;
-    $progressbar->set_size_request($progressbar_size, -1);
-    $vbox->pack_start($progressbar, 0, 0, 0);
-
-    change_mainw($vbox);
-    my ($progress_nb, $download_nb);
-    my $set_progressbar = sub {
-	my ($local_ratio) = @_;
-	if ($progress_nb || $download_nb) { # this happens when computing transaction	   
-	    $global_progressbar->set_fraction(($download_nb + $progress_nb - 1 + $local_ratio) / 2 / $urpm->{nb_install});
-	}
-	$progressbar->set_fraction($local_ratio);
-    };
-	    my $callback_inst = sub {
-		my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
-		my $pkg = defined $id ? $urpm->{depslist}[$id] : undef;
-		if ($subtype eq 'start') {
-		    if ($type eq 'trans') {
-			$progress_label->set_label(N("Preparing..."));
-		    } elsif ($pkg) {
-			$progress_nb++;
-			$download_nb = max($download_nb, $progress_nb);
-			$set_progressbar->(0);
-			$progress_label->set_label(
-			    N("Installing package `%s' (%s/%s)...", $pkg->name, $progress_nb, $urpm->{nb_install})
-			);
-		    }
-		} elsif ($subtype eq 'progress') {
-		    $set_progressbar->($amount / $total);
-		}
-		sync();
-	    };
+    $mainw->init_progressbar;
 
     my $exit_code = urpm::main_loop::run($urpm, $state, scalar(@gurpmi::names),  \@ask_unselect, {
         bad_signature => sub {
@@ -354,38 +276,15 @@ sub do_install_3 () {
             exit 1 if $response eq 'cancel';
             1;
         },
-        trans_log => sub {
-	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
-
-            urpm::download::sync_logger(@_);
-
-            if (member($mode, 'start', 'progress')) {
-		$file =~ s|/*\s*$||; $file =~ s|.*/||;
-                $progress_label->set_label(N("Downloading package `%s'...", $file) . "\n" .
-                                             &urpm::download::progress_text($mode, $percent, $total, $eta, $speed));
-	    }
-            if ($mode eq 'start') {
-		$download_nb++;
-		$set_progressbar->(0);
-                select(undef, undef, undef, 0.1); #- hackish
-            } elsif ($mode eq 'progress') {
-		$set_progressbar->($percent / 100);
-            } elsif ($mode eq 'end') {
-		$set_progressbar->(1);
-            } elsif ($mode eq 'error') {
-		#- error is 3rd argument, saved in $percent
-		push @{$urpm->{download_errors}}, N("...retrieving failed: %s", $percent);
-            }
-            sync();
-        },
+        trans_log => &gurpm::RPMProgressDialog::callback_download,
         ask_yes_or_no => \&ask_yes_or_no,
 
         completed => sub {
             $urpmi_lock->unlock;
             $rpm_lock->unlock;
             urpm::removable::try_umounting_removables($urpm);
-            $vbox = Gtk2::VBox->new(0, 5);
-            $progress_label = Gtk2::Label->new('-');
+            my $vbox = Gtk2::VBox->new(0, 5); # FIXME: should it be change_widget???
+            my $progress_label = Gtk2::Label->new('-'); # TEST ME
             return 0 if $gurpmi::options{auto};
             my $sw = create_scrolled_window($progress_label);
             $sw->set_size_request(500, 200);
@@ -393,7 +292,7 @@ sub do_install_3 () {
             my $quit_button = Gtk2::Button->new(but(N("_Done")));
             $quit_button->signal_connect(clicked => \&quit);
             add_button_box($vbox, $quit_button);
-            change_mainw($vbox);
+            $mainw->change_widget($vbox);
             $mainw->set_focus($quit_button);
         },
         need_restart => sub {
@@ -407,24 +306,24 @@ sub do_install_3 () {
         },
         missing_files_summary => sub {
             my ($error_sources) = @_;
-            $progress_label->set_label(N("Installation failed, some files are missing:\n%s",
+            $mainw->set_progresslabel(N("Installation failed, some files are missing:\n%s",
                                          join("\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" }
                                                 values %$error_sources))
                                    . "\n" . N("You may want to update your urpmi database."));
         },
         trans_error_summary => sub {
             my ($_nok, $errors) = @_;
-            $progress_label->set_label(N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @$errors));
+            $mainw->set_progresslabel(N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @$errors));
         },
         # TODO: use urpmi strings:
         already_installed_or_not_installable => sub {
             my ($_msg1, $_msg2) = @_;
-            $progress_label->set_label(N("The package(s) are already installed"));
+            $mainw->set_progresslabel(N("The package(s) are already installed"));
         },
-        success_summary => sub { $progress_label->set_label(N("Installation finished")) },
-        callback_report_uninst => sub { $progress_label->set_label(N("removing %s", $_[0])) },
-        inst => $callback_inst,
-        trans => $callback_inst,
+        success_summary => sub { $mainw->set_progresslabel(N("Installation finished")) },
+        callback_report_uninst => \&gurpm::RPMProgressDialog::callback_remove,
+        inst => \&gurpm::RPMProgressDialog::callback_inst,
+        trans => \&gurpm::RPMProgressDialog::callback_inst,
     }
                      );
 
@@ -457,9 +356,4 @@ sub ask_yes_or_no {
     $response eq 'yes';
 }
 
-sub gtk_new_Label_Left {
-    my ($text) = @_;
-    my $w = Gtk2::Label->new($text);
-    $w->set_alignment(0, 0);
-    $w;
-}
+
