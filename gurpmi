@@ -14,6 +14,12 @@ use Gtk2;
 use gurpmi;
 use urpm::util;
 
+# For other distros w/o exception support:
+eval { Glib->enable_exceptions2 };
+if (my $err = $@) {
+   warn "Error: $err\n";
+}
+
 sub usage() { gurpmi::usage() }
 
 #- globals
