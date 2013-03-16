@@ -159,6 +159,7 @@ sub init_progressbar {
     $progressbar->set_size_request($progressbar_size, -1);
     $vbox->pack_start($progressbar, 0, 0, 0);
     $w->{progressbar} = $progressbar;
+    $progress_nb = $download_nb = 0;
 
     $w->change_widget($vbox);
 }
