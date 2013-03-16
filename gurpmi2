@@ -267,7 +267,7 @@ sub do_install_3 () {
             ask_continue_blocking("$msg\n$msg2");
         },
         copy_removable => sub {
-            #FIXME: use use hal to wait-for/mount cdroms: 
+            #FIXME: use use udisks to wait-for/mount cdroms: 
             my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok-cancel',
                                              N("Please insert the medium named \"%s\"", $_[0])
                                          );
