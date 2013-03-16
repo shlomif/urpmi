@@ -362,7 +362,7 @@ Parameters:
 
 =over
 
-=item trans_log: called for displaying download progress
+=item trans_log($mode, $file, $percent, $total, $eta, $speed): called for displaying download progress
 
 =item interaction with user:
 
