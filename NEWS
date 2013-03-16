@@ -2,6 +2,9 @@
   o enable rpmdrake/gurpm/drakx to pass their own callbacks for erasure
     progress & errors
   o enhanced doc
+  o revert 'fixing (g)urpmi --auto-select --update defaulting to all media when
+    there're no update media (#1024)' as it break looking for deps in other media
+    with --update (mga#2317)
 - gurpmi:
   o support exceptions in callback in main wrapper too
   o support other distros which do not handle exceptions in gtk+ callbacks
