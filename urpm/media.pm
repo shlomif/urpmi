@@ -764,10 +764,7 @@ sub non_ignored_media {
 sub all_media_to_update {
     my ($urpm, $b_only_marked_update) = @_;
 
-    grep { !$_->{ignore}
-	     && !$_->{static} && !urpm::is_cdrom_url($_->{url}) && !$_->{iso}
-	     && (!$b_only_marked_update || $_->{update});
-	} @{$urpm->{media} || []};
+    grep {  !$_->{static} && !urpm::is_cdrom_url($_->{url}) && !$_->{iso} } non_ignored_media($urpm, $b_only_marked_update);
 }
 
 sub parse_media {
