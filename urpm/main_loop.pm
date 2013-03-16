@@ -222,7 +222,6 @@ sub _init_common_options {
       callback_open_helper => $callbacks->{open_helper},
       callback_trans => $callbacks->{trans},
       callback_uninst => $callbacks->{uninst},
-      callback_report_uninst => $callbacks->{callback_report_uninst},
       raw_message => 1,
   );
 }
@@ -416,8 +415,6 @@ Parameters:
 =item uninst(): called for erasure progress
 
 =item error() called for cpio, script or unpacking errors
-
-=item callback_report_uninst(): called for erasure progrses
 
 =back
 

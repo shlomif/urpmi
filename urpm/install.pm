@@ -281,7 +281,7 @@ sub _get_callbacks {
 
     #- ensure perl does not create a circular reference below, otherwise all this won't be collected,
     #  and rpmdb won't be closed
-    my ($verbose, $callback_report_uninst) = ($options->{verbose}, $options->{callback_report_uninst});
+    my $verbose = $options->{verbose};
     $erase_logger = sub {
 	my ($urpm, undef, undef, $subtype) = @_;
 
@@ -293,7 +293,6 @@ sub _get_callbacks {
 	    if (member($name, @previous)) {
 		$urpm->{log}("removing upgraded package $fullname");
 	    } else {
-		$callback_report_uninst and $callback_report_uninst->(N("Removing package %s", $fullname));
 		$urpm->{print}(N("removing package %s", $fullname)) if $verbose >= 0;
 	    }
 	    $index++;
@@ -320,7 +319,7 @@ Install packages according to each hash (remove, install or upgrade).
 
 options: 
      test, excludepath, nodeps, noorder (unused), delta, 
-     callback_inst, callback_trans, callback_report_uninst, callback_uninst, 
+     callback_inst, callback_trans, callback_uninst,
      callback_open_helper, callback_close_helper,
      post_clean_cache, verbose
   (more options for trans->run)
