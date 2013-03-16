@@ -88,6 +88,8 @@ sub transaction_set_to_string {
 
 Standard logger for transactions
 
+See L<URPM> for parameters
+
 =cut
 
 # install logger callback
@@ -323,6 +325,8 @@ options:
      post_clean_cache, verbose
   (more options for trans->run)
      excludedocs, nosize, noscripts, oldpackage, replacepkgs, justdb, ignorearch
+
+See L<URPM> for callback parameters
 
 =cut
 

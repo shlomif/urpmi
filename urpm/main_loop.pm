@@ -400,7 +400,7 @@ Parameters:
 
 =back
 
-=item packages installation callbacks (passed to urpm::install::install())
+=item packages installation callbacks (passed to urpm::install::install(), see L<URPM> for parameters)
 
 =over
 
