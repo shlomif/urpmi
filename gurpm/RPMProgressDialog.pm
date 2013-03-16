@@ -26,7 +26,7 @@ How to use:
        trans_log => &gurpm::RPMProgressDialog::callback_download,
        inst => \&gurpm::RPMProgressDialog::callback_inst,
        trans => \&gurpm::RPMProgressDialog::callback_inst,
-       callback_report_uninst => ...
+       uninst => \&gurpm::RPMProgressDialog::callback_inst,
        ....
 
 =head1 DESCRIPTION
@@ -34,6 +34,7 @@ How to use:
 =cut
 
 use strict;
+use feature 'state';
 use Gtk2;
 use urpm::download;
 use urpm::msg 'N';
@@ -229,25 +230,28 @@ Its purpose is to display installation progress in the dialog.
 sub callback_inst {
     my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
     my $pkg = defined $id ? $urpm->{depslist}[$id] : undef;
+    state $uninst_count;
     if ($subtype eq 'start') {
 	if ($type eq 'trans') {
+	    $uninst_count = 0;
 	    $mainw->set_progresslabel(N("Preparing..."));
-	} elsif ($pkg) {
-	    $progress_nb++;
+	} else {
+	    my $msg;
+	    if ($type eq 'uninst') {
+		$msg = N("Removing package `%s' ...", $urpm->{trans}->Element_fullname($uninst_count));
+		$uninst_count++;
+	    } else {
+		$progress_nb++;
+		$msg = N("Installing package `%s' (%s/%s)...", $pkg->name, $progress_nb, $urpm->{nb_install});
+	    }
 	    $download_nb = max($download_nb, $progress_nb);
 	    $mainw->set_progressbar(0);
-	    $mainw->set_progresslabel(
-		N("Installing package `%s' (%s/%s)...", $pkg->name, $progress_nb, $urpm->{nb_install})
-		);
+	    $mainw->set_progresslabel($msg);
 	}
     } elsif ($subtype eq 'progress') {
 	$mainw->set_progressbar($amount / $total);
     }
     $mainw->sync;
-}
-
-sub callback_remove {
-    $mainw->set_progresslabel(N("removing %s", $_[0]));
 }
 
 =item callback_download($mode, $file, $percent, $total, $eta, $speed)

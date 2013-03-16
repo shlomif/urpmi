@@ -321,7 +321,7 @@ sub do_install_3 () {
             $mainw->set_progresslabel(N("The package(s) are already installed"));
         },
         success_summary => sub { $mainw->set_progresslabel(N("Installation finished")) },
-        callback_report_uninst => \&gurpm::RPMProgressDialog::callback_remove,
+        uninst => \&gurpm::RPMProgressDialog::callback_inst,
         inst => \&gurpm::RPMProgressDialog::callback_inst,
         trans => \&gurpm::RPMProgressDialog::callback_inst,
     }
