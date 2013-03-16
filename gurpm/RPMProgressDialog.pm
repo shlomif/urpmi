@@ -201,6 +201,16 @@ sub sync {
     Gtk2->main_iteration while Gtk2->events_pending;
 }
 
+=item gurpm::RPMProgressDialog::get_something_done()
+
+Whether some package has been installed or removed
+
+=cut
+
+sub get_something_done() {
+    $progress_nb;
+}
+
 =back
 
 =head2 Callbacks
