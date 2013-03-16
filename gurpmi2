@@ -66,7 +66,7 @@ $> and fatal(N("Must be root"));
 #- Now, the graphical stuff.
 
 Gtk2->init;
-Gtk2->croak_execeptions;
+Glib->enable_exceptions2;
 
 my $title = $::auto_select ? N("Distribution Upgrade") : N("Packages installation");
 
