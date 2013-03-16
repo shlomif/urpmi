@@ -326,6 +326,7 @@ options:
 
 =cut
 
+#- side-effects: uses a $urpm->{readmes}
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     $options{translate_message} = 1;
