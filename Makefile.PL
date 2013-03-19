@@ -155,7 +155,7 @@ WriteMakefile(
 	LOCALSTATEDIR		=> '$(DESTDIR)/var/lib',
     },
     EXE_FILES		=> [ @bin_scripts, @sbin_scripts ],
-    PMLIBDIRS		=> [ qw(urpm) ],
+    PMLIBDIRS		=> [ qw(gurpm urpm) ],
     $with_po ? (DIR	=> [ 'po' ]) : (),
     MAN1PODS		=> {
 	map {
