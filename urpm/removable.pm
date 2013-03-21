@@ -89,7 +89,6 @@ sub _try_mounting_iso {
 	system('mount', $iso, $mntpoint, qw(-t iso9660 -o loop));
 	$urpm->{removable_mounted}{$mntpoint} = undef;
     }
-    -e $mntpoint;
 }
 
 #- side-effects: $urpm->{removable_mounted}, "mount"
@@ -104,7 +103,6 @@ sub _try_mounting_using_fstab {
 	system("mount '$mntpoint' 2>/dev/null");
 	$urpm->{removable_mounted}{$mntpoint} = undef;
     }
-    -e $dir;
 }
 
 #- side-effects: $urpm->{removable_mounted}, "umount"
