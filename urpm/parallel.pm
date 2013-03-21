@@ -2,7 +2,7 @@ package urpm::parallel; # $Id: parallel.pm 250871 2009-01-06 17:21:05Z pixel $
 
 use strict;
 use urpm;
-use urpm::util;
+use urpm::util qw(any basename cat_);
 use urpm::msg;
 
 

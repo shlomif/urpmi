@@ -5,7 +5,7 @@ package urpm::cdrom;
 use strict;
 use urpm::msg;
 use urpm::sys;
-use urpm::util;
+use urpm::util qw(basename copy_and_own difference2 remove_internal_name);
 use urpm::get_pkgs;
 use urpm::removable;
 use urpm 'file_from_local_medium';

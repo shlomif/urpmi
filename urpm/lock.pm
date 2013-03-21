@@ -4,7 +4,7 @@ package urpm::lock;
 
 use strict;
 use urpm::msg;
-use urpm::util;
+use urpm::util 'cat_';
 
 #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
 my ($LOCK_SH, $LOCK_EX, $LOCK_NB, $LOCK_UN) = (1, 2, 4, 8);

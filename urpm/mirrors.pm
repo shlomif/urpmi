@@ -3,7 +3,7 @@ package urpm::mirrors;
 # $Id: $
 
 use strict;
-use urpm::util;
+use urpm::util qw(cat_ find output_safe reduce_pathname);
 use urpm::msg;
 use urpm::download;
 

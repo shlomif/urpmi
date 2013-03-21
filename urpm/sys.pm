@@ -4,7 +4,7 @@ package urpm::sys;
 
 use strict;
 use warnings;
-use urpm::util;
+use urpm::util 'cat_';
 use urpm::msg;
 use POSIX ();
 

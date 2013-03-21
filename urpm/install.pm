@@ -5,7 +5,7 @@ package urpm::install;
 use strict;
 use urpm;
 use urpm::msg;
-use urpm::util;
+use urpm::util qw(cat_utf8 member);
 
 
 =head1 NAME

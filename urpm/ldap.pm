@@ -5,7 +5,7 @@ package urpm::ldap;
 use strict;
 use warnings;
 use urpm;
-use urpm::util;
+use urpm::util qw(cat_ output_safe);
 use urpm::msg 'N';
 use urpm::media;
 

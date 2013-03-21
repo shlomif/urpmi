@@ -4,7 +4,7 @@ package urpm::select;
 
 use strict;
 use urpm::msg;
-use urpm::util;
+use urpm::util qw(any intersection member min partition uniq);
 use urpm::sys;
 use URPM;
 

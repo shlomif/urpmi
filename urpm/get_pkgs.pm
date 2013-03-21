@@ -5,7 +5,7 @@ package urpm::get_pkgs;
 use strict;
 use urpm::msg;
 use urpm::sys;
-use urpm::util;
+use urpm::util qw(basename put_in_hash);
 use urpm::media;
 use urpm 'file_from_local_url';
 # perl_checker: require urpm::select

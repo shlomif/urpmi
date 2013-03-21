@@ -5,7 +5,7 @@ package urpm::signature;
 use strict;
 use urpm::msg;
 use urpm::media;
-use urpm::util;
+use urpm::util qw(any basename);
 
 
 =head1 NAME

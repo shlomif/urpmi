@@ -4,7 +4,7 @@ package urpm::download;
 
 use strict;
 use urpm::msg;
-use urpm::util;
+use urpm::util qw(cat_ basename dirname file_size max member output_safe reduce_pathname);
 use bytes ();
 use Cwd;
 use Exporter;

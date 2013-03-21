@@ -6,7 +6,7 @@ package urpm::parallel_ssh;
 #- Copyright (C) 2005-2010 Mandriva SA
 
 use strict;
-use urpm::util;
+use urpm::util 'dirname';
 use urpm::msg;
 use urpm::parallel;
 

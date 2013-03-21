@@ -20,7 +20,7 @@ if ($collation_locale) {
 use urpm;
 use strict;
 use Gtk2;
-use urpm::util;
+use urpm::util 'member';
 use urpm::msg;
 use urpm::args;
 use urpm::select;

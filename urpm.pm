@@ -7,7 +7,7 @@ use strict;
 use File::Find ();
 use urpm::msg;
 use urpm::download;
-use urpm::util;
+use urpm::util qw(basename begins_with cat_ cat_utf8 dirname file2absolute_file member);
 use urpm::sys;
 use urpm::cfg;
 use urpm::md5sum;

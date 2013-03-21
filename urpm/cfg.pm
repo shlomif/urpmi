@@ -4,7 +4,7 @@ package urpm::cfg;
 
 use strict;
 use warnings;
-use urpm::util;
+use urpm::util qw(any cat_ partition output_safe quotespace unquotespace);
 use urpm::msg 'N';
 
 =head1 NAME

@@ -6,7 +6,7 @@ use strict;
 no warnings;
 use Exporter;
 use URPM;
-use urpm::util;
+use urpm::util 'append_to_file';
 
 my $encoding;
 BEGIN {

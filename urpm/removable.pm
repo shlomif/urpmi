@@ -5,7 +5,7 @@ package urpm::removable;
 use strict;
 use urpm::msg;
 use urpm::sys;
-use urpm::util;
+use urpm::util 'reduce_pathname';
 use urpm 'file_from_local_medium';
 
 

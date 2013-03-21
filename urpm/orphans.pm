@@ -1,7 +1,7 @@
 package urpm::orphans;
 
 use strict;
-use urpm::util;
+use urpm::util qw(add2hash_ append_to_file cat_ output_safe partition put_in_hash uniq wc_l);
 use urpm::msg;
 use urpm;
 
