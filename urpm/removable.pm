@@ -86,7 +86,7 @@ sub _try_mounting_iso {
 	$urpm->{log}(N("mounting %s", $mntpoint));
 
 	sys_log("mount iso $mntpoint on $iso");
-	system('mount', $iso, $mntpoint, '-t', 'iso9660', '-o', 'loop');
+	system('mount', $iso, $mntpoint, qw(-t iso9660 -o loop));
 	$urpm->{removable_mounted}{$mntpoint} = undef;
     }
     -e $mntpoint;
