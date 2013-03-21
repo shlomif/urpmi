@@ -191,6 +191,51 @@ sub set_progressbar {
     $w->{progressbar}->set_fraction($local_ratio);
 }
 
+=item validate_cancel($self, $cancel_msg, $cancel_cb)
+
+Add a "Cancel" button, with $cancel_msg as label, calling
+$cancel_cb when clicked.
+
+=cut
+
+sub validate_cancel {
+    my ($self, $cancel_msg, $cancel_cb) = @_;
+    if (!$self->{cancel}) {
+	$self->{hbox_cancel} = Gtk2::HButtonBox->new;
+	$self->{hbox_cancel}->add($self->{cancel} = Gtk2::Button->new($cancel_msg));
+	$self->{mainbox}->add($self->{hbox_cancel});
+	$self->{cancel}->signal_connect('clicked' => \&$cancel_cb);
+	$self->{hbox_cancel}->show_all;
+    }
+    $self->{cancel}->set_sensitive(1);
+    $self->{cancel}->show;
+}
+
+=item invalidate_cancel($self)
+
+Disable the "Cancel" button if any.
+
+=cut
+
+sub invalidate_cancel {
+    my ($self) = @_;
+    $self->{cancel} and $self->{cancel}->set_sensitive(0);
+}
+
+=item invalidate_cancel($self)
+
+Disable the "Cancel" button if any.
+
+=cut
+
+
+sub invalidate_cancel_forever {
+    my ($self) = @_;
+    $self->{hbox_cancel} or return;
+    $self->{hbox_cancel}->destroy;
+}
+
+
 =item sync($w)
 
 tell Gtk+ to refresh the dialog content if needed.
@@ -211,6 +256,17 @@ Whether some package has been installed or removed
 
 sub get_something_done() {
     $progress_nb;
+}
+
+=item canceled($w)
+
+Whether downloading has been canceled or not.
+
+=cut
+
+sub canceled {
+    my ($w) = @_;
+    $w->{canceled};
 }
 
 =back
@@ -288,6 +344,17 @@ sub callback_download {
     }
     $mainw->sync;
 }
+
+=item callback_cancel()
+
+This callback is to be called when canceling packages download.
+
+=cut
+
+sub callback_cancel {
+    $mainw->{canceled} = 1;
+}
+
 
 sub DESTROY {
     my ($self) = @_;
