@@ -48,7 +48,7 @@ sub title {
 }
 
 # package variable needed in order to simplify callbacks
-my ($mainw, $urpm);
+my ($mainw, $urpm, $old_main_window);
 
 my $progressbar_size = 450;
 my ($progress_nb, $download_nb);
@@ -72,6 +72,7 @@ sub new {
     # my $w = ugtk2->new($title, %options, default_width => 600, width => 600);
     my $w = $mainw = bless(Gtk2::Window->new('toplevel'), $self);
 
+    $old_main_window = $::main_window;
     $::main_window = $w;
     $w->set_border_width(12);
     $w->set_title($w->title);
@@ -292,6 +293,7 @@ sub DESTROY {
     my ($self) = @_;
     undef $mainw;
     undef $urpm;
+    $::main_window = $old_main_window;
 
     $self and $self->destroy;
     $self = undef;
