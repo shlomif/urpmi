@@ -331,6 +331,7 @@ sub callback_download {
 				  &urpm::download::progress_text($mode, $percent, $total, $eta, $speed));
     }
     if ($mode eq 'start') {
+	$mainw->validate_cancel(N("Cancel"), \&callback_cancel);
 	$download_nb++;
 	$mainw->set_progressbar(0);
 	select(undef, undef, undef, 0.1); #- hackish
