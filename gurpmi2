@@ -275,7 +275,7 @@ sub do_install_3 () {
             exit 1 if $response eq 'cancel';
             1;
         },
-        trans_log => &gurpm::RPMProgressDialog::callback_download,
+        trans_log => \&gurpm::RPMProgressDialog::callback_download,
         ask_yes_or_no => \&ask_yes_or_no,
 
         completed => sub {
