@@ -34,7 +34,6 @@ How to use:
 =cut
 
 use strict;
-use feature 'state';
 use Gtk2;
 use urpm::download;
 use urpm::msg 'N';
@@ -51,7 +50,7 @@ sub title {
 my ($mainw, $urpm, $old_main_window);
 
 my $progressbar_size = 450;
-my ($progress_nb, $download_nb);
+my ($progress_nb, $download_nb, $uninst_count);
 
 
 =head2 Creators
@@ -161,7 +160,7 @@ sub init_progressbar {
     $progressbar->set_size_request($progressbar_size, -1);
     $vbox->pack_start($progressbar, 0, 0, 0);
     $w->{progressbar} = $progressbar;
-    $progress_nb = $download_nb = 0;
+    $progress_nb = $download_nb = $uninst_count = 0;
 
     $w->change_widget($vbox);
 }
@@ -185,8 +184,8 @@ Update the progress bar
 
 sub set_progressbar {
     my ($w, $local_ratio) = @_;
-    if ($progress_nb || $download_nb) { # this happens when computing transaction
-	$w->{global_progressbar}->set_fraction(($download_nb + $progress_nb - 1 + $local_ratio) / 2 / $urpm->{nb_install});
+    if ($progress_nb || $download_nb || $uninst_count) { # this happens when computing transaction
+	$w->{global_progressbar}->set_fraction(($download_nb + $progress_nb + $uninst_count - 1 + $local_ratio) / 2 / $urpm->{nb_install});
     }
     $w->{progressbar}->set_fraction($local_ratio);
 }
@@ -287,7 +286,6 @@ Its purpose is to display installation progress in the dialog.
 sub callback_inst {
     my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
     my $pkg = defined $id ? $urpm->{depslist}[$id] : undef;
-    state $uninst_count;
     if ($subtype eq 'start') {
 	if ($type eq 'trans') {
 	    $uninst_count = 0;
