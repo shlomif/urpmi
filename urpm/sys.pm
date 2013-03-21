@@ -162,23 +162,6 @@ sub proc_mounts() {
     @l;
 }
 
-
-=item first_free_loopdev()
-
-Returns the first unused loop device, or an empty string if none is found.
-
-=cut
-
-sub first_free_loopdev () {
-    my %loopdevs = map { $_ => 1 } grep { ! -d $_ } glob('/dev/loop*');
-    foreach (proc_mounts()) {
-	(our $dev) = split ' ';
-	delete $loopdevs{$dev} if $dev =~ m!^/dev/loop!;
-    }
-    my @l = keys %loopdevs;
-    @l ? $l[0] : '';
-}
-
 sub trim_until_d {
     my ($dir) = @_;
     foreach (proc_mounts()) {

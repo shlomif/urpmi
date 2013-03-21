@@ -85,10 +85,8 @@ sub _try_mounting_iso {
     if ($mntpoint) {
 	$urpm->{log}(N("mounting %s", $mntpoint));
 
-	#- to mount an iso image, grab the first loop device
-	my $loopdev = urpm::sys::first_free_loopdev();
 	sys_log("mount iso $mntpoint on $iso");
-	$loopdev and system('mount', $iso, $mntpoint, '-t', 'iso9660', '-o', "loop=$loopdev");
+	system('mount', $iso, $mntpoint, '-t', 'iso9660', '-o', 'loop');
 	$urpm->{removable_mounted}{$mntpoint} = undef;
     }
     -e $mntpoint;
