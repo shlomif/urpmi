@@ -362,7 +362,15 @@ Parameters:
 
 =over
 
+=item packages download:
+
+=over
+
 =item trans_log($mode, $file, $percent, $total, $eta, $speed): called for displaying download progress
+
+=item post_download(): called after completing download of packages
+
+=back
 
 =item interaction with user:
 
