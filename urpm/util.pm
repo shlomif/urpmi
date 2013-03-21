@@ -18,6 +18,7 @@ our @EXPORT = qw(add2hash_
     file2absolute_file
     file_size
     find
+    formatList
     intersection
     max
     member 

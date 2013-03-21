@@ -4,7 +4,7 @@ package urpm::select;
 
 use strict;
 use urpm::msg;
-use urpm::util qw(any intersection member min partition uniq);
+use urpm::util qw(any formatList intersection member min partition uniq);
 use urpm::sys;
 use URPM;
 
@@ -220,7 +220,7 @@ sub _search_packages {
 		$urpm->{error}(N("No package named %s", $v));
 		values(%l) != 0 and $urpm->{error}(
 		    N("The following packages contain %s: %s",
-			$v, urpm::util::formatList(4, sort { $a cmp $b } keys %l)) . "\n" . 
+			$v, formatList(4, sort { $a cmp $b } keys %l)) . "\n" . 
 		    N("You should use \"-a\" to use all of them")
 		);
 		$result = 0;
