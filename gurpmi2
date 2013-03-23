@@ -185,10 +185,15 @@ sub ask_choice {
 }
 
 sub ask_continue {
-    my ($msg, $nextclosure) = @_;
+    my ($msg, $nextclosure, $o_list, $o_end_msg) = @_;
     my $vbox = Gtk2::VBox->new(0, 5);
     $vbox->pack_start(new_label($msg), 1, 1, 0);
     $urpm->{log}($msg);
+	warn ">> o_list='$o_list'\n";
+    if ($o_end_msg) {
+        $vbox->pack_start(new_label($o_list), 1, 1, 0);
+        $vbox->pack_start(new_label($o_end_msg), 1, 1, 0);
+    }
     my $continue_button = Gtk2::Button->new(but(N("_Ok")));
     my $quit_button = Gtk2::Button->new(but(N("_Abort")));
     $quit_button->signal_connect(clicked => sub { $urpm->{log}("=> cancel"); &quit(); exit 1 });
@@ -200,13 +205,13 @@ sub ask_continue {
 }
 
 sub ask_continue_if_no_auto {
-    my ($msg, $nextclosure) = @_;
+    my ($msg, $nextclosure, $o_list, $o_end_msg) = @_;
     if ($gurpmi::options{auto}) {
 	$urpm->{log}($msg);
 	$urpm->{log}("=> ok(auto)");
 	goto &$nextclosure;
     } else {
-	ask_continue($msg, $nextclosure);
+	ask_continue($msg, $nextclosure, $o_list, $o_end_msg);
     }
 }
 
@@ -246,10 +251,10 @@ sub do_install_2 () {
 	? ask_continue_if_no_auto(
 		(scalar(@to_install) == 1 ?
 		N("To satisfy dependencies, the following package is going to be installed:")
-		: N("To satisfy dependencies, the following packages are going to be installed:"))
-       	. join("\n", '', @to_install, '') 
-	. "\n" . $msg2 . $msg2_ . $msg3,
-                    , \&do_install_3)
+		: N("To satisfy dependencies, the following packages are going to be installed:")),
+	\&do_install_3,
+       	join("\n", @to_install),
+	$msg2 . $msg2_ . $msg3)
 	: goto \&do_install_3;
 }
 
