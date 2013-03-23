@@ -232,22 +232,23 @@ sub do_install {
 }
 
 sub do_install_2 () {
-    my @to_install;
-    my $sum;
-    foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$state->{selected}}]) {
-        if ($pkg->arch ne 'src') {
-            push @to_install, scalar $pkg->fullname;
-            $sum += $pkg->size;
-        }
-    }
+    my @to_install = map { scalar $_->fullname } @{$urpm->{depslist}}[sort { $a <=> $b } keys %{$state->{selected}}]; # sorted by medium for format_selected_packages
     $urpm->{nb_install} = @to_install;
+    my ($size, $filesize) = $urpm->selected_size_filesize($state);
+    my $msg2 = $size >= 0 ? 
+      N("%s of additional disk space will be used.", formatXiB($size)) :
+      N("%s of disk space will be freed.", formatXiB(-$size));
+    my $msg2_ = $filesize ? "\n" . N("%s of packages will be retrieved.", formatXiB($filesize)) . "\n" : '';
+    my $msg3 = P("Proceed with the installation of one package?",
+    		"Proceed with the installation of the %d packages?",
+		$urpm->{nb_install}, $urpm->{nb_install});
     @to_install > 1
 	? ask_continue_if_no_auto(
 		(scalar(@to_install) == 1 ?
 		N("To satisfy dependencies, the following package is going to be installed:")
 		: N("To satisfy dependencies, the following packages are going to be installed:"))
        	. join("\n", '', @to_install, '') 
-	. P("(%d package, %d MB)", "(%d packages, %d MB)", scalar(@to_install), scalar(@to_install), toMb($sum)),
+	. "\n" . $msg2 . $msg2_ . $msg3,
                     , \&do_install_3)
 	: goto \&do_install_3;
 }
