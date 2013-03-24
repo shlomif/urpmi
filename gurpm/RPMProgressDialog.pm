@@ -361,7 +361,6 @@ sub DESTROY {
     undef $urpm;
     $::main_window = $old_main_window;
 
-    $self and $self->destroy;
     $self = undef;
 }
 
