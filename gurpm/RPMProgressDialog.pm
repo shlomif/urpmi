@@ -24,6 +24,7 @@ How to use:
  $w->init_progressbar;
  urpm::main_loop::run($urpm, $state, $nb, \@ask_unselect, {
        trans_log => \&gurpm::RPMProgressDialog::callback_download,
+       pre_check_sig => \&gurpm::RPMProgressDialog::pre_check_sig,
        inst => \&gurpm::RPMProgressDialog::callback_inst,
        trans => \&gurpm::RPMProgressDialog::callback_inst,
        uninst => \&gurpm::RPMProgressDialog::callback_inst,
@@ -273,6 +274,19 @@ sub canceled {
 =head2 Callbacks
 
 =over 4
+
+=item callback_pre_check_sig()
+
+This callback is called when checking packages before installing them.
+
+Its purpose is to display installation progress in the dialog.
+
+=cut
+
+sub callback_pre_check_sig {
+    $mainw->set_progresslabel(N("Verifying package signatures..."));
+    $mainw->sync;
+}
 
 =item callback_inst($urpm, $type, $id, $subtype, $amount, $total)
 
