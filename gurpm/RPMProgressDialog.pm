@@ -23,7 +23,7 @@ How to use:
  ... # compute packages to install/remove...
  $w->init_progressbar;
  urpm::main_loop::run($urpm, $state, $nb, \@ask_unselect, {
-       trans_log => &gurpm::RPMProgressDialog::callback_download,
+       trans_log => \&gurpm::RPMProgressDialog::callback_download,
        inst => \&gurpm::RPMProgressDialog::callback_inst,
        trans => \&gurpm::RPMProgressDialog::callback_inst,
        uninst => \&gurpm::RPMProgressDialog::callback_inst,
