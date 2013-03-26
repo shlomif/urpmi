@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-hi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-09 22:13+0100\n"
+"POT-Creation-Date: 2013-03-26 21:20+0100\n"
 "PO-Revision-Date: 2005-08-23 20:11+0530\n"
 "Last-Translator: धनञ्जय शर्मा (Dhananjaya Sharma)\n"
 "Language-Team: Hindi, India\n"
@@ -19,22 +19,74 @@ msgstr ""
 "X-Generator: KBabel 1.10\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: ../gurpmi:32
+#: ../gurpm/RPMProgressDialog.pm:47
+#, fuzzy, c-format
+msgid "Distribution Upgrade"
+msgstr "%s वितिरण किया जा रहा है"
+
+#: ../gurpm/RPMProgressDialog.pm:47
+#, fuzzy, c-format
+msgid "Packages installation"
+msgstr "पैकेज संसाधित हो रहा है..."
+
+#: ../gurpm/RPMProgressDialog.pm:125
+#, c-format
+msgid "Please wait..."
+msgstr "कृपया प्रतीक्षा करें..."
+
+#: ../gurpm/RPMProgressDialog.pm:287
+#, fuzzy, c-format
+msgid "Verifying package signatures..."
+msgstr "निम्नलिखित पैकेजों पर खराब हस्ताक्षार है"
+
+#: ../gurpm/RPMProgressDialog.pm:306 ../urpm/install.pm:107
+#, c-format
+msgid "Preparing..."
+msgstr "तैयारी की जा रही है..."
+
+#: ../gurpm/RPMProgressDialog.pm:310
+#, fuzzy, c-format
+msgid "Removing package `%s' ..."
+msgstr "%s पैकेज को हटाया जा रहा है"
+
+#: ../gurpm/RPMProgressDialog.pm:314
+#, c-format
+msgid "Installing package `%s' (%s/%s)..."
+msgstr "`%s' (%s/%s) पैकेज को संसाधित किया जा रहा है..."
+
+#: ../gurpm/RPMProgressDialog.pm:342
+#, c-format
+msgid "Downloading package `%s'..."
+msgstr "`%s' पैकेज को डॉउनलोड किया जा रहा है..."
+
+#: ../gurpm/RPMProgressDialog.pm:346
+#, c-format
+msgid "Cancel"
+msgstr "निरस्त"
+
+#: ../gurpm/RPMProgressDialog.pm:356 ../urpm.pm:453 ../urpm/download.pm:857
+#: ../urpm/get_pkgs.pm:278 ../urpm/media.pm:1078 ../urpm/media.pm:1604
+#: ../urpm/media.pm:1755
+#, c-format
+msgid "...retrieving failed: %s"
+msgstr "...पुनः प्राप्त करने में असफ़लता: %s "
+
+#: ../gurpmi:38
 #, c-format
 msgid "RPM installation"
 msgstr "आरपीएम संसाधन"
 
-#: ../gurpmi:46
+#: ../gurpmi:52
 #, c-format
 msgid "Error: unable to find file %s, will cancel operation"
 msgstr ""
 
-#: ../gurpmi:47 ../gurpmi2:198 ../gurpmi2:223
+#: ../gurpmi:53 ../gurpmi2:167 ../gurpmi2:197
 #, c-format
 msgid "_Ok"
 msgstr "ठीक (_O)"
 
-#: ../gurpmi:67
+#: ../gurpmi:73
 #, c-format
 msgid ""
 "You have selected a source package:\n"
@@ -55,7 +107,7 @@ msgstr ""
 "\n"
 "आप क्या करना चाहते है?"
 
-#: ../gurpmi:75 ../gurpmi:86
+#: ../gurpmi:81 ../gurpmi:92
 #, c-format
 msgid ""
 "You are about to install the following software packages on your computer:\n"
@@ -70,7 +122,7 @@ msgstr ""
 "\n"
 "किया जाएँ?"
 
-#: ../gurpmi:81
+#: ../gurpmi:87
 #, c-format
 msgid ""
 "You are about to install the following software package on your computer:\n"
@@ -85,51 +137,51 @@ msgstr ""
 "\n"
 "आप हो सकता है कि इसे सिर्फ़ सुरक्षित करना चाहते है । आपकी पसन्द क्या है?"
 
-#: ../gurpmi:99
+#: ../gurpmi:105
 #, c-format
 msgid "_Install"
 msgstr "संसाधन (_I)"
 
-#: ../gurpmi:100
+#: ../gurpmi:106
 #, c-format
 msgid "_Save"
 msgstr "सुरक्षित (_S)"
 
-#: ../gurpmi:101 ../gurpmi2:198
+#: ../gurpmi:107 ../gurpmi2:167
 #, c-format
 msgid "_Cancel"
 msgstr "खत्म करें (_C)"
 
-#: ../gurpmi:109
+#: ../gurpmi:115
 #, c-format
 msgid "Choose location to save file"
 msgstr "संचिका को सुरक्षित करने के स्थान का चयन करें"
 
-#: ../gurpmi.pm:41
+#: ../gurpmi.pm:56
 #, c-format
 msgid "Options:"
 msgstr ""
 
-#: ../gurpmi.pm:42 ../urpme:42 ../urpmf:30 ../urpmi:67 ../urpmi.addmedia:55
+#: ../gurpmi.pm:57 ../urpme:42 ../urpmf:30 ../urpmi:67 ../urpmi.addmedia:55
 #: ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:41
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - यह सहायता संदेश मुद्रित करें\n"
 
-#: ../gurpmi.pm:43 ../urpmi:74
+#: ../gurpmi.pm:58 ../urpmi:74
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
 
-#: ../gurpmi.pm:44 ../urpmi:75 ../urpmq:48
+#: ../gurpmi.pm:59 ../urpmi:75 ../urpmq:48
 #, c-format
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
 msgstr "  --auto-select  - प्रणाली को उन्नयन बनाने के लिए, स्वतः पैकेजों का चयन करें\n"
 
-#: ../gurpmi.pm:45 ../urpme:46 ../urpmi:100 ../urpmq:64
+#: ../gurpmi.pm:60 ../urpme:46 ../urpmi:100 ../urpmq:64
 #, c-format
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
@@ -137,7 +189,7 @@ msgstr ""
 "  --force        - यद्यपि कुछ पैकेज ना विद्यमान हो, तो भी इनवोकेशन को बल-पूर्वक लागू "
 "करें \n"
 
-#: ../gurpmi.pm:46 ../urpmi:131
+#: ../gurpmi.pm:61 ../urpmi:131
 #, fuzzy, c-format
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
@@ -146,37 +198,37 @@ msgstr ""
 "  --verify-rpm   - संसाधन के पहिले, आर०पी०एम० हस्ताक्षर की जाँच करें\n"
 "                   (--no-verify-rpm इसे अयोग्य करता है, डिफ़ॉल्ट जाँच के साथ है).\n"
 
-#: ../gurpmi.pm:48 ../urpmf:36 ../urpmi:68 ../urpmq:43
+#: ../gurpmi.pm:63 ../urpmf:36 ../urpmi:68 ../urpmq:43
 #, c-format
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr ""
 "  --media        - सिर्फ़ दिए गए माध्यम का उपयोग करें, छोटे विराम चिह्न के द्वारा अलग "
 "किये हुए\n"
 
-#: ../gurpmi.pm:49 ../urpmi:147
+#: ../gurpmi.pm:64 ../urpmi:147
 #, c-format
 msgid "  -p             - allow search in provides to find package.\n"
 msgstr ""
 "  -p             - पूर्वनिर्दिष्टों में पैकेज को पाने के लिए खोज की अनुमति प्रदान करें\n"
 
-#: ../gurpmi.pm:50 ../urpmi:148
+#: ../gurpmi.pm:65 ../urpmi:148
 #, c-format
 msgid "  -P             - do not search in provides to find package.\n"
 msgstr "  -P             - पूर्वनिर्दिष्टों में पैकेज को पाने के लिए ना खोजे\n"
 
-#: ../gurpmi.pm:51 ../urpmi:107 ../urpmq:67
+#: ../gurpmi.pm:66 ../urpmi:107 ../urpmq:67
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - आरपीएम संसाधन के लिए अन्य रूट का उपयोग\n"
 
-#: ../gurpmi.pm:52 ../urpmi:133
+#: ../gurpmi.pm:67 ../urpmi:133
 #, fuzzy, c-format
 msgid ""
 "  --test         - only verify if the installation can be achieved "
 "correctly.\n"
 msgstr "  --test         - जाँच करें कि संसाधन सफ़लता-पूर्वक किया जा सकता है\n"
 
-#: ../gurpmi.pm:53 ../urpmi:71
+#: ../gurpmi.pm:68 ../urpmi:71
 #, fuzzy, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested packages.\n"
@@ -184,37 +236,22 @@ msgstr ""
 "  --searchmedia    - निवेदित (या अपडेट किये हुए) पैकेजों की खोज के लिए,  सिर्फ़ दिए गए "
 "माध्यम का उपयोग करें ।\n"
 
-#: ../gurpmi.pm:96
+#: ../gurpmi.pm:115
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "%s नाम का कोई पैकेज नहीं है"
 
-#: ../gurpmi2:55
-#, c-format
-msgid "Please wait..."
-msgstr "कृपया प्रतीक्षा करें..."
-
-#: ../gurpmi2:64
+#: ../gurpmi2:42
 #, c-format
 msgid "Must be root"
 msgstr "रूट होना चाहिए"
 
-#: ../gurpmi2:71
-#, fuzzy, c-format
-msgid "Distribution Upgrade"
-msgstr "%s वितिरण किया जा रहा है"
-
-#: ../gurpmi2:71
-#, fuzzy, c-format
-msgid "Packages installation"
-msgstr "पैकेज संसाधित हो रहा है..."
-
-#: ../gurpmi2:98
+#: ../gurpmi2:72
 #, c-format
 msgid "Preparing packages installation..."
 msgstr "पैकेजों के संसाधन की तैयारी की जा रही है..."
 
-#: ../gurpmi2:113 ../urpmi:506
+#: ../gurpmi2:87 ../urpmi:506
 #, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
@@ -223,7 +260,7 @@ msgstr ""
 "निवेदन किये हुए कुछ पैकेज संसाधित नहीं किये जा सके:\n"
 "%s"
 
-#: ../gurpmi2:121
+#: ../gurpmi2:95
 #, fuzzy, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
@@ -233,42 +270,42 @@ msgstr ""
 "निवेदित किये हुए कुछ पैकेज संसाधित नहीं किये जा सके:\n"
 "%sजारी रहा जाएँ?"
 
-#: ../gurpmi2:156
+#: ../gurpmi2:126
 #, c-format
 msgid "Warning"
 msgstr "चेतावनी"
 
-#: ../gurpmi2:156
+#: ../gurpmi2:126
 #, c-format
 msgid "Ok"
 msgstr "ओ०के०"
 
-#: ../gurpmi2:194
+#: ../gurpmi2:163
 #, c-format
 msgid " (to upgrade)"
 msgstr "(अपग्रेड के लिए)"
 
-#: ../gurpmi2:195
+#: ../gurpmi2:164
 #, c-format
 msgid " (to install)"
 msgstr "(संसाधन के लिए)"
 
-#: ../gurpmi2:198
+#: ../gurpmi2:167
 #, c-format
 msgid "Package choice"
 msgstr "पैकेज चयन"
 
-#: ../gurpmi2:199
+#: ../gurpmi2:168
 #, c-format
 msgid "One of the following packages is needed:"
 msgstr "निम्नलिखित पैकेजों में से एक की आवश्यकता है:"
 
-#: ../gurpmi2:224
+#: ../gurpmi2:198
 #, c-format
 msgid "_Abort"
 msgstr "निष्फ़ल (_A)"
 
-#: ../gurpmi2:259
+#: ../gurpmi2:233
 #, fuzzy, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -278,14 +315,36 @@ msgstr ""
 "अन्य पैकजों को उन्नयन करने के लिए, निम्नलिखित पैकेजों हटाना होगा:\n"
 "%sजारी रहा जाएँ?"
 
-#: ../gurpmi2:278 ../urpmi:606
+#: ../gurpmi2:244 ../urpmi:615
+#, c-format
+msgid "%s of additional disk space will be used."
+msgstr ""
+
+#: ../gurpmi2:245 ../urpmi:616
+#, c-format
+msgid "%s of disk space will be freed."
+msgstr ""
+
+#: ../gurpmi2:246 ../urpmi:617
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../gurpmi2:247 ../urpmi:618
+#, c-format
+msgid "Proceed with the installation of one package?"
+msgid_plural "Proceed with the installation of the %d packages?"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../gurpmi2:253 ../urpmi:606
 #, fuzzy, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed:"
 msgstr ""
 "आधीनताओं को सन्तुष्ट करने के लिए, निम्नलिखित पैकेज का संसाधन होने जा रहा है(%d एमबी)"
 
-#: ../gurpmi2:279 ../urpmi:607
+#: ../gurpmi2:254 ../urpmi:607
 #, fuzzy, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed:"
@@ -293,58 +352,29 @@ msgstr ""
 "अधीनताओं को सन्तुष्ट करने के लिए, निम्नलिखित %d पैकेजों का संसाधन होने जा रहा है:\n"
 "%s\n"
 
-#: ../gurpmi2:281
-#, fuzzy, c-format
-msgid "(%d package, %d MB)"
-msgid_plural "(%d packages, %d MB)"
-msgstr[0] "%d पैकेज"
-msgstr[1] "%d पैकेज"
-
-#: ../gurpmi2:289 ../urpm/main_loop.pm:367
+#: ../gurpmi2:264 ../urpm/main_loop.pm:466
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "स्रोत्र पैकेजों को पाने में असमर्थ, कार्यक्रम विफ़ल किया जा रहा है"
 
-#: ../gurpmi2:321 ../urpm/install.pm:105
-#, c-format
-msgid "Preparing..."
-msgstr "तैयारी की जा रही है..."
-
-#: ../gurpmi2:327
-#, c-format
-msgid "Installing package `%s' (%s/%s)..."
-msgstr "`%s' (%s/%s) पैकेज को संसाधित किया जा रहा है..."
-
-#: ../gurpmi2:345 ../urpmi:634
+#: ../gurpmi2:278 ../urpmi:634
 #, fuzzy, c-format
 msgid "Please insert the medium named \"%s\""
 msgstr "कृपया \"%s\" नामक माध्यम को [%s] साधन पर प्रवेश करें"
 
-#: ../gurpmi2:359
-#, c-format
-msgid "Downloading package `%s'..."
-msgstr "`%s' पैकेज को डॉउनलोड किया जा रहा है..."
-
-#: ../gurpmi2:372 ../urpm.pm:401 ../urpm/download.pm:857
-#: ../urpm/get_pkgs.pm:278 ../urpm/media.pm:1081 ../urpm/media.pm:1607
-#: ../urpm/media.pm:1758
-#, c-format
-msgid "...retrieving failed: %s"
-msgstr "...पुनः प्राप्त करने में असफ़लता: %s "
-
-#: ../gurpmi2:388
+#: ../gurpmi2:307
 #, c-format
 msgid "_Done"
 msgstr "किया गया(_D)"
 
-#: ../gurpmi2:405 ../urpm/main_loop.pm:82
+#: ../gurpmi2:324 ../urpm/main_loop.pm:82
 #, fuzzy, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
 "%s"
 msgstr "संसाधन असफ़ल"
 
-#: ../gurpmi2:408
+#: ../gurpmi2:327
 #, fuzzy, c-format
 msgid "You may want to update your urpmi database."
 msgstr ""
@@ -352,27 +382,22 @@ msgstr ""
 "%s\n"
 "आपको अपना यू०आर०पी०एम०आई० डाटाबेस को अपडेट करना चाहिए"
 
-#: ../gurpmi2:412 ../urpm/main_loop.pm:286 ../urpm/main_loop.pm:480
+#: ../gurpmi2:331 ../urpm/main_loop.pm:287 ../urpm/main_loop.pm:579
 #, fuzzy, c-format
 msgid "Installation failed:"
 msgstr "संसाधन असफ़ल"
 
-#: ../gurpmi2:417
+#: ../gurpmi2:336
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "सभी कुछ पहिले से ही संसाधित है"
 
-#: ../gurpmi2:419
+#: ../gurpmi2:338
 #, c-format
 msgid "Installation finished"
 msgstr "संसाधन समाप्त"
 
-#: ../gurpmi2:420 ../urpm/install.pm:113 ../urpme:164
-#, c-format
-msgid "removing %s"
-msgstr "%s को हटाया जा रहा है"
-
-#: ../gurpmi2:431 ../urpmi:692
+#: ../gurpmi2:351 ../urpmi:692
 #, c-format
 msgid "restarting urpmi"
 msgstr "यू०आर०पी०एम०आई० को पुनः आरम्भ किया जा रहा है"
@@ -426,77 +451,77 @@ msgstr "यूआरपीएमआई सीमित विधा में �
 msgid "While some packages may have been installed, there were failures.\n"
 msgstr ""
 
-#: ../urpm.pm:142
+#: ../urpm.pm:194
 #, fuzzy, c-format
 msgid "fail to create directory %s"
 msgstr "दोष रिपोर्ट के लिए, [%s] निर्देशिका का निर्माण करने में असमर्थ"
 
-#: ../urpm.pm:143
+#: ../urpm.pm:195
 #, c-format
 msgid "invalid owner for directory %s"
 msgstr ""
 
-#: ../urpm.pm:186
+#: ../urpm.pm:238
 #, fuzzy, c-format
 msgid "Can not download packages into %s"
 msgstr "`%s' पैकेज को डॉउनलोड किया जा रहा है..."
 
-#: ../urpm.pm:202
+#: ../urpm.pm:254
 #, c-format
 msgid "Environment directory %s does not exist"
 msgstr ""
 
-#: ../urpm.pm:203 ../urpmf:243 ../urpmq:163
+#: ../urpm.pm:255 ../urpmf:243 ../urpmq:163
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "%s पर विशिष्ट वातावरण का उपयोग करते हुए\n"
 
-#: ../urpm.pm:371
+#: ../urpm.pm:423
 #, c-format
 msgid "unable to open rpmdb"
 msgstr "आर०पी०एम०डी०बी० को खोलने में असमर्थ"
 
-#: ../urpm.pm:390
+#: ../urpm.pm:442
 #, c-format
 msgid "invalid rpm file name [%s]"
 msgstr "अवैध आर०पी०एम० संचिका नाम [%s]"
 
-#: ../urpm.pm:396
+#: ../urpm.pm:448
 #, c-format
 msgid "retrieving rpm file [%s] ..."
 msgstr "आर०पी०एम० संचिका [%s] को पुनः प्राप्त किया जा रहा है..."
 
-#: ../urpm.pm:398 ../urpm/get_pkgs.pm:276
+#: ../urpm.pm:450 ../urpm/get_pkgs.pm:276
 #, c-format
 msgid "...retrieving done"
 msgstr "...पुनः प्राप्त करने की क्रिया संपन्न"
 
-#: ../urpm.pm:406
+#: ../urpm.pm:458
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "आर०पी०एम० संचिका [%s] को पाने में असमर्थ"
 
-#: ../urpm.pm:411
+#: ../urpm.pm:463
 #, fuzzy, c-format
 msgid "unable to parse spec file %s [%s]"
 msgstr "\"%s\" का पदभंजन [%s] संचिका में करने में असमर्थ"
 
-#: ../urpm.pm:419
+#: ../urpm.pm:471
 #, c-format
 msgid "unable to register rpm file"
 msgstr "आर०पी०एम० संचिका का पंजीकरण में असमर्थ"
 
-#: ../urpm.pm:421
+#: ../urpm.pm:473
 #, c-format
 msgid "Incompatible architecture for rpm [%s]"
 msgstr ""
 
-#: ../urpm.pm:425
+#: ../urpm.pm:477
 #, c-format
 msgid "error registering local packages"
 msgstr "स्थानीय पैकेजों का पंजीकरण करने में त्रुटि"
 
-#: ../urpm.pm:537
+#: ../urpm.pm:589
 #, c-format
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "सीमित विधा में चलते समय, इस संक्रिया को मनाही है"
@@ -735,17 +760,17 @@ msgstr "%s को हटाया जा रहा है"
 msgid "retrieved %s"
 msgstr "...पुनः प्राप्त करने में असफ़लता: %s "
 
-#: ../urpm/download.pm:988
+#: ../urpm/download.pm:989
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "अज्ञात प्रोटोकॉल %s के लिए परिभाषित"
 
-#: ../urpm/download.pm:1002
+#: ../urpm/download.pm:1003
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr "कोई वेबफ़ेच्च नहीं मिला, समर्थित वेबफ़ेच्च है:  %s\n"
 
-#: ../urpm/download.pm:1017
+#: ../urpm/download.pm:1018
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "प्रोटोकॉल: %s को काबू करने में असमर्थ"
@@ -765,37 +790,37 @@ msgstr "%s पैकेज नहीं मिला"
 msgid "retrieving rpm files from medium \"%s\"..."
 msgstr "\"%s\" माध्यम से आर०पी०एम० संचिकाऐं पुनः प्राप्त की जा रही है..."
 
-#: ../urpm/install.pm:213
+#: ../urpm/install.pm:115 ../urpme:164
+#, c-format
+msgid "removing %s"
+msgstr "%s को हटाया जा रहा है"
+
+#: ../urpm/install.pm:215
 #, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
 msgstr "delta-rpm पैकेज %s से आरपीएम को बाहर निकालने में असमर्थ"
 
-#: ../urpm/install.pm:240
+#: ../urpm/install.pm:242
 #, c-format
 msgid "unable to install package %s"
 msgstr "%s पैकेज को संसाधन करने में असमर्थ"
 
-#: ../urpm/install.pm:243
+#: ../urpm/install.pm:245
 #, fuzzy, c-format
 msgid "removing bad rpm (%s) from %s"
 msgstr "%s को %s से संसाधित किया जा रहा है"
 
-#: ../urpm/install.pm:244 ../urpm/install.pm:370
+#: ../urpm/install.pm:246 ../urpm/install.pm:375
 #, fuzzy, c-format
 msgid "removing %s failed: %s"
 msgstr "...पुनः प्राप्त करने में असफ़लता: %s "
 
-#: ../urpm/install.pm:294
-#, fuzzy, c-format
-msgid "Removing package %s"
-msgstr "%s पैकेज को हटाया जा रहा है"
-
-#: ../urpm/install.pm:295
+#: ../urpm/install.pm:296
 #, c-format
 msgid "removing package %s"
 msgstr "%s पैकेज को हटाया जा रहा है"
 
-#: ../urpm/install.pm:338
+#: ../urpm/install.pm:343
 #, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
@@ -803,17 +828,17 @@ msgstr ""
 "%s पर संसाधन करने के लिए कार्य-संपादन का निर्माण किया गया (हटाना=%d, संसाधन=%d, "
 "उन्नयन=%d)"
 
-#: ../urpm/install.pm:341
+#: ../urpm/install.pm:346
 #, c-format
 msgid "unable to create transaction"
 msgstr "कार्य संपादन का निर्माण करने में असमर्थ"
 
-#: ../urpm/install.pm:368
+#: ../urpm/install.pm:373
 #, fuzzy, c-format
 msgid "removing installed rpms (%s) from %s"
 msgstr "%s को %s से संसाधित किया जा रहा है"
 
-#: ../urpm/install.pm:377
+#: ../urpm/install.pm:382
 #, c-format
 msgid "More information on package %s"
 msgstr "%s पैकेज के बारे में और अधिक सूचना"
@@ -906,8 +931,8 @@ msgstr "निम्नलिखित पैकेजों पर खराब
 msgid "Do you want to continue installation ?"
 msgstr "क्या आप संसाधन जारी रखना चाहते है ?"
 
-#: ../urpm/main_loop.pm:155 ../urpm/main_loop.pm:184 ../urpm/main_loop.pm:288
-#: ../urpm/main_loop.pm:296
+#: ../urpm/main_loop.pm:155 ../urpm/main_loop.pm:184 ../urpm/main_loop.pm:289
+#: ../urpm/main_loop.pm:297
 #, c-format
 msgid "Installation failed"
 msgstr "संसाधन असफ़ल"
@@ -922,37 +947,37 @@ msgstr "%s को %s से संसाधित किया जा रहा 
 msgid "Try to continue anyway?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:234
+#: ../urpm/main_loop.pm:235
 #, c-format
 msgid "installing %s from %s"
 msgstr "%s को %s से संसाधित किया जा रहा है"
 
-#: ../urpm/main_loop.pm:236
+#: ../urpm/main_loop.pm:237
 #, c-format
 msgid "installing %s"
 msgstr "%s का संसाधन किया जा रहा है"
 
-#: ../urpm/main_loop.pm:243
+#: ../urpm/main_loop.pm:244
 #, c-format
 msgid "distributing %s"
 msgstr "%s वितिरण किया जा रहा है"
 
-#: ../urpm/main_loop.pm:289
+#: ../urpm/main_loop.pm:290
 #, fuzzy, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "संसाधन का प्रयास बिना आधिनताओं की जाँच किये हुए किया जाये?  (हाँ/ना)(y/N) "
 
-#: ../urpm/main_loop.pm:297
+#: ../urpm/main_loop.pm:298
 #, fuzzy, c-format
 msgid "Try harder to install (--force)?"
 msgstr "संसाधन का प्रयास और जोर से (बलपूर्वक) किया जाये (--force)?  (हाँ/ना)(y/N) "
 
-#: ../urpm/main_loop.pm:490
+#: ../urpm/main_loop.pm:589
 #, c-format
 msgid "Packages are up to date"
 msgstr ""
 
-#: ../urpm/main_loop.pm:501 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:600 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "संसाधन संभव है"
@@ -1012,229 +1037,229 @@ msgstr ""
 "--synthesis का उपयोग  --media, --excludemedia, --sortmedia, --update या --"
 "parallel के साथ नहीं किया जा सकता है"
 
-#: ../urpm/media.pm:782
+#: ../urpm/media.pm:779
 #, c-format
 msgid "Search start: %s end: %s"
 msgstr "खोज आरम्भ: %s समाप्त: %s"
 
-#: ../urpm/media.pm:799
+#: ../urpm/media.pm:796
 #, c-format
 msgid "skipping package %s"
 msgstr "%s पैकेज को त्यागा जा रहा है"
 
-#: ../urpm/media.pm:815
+#: ../urpm/media.pm:812
 #, c-format
 msgid "would install instead of upgrade package %s"
 msgstr "%s को उन्नयन करने की बजाय संसाधित किया जायेगा"
 
-#: ../urpm/media.pm:898
+#: ../urpm/media.pm:895
 #, c-format
 msgid "medium \"%s\" already exists"
 msgstr "\"%s\" माध्यम पहिले से विद्यमान है"
 
-#: ../urpm/media.pm:940
+#: ../urpm/media.pm:937
 #, c-format
 msgid "(ignored by default)"
 msgstr ""
 
-#: ../urpm/media.pm:946
+#: ../urpm/media.pm:943
 #, fuzzy, c-format
 msgid "adding medium \"%s\" before remote medium \"%s\""
 msgstr "\"%s\" माध्यम से शीर्षक पढ़े जा रहे है"
 
-#: ../urpm/media.pm:952
+#: ../urpm/media.pm:949
 #, fuzzy, c-format
 msgid "adding medium \"%s\""
 msgstr "\"%s\" माध्यम को हटाया जा रहा है"
 
-#: ../urpm/media.pm:976
+#: ../urpm/media.pm:973
 #, fuzzy, c-format
 msgid "failed to copy media.cfg to %s (%d)"
 msgstr "आर०पी०एम०डी०बी० को खोलने में असमर्थ"
 
-#: ../urpm/media.pm:1047
+#: ../urpm/media.pm:1044
 #, c-format
 msgid "directory %s does not exist"
 msgstr ""
 
-#: ../urpm/media.pm:1055
+#: ../urpm/media.pm:1052
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
-#: ../urpm/media.pm:1079
+#: ../urpm/media.pm:1076
 #, fuzzy, c-format
 msgid "unable to parse media.cfg"
 msgstr "आर०पी०एम०डी०बी० को खोलने में असमर्थ"
 
-#: ../urpm/media.pm:1082
+#: ../urpm/media.pm:1079
 #, fuzzy, c-format
 msgid "unable to access the distribution medium (no media.cfg file found)"
 msgstr "प्रथम संसाधन माध्यम को पाने में असमर्थ (कोई हार्डडिस्क सूची संचिका नहीं मिली)"
 
-#: ../urpm/media.pm:1103
+#: ../urpm/media.pm:1100
 #, c-format
 msgid "skipping non compatible media `%s' (for %s)"
 msgstr ""
 
-#: ../urpm/media.pm:1118
+#: ../urpm/media.pm:1115
 #, fuzzy, c-format
 msgid "ignoring non-free medium `%s'"
 msgstr "\"%s\" माध्यम की ओर ध्यान नहीं दिया जा रहा है"
 
-#: ../urpm/media.pm:1167
+#: ../urpm/media.pm:1164
 #, fuzzy, c-format
 msgid "retrieving media.cfg file..."
 msgstr "हार्डडिस्क सूची संचिका को पुनःप्राप्त किया जा रहा है..."
 
-#: ../urpm/media.pm:1210
+#: ../urpm/media.pm:1207
 #, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "अविद्यमान माध्यम \"%s\" को चयन का प्रयास किया जा रहा है"
 
-#: ../urpm/media.pm:1213
+#: ../urpm/media.pm:1210
 #, c-format
 msgid "selecting multiple media: %s"
 msgstr "बहुत सारे माध्यमों का चयन हो रहा है: %s"
 
-#: ../urpm/media.pm:1272
+#: ../urpm/media.pm:1269
 #, c-format
 msgid "removing medium \"%s\""
 msgstr "\"%s\" माध्यम को हटाया जा रहा है"
 
-#: ../urpm/media.pm:1363
+#: ../urpm/media.pm:1360
 #, c-format
 msgid "reconfiguring urpmi for media \"%s\""
 msgstr "\"%s\" माध्यम हेतु यू०आर०पी०एम०आई० को पुनः संरचित किया जा रहा है"
 
-#: ../urpm/media.pm:1397
+#: ../urpm/media.pm:1394
 #, c-format
 msgid "...reconfiguration failed"
 msgstr "...पुनःसंरचना प्रक्रिया असफ़ल"
 
-#: ../urpm/media.pm:1403
+#: ../urpm/media.pm:1400
 #, c-format
 msgid "reconfiguration done"
 msgstr "पुनःसंरचना प्रक्रिया सम्पन्न हुई"
 
-#: ../urpm/media.pm:1419
+#: ../urpm/media.pm:1416
 #, c-format
 msgid "Error generating names file: dependency %d not found"
 msgstr ""
 
-#: ../urpm/media.pm:1440
+#: ../urpm/media.pm:1437
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "माध्यम \"%s\" का चयन नहीं किया गया है"
 
-#: ../urpm/media.pm:1451
+#: ../urpm/media.pm:1448
 #, c-format
 msgid "examining synthesis file [%s]"
 msgstr "कृत्रिम संचिका [%s] का निरीक्षण किया जा रहा है"
 
-#: ../urpm/media.pm:1471
+#: ../urpm/media.pm:1468
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "\"%s\" माध्यम की कृत्रिम संचिका को पढ़ने में समस्या"
 
-#: ../urpm/media.pm:1484 ../urpm/media.pm:1579
+#: ../urpm/media.pm:1481 ../urpm/media.pm:1576
 #, fuzzy, c-format
 msgid "copying [%s] for medium \"%s\"..."
 msgstr "\"%s\" माध्यम के लिए संचिका-सूची लिखी जा रही है"
 
-#: ../urpm/media.pm:1486 ../urpm/media.pm:1556 ../urpm/media.pm:1809
+#: ../urpm/media.pm:1483 ../urpm/media.pm:1553 ../urpm/media.pm:1806
 #, c-format
 msgid "...copying failed"
 msgstr "...प्रतिलिपि बनना असफ़ल"
 
-#: ../urpm/media.pm:1552
+#: ../urpm/media.pm:1549
 #, c-format
 msgid "copying description file of \"%s\"..."
 msgstr "\"%s\" संचिका के विवरण की प्रतिलिपि बनायी जा रहीं है..."
 
-#: ../urpm/media.pm:1554 ../urpm/media.pm:1583
+#: ../urpm/media.pm:1551 ../urpm/media.pm:1580
 #, c-format
 msgid "...copying done"
 msgstr "...प्रतिलिपि बनना सम्पन्न हुआ"
 
-#: ../urpm/media.pm:1585
+#: ../urpm/media.pm:1582
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "[%s] की प्रतिलिपि असफ़ल रही (संचिका सन्देहात्मक ढ़ग से छोटी है)"
 
-#: ../urpm/media.pm:1633
+#: ../urpm/media.pm:1630
 #, fuzzy, c-format
 msgid "computing md5sum of retrieved source synthesis"
 msgstr ""
 "पुनः प्राप्त की हुई स्रोत्र हार्डडिस्क सूची (या कृत्रिम रचना) के एम०डी०५सम (md5sum) की "
 "गणना की जा रही है"
 
-#: ../urpm/media.pm:1635 ../urpm/media.pm:2118
+#: ../urpm/media.pm:1632 ../urpm/media.pm:2115
 #, fuzzy, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
 msgstr "[%s] की प्रतिलिपि अयोग्य है (एमडी५सम बेमेल है)"
 
-#: ../urpm/media.pm:1650
+#: ../urpm/media.pm:1647
 #, fuzzy, c-format
 msgid "genhdlist2 failed on %s"
 msgstr "हार्डडिस्क-सूची संचिका [%s] का निरीक्षण किया जा रहा है"
 
-#: ../urpm/media.pm:1660
+#: ../urpm/media.pm:1657
 #, fuzzy, c-format
 msgid "comparing %s and %s"
 msgstr "%s को %s से संसाधित किया जा रहा है"
 
-#: ../urpm/media.pm:1690
+#: ../urpm/media.pm:1687
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "\"%s\" माध्यम के लिए कोई हार्डडिस्क सूची संचिका नहीं मिली"
 
-#: ../urpm/media.pm:1716
+#: ../urpm/media.pm:1713
 #, fuzzy, c-format
 msgid "copying MD5SUM file of \"%s\"..."
 msgstr "\"%s\" संचिका के विवरण की प्रतिलिपि बनायी जा रहीं है..."
 
-#: ../urpm/media.pm:1756
+#: ../urpm/media.pm:1753
 #, fuzzy, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
 msgstr "अवैध आर०पी०एम० संचिका नाम [%s]"
 
-#: ../urpm/media.pm:1759
+#: ../urpm/media.pm:1756
 #, fuzzy, c-format
 msgid "no metadata found for medium \"%s\""
 msgstr "\"%s\" माध्यम के लिए कोई हार्डडिस्क सूची संचिका नहीं मिली"
 
-#: ../urpm/media.pm:1791
+#: ../urpm/media.pm:1788
 #, fuzzy, c-format
 msgid "retrieving source synthesis of \"%s\"..."
 msgstr "\"%s\" की मूल (या कृत्रिम) हार्डडिस्क सूची पुनः प्राप्त की जा रही है..."
 
-#: ../urpm/media.pm:1857
+#: ../urpm/media.pm:1854
 #, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "\"%s\" की सामान्यजन कूंजी संचिका का निरीक्षण किया जा रहा है..."
 
-#: ../urpm/media.pm:1869
+#: ../urpm/media.pm:1866
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr "...\"%s\" की पब्लिककुंजी संचिका से %s कुंजी आयातित कर ली गई है"
 
-#: ../urpm/media.pm:1873
+#: ../urpm/media.pm:1870
 #, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "\"%s\" की सामान्यजनकुंजी संचिका को आयात करने में असमर्थ"
 
-#: ../urpm/media.pm:1914
+#: ../urpm/media.pm:1911
 #, fuzzy, c-format
 msgid "no synthesis file found for medium \"%s\""
 msgstr "\"%s\" माध्यम के लिए कोई हार्डडिस्क सूची संचिका नहीं मिली"
 
-#: ../urpm/media.pm:1947
+#: ../urpm/media.pm:1944
 #, fuzzy, c-format
 msgid "updated medium \"%s\""
 msgstr "%s माध्यम को जोड़ा गया"
 
-#: ../urpm/media.pm:2112
+#: ../urpm/media.pm:2109
 #, c-format
 msgid "retrieval of [%s] failed"
 msgstr ""
@@ -1442,12 +1467,12 @@ msgstr ""
 msgid "unable to access medium \"%s\"."
 msgstr "\"%s\" माध्यम को पाने में असमर्थ"
 
-#: ../urpm/removable.pm:86 ../urpm/removable.pm:104
+#: ../urpm/removable.pm:86 ../urpm/removable.pm:101
 #, c-format
 msgid "mounting %s"
 msgstr "%s को आरोह (माउन्ट) किया जा रहा है"
 
-#: ../urpm/removable.pm:117
+#: ../urpm/removable.pm:113
 #, c-format
 msgid "unmounting %s"
 msgstr "%s को अवरोह (अनमाउन्ट) किया जा रहा है"
@@ -1576,37 +1601,37 @@ msgstr ""
 msgid "Medium without key (%s)"
 msgstr ""
 
-#: ../urpm/sys.pm:211
+#: ../urpm/sys.pm:194
 #, c-format
 msgid "system"
 msgstr ""
 
-#: ../urpm/sys.pm:248
+#: ../urpm/sys.pm:231
 #, c-format
 msgid "You should restart your computer for %s"
 msgstr ""
 
-#: ../urpm/sys.pm:250
+#: ../urpm/sys.pm:233
 #, c-format
 msgid "You should restart your session for %s"
 msgstr ""
 
-#: ../urpm/sys.pm:252
+#: ../urpm/sys.pm:235
 #, c-format
 msgid "You should restart %s for %s"
 msgstr ""
 
-#: ../urpm/sys.pm:390
+#: ../urpm/sys.pm:373
 #, fuzzy, c-format
 msgid "Can't write file"
 msgstr "संरचना-संचिका [%s] को निर्माण नहीं कर सकता है"
 
-#: ../urpm/sys.pm:390
+#: ../urpm/sys.pm:373
 #, fuzzy, c-format
 msgid "Can't open file"
 msgstr "प्रतिलिपि बनना असफ़ल"
 
-#: ../urpm/sys.pm:403
+#: ../urpm/sys.pm:386
 #, fuzzy, c-format
 msgid "Can't move file %s to %s"
 msgstr "प्रतिलिपि बनना असफ़ल"
@@ -2518,28 +2543,6 @@ msgstr ""
 msgid "(test only, installation will not be actually done)"
 msgstr ""
 
-#: ../urpmi:615
-#, c-format
-msgid "%s of additional disk space will be used."
-msgstr ""
-
-#: ../urpmi:616
-#, c-format
-msgid "%s of disk space will be freed."
-msgstr ""
-
-#: ../urpmi:617
-#, c-format
-msgid "%s of packages will be retrieved."
-msgstr ""
-
-#: ../urpmi:618
-#, c-format
-msgid "Proceed with the installation of one package?"
-msgid_plural "Proceed with the installation of the %d packages?"
-msgstr[0] ""
-msgstr[1] ""
-
 #: ../urpmi:640
 #, fuzzy, c-format
 msgid "Press Enter when mounted..."
@@ -3140,6 +3143,12 @@ msgid "Graphical front end to install RPM files"
 msgstr "आरपीएम संचिकाओं के संसाधित करने के लिए ग्रफ़िक्ल फ़्रन्ट एन्ड"
 
 #, fuzzy
+#~ msgid "(%d package, %d MB)"
+#~ msgid_plural "(%d packages, %d MB)"
+#~ msgstr[0] "%d पैकेज"
+#~ msgstr[1] "%d पैकेज"
+
+#, fuzzy
 #~ msgid "  --repackage    - Re-package the files before erasing\n"
 #~ msgstr "  --packager     - टैग पैकेजर को मुद्रित करना: पैकेजर\n"
 
@@ -3261,9 +3270,6 @@ msgstr "आरपीएम संचिकाओं के संसाधित
 #~ "संसाधन असफ़ल, कुछ संचिकाऐं नहीं मिली है:\n"
 #~ "%s\n"
 #~ "आपको अपना यू०आर०पी०एम०आई० डाटाबेस को अपडेट करना चाहिए"
-
-#~ msgid "Cancel"
-#~ msgstr "निरस्त"
 
 #, fuzzy
 #~ msgid "Cannot write DUDF file.\n"

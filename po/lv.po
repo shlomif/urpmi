@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-09 22:13+0100\n"
+"POT-Creation-Date: 2013-03-26 21:20+0100\n"
 "PO-Revision-Date: 2002-09-27 17:43+0200\n"
 "Last-Translator: Raivo Saars <spaiks@inbox.lv>\n"
 "Language-Team: ll10nt <ll10nt@listes.murds.lv>\n"
@@ -22,22 +22,74 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
-#: ../gurpmi:32
+#: ../gurpm/RPMProgressDialog.pm:47
+#, fuzzy, c-format
+msgid "Distribution Upgrade"
+msgstr "tiek instalēta %s\n"
+
+#: ../gurpm/RPMProgressDialog.pm:47
+#, fuzzy, c-format
+msgid "Packages installation"
+msgstr "Sagatavoju instalēšanu"
+
+#: ../gurpm/RPMProgressDialog.pm:125
+#, c-format
+msgid "Please wait..."
+msgstr "Lūdzu gaidiet..."
+
+#: ../gurpm/RPMProgressDialog.pm:287
+#, fuzzy, c-format
+msgid "Verifying package signatures..."
+msgstr "Sekojošām pakotnēm ir slikti paraksti"
+
+#: ../gurpm/RPMProgressDialog.pm:306 ../urpm/install.pm:107
+#, c-format
+msgid "Preparing..."
+msgstr "Sagatavoju..."
+
+#: ../gurpm/RPMProgressDialog.pm:310
+#, fuzzy, c-format
+msgid "Removing package `%s' ..."
+msgstr "Instalēju pakotni %s"
+
+#: ../gurpm/RPMProgressDialog.pm:314
+#, fuzzy, c-format
+msgid "Installing package `%s' (%s/%s)..."
+msgstr "Instalēju pakotnes..."
+
+#: ../gurpm/RPMProgressDialog.pm:342
+#, fuzzy, c-format
+msgid "Downloading package `%s'..."
+msgstr "Instalēju pakotnes..."
+
+#: ../gurpm/RPMProgressDialog.pm:346
+#, c-format
+msgid "Cancel"
+msgstr "Atcelt"
+
+#: ../gurpm/RPMProgressDialog.pm:356 ../urpm.pm:453 ../urpm/download.pm:857
+#: ../urpm/get_pkgs.pm:278 ../urpm/media.pm:1078 ../urpm/media.pm:1604
+#: ../urpm/media.pm:1755
+#, c-format
+msgid "...retrieving failed: %s"
+msgstr "...atgūšana neizdevās: %s"
+
+#: ../gurpmi:38
 #, fuzzy, c-format
 msgid "RPM installation"
 msgstr "Sagatavoju instalēšanu"
 
-#: ../gurpmi:46
+#: ../gurpmi:52
 #, c-format
 msgid "Error: unable to find file %s, will cancel operation"
 msgstr ""
 
-#: ../gurpmi:47 ../gurpmi2:198 ../gurpmi2:223
+#: ../gurpmi:53 ../gurpmi2:167 ../gurpmi2:197
 #, c-format
 msgid "_Ok"
 msgstr "_Labi"
 
-#: ../gurpmi:67
+#: ../gurpmi:73
 #, c-format
 msgid ""
 "You have selected a source package:\n"
@@ -50,7 +102,7 @@ msgid ""
 "What would you like to do?"
 msgstr ""
 
-#: ../gurpmi:75 ../gurpmi:86
+#: ../gurpmi:81 ../gurpmi:92
 #, fuzzy, c-format
 msgid ""
 "You are about to install the following software packages on your computer:\n"
@@ -62,7 +114,7 @@ msgstr ""
 "Jums jābūt root, lai instalētu sekojošas atkarības:\n"
 "%s\n"
 
-#: ../gurpmi:81
+#: ../gurpmi:87
 #, c-format
 msgid ""
 "You are about to install the following software package on your computer:\n"
@@ -72,84 +124,84 @@ msgid ""
 "You may prefer to just save it. What is your choice?"
 msgstr ""
 
-#: ../gurpmi:99
+#: ../gurpmi:105
 #, c-format
 msgid "_Install"
 msgstr "_Uzstādīt"
 
-#: ../gurpmi:100
+#: ../gurpmi:106
 #, c-format
 msgid "_Save"
 msgstr "_Saglabāt"
 
-#: ../gurpmi:101 ../gurpmi2:198
+#: ../gurpmi:107 ../gurpmi2:167
 #, c-format
 msgid "_Cancel"
 msgstr "At_celt"
 
-#: ../gurpmi:109
+#: ../gurpmi:115
 #, fuzzy, c-format
 msgid "Choose location to save file"
 msgstr "Izvēlieties failu"
 
-#: ../gurpmi.pm:41
+#: ../gurpmi.pm:56
 #, c-format
 msgid "Options:"
 msgstr ""
 
-#: ../gurpmi.pm:42 ../urpme:42 ../urpmf:30 ../urpmi:67 ../urpmi.addmedia:55
+#: ../gurpmi.pm:57 ../urpme:42 ../urpmf:30 ../urpmi:67 ../urpmi.addmedia:55
 #: ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:41
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - izvadīt šo palīdzības ziņojumu.\n"
 
-#: ../gurpmi.pm:43 ../urpmi:74
+#: ../gurpmi.pm:58 ../urpmi:74
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
 
-#: ../gurpmi.pm:44 ../urpmi:75 ../urpmq:48
+#: ../gurpmi.pm:59 ../urpmi:75 ../urpmq:48
 #, c-format
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
 msgstr ""
 
-#: ../gurpmi.pm:45 ../urpme:46 ../urpmi:100 ../urpmq:64
+#: ../gurpmi.pm:60 ../urpme:46 ../urpmi:100 ../urpmq:64
 #, c-format
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
 msgstr ""
 
-#: ../gurpmi.pm:46 ../urpmi:131
+#: ../gurpmi.pm:61 ../urpmi:131
 #, c-format
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disables it, default is enabled).\n"
 msgstr ""
 
-#: ../gurpmi.pm:48 ../urpmf:36 ../urpmi:68 ../urpmq:43
+#: ../gurpmi.pm:63 ../urpmf:36 ../urpmi:68 ../urpmq:43
 #, fuzzy, c-format
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --update       - izveidot atjaunināšanas datu nesēju.\n"
 
-#: ../gurpmi.pm:49 ../urpmi:147
+#: ../gurpmi.pm:64 ../urpmi:147
 #, fuzzy, c-format
 msgid "  -p             - allow search in provides to find package.\n"
 msgstr "  -f             - forsēt hdlist failu ģenerēšanu.\n"
 
-#: ../gurpmi.pm:50 ../urpmi:148
+#: ../gurpmi.pm:65 ../urpmi:148
 #, fuzzy, c-format
 msgid "  -P             - do not search in provides to find package.\n"
 msgstr "  -f             - forsēt hdlist failu ģenerēšanu.\n"
 
-#: ../gurpmi.pm:51 ../urpmi:107 ../urpmq:67
+#: ../gurpmi.pm:66 ../urpmi:107 ../urpmq:67
 #, fuzzy, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --wget         - lietot wget, lai iegūtu attālinātos failus.\n"
 
-#: ../gurpmi.pm:52 ../urpmi:133
+#: ../gurpmi.pm:67 ../urpmi:133
 #, fuzzy, c-format
 msgid ""
 "  --test         - only verify if the installation can be achieved "
@@ -157,50 +209,35 @@ msgid ""
 msgstr ""
 "  --test         - pārbaudīt, vai instalācija var tikt veikta korekti.\n"
 
-#: ../gurpmi.pm:53 ../urpmi:71
+#: ../gurpmi.pm:68 ../urpmi:71
 #, fuzzy, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested packages.\n"
 msgstr "  --update       - izveidot atjaunināšanas datu nesēju.\n"
 
-#: ../gurpmi.pm:96
+#: ../gurpmi.pm:115
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "Saglabāt pakotņu izvēli"
 
-#: ../gurpmi2:55
-#, c-format
-msgid "Please wait..."
-msgstr "Lūdzu gaidiet..."
-
-#: ../gurpmi2:64
+#: ../gurpmi2:42
 #, fuzzy, c-format
 msgid "Must be root"
 msgstr "Peles ports"
 
-#: ../gurpmi2:71
-#, fuzzy, c-format
-msgid "Distribution Upgrade"
-msgstr "tiek instalēta %s\n"
-
-#: ../gurpmi2:71
-#, fuzzy, c-format
-msgid "Packages installation"
-msgstr "Sagatavoju instalēšanu"
-
-#: ../gurpmi2:98
+#: ../gurpmi2:72
 #, fuzzy, c-format
 msgid "Preparing packages installation..."
 msgstr "Sagatavoju instalēšanu"
 
-#: ../gurpmi2:113 ../urpmi:506
+#: ../gurpmi2:87 ../urpmi:506
 #, fuzzy, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
 "%s"
 msgstr "Dažas pakotnes nepieciešams noņemt"
 
-#: ../gurpmi2:121
+#: ../gurpmi2:95
 #, fuzzy, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
@@ -211,42 +248,42 @@ msgstr ""
 "%s\n"
 "vai piekrītat?"
 
-#: ../gurpmi2:156
+#: ../gurpmi2:126
 #, c-format
 msgid "Warning"
 msgstr "Uzmanību"
 
-#: ../gurpmi2:156
+#: ../gurpmi2:126
 #, c-format
 msgid "Ok"
 msgstr "Labi"
 
-#: ../gurpmi2:194
+#: ../gurpmi2:163
 #, fuzzy, c-format
 msgid " (to upgrade)"
 msgstr "Atjaunināt"
 
-#: ../gurpmi2:195
+#: ../gurpmi2:164
 #, fuzzy, c-format
 msgid " (to install)"
 msgstr "Instalēšanas beigas"
 
-#: ../gurpmi2:198
+#: ../gurpmi2:167
 #, c-format
 msgid "Package choice"
 msgstr ""
 
-#: ../gurpmi2:199
+#: ../gurpmi2:168
 #, c-format
 msgid "One of the following packages is needed:"
 msgstr "Ir nepieciešama viena no sekojošām pakotnēm:"
 
-#: ../gurpmi2:224
+#: ../gurpmi2:198
 #, c-format
 msgid "_Abort"
 msgstr "_Pārtraukt"
 
-#: ../gurpmi2:259
+#: ../gurpmi2:233
 #, fuzzy, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -254,96 +291,84 @@ msgid ""
 "Continue installation anyway?"
 msgstr "Tiks noņemtas sekojošas pakotnes"
 
-#: ../gurpmi2:278 ../urpmi:606
+#: ../gurpmi2:244 ../urpmi:615
+#, c-format
+msgid "%s of additional disk space will be used."
+msgstr ""
+
+#: ../gurpmi2:245 ../urpmi:616
+#, c-format
+msgid "%s of disk space will be freed."
+msgstr ""
+
+#: ../gurpmi2:246 ../urpmi:617
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../gurpmi2:247 ../urpmi:618
+#, c-format
+msgid "Proceed with the installation of one package?"
+msgid_plural "Proceed with the installation of the %d packages?"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: ../gurpmi2:253 ../urpmi:606
 #, fuzzy, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed:"
 msgstr "Lai apmierinātu atkarības, tiks noņemtas sekojošas pakotnes (%d MB)"
 
-#: ../gurpmi2:279 ../urpmi:607
+#: ../gurpmi2:254 ../urpmi:607
 #, fuzzy, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed:"
 msgstr "Lai apmierinātu atkarības, tiks noņemtas sekojošas pakotnes (%d MB)"
 
-#: ../gurpmi2:281
-#, fuzzy, c-format
-msgid "(%d package, %d MB)"
-msgid_plural "(%d packages, %d MB)"
-msgstr[0] "%d pakotnes"
-msgstr[1] "%d pakotnes"
-msgstr[2] "%d pakotnes"
-
-#: ../gurpmi2:289 ../urpm/main_loop.pm:367
+#: ../gurpmi2:264 ../urpm/main_loop.pm:466
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "nevar dabūt koda pakotnes, pārtraucu"
 
-#: ../gurpmi2:321 ../urpm/install.pm:105
-#, c-format
-msgid "Preparing..."
-msgstr "Sagatavoju..."
-
-#: ../gurpmi2:327
-#, fuzzy, c-format
-msgid "Installing package `%s' (%s/%s)..."
-msgstr "Instalēju pakotnes..."
-
-#: ../gurpmi2:345 ../urpmi:634
+#: ../gurpmi2:278 ../urpmi:634
 #, fuzzy, c-format
 msgid "Please insert the medium named \"%s\""
 msgstr "Lūdzu ielieciet datu nesēju \"%s\" ierīcē [%s]"
 
-#: ../gurpmi2:359
-#, fuzzy, c-format
-msgid "Downloading package `%s'..."
-msgstr "Instalēju pakotnes..."
-
-#: ../gurpmi2:372 ../urpm.pm:401 ../urpm/download.pm:857
-#: ../urpm/get_pkgs.pm:278 ../urpm/media.pm:1081 ../urpm/media.pm:1607
-#: ../urpm/media.pm:1758
-#, c-format
-msgid "...retrieving failed: %s"
-msgstr "...atgūšana neizdevās: %s"
-
-#: ../gurpmi2:388
+#: ../gurpmi2:307
 #, fuzzy, c-format
 msgid "_Done"
 msgstr "Izdarīts"
 
-#: ../gurpmi2:405 ../urpm/main_loop.pm:82
+#: ../gurpmi2:324 ../urpm/main_loop.pm:82
 #, fuzzy, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
 "%s"
 msgstr "Instalēšana neizdevās"
 
-#: ../gurpmi2:408
+#: ../gurpmi2:327
 #, c-format
 msgid "You may want to update your urpmi database."
 msgstr ""
 
-#: ../gurpmi2:412 ../urpm/main_loop.pm:286 ../urpm/main_loop.pm:480
+#: ../gurpmi2:331 ../urpm/main_loop.pm:287 ../urpm/main_loop.pm:579
 #, fuzzy, c-format
 msgid "Installation failed:"
 msgstr "Instalēšana neizdevās"
 
-#: ../gurpmi2:417
+#: ../gurpmi2:336
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "viss jau ir instalēts"
 
-#: ../gurpmi2:419
+#: ../gurpmi2:338
 #, c-format
 msgid "Installation finished"
 msgstr "Instalēšana pabeigta"
 
-#: ../gurpmi2:420 ../urpm/install.pm:113 ../urpme:164
-#, fuzzy, c-format
-msgid "removing %s"
-msgstr "Atvienoju %s"
-
-#: ../gurpmi2:431 ../urpmi:692
+#: ../gurpmi2:351 ../urpmi:692
 #, c-format
 msgid "restarting urpmi"
 msgstr ""
@@ -399,77 +424,77 @@ msgstr ""
 msgid "While some packages may have been installed, there were failures.\n"
 msgstr ""
 
-#: ../urpm.pm:142
+#: ../urpm.pm:194
 #, fuzzy, c-format
 msgid "fail to create directory %s"
 msgstr "Nevarēju izveidot direktoriju [%s] kļūdu ziņojumam"
 
-#: ../urpm.pm:143
+#: ../urpm.pm:195
 #, c-format
 msgid "invalid owner for directory %s"
 msgstr ""
 
-#: ../urpm.pm:186
+#: ../urpm.pm:238
 #, fuzzy, c-format
 msgid "Can not download packages into %s"
 msgstr "Instalēju pakotnes..."
 
-#: ../urpm.pm:202
+#: ../urpm.pm:254
 #, c-format
 msgid "Environment directory %s does not exist"
 msgstr ""
 
-#: ../urpm.pm:203 ../urpmf:243 ../urpmq:163
+#: ../urpm.pm:255 ../urpmf:243 ../urpmq:163
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
 
-#: ../urpm.pm:371
+#: ../urpm.pm:423
 #, fuzzy, c-format
 msgid "unable to open rpmdb"
 msgstr "Nevar atvērt failu %s\n"
 
-#: ../urpm.pm:390
+#: ../urpm.pm:442
 #, c-format
 msgid "invalid rpm file name [%s]"
 msgstr "nederīgs rpm faila vārds [%s]"
 
-#: ../urpm.pm:396
+#: ../urpm.pm:448
 #, fuzzy, c-format
 msgid "retrieving rpm file [%s] ..."
 msgstr "atgūstu hdlists failu..."
 
-#: ../urpm.pm:398 ../urpm/get_pkgs.pm:276
+#: ../urpm.pm:450 ../urpm/get_pkgs.pm:276
 #, c-format
 msgid "...retrieving done"
 msgstr "...atgūšana veikta"
 
-#: ../urpm.pm:406
+#: ../urpm.pm:458
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "nav iespējams piekļūt rpm failam [%s]"
 
-#: ../urpm.pm:411
+#: ../urpm.pm:463
 #, fuzzy, c-format
 msgid "unable to parse spec file %s [%s]"
 msgstr "nav iespējams piekļūt rpm failam [%s]"
 
-#: ../urpm.pm:419
+#: ../urpm.pm:471
 #, fuzzy, c-format
 msgid "unable to register rpm file"
 msgstr "nav iespējams piekļūt rpm failam [%s]"
 
-#: ../urpm.pm:421
+#: ../urpm.pm:473
 #, c-format
 msgid "Incompatible architecture for rpm [%s]"
 msgstr ""
 
-#: ../urpm.pm:425
+#: ../urpm.pm:477
 #, c-format
 msgid "error registering local packages"
 msgstr "kļūda reģistrējot lokālās pakotnes"
 
-#: ../urpm.pm:537
+#: ../urpm.pm:589
 #, c-format
 msgid "This operation is forbidden while running in restricted mode"
 msgstr ""
@@ -707,17 +732,17 @@ msgstr "Atvienoju %s"
 msgid "retrieved %s"
 msgstr "...atgūšana neizdevās: %s"
 
-#: ../urpm/download.pm:988
+#: ../urpm/download.pm:989
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "Nezināms protokols definēts priekš %s"
 
-#: ../urpm/download.pm:1002
+#: ../urpm/download.pm:1003
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
 msgstr ""
 
-#: ../urpm/download.pm:1017
+#: ../urpm/download.pm:1018
 #, fuzzy, c-format
 msgid "unable to handle protocol: %s"
 msgstr "nav iespējams lietot paralēlo opciju \"%s\""
@@ -737,53 +762,53 @@ msgstr "pakotne %s nav atrasta."
 msgid "retrieving rpm files from medium \"%s\"..."
 msgstr "nav iespējams nolasīt rpm failu [%s] no datu nesēja \"%s\""
 
-#: ../urpm/install.pm:213
+#: ../urpm/install.pm:115 ../urpme:164
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "Atvienoju %s"
+
+#: ../urpm/install.pm:215
 #, fuzzy, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
 msgstr "nevaru noņemt pakotni %s"
 
-#: ../urpm/install.pm:240
+#: ../urpm/install.pm:242
 #, c-format
 msgid "unable to install package %s"
 msgstr "nevaru instalēt pakotni %s"
 
-#: ../urpm/install.pm:243
+#: ../urpm/install.pm:245
 #, fuzzy, c-format
 msgid "removing bad rpm (%s) from %s"
 msgstr "tiek instalēta %s\n"
 
-#: ../urpm/install.pm:244 ../urpm/install.pm:370
+#: ../urpm/install.pm:246 ../urpm/install.pm:375
 #, fuzzy, c-format
 msgid "removing %s failed: %s"
 msgstr "...atgūšana neizdevās: %s"
 
-#: ../urpm/install.pm:294
-#, fuzzy, c-format
-msgid "Removing package %s"
-msgstr "Instalēju pakotni %s"
-
-#: ../urpm/install.pm:295
+#: ../urpm/install.pm:296
 #, fuzzy, c-format
 msgid "removing package %s"
 msgstr "Instalēju pakotni %s"
 
-#: ../urpm/install.pm:338
+#: ../urpm/install.pm:343
 #, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
 
-#: ../urpm/install.pm:341
+#: ../urpm/install.pm:346
 #, fuzzy, c-format
 msgid "unable to create transaction"
 msgstr "Neizdevās izveidot ssh identitāti"
 
-#: ../urpm/install.pm:368
+#: ../urpm/install.pm:373
 #, fuzzy, c-format
 msgid "removing installed rpms (%s) from %s"
 msgstr "tiek instalēta %s\n"
 
-#: ../urpm/install.pm:377
+#: ../urpm/install.pm:382
 #, fuzzy, c-format
 msgid "More information on package %s"
 msgstr "Vairāk informācijas par pakotni..."
@@ -873,8 +898,8 @@ msgstr "Sekojošām pakotnēm ir slikti paraksti"
 msgid "Do you want to continue installation ?"
 msgstr "Vēlaties turpināt instalēšanu?"
 
-#: ../urpm/main_loop.pm:155 ../urpm/main_loop.pm:184 ../urpm/main_loop.pm:288
-#: ../urpm/main_loop.pm:296
+#: ../urpm/main_loop.pm:155 ../urpm/main_loop.pm:184 ../urpm/main_loop.pm:289
+#: ../urpm/main_loop.pm:297
 #, c-format
 msgid "Installation failed"
 msgstr "Instalēšana neizdevās"
@@ -889,37 +914,37 @@ msgstr "tiek instalēta %s\n"
 msgid "Try to continue anyway?"
 msgstr ""
 
-#: ../urpm/main_loop.pm:234
+#: ../urpm/main_loop.pm:235
 #, fuzzy, c-format
 msgid "installing %s from %s"
 msgstr "tiek instalēta %s\n"
 
-#: ../urpm/main_loop.pm:236
+#: ../urpm/main_loop.pm:237
 #, fuzzy, c-format
 msgid "installing %s"
 msgstr "tiek instalēta %s\n"
 
-#: ../urpm/main_loop.pm:243
+#: ../urpm/main_loop.pm:244
 #, fuzzy, c-format
 msgid "distributing %s"
 msgstr "tiek instalēta %s\n"
 
-#: ../urpm/main_loop.pm:289
+#: ../urpm/main_loop.pm:290
 #, fuzzy, c-format
 msgid "Try installation without checking dependencies?"
 msgstr "Vai mēģināt instalēt bez atkarību pārbaudes? (j/N) "
 
-#: ../urpm/main_loop.pm:297
+#: ../urpm/main_loop.pm:298
 #, fuzzy, c-format
 msgid "Try harder to install (--force)?"
 msgstr "Vai mēģināt instalēt vēl uzstājīgāk (--force)? (j/N) "
 
-#: ../urpm/main_loop.pm:490
+#: ../urpm/main_loop.pm:589
 #, c-format
 msgid "Packages are up to date"
 msgstr ""
 
-#: ../urpm/main_loop.pm:501 ../urpm/parallel.pm:299
+#: ../urpm/main_loop.pm:600 ../urpm/parallel.pm:299
 #, c-format
 msgid "Installation is possible"
 msgstr "Instalēšana ir iespējama"
@@ -978,227 +1003,227 @@ msgid ""
 "update, --use-distrib or --parallel"
 msgstr "--synthesis nevar tikt lietots ar --media, --update vai --parallel"
 
-#: ../urpm/media.pm:782
+#: ../urpm/media.pm:779
 #, fuzzy, c-format
 msgid "Search start: %s end: %s"
 msgstr "Meklēt instalētos fontus"
 
-#: ../urpm/media.pm:799
+#: ../urpm/media.pm:796
 #, fuzzy, c-format
 msgid "skipping package %s"
 msgstr "Instalēju pakotni %s"
 
-#: ../urpm/media.pm:815
+#: ../urpm/media.pm:812
 #, fuzzy, c-format
 msgid "would install instead of upgrade package %s"
 msgstr "Problēmas, instalējot pakotni %s"
 
-#: ../urpm/media.pm:898
+#: ../urpm/media.pm:895
 #, c-format
 msgid "medium \"%s\" already exists"
 msgstr "datu nesējs \"%s\" jau eksistē"
 
-#: ../urpm/media.pm:940
+#: ../urpm/media.pm:937
 #, c-format
 msgid "(ignored by default)"
 msgstr ""
 
-#: ../urpm/media.pm:946
+#: ../urpm/media.pm:943
 #, fuzzy, c-format
 msgid "adding medium \"%s\" before remote medium \"%s\""
 msgstr "problēma nolasot datu nesēja \"%s\" synthesis failu"
 
-#: ../urpm/media.pm:952
+#: ../urpm/media.pm:949
 #, fuzzy, c-format
 msgid "adding medium \"%s\""
 msgstr "noņemu datu nesēju \"%s\""
 
-#: ../urpm/media.pm:976
+#: ../urpm/media.pm:973
 #, fuzzy, c-format
 msgid "failed to copy media.cfg to %s (%d)"
 msgstr "Nevar atvērt failu %s\n"
 
-#: ../urpm/media.pm:1047
+#: ../urpm/media.pm:1044
 #, c-format
 msgid "directory %s does not exist"
 msgstr ""
 
-#: ../urpm/media.pm:1055
+#: ../urpm/media.pm:1052
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
-#: ../urpm/media.pm:1079
+#: ../urpm/media.pm:1076
 #, fuzzy, c-format
 msgid "unable to parse media.cfg"
 msgstr "Nevar atvērt failu %s\n"
 
-#: ../urpm/media.pm:1082
+#: ../urpm/media.pm:1079
 #, fuzzy, c-format
 msgid "unable to access the distribution medium (no media.cfg file found)"
 msgstr "nav iespējams piekļūt pirmajam instalācijas datu nesējam"
 
-#: ../urpm/media.pm:1103
+#: ../urpm/media.pm:1100
 #, c-format
 msgid "skipping non compatible media `%s' (for %s)"
 msgstr ""
 
-#: ../urpm/media.pm:1118
+#: ../urpm/media.pm:1115
 #, fuzzy, c-format
 msgid "ignoring non-free medium `%s'"
 msgstr "noņemu datu nesēju \"%s\""
 
-#: ../urpm/media.pm:1167
+#: ../urpm/media.pm:1164
 #, fuzzy, c-format
 msgid "retrieving media.cfg file..."
 msgstr "atgūstu hdlists failu..."
 
-#: ../urpm/media.pm:1210
+#: ../urpm/media.pm:1207
 #, fuzzy, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "nevar izveidot datu nesēju \"%s\"\n"
 
-#: ../urpm/media.pm:1213
+#: ../urpm/media.pm:1210
 #, fuzzy, c-format
 msgid "selecting multiple media: %s"
 msgstr "izvēlos vairākas vides: %s"
 
-#: ../urpm/media.pm:1272
+#: ../urpm/media.pm:1269
 #, c-format
 msgid "removing medium \"%s\""
 msgstr "noņemu datu nesēju \"%s\""
 
-#: ../urpm/media.pm:1363
+#: ../urpm/media.pm:1360
 #, fuzzy, c-format
 msgid "reconfiguring urpmi for media \"%s\""
 msgstr "Konfigurēju printeri \"%s\"..."
 
-#: ../urpm/media.pm:1397
+#: ../urpm/media.pm:1394
 #, fuzzy, c-format
 msgid "...reconfiguration failed"
 msgstr "Izvēlnes konfigurācija saglabāta"
 
-#: ../urpm/media.pm:1403
+#: ../urpm/media.pm:1400
 #, fuzzy, c-format
 msgid "reconfiguration done"
 msgstr "Servera konfigurācija"
 
-#: ../urpm/media.pm:1419
+#: ../urpm/media.pm:1416
 #, c-format
 msgid "Error generating names file: dependency %d not found"
 msgstr ""
 
-#: ../urpm/media.pm:1440
+#: ../urpm/media.pm:1437
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "datu nesējs \"%s\" nav izvēlēts"
 
-#: ../urpm/media.pm:1451
+#: ../urpm/media.pm:1448
 #, c-format
 msgid "examining synthesis file [%s]"
 msgstr "eksaminēju synthesis failu [%s]"
 
-#: ../urpm/media.pm:1471
+#: ../urpm/media.pm:1468
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "problēma nolasot datu nesēja \"%s\" synthesis failu"
 
-#: ../urpm/media.pm:1484 ../urpm/media.pm:1579
+#: ../urpm/media.pm:1481 ../urpm/media.pm:1576
 #, fuzzy, c-format
 msgid "copying [%s] for medium \"%s\"..."
 msgstr "netika atrasts hdlist fails priekš datu nesēja \"%s\""
 
-#: ../urpm/media.pm:1486 ../urpm/media.pm:1556 ../urpm/media.pm:1809
+#: ../urpm/media.pm:1483 ../urpm/media.pm:1553 ../urpm/media.pm:1806
 #, fuzzy, c-format
 msgid "...copying failed"
 msgstr "...kopēšana veikta"
 
-#: ../urpm/media.pm:1552
+#: ../urpm/media.pm:1549
 #, c-format
 msgid "copying description file of \"%s\"..."
 msgstr "kopēju \"%s\" apraksta failu ..."
 
-#: ../urpm/media.pm:1554 ../urpm/media.pm:1583
+#: ../urpm/media.pm:1551 ../urpm/media.pm:1580
 #, c-format
 msgid "...copying done"
 msgstr "...kopēšana veikta"
 
-#: ../urpm/media.pm:1585
+#: ../urpm/media.pm:1582
 #, fuzzy, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "[%s] kopēšana neizdevās"
 
-#: ../urpm/media.pm:1633
+#: ../urpm/media.pm:1630
 #, fuzzy, c-format
 msgid "computing md5sum of retrieved source synthesis"
 msgstr "saraksta fails priekš \"%s\" ir tukšs"
 
-#: ../urpm/media.pm:1635 ../urpm/media.pm:2118
+#: ../urpm/media.pm:1632 ../urpm/media.pm:2115
 #, fuzzy, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
 msgstr "[%s] kopēšana neizdevās"
 
-#: ../urpm/media.pm:1650
+#: ../urpm/media.pm:1647
 #, fuzzy, c-format
 msgid "genhdlist2 failed on %s"
 msgstr "eksaminēju hdlist failu [%s]"
 
-#: ../urpm/media.pm:1660
+#: ../urpm/media.pm:1657
 #, fuzzy, c-format
 msgid "comparing %s and %s"
 msgstr "tiek instalēta %s\n"
 
-#: ../urpm/media.pm:1690
+#: ../urpm/media.pm:1687
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "netika atrasts hdlist fails priekš datu nesēja \"%s\""
 
-#: ../urpm/media.pm:1716
+#: ../urpm/media.pm:1713
 #, fuzzy, c-format
 msgid "copying MD5SUM file of \"%s\"..."
 msgstr "kopēju \"%s\" apraksta failu ..."
 
-#: ../urpm/media.pm:1756
+#: ../urpm/media.pm:1753
 #, fuzzy, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
 msgstr "nederīgs rpm faila vārds [%s]"
 
-#: ../urpm/media.pm:1759
+#: ../urpm/media.pm:1756
 #, fuzzy, c-format
 msgid "no metadata found for medium \"%s\""
 msgstr "netika atrasts hdlist fails priekš datu nesēja \"%s\""
 
-#: ../urpm/media.pm:1791
+#: ../urpm/media.pm:1788
 #, fuzzy, c-format
 msgid "retrieving source synthesis of \"%s\"..."
 msgstr "atgūstu hdlists failu..."
 
-#: ../urpm/media.pm:1857
+#: ../urpm/media.pm:1854
 #, fuzzy, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "kopēju \"%s\" apraksta failu ..."
 
-#: ../urpm/media.pm:1869
+#: ../urpm/media.pm:1866
 #, fuzzy, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr "nevaru ierakstīt \"%s\" saraksta failu"
 
-#: ../urpm/media.pm:1873
+#: ../urpm/media.pm:1870
 #, fuzzy, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "nevaru ierakstīt \"%s\" saraksta failu"
 
-#: ../urpm/media.pm:1914
+#: ../urpm/media.pm:1911
 #, fuzzy, c-format
 msgid "no synthesis file found for medium \"%s\""
 msgstr "netika atrasts hdlist fails priekš datu nesēja \"%s\""
 
-#: ../urpm/media.pm:1947
+#: ../urpm/media.pm:1944
 #, fuzzy, c-format
 msgid "updated medium \"%s\""
 msgstr "pievienoju datu nesēju %s."
 
-#: ../urpm/media.pm:2112
+#: ../urpm/media.pm:2109
 #, c-format
 msgid "retrieval of [%s] failed"
 msgstr ""
@@ -1409,12 +1434,12 @@ msgstr ""
 msgid "unable to access medium \"%s\"."
 msgstr "nav iespējams piekļūt datu nesējam \"%s\""
 
-#: ../urpm/removable.pm:86 ../urpm/removable.pm:104
+#: ../urpm/removable.pm:86 ../urpm/removable.pm:101
 #, c-format
 msgid "mounting %s"
 msgstr "montēju %s"
 
-#: ../urpm/removable.pm:117
+#: ../urpm/removable.pm:113
 #, c-format
 msgid "unmounting %s"
 msgstr "atmontēju %s"
@@ -1539,37 +1564,37 @@ msgstr ""
 msgid "Medium without key (%s)"
 msgstr ""
 
-#: ../urpm/sys.pm:211
+#: ../urpm/sys.pm:194
 #, c-format
 msgid "system"
 msgstr ""
 
-#: ../urpm/sys.pm:248
+#: ../urpm/sys.pm:231
 #, c-format
 msgid "You should restart your computer for %s"
 msgstr ""
 
-#: ../urpm/sys.pm:250
+#: ../urpm/sys.pm:233
 #, c-format
 msgid "You should restart your session for %s"
 msgstr ""
 
-#: ../urpm/sys.pm:252
+#: ../urpm/sys.pm:235
 #, c-format
 msgid "You should restart %s for %s"
 msgstr ""
 
-#: ../urpm/sys.pm:390
+#: ../urpm/sys.pm:373
 #, fuzzy, c-format
 msgid "Can't write file"
 msgstr "nevar saglabāt konfigurācijas failu [%s]"
 
-#: ../urpm/sys.pm:390
+#: ../urpm/sys.pm:373
 #, fuzzy, c-format
 msgid "Can't open file"
 msgstr "Neveiksmīga Pieteikšanās"
 
-#: ../urpm/sys.pm:403
+#: ../urpm/sys.pm:386
 #, fuzzy, c-format
 msgid "Can't move file %s to %s"
 msgstr "Neveiksmīga Pieteikšanās"
@@ -2445,29 +2470,6 @@ msgstr ""
 msgid "(test only, installation will not be actually done)"
 msgstr ""
 
-#: ../urpmi:615
-#, c-format
-msgid "%s of additional disk space will be used."
-msgstr ""
-
-#: ../urpmi:616
-#, c-format
-msgid "%s of disk space will be freed."
-msgstr ""
-
-#: ../urpmi:617
-#, c-format
-msgid "%s of packages will be retrieved."
-msgstr ""
-
-#: ../urpmi:618
-#, c-format
-msgid "Proceed with the installation of one package?"
-msgid_plural "Proceed with the installation of the %d packages?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
 #: ../urpmi:640
 #, fuzzy, c-format
 msgid "Press Enter when mounted..."
@@ -3046,6 +3048,13 @@ msgid "Graphical front end to install RPM files"
 msgstr "Ghostscript priekšgals, lai vizualizētu PostScript failus"
 
 #, fuzzy
+#~ msgid "(%d package, %d MB)"
+#~ msgid_plural "(%d packages, %d MB)"
+#~ msgstr[0] "%d pakotnes"
+#~ msgstr[1] "%d pakotnes"
+#~ msgstr[2] "%d pakotnes"
+
+#, fuzzy
 #~ msgid "  --repackage    - Re-package the files before erasing\n"
 #~ msgstr "  --list         - izvadīt sarakstu ar pieejamām pakotnēm.\n"
 
@@ -3158,9 +3167,6 @@ msgstr "Ghostscript priekšgals, lai vizualizētu PostScript failus"
 #~ "noteikumiem.\n"
 #~ "\n"
 #~ "Pielietojums:\n"
-
-#~ msgid "Cancel"
-#~ msgstr "Atcelt"
 
 #, fuzzy
 #~ msgid "Cannot write DUDF file.\n"
