@@ -926,6 +926,7 @@ sub sync_rel {
 	$urpm->{log}(N("retrieved %s", $files_text));
 	\@result_files;
     } else {
+	$urpm->{log}("error: $err");
 	# don't leave partial download
 	unlink @result_files;
 	undef;
