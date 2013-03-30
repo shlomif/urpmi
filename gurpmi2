@@ -286,7 +286,6 @@ sub do_install_3 () {
 	post_download => sub {
 	    if ($mainw->canceled) {
 		$exit_code = 10;
-		warn ">> CANCELING\n";
 		goto return_with_exit_code;
 	    }
 	    $mainw->invalidate_cancel_forever;
