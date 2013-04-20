@@ -362,6 +362,7 @@ sub install {
 	local $urpm->{trans} = $trans;
 	@errors = $trans->run($urpm, %options);
 	delete $urpm->{trans};
+	undef $erase_logger;
 
 	#- don't clear cache if transaction failed. We might want to retry.
 	if (!@errors && !$options{test} && $options{post_clean_cache}) {
