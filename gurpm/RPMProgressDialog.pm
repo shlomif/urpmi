@@ -68,7 +68,7 @@ Arguments are an urpm object and a quit routine reference.
 
 
 sub new {
-    my ($self, $global_urpm, $o_quit) = @_;
+    my ($self, $global_urpm, $o_quit, $o_no_modal) = @_;
     # my $w = ugtk2->new($title, %options, default_width => 600, width => 600);
     my $w = $mainw = bless(Gtk2::Window->new('toplevel'), $self);
 
@@ -79,8 +79,11 @@ sub new {
     $w->signal_connect(destroy => $o_quit) if $o_quit;
     $w->set_position('center');
     $w->set_default_size($progressbar_size, 60);
-    $w->set_type_hint('dialog'); # for matchbox window manager during install
-    $w->set_modal(1);	  # for matchbox window manager during install
+    # for matchbox window manager during install:
+    if (!$o_no_modal) {
+	$w->set_type_hint('dialog');
+	$w->set_modal(1);
+    }
     $w->{mainbox} = Gtk2::VBox->new(0, 5);
     $w->add($w->{mainbox});
     $urpm = $global_urpm;
