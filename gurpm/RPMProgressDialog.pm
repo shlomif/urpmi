@@ -51,7 +51,7 @@ sub title {
 my ($mainw, $urpm, $old_main_window);
 
 my $progressbar_size = 450;
-my ($progress_nb, $download_nb, $uninst_count);
+my ($progress_nb, $download_nb, $index);
 
 
 =head2 Creators
@@ -164,7 +164,7 @@ sub init_progressbar {
     $progressbar->set_size_request($progressbar_size, -1);
     $vbox->pack_start($progressbar, 0, 0, 0);
     $w->{progressbar} = $progressbar;
-    $progress_nb = $download_nb = $uninst_count = 0;
+    $progress_nb = $download_nb = $index = 0;
 
     $w->change_widget($vbox);
 }
@@ -188,8 +188,8 @@ Update the progress bar
 
 sub set_progressbar {
     my ($w, $local_ratio) = @_;
-    if ($progress_nb || $download_nb || $uninst_count) { # this happens when computing transaction
-	$w->{global_progressbar}->set_fraction(($download_nb + $progress_nb + $uninst_count - 1 + $local_ratio) / 2 / $urpm->{nb_install});
+    if ($progress_nb || $download_nb) { # this happens when computing transaction
+	$w->{global_progressbar}->set_fraction(($download_nb + $progress_nb - 1 + $local_ratio) / 2 / $urpm->{nb_install});
     }
     $w->{progressbar}->set_fraction($local_ratio);
 }
@@ -305,17 +305,17 @@ sub callback_inst {
     my $pkg = defined $id ? $urpm->{depslist}[$id] : undef;
     if ($subtype eq 'start') {
 	if ($type eq 'trans') {
-	    $uninst_count = 0;
+	    $index = 0;
 	    $mainw->set_progresslabel(N("Preparing..."));
 	} else {
 	    my $msg;
 	    if ($type eq 'uninst') {
-		$msg = N("Removing package `%s' ...", $urpm->{trans}->Element_fullname($progress_nb+$uninst_count));
-		$uninst_count++;
+		$msg = N("Removing package `%s' ...", $urpm->{trans}->Element_fullname($index));
 	    } else {
 		$progress_nb++;
 		$msg = N("Installing package `%s' (%s/%s)...", $pkg->name, $progress_nb, $urpm->{nb_install});
 	    }
+	    $index++;
 	    $download_nb = max($download_nb, $progress_nb);
 	    $mainw->set_progressbar(0);
 	    $mainw->set_progresslabel($msg);
