@@ -310,7 +310,7 @@ sub callback_inst {
 	} else {
 	    my $msg;
 	    if ($type eq 'uninst') {
-		$msg = N("Removing package `%s' ...", $urpm->{trans}->Element_fullname($uninst_count));
+		$msg = N("Removing package `%s' ...", $urpm->{trans}->Element_fullname($progress_nb+$uninst_count));
 		$uninst_count++;
 	    } else {
 		$progress_nb++;
