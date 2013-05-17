@@ -299,7 +299,7 @@ sub do_install_3 () {
         ask_yes_or_no => \&ask_yes_or_no,
 
         completed => sub {
-	    if (@errors) {
+	    if (@errors && !$gurpmi::options{auto}) {
 		ask_warn(N("An error occurred:") . "\n\n" . join("\n", @errors));
 	    }
 
