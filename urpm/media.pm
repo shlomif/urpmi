@@ -793,7 +793,7 @@ sub is_media_to_add_by_default {
 		$add_by_default = 1;
 		$urpm->{log}(N("un-ignoring non-free medium `%s' b/c nonfree packages are installed", $medium_name));
 	    }
-	    if ($medium_name =~ /Nonfree/ && $tainted) {
+	    if ($medium_name =~ /Tainted/ && $tainted) {
 		$add_by_default = 1;
 		$urpm->{log}(N("un-ignoring tainted medium `%s' b/c tainted packages are installed", $medium_name));
 	    }
