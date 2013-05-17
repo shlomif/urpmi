@@ -5,7 +5,7 @@ package urpm::media;
 use strict;
 use urpm qw(file_from_local_medium is_local_medium);
 use urpm::msg;
-use urpm::util qw(any append_to_file basename cat_ difference2 dirname member output_safe begins_with copy_and_own file_size offset_pathname reduce_pathname);
+use urpm::util qw(any append_to_file basename cat_ difference2 dirname intersection member output_safe begins_with copy_and_own file_size offset_pathname reduce_pathname);
 use urpm::removable;
 use urpm::lock;
 use urpm::md5sum;
@@ -777,13 +777,26 @@ sub needed_extra_media {
 }
 
 sub is_media_to_add_by_default {
-    my ($urpm, $distribconf, $medium, $product_id) = @_;
+    my ($urpm, $distribconf, $medium, $product_id, $nonfree, $tainted) = @_;
     my $add_by_default = !$distribconf->getvalue($medium, 'noauto');
     my @media_types = split(':', $distribconf->getvalue($medium, 'media_type'));
     if ($product_id->{product} eq 'Free') {
 	if (member('non-free', @media_types)) {
 	    $urpm->{log}(N("ignoring non-free medium `%s'", $medium));
 	    $add_by_default = 0;
+	}
+    } else {
+	my $non_regular_medium = intersection(\@media_types, [ qw(backports debug source testing) ]);
+	if (!$add_by_default && !$non_regular_medium) {
+	    my $medium_name = $distribconf->getvalue($medium, 'name') || '';
+	    if ($medium_name =~ /Nonfree/ && $nonfree) {
+		$add_by_default = 1;
+		$urpm->{log}(N("un-ignoring non-free medium `%s' b/c nonfree packages are installed", $medium_name));
+	    }
+	    if ($medium_name =~ /Nonfree/ && $tainted) {
+		$add_by_default = 1;
+		$urpm->{log}(N("un-ignoring tainted medium `%s' b/c tainted packages are installed", $medium_name));
+	    }
 	}
     }
     $add_by_default;
@@ -1125,6 +1138,7 @@ sub add_distrib_media {
 
     require urpm::mirrors;
     my $product_id = urpm::mirrors::parse_LDAP_namespace_structure(cat_('/etc/product.id'));
+    my ($nonfree, $tainted) = needed_extra_media($urpm);
 
     foreach my $media ($distribconf->listmedia) {
         my $media_name = $distribconf->getvalue($media, 'name') || '';
@@ -1142,7 +1156,7 @@ sub add_distrib_media {
 	    $is_update_media or next;
 	}
 
-        my $add_by_default = is_media_to_add_by_default($urpm, $distribconf, $media, $product_id);
+        my $add_by_default = is_media_to_add_by_default($urpm, $distribconf, $media, $product_id, $nonfree, $tainted);
 
 	my $ignore;
         if ($options{ask_media}) {
