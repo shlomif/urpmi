@@ -102,6 +102,34 @@ Gtk2->main;
 
 my ($rpm_lock, $urpmi_lock);
 
+sub ask_warn {
+    my ($message) = @_;
+    printf STDERR "%s\n", $message;
+
+    if (my $download_errors = delete $urpm->{download_errors}) {
+	$message = join("\n", @$download_errors, $message);
+    }
+    my $nb_lines = $message =~ tr/\n/\n/;
+    my $w;
+    if ($nb_lines > 30 || $message =~ /^transaction is too small/) {
+	$w  = Gtk2::Dialog->new(N("Warning"), $mainw, [qw(modal destroy-with-parent)], N("Ok"), 'ok');
+	$w->vbox->add(my $f = Gtk2::Frame->new);
+	my $sw = create_scrolled_window(my $text = Gtk2::TextView->new);
+	$sw->set_border_width(2);
+	$text->set_wrap_mode('word');
+	$f->add($sw);
+	$text->get_buffer->set_text($message);
+	$text->set_editable(0);
+	$_->show foreach $f, $sw, $text;
+	$w->set_size_request(400, 400);
+	$w->set_default_response('ok');
+    } else {
+	$w  = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok', $message);
+    }
+    $w->run;
+    $w->destroy;
+}
+
 #- Creates and configure an urpm object for this application to use.
 sub configure_urpm {
     my ($urpm) = @_;
@@ -113,33 +141,7 @@ sub configure_urpm {
 	exit $_[0];
     };
     $urpm->{log}   = sub { printf "%s\n", $_[0] };
-    $urpm->{error} = sub {
-	my ($message) = @_;
-	printf STDERR "%s\n", $message;
-
-	if (my $download_errors = delete $urpm->{download_errors}) {
-	    $message = join("\n", @$download_errors, $message);
-	}
-	my $nb_lines = $message =~ tr/\n/\n/;
-	my $w;
-	if ($nb_lines > 30 || $message =~ /^transaction is too small/) {
-	    $w  = Gtk2::Dialog->new(N("Warning"), $mainw, [qw(modal destroy-with-parent)], N("Ok"), 'ok');
-	    $w->vbox->add(my $f = Gtk2::Frame->new);
-	    my $sw = create_scrolled_window(my $text = Gtk2::TextView->new);
-	    $sw->set_border_width(2);
-	    $text->set_wrap_mode('word');
-	    $f->add($sw);
-	    $text->get_buffer->set_text($message);
-	    $text->set_editable(0);
-	    $_->show foreach $f, $sw, $text;
-	    $w->set_size_request(400, 400);
-	    $w->set_default_response('ok');
-	} else {
-	    $w  = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok', $message);
-	}
-	$w->run;
-	$w->destroy;
-    };
+    $urpm->{error} = \&ask_warn;
     urpm::select::set_priority_upgrade_option($urpm, $gurpmi::options{previous_priority_upgrade});
     $rpm_lock = urpm::lock::rpm_db($urpm, 'exclusive');
     $urpmi_lock = urpm::lock::urpmi_db($urpm);
