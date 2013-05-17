@@ -267,6 +267,9 @@ sub do_install_3 () {
 
     $mainw->init_progressbar;
 
+    my @errors;
+    local $urpm->{error} = sub { warn "@_\n"; push @errors, @_ };
+
     my $exit_code;
     $exit_code = urpm::main_loop::run($urpm, $state, scalar(@gurpmi::names),  \@ask_unselect, {
         bad_signature => sub {
@@ -296,6 +299,10 @@ sub do_install_3 () {
         ask_yes_or_no => \&ask_yes_or_no,
 
         completed => sub {
+	    if (@errors) {
+		ask_warn(N("An error occurred:") . "\n\n" . join("\n", @errors));
+	    }
+
             $urpmi_lock->unlock;
             $rpm_lock->unlock;
             urpm::removable::try_umounting_removables($urpm);
