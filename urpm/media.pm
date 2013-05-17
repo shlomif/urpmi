@@ -755,6 +755,27 @@ sub _auto_update_media {
     }
 }
 
+
+=item needed_extra_media($urpm)
+
+Return 2 booleans telling whether nonfree & tainted packages are installed respectively.
+
+=cut
+
+sub needed_extra_media {
+    my ($urpm) = @_;
+    my $db = urpm::db_open_or_die_($urpm);
+    my ($nonfree, $tainted);
+    $db->traverse(sub {
+	my ($pkg) = @_;
+	return if $nonfree && $tainted;
+	my $rel = $pkg->release;
+	$nonfree ||= $rel =~ /nonfree$/;
+	$tainted ||= $rel =~ /tainted$/;
+    });
+    ($nonfree, $tainted);
+}
+
 sub non_ignored_media {
     my ($urpm, $b_only_marked_update) = @_;
 
