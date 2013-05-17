@@ -776,6 +776,19 @@ sub needed_extra_media {
     ($nonfree, $tainted);
 }
 
+sub is_media_to_add_by_default {
+    my ($urpm, $distribconf, $medium, $product_id) = @_;
+    my $add_by_default = !$distribconf->getvalue($medium, 'noauto');
+    my @media_types = split(':', $distribconf->getvalue($medium, 'media_type'));
+    if ($product_id->{product} eq 'Free') {
+	if (member('non-free', @media_types)) {
+	    $urpm->{log}(N("ignoring non-free medium `%s'", $medium));
+	    $add_by_default = 0;
+	}
+    }
+    $add_by_default;
+}
+
 sub non_ignored_media {
     my ($urpm, $b_only_marked_update) = @_;
 
@@ -1129,14 +1142,8 @@ sub add_distrib_media {
 	    $is_update_media or next;
 	}
 
-        my $add_by_default = !$distribconf->getvalue($media, 'noauto');
-        my @media_types = split(':', $distribconf->getvalue($media, 'media_type'));
-        if ($product_id->{product} eq 'Free') {
-            if (member('non-free', @media_types)) {
-                $urpm->{log}(N("ignoring non-free medium `%s'", $media));
-                $add_by_default = 0;
-            }
-        }
+        my $add_by_default = is_media_to_add_by_default($urpm, $distribconf, $media, $product_id);
+
 	my $ignore;
         if ($options{ask_media}) {
             $options{ask_media}->($media_name, $add_by_default) or next;
