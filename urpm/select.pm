@@ -353,6 +353,7 @@ sub resolve_dependencies {
 		$need_restart = _resolve_priority_upgrades($urpm, $db, $state, $state->{selected}, \@l, %options);
 	    }
 	}
+	$urpm->{options}{'split-length'} = 0 if $need_restart;
     }
     $need_restart;
 }
