@@ -780,6 +780,7 @@ sub is_media_to_add_by_default {
     my ($urpm, $distribconf, $medium, $product_id, $nonfree, $tainted) = @_;
     my $add_by_default = !$distribconf->getvalue($medium, 'noauto');
     my @media_types = split(':', $distribconf->getvalue($medium, 'media_types'));
+    return $add_by_default if !@media_types;
     if ($product_id->{product} eq 'Free') {
 	if (member('non-free', @media_types)) {
 	    $urpm->{log}(N("ignoring non-free medium `%s'", $medium));
