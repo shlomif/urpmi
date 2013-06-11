@@ -442,7 +442,11 @@ sub _all_unrequested_orphans {
 
     # do not offer to remove current kernel or DKMS modules for current kernel:
     delete $l{$current_kernel};
-    do { delete $l{$_} } foreach grep { /$current_kernel_version/ } keys %l;
+    # prevent removing orphan kernels if we failed to detect running kernel version:
+    if ($current_kernel_version) {
+        do { delete $l{$_} } foreach grep { /$current_kernel_version/ } keys %l;
+    }
+
     [ values %l ];
 }
 
