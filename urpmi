@@ -483,7 +483,7 @@ if (@unselected_uninstalled) {
     my $list = join "\n", map { $_->name . '-' . $_->version . '-' . $_->release  } @unselected_uninstalled;
     my $msg = @unselected_uninstalled == 1 ?
     	N("The following package cannot be installed because it depends on packages
-that are older than the installed ones:\n%s",$list)
+that are older than the installed ones:\n%s", $list)
 	: N("The following packages can't be installed because they depend on packages
 that are older than the installed ones:\n%s", $list);
     if ($urpm->{options}{auto}) {
@@ -502,7 +502,7 @@ my @ask_unselect = urpm::select::unselected_packages($state);
 if (@ask_unselect) {
     my $list = urpm::select::translate_why_unselected($urpm, $state, @ask_unselect);
     my $msg = @ask_unselect == 1 ?
-    	N("A requested package cannot be installed:\n%s",$list)
+    	N("A requested package cannot be installed:\n%s", $list)
 	: N("Some requested packages cannot be installed:\n%s", $list);
     if ($urpm->{options}{auto}) {
 	print "$msg\n";
