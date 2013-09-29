@@ -43,5 +43,5 @@ sub test_urpmi {
     $s =~ s/^SECURITY.*//gm;
     $s =~ s/^\n//gm;
 
-    ok($s eq $wanted_a || $s eq $wanted_b, "$wanted_a in $s");
+    ok(member($s, $wanted_a, $wanted_b), "$wanted_a in $s");
 }
