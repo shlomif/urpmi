@@ -18,6 +18,8 @@ test_urpmi("--auto --split-length 1 c d",
 	acceptable_trans_orders(4,
 				[ [ qw(a b) ], ['c'], ['d'] ],
 				[ [ qw(b a) ], ['c'], ['d'] ],
+				[ ['d'], [ qw(b a) ], ['c'] ],
+				[ ['d'], [ qw(a b) ], ['c'] ],
 	));
 check_installed_names('a', 'b', 'c', 'd');
 
