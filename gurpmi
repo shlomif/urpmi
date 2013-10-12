@@ -60,9 +60,9 @@ foreach (@all_rpms) {
 }
 
 sub proceed() {
-    #- we need to switch to root if we're not already (via consolehelper)
+    #- we need to switch to root if we're not already (via polkit)
     #- yes. hardcoded paths. safe.
-    exec $> ? '/usr/bin/gurpmi2' : '/usr/sbin/gurpmi2', @ARGV;
+    exec $> ? '/usr/bin/gurpmi2' : '/usr/libexec/gurpmi2', @ARGV;
 }
 
 #- Ask question: save or install ?
