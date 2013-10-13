@@ -45,10 +45,10 @@ sub top_targets {
 sub installbin {
     my $self = shift;
     my $inherited = $self->SUPER::installbin(@_);
-    my $s = join '|', map quotemeta, @sbin_scripts;
-    $inherited =~ s{\$\(INST_SCRIPT\)/($s)}{\$(INST_SBIN)/$1}g;
-    $s = join '|', map quotemeta, @libexec_scripts;
+    my $s = join '|', map quotemeta, @libexec_scripts;
     $inherited =~ s{\$\(INST_SCRIPT\)/($s)}{\$(INST_LIBEXEC)/$1}g;
+    $s = join '|', map { quotemeta($_) . '\s' } @sbin_scripts;
+    $inherited =~ s{\$\(INST_SCRIPT\)/($s)}{\$(INST_SBIN)/$1}g;
     # how to create needed directories under blib
     $inherited .= $self->dir_target("\$(INST_$_)") for qw(SBIN LIBEXEC MAN5DIR MAN8DIR);
     $inherited;
