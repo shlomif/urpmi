@@ -586,7 +586,7 @@ sub sync_rsync {
 	    my $buf = '';
 	    my $cmd = join(" ", "/usr/bin/rsync",
 		($limit_rate ? "--bwlimit=$limit_rate" : @{[]}),
-		($options->{quiet} ? qw(-q) : qw(--progress -v)),
+		($options->{quiet} ? qw(-q) : qw(--progress -v --no-human-readable)),
 		($options->{compress} ? qw(-z) : @{[]}),
 		($options->{ssh} ? qq(-e $options->{ssh}) : 
 		   ("--timeout=$CONNECT_TIMEOUT",
