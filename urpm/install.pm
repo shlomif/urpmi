@@ -353,7 +353,7 @@ sub install {
     my ($produced_deltas, @trans_pkgs) = _schedule_packages($urpm, $trans, $install, $upgrade, %options);
 
     if (!$options{nodeps} && (@errors = $trans->check(%options))) {
-    } elsif (!$options{noorder} && (@errors = $trans->order)) {
+    } elsif (!$options{noorder} && (@errors = $trans->order(%options))) {
     } else {
 	$urpm->{readmes} = {};
 

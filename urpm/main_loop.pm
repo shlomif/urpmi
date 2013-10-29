@@ -211,6 +211,7 @@ sub _init_common_options {
   (
       urpm::install::options($urpm),
       test => $test,
+      deploops => $options{deploops},
       verbose => $options{verbose},
       script_fd => $urpm->{options}{script_fd},
       oldpackage => $state->{oldpackage},
