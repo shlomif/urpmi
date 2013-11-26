@@ -195,7 +195,7 @@ sub create_scrolled_window {
     } else {
 	$w->add_with_viewport($W);
     }
-    $o_viewport_shadow and $w->child->set_shadow_type($o_viewport_shadow);
+    $o_viewport_shadow and $w->get_child->set_shadow_type($o_viewport_shadow);
     $W->can('set_focus_vadjustment') and $W->set_focus_vadjustment($w->get_vadjustment);
     $W->set_left_margin(6) if ref($W) =~ /Gtk3::TextView/;
     $W->show;
