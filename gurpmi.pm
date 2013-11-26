@@ -4,7 +4,7 @@ package gurpmi;
 #- Copyright (C) 2005-2010 Mandriva SA
 #- $Id: gurpmi.pm 271299 2010-11-21 15:54:30Z peroyvind $
 
-#- This is needed because text printed by Gtk2 will always be encoded
+#- This is needed because text printed by Gtk3 will always be encoded
 #- in UTF-8; we first check if LC_ALL is defined, because if it is,
 #- changing only LC_COLLATE will have no effect.
 use POSIX ();
@@ -19,7 +19,7 @@ if ($collation_locale) {
 
 use urpm;
 use strict;
-use Gtk2;
+use Gtk3;
 use urpm::util 'member';
 use urpm::msg;
 use urpm::args;
@@ -48,7 +48,7 @@ on a Mageia Linux distribution.
 
 =cut
 
-urpm::select::add_packages_to_priority_upgrade_list('gurpmi', 'perl-Glib', 'perl-Gtk2');
+urpm::select::add_packages_to_priority_upgrade_list('gurpmi', 'perl-Glib', 'perl-Gtk3');
 
 sub usage () {
     print urpm::args::copyright('gurpmi', [ '1999-2010', 'Mandriva' ])
@@ -125,8 +125,8 @@ Quits top level gtk+ main loop or, if not such a loop, terminates with 1 as exit
 =cut
 
 sub quit() {
-    if (Gtk2->main_level) {
-        Gtk2->main_quit;
+    if (Gtk3->main_level) {
+        Gtk3->main_quit;
     } else {
         # just exit if not in main loop (eg: while starting the GUI)
         exit 1;
@@ -140,7 +140,7 @@ Quits gtk+ main loop and terminates with 1 as exit code
 =cut
 
 sub cancel_n_quit() {
-    Gtk2->main_quit;
+    Gtk3->main_quit;
     exit(1);
 }
 
@@ -152,7 +152,7 @@ Packs the buttons in an horizontal ButtonBox, on edges.
 
 sub add_button_box {
     my ($vbox, @buttons) = @_;
-    my $hbox = Gtk2::HButtonBox->new;
+    my $hbox = Gtk3::HButtonBox->new;
     $vbox->pack_start($hbox, 0, 0, 0);
     $hbox->set_layout('edge');
     $_->set_alignment(0.5, 0.5), $hbox->add($_) foreach @buttons;
@@ -160,14 +160,14 @@ sub add_button_box {
 
 =item new_label($msg)
 
-Creates a new Gtk2::Label widget.
+Creates a new Gtk3::Label widget.
 If messages is too big, it's wrapped in a scrolled window
 
 =cut
 
 sub new_label {
     my ($msg) = @_;
-    my $label = Gtk2::Label->new($msg);
+    my $label = Gtk3::Label->new($msg);
     $label->set_line_wrap(1);
     $label->set_alignment(0.5, 0.5);
     if (($msg =~ tr/\n/\n/) > 5) {
@@ -188,19 +188,19 @@ Creates a scrolled window around the $W widget
 # copied from ugtk3:
 sub create_scrolled_window {
     my ($W, $o_policy, $o_viewport_shadow) = @_;
-    my $w = Gtk2::ScrolledWindow->new(undef, undef);
+    my $w = Gtk3::ScrolledWindow->new(undef, undef);
     $w->set_policy($o_policy ? @$o_policy : ('automatic', 'automatic'));
-    if (member(ref($W), qw(Gtk2::Layout Gtk2::Html2::View Gtk2::Text Gtk2::TextView Gtk2::TreeView))) {
+    if (member(ref($W), qw(Gtk3::Layout Gtk3::Html2::View Gtk3::Text Gtk3::TextView Gtk3::TreeView))) {
 	$w->add($W);
     } else {
 	$w->add_with_viewport($W);
     }
     $o_viewport_shadow and $w->child->set_shadow_type($o_viewport_shadow);
     $W->can('set_focus_vadjustment') and $W->set_focus_vadjustment($w->get_vadjustment);
-    $W->set_left_margin(6) if ref($W) =~ /Gtk2::TextView/;
+    $W->set_left_margin(6) if ref($W) =~ /Gtk3::TextView/;
     $W->show;
-    if (ref($W) =~ /Gtk2::TextView|Gtk2::TreeView/) {
-	my $f = Gtk2::Frame->new;
+    if (ref($W) =~ /Gtk3::TextView|Gtk3::TreeView/) {
+	my $f = Gtk3::Frame->new;
 	$w->show; # unlike ugtk3, we'd to do this explicitely...
 	$f->set_shadow_type('in');
      $f->add($w);

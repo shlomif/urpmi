@@ -10,7 +10,7 @@ BEGIN { #- set up a safe path and environment
     delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 }
 
-use Gtk2;
+use Gtk3;
 use gurpmi;
 use urpm::util 'basename';
 
@@ -29,17 +29,17 @@ my @all_rpms = gurpmi::parse_command_line();
 
 #- Now, the graphical stuff.
 
-Gtk2->init;
+Gtk3->init;
 
 #- Create main window
 
-$mainw = Gtk2::Window->new('toplevel');
+$mainw = Gtk3::Window->new('toplevel');
 $mainw->set_border_width(3);
 $mainw->set_title(N("RPM installation"));
 $mainw->signal_connect(destroy => \&cancel_n_quit);
 $mainw->set_position('center');
 $mainw->set_modal(0);
-$mainbox = Gtk2::VBox->new(0, 5);
+$mainbox = Gtk3::VBox->new(0, 5);
 $mainw->add($mainbox);
 
 sub all_descriptions {
@@ -50,11 +50,11 @@ sub all_descriptions {
 foreach (@all_rpms) {
     unless (-e $_) {
 	$mainbox->pack_start(new_label(N("Error: unable to find file %s, will cancel operation", $_)), 1, 1, 0);
-	my $abort_button = Gtk2::Button->new(but(N("_Ok")));
+	my $abort_button = Gtk3::Button->new(but(N("_Ok")));
 	$abort_button->signal_connect(clicked => sub { cancel_n_quit(); exit 1 });
 	add_button_box($mainbox, $abort_button);
 	$mainw->show_all;
-	Gtk2->main;
+	Gtk3->main;
     }
     /\.src\.rpm$/ ? push(@$srpms, $_) : push(@$rpms, $_);
 }
@@ -102,9 +102,9 @@ Proceed?", all_descriptions(@all_rpms))
 }
 
 {   #- buttons
-    my $inst_button = Gtk2::Button->new(but(N("_Install")));
-    my $save_button = @all_rpms == 1 ? Gtk2::Button->new(but(N("_Save"))) : undef;
-    my $ccel_button = Gtk2::Button->new(but(N("_Cancel")));
+    my $inst_button = Gtk3::Button->new(but(N("_Install")));
+    my $save_button = @all_rpms == 1 ? Gtk3::Button->new(but(N("_Save"))) : undef;
+    my $ccel_button = Gtk3::Button->new(but(N("_Cancel")));
 
     $inst_button->signal_connect(clicked => sub {
 	#- performs installation.
@@ -112,7 +112,7 @@ Proceed?", all_descriptions(@all_rpms))
 	proceed();
     });
     $save_button and $save_button->signal_connect(clicked => sub {
-	my $file_dialog = Gtk2::FileSelection->new(N("Choose location to save file"));
+	my $file_dialog = Gtk3::FileSelection->new(N("Choose location to save file"));
 	$file_dialog->set_modal(1);
 	$file_dialog->set_position('center');
 	my $filename = @$srpms > 0 ? $srpms->[0] : $rpms->[0];
@@ -131,4 +131,4 @@ Proceed?", all_descriptions(@all_rpms))
 }
 
 $mainw->show_all;
-Gtk2->main;
+Gtk3->main;

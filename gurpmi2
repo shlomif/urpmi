@@ -19,7 +19,7 @@ use urpm::get_pkgs;
 use urpm::msg;
 use urpm::select;
 use urpm::main_loop;
-use Gtk2;
+use Gtk3;
 
 #- default options.
 our $allow_medium_change = 0;
@@ -43,7 +43,7 @@ $> and fatal(N("Must be root"));
 
 #- Now, the graphical stuff.
 
-Gtk2->init;
+Gtk3->init;
 
 #- Initialize urpm
 
@@ -98,7 +98,7 @@ if (@ask_unselect) {
 : do_install();
 
 $mainw->show_all;
-Gtk2->main;
+Gtk3->main;
 
 my ($rpm_lock, $urpmi_lock);
 
@@ -112,9 +112,9 @@ sub ask_warn {
     my $nb_lines = $message =~ tr/\n/\n/;
     my $w;
     if ($nb_lines > 30 || $message =~ /^transaction is too small/) {
-	$w  = Gtk2::Dialog->new(N("Warning"), $mainw, [qw(modal destroy-with-parent)], N("Ok"), 'ok');
-	$w->vbox->add(my $f = Gtk2::Frame->new);
-	my $sw = create_scrolled_window(my $text = Gtk2::TextView->new);
+	$w  = Gtk3::Dialog->new(N("Warning"), $mainw, [qw(modal destroy-with-parent)], N("Ok"), 'ok');
+	$w->vbox->add(my $f = Gtk3::Frame->new);
+	my $sw = create_scrolled_window(my $text = Gtk3::TextView->new);
 	$sw->set_border_width(2);
 	$text->set_wrap_mode('word');
 	$f->add($sw);
@@ -124,7 +124,7 @@ sub ask_warn {
 	$w->set_size_request(400, 400);
 	$w->set_default_response('ok');
     } else {
-	$w  = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok', $message);
+	$w  = Gtk3::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok', $message);
     }
     $w->run;
     $w->destroy;
@@ -136,7 +136,7 @@ sub configure_urpm {
 
     $urpm->{fatal} = sub {
 	printf STDERR "%s\n", $_[1];
-	Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'error', 'ok', Locale::gettext::iconv($_[1], undef, 'UTF-8'))->run;
+	Gtk3::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'error', 'ok', Locale::gettext::iconv($_[1], undef, 'UTF-8'))->run;
 	quit();
 	exit $_[0];
     };
@@ -159,15 +159,15 @@ sub ask_choice {
     return $choices->[0] if $gurpmi::options{auto};
     my $radio;
     my @radios = map {
-	$radio = Gtk2::RadioButton->new_with_label(
+	$radio = Gtk3::RadioButton->new_with_label(
 	    $radio ? $radio->get_group : undef,
 	    (scalar $_->fullname) . " : " . $_->summary
 	    . ($_->flag_installed ? N(" (to upgrade)") : '')
 	    . ($_->flag_upgrade   ? N(" (to install)") : '')
 	);
     } @$choices;
-    my $d = Gtk2::Dialog->new(N("Package choice"), $mainw, [], N("_Cancel") => 0, N("_Ok") => 1);
-    my $label = Gtk2::Label->new(N("One of the following packages is needed:"));
+    my $d = Gtk3::Dialog->new(N("Package choice"), $mainw, [], N("_Cancel") => 0, N("_Ok") => 1);
+    my $label = Gtk3::Label->new(N("One of the following packages is needed:"));
     $label->set_alignment(0.5, 0.5);
     $d->vbox->pack_start($label, 1, 1, 0);
     $d->vbox->pack_start($_, 1, 1, 0) foreach @radios;
@@ -188,7 +188,7 @@ sub ask_choice {
 
 sub ask_continue {
     my ($msg, $nextclosure, $o_list, $o_end_msg) = @_;
-    my $vbox = Gtk2::VBox->new(0, 5);
+    my $vbox = Gtk3::VBox->new(0, 5);
     $vbox->pack_start(new_label($msg), 1, 1, 0);
     $urpm->{log}($msg);
 	warn ">> o_list='$o_list'\n";
@@ -196,8 +196,8 @@ sub ask_continue {
         $vbox->pack_start(new_label($o_list), 1, 1, 0);
         $vbox->pack_start(new_label($o_end_msg), 1, 1, 0);
     }
-    my $continue_button = Gtk2::Button->new(but(N("_Ok")));
-    my $quit_button = Gtk2::Button->new(but(N("_Abort")));
+    my $continue_button = Gtk3::Button->new(but(N("_Ok")));
+    my $quit_button = Gtk3::Button->new(but(N("_Abort")));
     $quit_button->signal_connect(clicked => sub { $urpm->{log}("=> cancel"); &quit(); exit 1 });
     $continue_button->signal_connect(clicked => sub { $urpm->{log}("=> ok"); goto &$nextclosure });
     add_button_box($vbox, $quit_button, $continue_button);
@@ -219,7 +219,7 @@ sub ask_continue_if_no_auto {
 
 sub ask_continue_blocking {
     my ($msg) = @_;
-    my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'question', 'yes-no', $msg);
+    my $w = Gtk3::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'question', 'yes-no', $msg);
     my $answer = $w->run;
     $w->destroy;
     $urpm->{log}($msg . " => " . $answer);
@@ -279,7 +279,7 @@ sub do_install_3 () {
         },
         copy_removable => sub {
             #FIXME: use use udisks to wait-for/mount cdroms: 
-            my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok-cancel',
+            my $w = Gtk3::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok-cancel',
                                              N("Please insert the medium named \"%s\"", $_[0])
                                          );
             my $response = $w->run;
@@ -306,13 +306,13 @@ sub do_install_3 () {
             $urpmi_lock->unlock;
             $rpm_lock->unlock;
             urpm::removable::try_umounting_removables($urpm);
-            my $vbox = Gtk2::VBox->new(0, 5); # FIXME: should it be change_widget???
-            my $progress_label = Gtk2::Label->new('-'); # TEST ME
+            my $vbox = Gtk3::VBox->new(0, 5); # FIXME: should it be change_widget???
+            my $progress_label = Gtk3::Label->new('-'); # TEST ME
             return 0 if $gurpmi::options{auto};
             my $sw = create_scrolled_window($progress_label);
             $sw->set_size_request(500, 200);
             $vbox->pack_start($sw, 1, 1, 0);
-            my $quit_button = Gtk2::Button->new(but(N("_Done")));
+            my $quit_button = Gtk3::Button->new(but(N("_Done")));
             $quit_button->signal_connect(clicked => \&quit);
             add_button_box($vbox, $quit_button);
             $mainw->change_widget($vbox);
@@ -321,7 +321,7 @@ sub do_install_3 () {
         need_restart => sub {
             return if $gurpmi::options{auto};
             my ($need_restart_formatted) = @_;
-            my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok',
+            my $w = Gtk3::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok',
                                              join("\n", values %$need_restart_formatted)
                                          );
             $w->run;
@@ -375,7 +375,7 @@ return_with_exit_code:
 sub ask_yes_or_no {
     my ($_title, $msg) = @_;
     # MessageDialogs have no titles unless using 'secondary-text'
-    my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'yes-no', $msg);
+    my $w = Gtk3::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'yes-no', $msg);
     my $response = $w->run;
     $w->destroy;
     $response eq 'yes';
