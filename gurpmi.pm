@@ -185,7 +185,7 @@ Creates a scrolled window around the $W widget
 
 =cut
 
-# copied from ugtk2:
+# copied from ugtk3:
 sub create_scrolled_window {
     my ($W, $o_policy, $o_viewport_shadow) = @_;
     my $w = Gtk2::ScrolledWindow->new(undef, undef);
@@ -201,7 +201,7 @@ sub create_scrolled_window {
     $W->show;
     if (ref($W) =~ /Gtk2::TextView|Gtk2::TreeView/) {
 	my $f = Gtk2::Frame->new;
-	$w->show; # unlike ugtk2, we'd to do this explicitely...
+	$w->show; # unlike ugtk3, we'd to do this explicitely...
 	$f->set_shadow_type('in');
      $f->add($w);
      $f;

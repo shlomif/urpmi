@@ -5,7 +5,7 @@ package gurpm::RPMProgressDialog;
 #- Copyright (C) 2013 Mageia
 
 # Sharing code from gurpmi2 && Rpmdrake::gurpm
-# Gtk2 only (no ugtk2/mygtk2) as it's used by gurpmi too...
+# Gtk2 only (no ugtk3/mygtk3) as it's used by gurpmi too...
 #
 
 =head1 SYNOPSYS
@@ -69,7 +69,7 @@ Arguments are an urpm object and a quit routine reference.
 
 sub new {
     my ($self, $global_urpm, $o_quit, $o_no_modal) = @_;
-    # my $w = ugtk2->new($title, %options, default_width => 600, width => 600);
+    # my $w = ugtk3->new($title, %options, default_width => 600, width => 600);
     my $w = $mainw = bless(Gtk2::Window->new('toplevel'), $self);
 
     $old_main_window = $::main_window;
@@ -133,7 +133,7 @@ sub label {
 }
 
 
-# From ugtk2.pm/mygtk2.pm:
+# From ugtk3.pm/mygtk3.pm:
 sub gtk_new_Label_Left {
     my ($text) = @_;
     my $w = Gtk2::Label->new($text);
