@@ -113,7 +113,7 @@ sub ask_warn {
     my $w;
     if ($nb_lines > 30 || $message =~ /^transaction is too small/) {
 	$w  = Gtk3::Dialog->new(N("Warning"), $mainw, [qw(modal destroy-with-parent)], N("Ok"), 'ok');
-	$w->vbox->add(my $f = Gtk3::Frame->new);
+	$w->get_child->add(my $f = Gtk3::Frame->new);
 	my $sw = create_scrolled_window(my $text = Gtk3::TextView->new);
 	$sw->set_border_width(2);
 	$text->set_wrap_mode('word');
@@ -169,8 +169,8 @@ sub ask_choice {
     my $d = Gtk3::Dialog->new(N("Package choice"), $mainw, [], N("_Cancel") => 0, N("_Ok") => 1);
     my $label = Gtk3::Label->new(N("One of the following packages is needed:"));
     $label->set_alignment(0.5, 0.5);
-    $d->vbox->pack_start($label, 1, 1, 0);
-    $d->vbox->pack_start($_, 1, 1, 0) foreach @radios;
+    $d->get_child->pack_start($label, 1, 1, 0);
+    $d->get_child->pack_start($_, 1, 1, 0) foreach @radios;
     my $n = 0;
     $d->signal_connect(response => sub {
 	if ($_[1] == 1) { #- "ok"
