@@ -162,6 +162,11 @@ sub proc_mounts() {
     @l;
 }
 
+sub proc_self_mountinfo() {
+    my @l = cat_('/proc/self/mountinfo') or warn "Can't read /proc/self/mountinfo: $!\n";
+    @l;
+}
+
 sub trim_until_d {
     my ($dir) = @_;
     foreach (proc_mounts()) {
@@ -179,8 +184,8 @@ Checks if the main filesystems are writable for urpmi to install files in
 =cut
 
 sub check_fs_writable () {
-    foreach (proc_mounts()) {
-	(undef, our $mountpoint, undef, my $opts) = split ' ';
+    foreach (proc_self_mountinfo()) {
+	(undef, undef, undef, undef, our $mountpoint, my $opts) = split ' ';
 	if ($opts =~ /(?:^|,)ro(?:,|$)/ && $mountpoint =~ m!^(/|/usr|/s?bin)\z!) {
 	    return 0;
 	}
