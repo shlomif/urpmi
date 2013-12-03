@@ -248,7 +248,7 @@ tell Gtk+ to refresh the dialog content if needed.
 sub sync {
     my ($w) = @_;
     $w->show;
-    Gtk3->main_iteration while Gtk3->events_pending;
+    Gtk3::main_iteration while Gtk3::events_pending;
 }
 
 =item gurpm::RPMProgressDialog::get_something_done()
