@@ -12,20 +12,20 @@
 # Theophanis Mastakas <mastakas@otenet.gr>, 2006.
 # Glentadakis Dimitrios <dglent@gmail.com>, 2008, 2009.
 # Nikos Papadopoulos <231036448@freemail.gr>, 2008.
-# Dimitrios Glentadakis <dglent@gmail.com>, 2010, 2011, 2012, 2013.
+# Dimitrios Glentadakis <dglent@gmail.com>, 2010, 2011, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-el\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-26 21:20+0100\n"
-"PO-Revision-Date: 2013-04-14 09:38+0200\n"
+"PO-Revision-Date: 2014-01-03 09:12+0100\n"
 "Last-Translator: Dimitrios Glentadakis <dglent@gmail.com>\n"
 "Language-Team: Greek <i18n-el@ml.mageia.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: Greek\n"
 "X-Poedit-Country: GREECE\n"
@@ -222,8 +222,7 @@ msgstr ""
 #, c-format
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr ""
-"  --media        - χρήση μόνο των μέσων που δόθηκαν, διαχωρισμένα με το "
-"κόμμα.\n"
+"  --media        - χρήση μόνο των δεδομένων μέσων, διαχωρισμένα με κόμμα.\n"
 
 #: ../gurpmi.pm:64 ../urpmi:147
 #, c-format
@@ -558,7 +557,7 @@ msgstr ""
 #: ../urpm/args.pm:150 ../urpm/args.pm:159
 #, c-format
 msgid "bad proxy declaration on command line\n"
-msgstr "μη ορθή διακήρυξη proxy στην γραμμή εντολών\n"
+msgstr "μη ορθή διακήρυξη proxy στη γραμμή εντολών\n"
 
 #: ../urpm/args.pm:309
 #, c-format
@@ -1733,8 +1732,8 @@ msgstr ""
 #, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr ""
-"  --urpmi-root   - χρήση μίας άλλης διαδρομής root για την βάση δεδομένων "
-"urpmi & την εγκατάσταση του rpm.\n"
+"  --urpmi-root   - χρήση μίας άλλης διαδρομής root για τη βάση δεδομένων "
+"                    urpmi & την εγκατάσταση του rpm.\n"
 
 #: ../urpme:50 ../urpmi:96
 #, c-format
@@ -1847,15 +1846,15 @@ msgstr "  --version      - εμφανίζει τον αριθμό έκδοσης
 #, c-format
 msgid "  --env          - use specific environment (typically a bug report).\n"
 msgstr ""
-"  --env          - χρήση συγκεκριμένου περιβάλλοντος (τυπικά μία αναφορά\n"
-"                   σφάλματος).\n"
+"  --env          - χρήση συγκεκριμένου περιβάλλοντος (συνήθως από μία "
+"αρχειοθήκη\n"
+"                   αναφοράς σφάλματος).\n"
 
 #: ../urpmf:33 ../urpmi:69 ../urpmq:45
 #, c-format
 msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr ""
-"  --excludemedia - μην χρήση των μέσων που δόθηκαν, διαχωρισμένα με το "
-"κόμμα.\n"
+"  --excludemedia - αποκλεισμός των δεδομένων μέσων, διαχωρισμένων με κόμμα.\n"
 
 #: ../urpmf:34
 #, c-format
@@ -1870,14 +1869,15 @@ msgstr ""
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr ""
-"  --sortmedia    - ταξινόμηση μέσων κατά υποσυμβολοσειρές διαχωρισμένες με "
+"  --sortmedia    - ταξινόμηση των μέσων βάσει των υποσυμβολοσειρών "
+"διαχωρισμένων με "
 "κόμμα.\n"
 
 #: ../urpmf:38
 #, c-format
 msgid "  --use-distrib  - use the given path to access media\n"
 msgstr ""
-"  --use-distrib  - χρησιμοποιεί την καθορισμένη διαδρομή για πρόσβαση στο "
+"  --use-distrib  - χρήση της δεδομένης διαδρομής για πρόσβαση στο "
 "μέσο\n"
 
 #: ../urpmf:39 ../urpmi:73 ../urpmq:47
@@ -1889,7 +1889,7 @@ msgstr ""
 #: ../urpmf:40
 #, c-format
 msgid "  --uniq         - do not print identical lines twice.\n"
-msgstr "  --uniq         - μην τυπώσεις πανομοιότυπες γραμμές.\n"
+msgstr "  --uniq         - απόκρυψη των διπλότυπων γραμμών.\n"
 
 #: ../urpmf:41 ../urpmi:70 ../urpmq:42
 #, c-format
@@ -1899,54 +1899,52 @@ msgstr "  --update       - χρήση μόνο των μέσων αναβάθμ�
 #: ../urpmf:42
 #, c-format
 msgid "  --verbose      - verbose mode.\n"
-msgstr "  --verbose      - αναλυτική λειτουργία.\n"
+msgstr "  --verbose      - εμφάνιση των λεπτομερειών.\n"
 
 #: ../urpmf:43
 #, c-format
 msgid "  -i             - ignore case distinctions in patterns.\n"
-msgstr ""
-"  -i            - αγνόησε τη διάκριση πεζών-κεφαλαίων στις ακολουθίες.\n"
+msgstr "  -i             - χωρίς διάκριση πεζών/κεφαλαίων.\n"
 
 #: ../urpmf:44
 #, c-format
 msgid "  -I             - honor case distinctions in patterns (default).\n"
-msgstr ""
-"  -I             - να γίνει διάκριση πεζών-κεφαλαίων στις ακολουθίες "
-"(προεπιλογή).\n"
+msgstr "  -I             - διάκριση πεζών-κεφαλαίων (προεπιλογή).\n"
 
 #: ../urpmf:45
 #, c-format
 msgid "  -F<str>        - change field separator (defaults to ':').\n"
 msgstr ""
-"  -F<str>        - αντικαθιστά τον διαχωριστή με <str> (από προεπιλογή "
-"':').\n"
+"  -F<str>        - αντικατάσταση του διαχωριστικού με <str> (από προεπιλογή "
+"«:»).\n"
 
 #: ../urpmf:46
 #, c-format
 msgid "Pattern expressions:\n"
-msgstr "Ακολουθίες εκφράσεων:\n"
+msgstr "Πρότυπα υποκατάστασης:\n"
 
 #: ../urpmf:47
 #, c-format
 msgid "  text           - any text is parsed as a regexp, unless -l is used.\n"
 msgstr ""
-"  text           - οποιοδήποτε κείμενο επεξεργάζεται σαν απλή έκφραση "
-"(regexp), εκτός αν έχει επιλεγεί το -l .\n"
+"  text           - οποιοδήποτε κείμενο επεξεργάζεται ως κανονική έκφραση "
+"(regexp),\n "
+"                    εκτός αν έχει επιλεγεί το -l .\n"
 
 #: ../urpmf:48
 #, c-format
 msgid "  -e             - include perl code directly as perl -e.\n"
-msgstr "  -e             - συμπεριέλαβε κώδικα perl απευθείας σαν perl -e.\n"
+msgstr "  -e             - συμπερίληψη κώδικα perl απευθείας (perl -e).\n"
 
 #: ../urpmf:49
 #, c-format
 msgid "  -a             - binary AND operator.\n"
-msgstr "  -a             - δυαδικός AND τελεστής.\n"
+msgstr "  -a             - δυαδικός τελεστής ΚΑΙ.\n"
 
 #: ../urpmf:50
 #, c-format
 msgid "  -o             - binary OR operator.\n"
-msgstr "  -ο             - δυαδικός OR τελεστής.\n"
+msgstr "  -ο             - δυαδικός τελεστής Ή.\n"
 
 #: ../urpmf:51
 #, c-format
@@ -1961,22 +1959,22 @@ msgstr "  ( )            - αριστερή και δεξιά παρένθεση
 #: ../urpmf:53
 #, c-format
 msgid "List of tags:\n"
-msgstr "Κατάλογος ετικετών:\n"
+msgstr "Λίστα πεδίων αναζήτησης:\n"
 
 #: ../urpmf:54
 #, c-format
 msgid "  --qf           - specify a printf-like output format\n"
-msgstr "  --qf           - καθορίζει την μορφή εμφάνισης του τύπου printf\n"
+msgstr "  --qf           - καθορίζει μια μορφή εμφάνισης τύπου printf\n"
 
 #: ../urpmf:55
 #, c-format
 msgid "                   example: '%%name:%%files'\n"
-msgstr "                   παράδειγμα: '%%name:%%files'\n"
+msgstr "                   παράδειγμα:«%%name:%%files»\n"
 
 #: ../urpmf:56
 #, c-format
 msgid "  --arch         - architecture\n"
-msgstr "  --arch         - αρχιτεκτονική\n"
+msgstr "  --arch         - αναζήτηση στο πεδίο αρχιτεκτονική\n"
 
 #: ../urpmf:57
 #, c-format
@@ -1991,12 +1989,12 @@ msgstr "  --buildtime    - αναζήτηση στο πεδίο «BuildTime»\n"
 #: ../urpmf:59
 #, c-format
 msgid "  --conffiles    - configuration files\n"
-msgstr "  --conffiles    - αρχεία ρυθμίσεων\n"
+msgstr "  --conffiles    - αναζήτηση στη λίστα των αρχείων διαμόρφωσης\n"
 
 #: ../urpmf:60
 #, c-format
 msgid "  --conflicts    - conflict tags\n"
-msgstr "  --conflicts    - ετικέτες συγκρούσεων\n"
+msgstr "  --conflicts    - αναζήτηση στο πεδίο «Συγκρούσεις»\n"
 
 #: ../urpmf:61
 #, c-format
@@ -2006,99 +2004,99 @@ msgstr "  --description  - αναζήτηση στην περιγραφή των
 #: ../urpmf:62
 #, c-format
 msgid "  --distribution - distribution\n"
-msgstr "  --distribution - διανομή\n"
+msgstr "  --distribution - αναζήτηση στο πεδίο «Διανομή»\n"
 
 #: ../urpmf:63
 #, c-format
 msgid "  --epoch        - epoch\n"
-msgstr "  --epoch        - .\n"
+msgstr "  --epoch         - αναζήτηση στο πεδίο «epoch»\n"
 
 #: ../urpmf:64
 #, c-format
 msgid "  --filename     - filename of the package\n"
-msgstr "  --filename      - όνομα αρχείου του πακέτου\n"
+msgstr "  --filename    - αναζήτηση στο όνομα αρχείου του πακέτου\n"
 
 #: ../urpmf:65
 #, c-format
 msgid "  --files        - list of files contained in the package\n"
-msgstr "  --files        - λίστα αρχείων που περιέχονται στο πακέτο.\n"
+msgstr "  --files        - αναζήτηση στη λίστα των αρχείων του πακέτου.\n"
 
 #: ../urpmf:66
 #, c-format
 msgid "  --group        - group\n"
-msgstr "  --group        - ομάδα\n"
+msgstr "  --group        - αναζήτηση στο πεδίο της Ομάδας\n"
 
 #: ../urpmf:67
 #, c-format
 msgid "  --license      - license\n"
-msgstr "  --license      - άδεια\n"
+msgstr "  --license      - αναζήτηση στο πεδίο Άδειας χρήσης\n"
 
 #: ../urpmf:68
 #, c-format
 msgid "  --name         - package name\n"
-msgstr "  --name         - όνομα πακέτου\n"
+msgstr "  --name         - αναζήτηση στο όνομα του πακέτου\n"
 
 #: ../urpmf:69
 #, c-format
 msgid "  --obsoletes    - obsoletes tags\n"
-msgstr "  --obsoletes    - αναζήτηση στο πεδίο «obsoletes»\n"
+msgstr "  --obsoletes    - αναζήτηση στο πεδίο «Obsoletes»\n"
 
 #: ../urpmf:70
 #, c-format
 msgid "  --packager     - packager\n"
-msgstr "  --packager     - δημιουργός πακέτου\n"
+msgstr "  --packager     - αναζήτηση στο πεδίο του δημιουργού του πακέτου\n"
 
 #: ../urpmf:71
 #, c-format
 msgid "  --provides     - provides tags\n"
-msgstr "  --provides     - εμφάνιση ετικετών παροχών\n"
+msgstr "  --provides     - αναζήτηση στο πεδίο «Provides»\n"
 
 #: ../urpmf:72
 #, c-format
 msgid "  --requires     - requires tags\n"
-msgstr "  --requires     - εμφάνιση ετικετών εξαρτήσεων\n"
+msgstr "  --requires     - αναζήτηση στο πεδίο Εξαρτήσεων\n"
 
 #: ../urpmf:73
 #, c-format
 msgid "  --size         - installed size\n"
-msgstr "  --size          - μέγεθος εγκατεστημένου\n"
+msgstr "  --size         - αναζήτηση στο πεδίο μέγεθος μετά την εγκατάσταση\n"
 
 #: ../urpmf:74
 #, c-format
 msgid "  --sourcerpm    - source rpm name\n"
-msgstr "  --sourcerpm    - όνομα πηγαίου rpm\n"
+msgstr "  --sourcerpm    - αναζήτηση στο όνομα του πηγαίου πακέτου\n"
 
 #: ../urpmf:75
 #, c-format
 msgid "  --suggests     - suggests tags\n"
-msgstr "  --suggests     - αναζήτηση στο πεδίο «suggests»\n"
+msgstr "  --suggests     - αναζήτηση στο πεδίο «Suggests»\n"
 
 #: ../urpmf:76
 #, c-format
 msgid "  --summary      - summary\n"
-msgstr "  --summary      - περίληψη\n"
+msgstr "  --summary      - αναζήτηση στο πεδίο «Περίληψη»\n"
 
 #: ../urpmf:77
 #, c-format
 msgid "  --url          - url\n"
-msgstr "  --url          - url\n"
+msgstr "  --url          - αναζήτηση στο πεδίο «Url»\n"
 
 #: ../urpmf:78
 #, c-format
 msgid "  --vendor       - vendor\n"
-msgstr "  --vendor       - κατασκευαστής\n"
+msgstr "  --vendor       - αναζήτηση στο πεδίο του «Προμηθευτή»\n"
 
 #: ../urpmf:79
 #, c-format
 msgid "  -m             - the media in which the package was found\n"
-msgstr "  -m             - το μέσο στο οποίο βρέθηκε το πακέτο\n"
+msgstr "  -m             - εμφανίζει το μέσο στο οποίο βρέθηκε το πακέτο\n"
 
 #: ../urpmf:80 ../urpmq:97
 #, c-format
 msgid "  -f             - print version, release and arch with name.\n"
 msgstr ""
-"  -f             - εμφανίζει την έκδοση, κυκλοφορία και αρχιτεκτονική με "
-"όνομα.\n"
+"  -f             - εμφανίζει την έκδοση, κυκλοφορία και αρχιτεκτονική στο "
+"όνομα του πακέτου.\n"
 
 #: ../urpmf:148
 #, c-format
@@ -2343,8 +2341,8 @@ msgid ""
 "                   to be 1080 by default (format is <proxyhost[:port]>).\n"
 msgstr ""
 "  --proxy        - χρήση καθορισμένου HTTP proxy, ο αριθμός της θύρας\n"
-"                   θεωρείται ότι είναι από προεπιλογή ο 1080  (η μορφή είναι "
-"<proxyhost[:port]>).\n"
+"                   θεωρείται ότι είναι από προεπιλογή ο 1080  (η μορφή είναι\n"
+"                   <proxyhost[:port]>).\n"
 
 #: ../urpmi:126 ../urpmi.addmedia:64 ../urpmi.update:41 ../urpmq:76
 #, c-format
@@ -2353,9 +2351,9 @@ msgid ""
 "                   authentication (format is <user:password>).\n"
 msgstr ""
 "  --proxy-user   - καθορίζει τον χρήστη και τον κωδικό πρόσβασης που θα "
-"χρησιμοποιηθεί για\n"
-"                   τον έλεγχο ταυτότητας στον proxy (η μορφή είναι <user:"
-"password>).\n"
+"χρησιμοποιηθεί\n"
+"                   για την ταυτοποίηση στον διαμεσολαβητή\n"
+"                   (η μορφή είναι <user:password>).\n"
 
 #: ../urpmi:128
 #, c-format
@@ -2436,7 +2434,7 @@ msgstr ""
 #, c-format
 msgid "  -a             - select all matches on command line.\n"
 msgstr ""
-"  -a             - επιλογή όλων των μέσων που ταιριάζουν στην γραμμή "
+"  -a             - επιλογή όλων των μέσων που ταιριάζουν στη γραμμή "
 "εντολών.\n"
 
 #: ../urpmi:149
@@ -3051,8 +3049,8 @@ msgid ""
 "                 - list installed packages not available on any media.\n"
 msgstr ""
 "  --not-available\n"
-"                 - λίστα με τα εγκατεστημένα πακέτα που δεν είναι διαθέσιμα "
-"σε κάποιο μέσο.\n"
+"                 - εμφανίζει τα εγκατεστημένα πακέτα που δεν είναι διαθέσιμα\n"
+"                   σε κάποιο μέσο.\n"
 
 #: ../urpmq:53
 #, c-format
@@ -3080,7 +3078,7 @@ msgstr ""
 #, c-format
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
 msgstr ""
-"  --list-nodes   - εμφανίζει την λίστα με τους διαθέσιμους κόμβους\n"
+"  --list-nodes   - εμφανίζει τη λίστα με τους διαθέσιμους κόμβους\n"
 "                   χρησιμοποιώντας --parallel.\n"
 
 #: ../urpmq:60
@@ -3106,7 +3104,7 @@ msgstr ""
 #: ../urpmq:63
 #, c-format
 msgid "  --sources      - print source URLs of selected packages\n"
-msgstr "  --sources     - εμφανίζει το πηγαίο URL των επιλεγμένων πακέτων.\n"
+msgstr "  --sources      - εμφανίζει το πηγαίο URL των επιλεγμένων πακέτων.\n"
 
 #: ../urpmq:65
 #, c-format
