@@ -13,7 +13,7 @@ clean:
 	rm -f  $(WRAPPERS) $(POLICY)
 
 %: org.mageia.%.policy.in
-	@echo -e '#!/bin/sh\nif  [[ "$$UID" != "0" ]] ; then\n    exec $(BINDIR)/pkexec $(LIBEXECDIR)/$@ "$$''@"\nelse\n    exec $(LIBEXECDIR)/$@ "$$''@"\nfi\n' > $@
+	@echo -e '#!/bin/sh\nif  [[ "$$UID" != "0" ]] ; then\n    $(BINDIR)/pkexec $(LIBEXECDIR)/$@ "$$''@"\n    exit $$''?\nfi\nexec $(LIBEXECDIR)/$@ "$$''@"\n' > $@
 
 %.policy: %.policy.in
 	intltool-merge --utf8 ../po $< $@ -x -u -c ../po/.intltool-merge-cache
