@@ -10,6 +10,8 @@ BEGIN { #- set up a safe path and environment
     delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 }
 
+use utf8 'valid';
+use Encode '_utf8_on';
 use Gtk3;
 use gurpmi;
 use urpm::util 'basename';
@@ -26,6 +28,11 @@ sub usage() { gurpmi::usage() }
 my ($srpms, $rpms) = ([], []);
 my ($mainw, $mainbox);
 my @all_rpms = gurpmi::parse_command_line();
+
+# Gtk3->init will change @ARGV encoding (mga#12407):
+foreach (@ARGV) {
+    utf8::valid($_) && Encode::_utf8_on($_);
+}
 
 #- Now, the graphical stuff.
 
