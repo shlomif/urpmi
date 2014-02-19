@@ -17,7 +17,9 @@ urpmi_addmedia("$name $::pwd/media/$name");
 test_urpmi("--auto --split-length 1 c d",
 	acceptable_trans_orders(4,
 				[ [ qw(a b) ], ['c'], ['d'] ],
+				[ [ qw(a b) ], ['d'], ['c'] ],
 				[ [ qw(b a) ], ['c'], ['d'] ],
+				[ [ qw(b a) ], ['d'], ['c'] ],
 				[ ['d'], [ qw(b a) ], ['c'] ],
 				[ ['d'], [ qw(a b) ], ['c'] ],
 	));
