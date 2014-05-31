@@ -52,6 +52,11 @@ sub epoch     { $_[0]{pkg}->epoch }
 sub buildhost { $_[0]{pkg}->buildhost }
 sub packager  { $_[0]{pkg}->packager }
 sub summary   { $_[0]{pkg}->summary }
+sub conflicts { $_[0]{pkg}->conflicts }
+sub obsoletes { $_[0]{pkg}->obsoletes }
+sub provides  { $_[0]{pkg}->provides }
+sub requires  { $_[0]{pkg}->requires }
+sub suggests  { $_[0]{pkg}->suggests }
 
 
 =item url($pkg)
