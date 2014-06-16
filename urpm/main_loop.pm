@@ -229,7 +229,7 @@ sub _init_common_options {
 
 sub _log_installing {
     my ($urpm, $transaction_sources_install, $transaction_sources) = @_;
-    if (my @packnames = (values $transaction_sources_install, values $transaction_sources)) {
+    if (my @packnames = (values %$transaction_sources_install, values %$transaction_sources)) {
         (my $common_prefix) = $packnames[0] =~ m!^(.*)/!;
         if (length($common_prefix) && @packnames == grep { m!^\Q$common_prefix/! } @packnames) {
             #- there's a common prefix, simplify message
@@ -242,7 +242,7 @@ sub _log_installing {
 
 sub _run_parallel_transaction {
     my ($urpm, $state, $transaction_sources, $transaction_sources_install) = @_;
-    $urpm->{print}(N("distributing %s", join(' ', values $transaction_sources_install, values $transaction_sources)));
+    $urpm->{print}(N("distributing %s", join(' ', values %$transaction_sources_install, values %$transaction_sources)));
     #- no remove are handle here, automatically done by each distant node.
     $urpm->{log}("starting distributed install");
     $urpm->{parallel_handler}->parallel_install(
