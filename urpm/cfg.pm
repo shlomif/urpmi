@@ -96,7 +96,7 @@ sub expand_line {
     return $line;
 }
 
-my $no_para_option_regexp = 'update|ignore|synthesis|noreconfigure|no-suggests|no-media-info|static|virtual|disable-certificate-check';
+my $no_para_option_regexp = 'update|ignore|synthesis|noreconfigure|no-recommends|no-suggests|no-media-info|static|virtual|disable-certificate-check';
 
 sub load_config_raw {
     my ($file, $b_norewrite) = @_;
@@ -164,8 +164,12 @@ sub load_config_raw {
 	} elsif (/^(hdlist|synthesis)$/) {
 	    # ignored, kept for compatibility
 	} elsif (/^($no_para_option_regexp)$/) {
+	    my $opt = $1;
+	    if ($opt =~ s/no-suggests/no-recommends/) { # COMPAT
+	        warn "WARNING: --no-suggests is deprecated. Use --no-recommends instead\n" if s/no-suggests/no-recommends/; # COMPAT
+	    }
 	    #- positive flags
-	    $block->{$1} = 1;
+	    $block->{$opt} = 1;
 	} elsif (my ($no, $k, $v) =
           /^(no-)?(
 	    verify-rpm

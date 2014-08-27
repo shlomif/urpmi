@@ -49,7 +49,7 @@ sub usage() {
 ") . N("  --auto-orphans - list orphans
 ") . N("  --not-available
                  - list installed packages not available on any media.
-") . N("  --no-suggests  - do not auto select \"suggested\" packages.
+") . N("  --no-recommends - do not auto select \"recommended\" packages.
 ") . N("  --fuzzy        - impose fuzzy search (same as -y).
 ") . N("  --keep         - keep existing packages if possible, reject requested
                    packages that lead to removals.
@@ -365,7 +365,7 @@ if ($options{list_aliases}) {
 				    keep => $options{keep},
 				    rpmdb => $options{env} && "$options{env}/rpmdb.cz",
 				    auto_select => $options{auto_select},
-				    no_recommends => $urpm->{options}{'no-suggests'},
+				    no_recommends => $urpm->{options}{'no-recommends'},
 				    callback_choices => $stop_on_choices);
 	$options{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&
 								  ! defined $state->{selected}{$_} } keys %{$state->{selected}}};
@@ -373,7 +373,7 @@ if ($options{list_aliases}) {
 	#- only deps required.
 	my $empty_db = URPM->new; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
 	$urpm->resolve_requested($empty_db, $state, \%requested, 
-				 no_recommends => $urpm->{options}{'no-suggests'},
+				 no_recommends => $urpm->{options}{'no-recommends'},
 				 callback_choices => $stop_on_choices, nodeps => 1);
     } else {
 	$state->{selected} = \%requested;

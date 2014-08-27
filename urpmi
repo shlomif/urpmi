@@ -77,7 +77,7 @@ sub usage () {
 ") . N("    --no-md5sum    - disable MD5SUM file checking.
 ") . N("    --force-key    - force update of gpg key.
 ") . N("  --auto-orphans - remove orphans without asking
-") . N("  --no-suggests  - do not auto select \"suggested\" packages.
+") . N("  --no-recommends - do not auto select \"recommended\" packages.
 ") . N("  --no-uninstall - never ask to uninstall a package, abort the installation.
 ") . N("  --no-install   - don't install packages (only download)
 ") . N("  --keep         - keep existing packages if possible, reject requested
@@ -468,7 +468,7 @@ if ($options{replacepkgs}) {
     install_src => $install_src,
     keep => $urpm->{options}{keep},
     nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
-    no_recommends => $urpm->{options}{'no-suggests'},
+    no_recommends => $urpm->{options}{'no-recommends'},
     priority_upgrade => $test || $env ? '' : $urpm->{options}{'priority-upgrade'},
     );
 }

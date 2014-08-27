@@ -100,7 +100,7 @@ _urpmi()
 	if [[ ${COMP_WORDS[0]} != *rurpmi ]]; then
 	    options="$options --root --use-distrib --env --auto-orphans \
 		--replacepkgs --justdb --allow-nodeps --allow-force \
-		--no-suggests --force --noscripts --auto-update --keep \
+		--no-recommends --force --noscripts --auto-update --keep \
 		--nokeep --replacefiles --verify-rpm"
 	    for (( i=1; i < COMP_CWORD; i++ )); do
 		case ${COMP_WORDS[i]} in
@@ -166,7 +166,7 @@ _urpmq()
 	COMPREPLY=( $( compgen -W "$common_options -d -u -m -a -c -y -s -i -g \
 	    -p -r -f -l --update --media --excludemedia --sortmedia \
 	    --synthesis --auto-select --auto-orphans --not-available \
-	    --no-suggests --fuzzy \
+	    --no-recommends --fuzzy \
 	    --keep --nokeep --list --list-url --list-media --list-nodes \
 	    --list-aliases --src --sources --provides --requires --obsoletes \
 	    --suggests --summary --sourcerpm --force --parallel --wget --curl \
