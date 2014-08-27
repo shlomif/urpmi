@@ -308,7 +308,7 @@ installed or upgraded
 
 =item * nodeps
 
-=item * no_suggests
+=item * no_recommends
 
 =back
 
