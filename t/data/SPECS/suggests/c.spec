@@ -5,7 +5,7 @@ Release: 1
 License: x
 Group: x
 Url: x
-Suggests: cc
+Recommends: cc
 BuildRoot: %{_tmppath}/%{name}
 
 %description

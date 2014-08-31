@@ -5,8 +5,8 @@ Release: 1
 License: x
 Group: x
 Url: x
-Suggests: suggested_b
-Suggests: suggested_c
+Recommends: suggested_b
+Recommends: suggested_c
 BuildRoot: %{_tmppath}/%{name}
 
 %description
