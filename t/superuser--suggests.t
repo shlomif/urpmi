@@ -49,7 +49,7 @@ sub test_invalid {
 
 sub test {
     my ($name, $required, $suggested) = @_;
-    urpmi("--no-suggests --auto $name");
+    urpmi("--no-recommends --auto $name");
     check_installed_and_remove($name, @$required);
     urpmi("--auto $name");
     check_installed_names($name, @$required, @$suggested);
@@ -60,12 +60,12 @@ sub test {
 sub test_2 {
     my ($name1, $required1, $name2, $required2, $suggested2) = @_;
 
-    urpmi("--no-suggests --auto $name1");
+    urpmi("--no-recommends --auto $name1");
     check_installed_names($name1, @$required1);
-    urpmi("--no-suggests --auto $name2");
+    urpmi("--no-recommends --auto $name2");
     check_installed_and_remove($name1, @$required1, $name2, @$required2);
 
-    urpmi("--no-suggests --auto $name1");
+    urpmi("--no-recommends --auto $name1");
     check_installed_names($name1, @$required1);
     urpmi("--auto $name2");
     check_installed_and_remove($name1, @$required1, $name2, @$required2, @$suggested2);
@@ -79,7 +79,7 @@ sub test_upgrade {
     urpmi(" --auto a-3");
     check_installed_and_remove('a', 'suggested_b', 'suggested_c');
 
-    urpmi("--no-suggests --auto a-1");
+    urpmi("--no-recommends --auto a-1");
     check_installed_names('a');
     urpmi(" --auto a-2");
     check_installed_names('a', 'suggested_c');
