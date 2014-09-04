@@ -10,6 +10,10 @@ BEGIN { #- set up a safe path and environment
     delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 }
 
+eval {
+	use lib qw(/usr/lib/libDrakX);
+	use standalone; # for reporting crashes in our bugzilla
+};
 use utf8 'valid';
 use Encode '_utf8_on';
 use Gtk3;
