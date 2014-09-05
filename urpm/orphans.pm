@@ -255,7 +255,7 @@ sub _unrequested_orphans_after_remove_once {
 	$db->traverse_tag('name', [ $n ], sub {
 	    my ($p) = @_;
 	    $p->fullname eq $fn or return;
-	    push @requires, $p->requires, $p->suggests;
+	    push @requires, $p->requires, $p->recommends_nosense;
 	});
     }
 
@@ -420,7 +420,7 @@ sub _all_unrequested_orphans {
     while (my $pkg = shift @$req) {
         # do not do anything regarding kernels if we failed to detect the running one (ie: chroot)
  	_kernel_callback($pkg, $unreq_list) if $current_kernel;
-	foreach my $prop ($pkg->requires, $pkg->suggests) {
+	foreach my $prop ($pkg->requires, $pkg->recommends_nosense) {
 	    my $n = URPM::property2name($prop);
 	    foreach my $p (@{$provides{$n} || []}) {
 		if ($p != $pkg && $l{$p->name} && $p->provides_overlap($prop)) {
@@ -577,7 +577,7 @@ sub installed_leaves {
     }
 
     foreach my $pkg (@$packages) {
-	foreach my $prop ($pkg->requires, $pkg->suggests) {
+	foreach my $prop ($pkg->requires, $pkg->recommends_nosense) {
 	    my $n = URPM::property2name($prop);
 	    foreach my $p (@{$provides{$n} || []}) {
 		$p != $pkg && $p->provides_overlap($prop) and 

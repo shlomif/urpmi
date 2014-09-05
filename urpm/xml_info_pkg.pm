@@ -56,7 +56,7 @@ sub conflicts { $_[0]{pkg}->conflicts }
 sub obsoletes { $_[0]{pkg}->obsoletes }
 sub provides  { $_[0]{pkg}->provides }
 sub requires  { $_[0]{pkg}->requires }
-sub suggests  { $_[0]{pkg}->suggests }
+sub suggests  { $_[0]{pkg}->recommends_nosense }
 
 
 =item url($pkg)
