@@ -107,7 +107,7 @@ sub test_d {
 }
 
 sub test_force_suggests {
-    set_urpmi_cfg_global_options({ 'no-suggests' => '' });
+    set_urpmi_cfg_global_options({ 'no-recommends' => '' });
 
     urpmi("--auto b");
     check_installed_and_remove('b', 'bb');
