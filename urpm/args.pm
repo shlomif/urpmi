@@ -266,9 +266,13 @@ my %options_spec = (
 	provides => \$options{provides},
 	sourcerpm => \$options{sourcerpm},
 	'summary|S' => \$options{summary},
+	recommends => sub {
+	    $options{recommends} = 1;
+	},
 	suggests => sub { 
 	    $urpm->{error}("--suggests now displays the suggested packages, see --allow-suggests for previous behaviour");
-	    $options{suggests} = 1;
+	    $urpm->{error}("You should now use --recommends.");
+	    $options{recommends} = 1;
 	},
 	'list-media:s' => sub { $options{list_media} = $_[1] || 'all' },
 	'list-url' => \$options{list_url},

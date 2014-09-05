@@ -81,7 +81,7 @@ sub usage() {
 ") . N("  --obsoletes    - print obsoletes.
 ") . N("  --provides     - print provides.
 ") . N("  --requires     - print requires.
-") . N("  --suggests     - print suggests.
+") . N("  --recommends   - print recommends.
 ") . N("  --sourcerpm    - print sourcerpm.
 ") . N("  --summary, -S  - print summary.
 ") . N("  --verbose, -v  - verbose mode.
@@ -502,7 +502,7 @@ if ($options{list_aliases}) {
 	    }
 	}
 	exit $urpm::postponed_code;
-    } elsif (my ($get) = grep { $options{$_} } 'provides', 'requires', 'conflicts', 'obsoletes', 'suggests') {
+    } elsif (my ($get) = grep { $options{$_} } 'provides', 'requires', 'conflicts', 'obsoletes', 'recommends') {
 	my @l = uniq_ { scalar $_->fullname } map { $urpm->{depslist}[$_] } map { split /\|/, $_ } keys %{$state->{selected}};
 	foreach my $pkg (@l) {
 	    if (@l > 1) {
