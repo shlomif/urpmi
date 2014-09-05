@@ -51,6 +51,8 @@ sub test {
     my ($name, $required, $suggested) = @_;
     urpmi("--no-recommends --auto $name");
     check_installed_and_remove($name, @$required);
+    urpmi("--no-suggests --auto $name"); # COMPAT
+    check_installed_and_remove($name, @$required);
     urpmi("--auto $name");
     check_installed_names($name, @$required, @$suggested);
     urpme("$name @$required");
