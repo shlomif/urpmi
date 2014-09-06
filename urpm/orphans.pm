@@ -223,7 +223,7 @@ sub check_unrequested_orphans_after_auto_select {
 
 =item unrequested_orphans_after_remove($urpm, $toremove)
 
-This function computes wether removing $toremove packages will create
+This function computes whether removing $toremove packages will create
 unrequested orphans.
 
 It does not return the new orphans since "whatsuggests" is not
