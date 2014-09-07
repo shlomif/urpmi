@@ -166,7 +166,7 @@ sub _format_line_selected_packages {
 
     my @l = map {
 	my @name_and_evr = $_->fullname;
-	if ($state->{selected}{$_->id}{suggested}) {
+	if ($state->{selected}{$_->id}{recommended}) {
 	    push @name_and_evr, N("(suggested)");
 	}
 	\@name_and_evr;

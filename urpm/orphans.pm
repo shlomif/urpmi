@@ -152,7 +152,7 @@ sub _selected_unrequested {
 	    my $name = $pkg->name;
 	    $pkg->flag_requested || urpm::select::was_pkg_name_installed($rejected, $name) ? () : 
 		($name => "(required by " . $from->fullname . ")");
-	} elsif ($selected->{$_}{suggested}) {
+	} elsif ($selected->{$_}{recommended}) {
 	    ($urpm->{depslist}[$_]->name => "(suggested)");
 	} else {
 	    ();
