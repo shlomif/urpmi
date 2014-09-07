@@ -139,7 +139,7 @@ sub _installed_req_and_unreq_and_update_unrequested_list {
 }
 
 #- returns the new "unrequested" packages
-#- the reason can be "required by xxx" or "suggested"
+#- the reason can be "required by xxx" or "recommended"
 #-
 #- side-effects: none
 sub _selected_unrequested {
@@ -153,7 +153,7 @@ sub _selected_unrequested {
 	    $pkg->flag_requested || urpm::select::was_pkg_name_installed($rejected, $name) ? () : 
 		($name => "(required by " . $from->fullname . ")");
 	} elsif ($selected->{$_}{recommended}) {
-	    ($urpm->{depslist}[$_]->name => "(suggested)");
+	    ($urpm->{depslist}[$_]->name => "(recommended)");
 	} else {
 	    ();
 	}

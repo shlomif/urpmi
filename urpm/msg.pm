@@ -167,7 +167,7 @@ sub _format_line_selected_packages {
     my @l = map {
 	my @name_and_evr = $_->fullname;
 	if ($state->{selected}{$_->id}{recommended}) {
-	    push @name_and_evr, N("(suggested)");
+	    push @name_and_evr, N("(recommended)");
 	}
 	\@name_and_evr;
     } sort { $a->name cmp $b->name } @$pkgs;
