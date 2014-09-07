@@ -226,7 +226,7 @@ sub check_unrequested_orphans_after_auto_select {
 This function computes whether removing $toremove packages will create
 unrequested orphans.
 
-It does not return the new orphans since "whatsuggests" is not
+It does not return the new orphans since "whatrecommends" is not
 available,
 
 If it detects there are new orphans, _all_unrequested_orphans() must
@@ -247,7 +247,7 @@ sub unrequested_orphans_after_remove {
 sub _unrequested_orphans_after_remove_once {
     my ($urpm, $db, $unrequested, $toremove) = @_;
 
-    # first we get the list of requires/suggests that may be unneeded after removing $toremove
+    # first we get the list of requires/recommends that may be unneeded after removing $toremove
     my @requires;
     foreach my $fn (keys %$toremove) {
 	my ($n) = $fn =~ $fullname2name_re;
