@@ -52,7 +52,7 @@ sub xml_info_policies() { qw(never on-demand update-only always) }
 sub default_options {
     { 
 	'split-level' => 1,
-	'split-length' => 50,
+	'split-length' => 8,
 	'verify-rpm' => 1,
 	'post-clean' => 1,
 	'xml-info' => 'on-demand',
