@@ -160,6 +160,13 @@ WriteMakefile(
 	SYSCONFDIR		=> '$(DESTDIR)/etc',
 	LOCALSTATEDIR		=> '$(DESTDIR)/var/lib',
     },
+    ( $ExtUtils::MakeMaker::VERSION >= 6.46 ? (
+        'META_MERGE' => {
+            resources => {
+                repository  =>      'http://gitweb.mageia.org/software/rpm/urpmi/',
+            },
+        } ) : ()
+    ),
     EXE_FILES		=> [ @bin_scripts, @sbin_scripts, @libexec_scripts ],
     PMLIBDIRS		=> [ qw(gurpm urpm) ],
     $with_po ? (DIR	=> [ 'po' ]) : (),
