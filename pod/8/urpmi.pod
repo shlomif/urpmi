@@ -55,9 +55,10 @@ example when the ftp archive changes) use C<urpmi.update>.
 
 =over
 
-=item B<--help>
+=item B<-h>, B<-?>, B<--help>
 
-Prints a help message and exit (this is the same as B<-h> or B<-?>).
+Prints a help message and exit.
+
 
 =item B<--media> I<media1,...,mediaN>
 
@@ -148,7 +149,7 @@ Split urpmi's operation in small transactions of at
 least I<count> packages. The default is 8 and setting this value to 0 just
 disables splitting in small transactions.
 
-=item B<--fuzzy>
+=item B<-y>, B<--fuzzy>
 
 Disable fast search on exact package name; that means that urpmi will
 propose all packages matching part of the name, even if one of them
@@ -178,11 +179,11 @@ F</var/cache/urpmi/rpms>.
 
 Assume yes on all questions.
 
-=item B<--quiet>
+=item B<-q>, B<--quiet>
 
 Quiet mode: when calling rpm no upgrade status is printed.
 
-=item B<--verbose>
+=item B<-v>, B<--verbose>
 
 Proposes a verbose mode with various messages.
 
@@ -410,18 +411,6 @@ Allow search in provides to find the package (this is the default).
 =item B<-P>
 
 Do not search in provides to find package (this is the opposite of B<-p>).
-
-=item B<-y>
-
-This is the same as B<--fuzzy>.
-
-=item B<-q>
-
-This is the same as B<--quiet>.
-
-=item B<-v>
-
-This is the same as B<--verbose>.
 
 =back
 

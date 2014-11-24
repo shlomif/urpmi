@@ -20,9 +20,9 @@ according to the command-line options that were used:
 
 =over
 
-=item B<--help>
+=item B<-h>, B<-?>, B<--help>
 
-Prints a help message and exit (this is the same as B<-h> or B<-?>).
+Prints a help message and exit.
 
 =item B<--list>
 
@@ -112,13 +112,17 @@ of removing them. This behaviour generally rejects the upgrade of packages
 given on command line (or when using B<--auto-select>) when a dependency error
 occurs.
 
-=item B<--fuzzy>
+=item B<-y>, B<--fuzzy>
 
 Disable fast search on exact package name; i.e. it will propose
 all packages matching the name partially, even if one of them matches exactly
-the specified name (this is the same as B<-y>).
+the specified name.
 
-=item B<--src> I<name>
+=item B<-Y>
+
+Like B<-y>/B<--fuzzy>, but forces to match case-insensitively.
+
+=item B<-s>, B<--src> I<name>
 
 Search a source package
 matching I<name> and it will select all dependencies by default.
@@ -243,21 +247,13 @@ Prints the package suggests.
 
 Prints the sourcerpm of the package
 
-=item B<--summary>
+=item B<-S>, B<--summary>
 
 Prints concise information about the package.
 
-=item B<--verbose>
+=item B<-v>, B<--verbose>
 
 Activate verbose mode.
-
-=item B<-v>
-
-This is the same as B<--verbose>.
-
-=item B<-d>
-
-This is the same as B<--requires-recursive>.
 
 =item B<-u>
 
@@ -278,11 +274,11 @@ If maximal closure is used, assume that a package listed may have wrong or
 not up-to-date dependencies. This causes more packages to be upgraded and
 may correct unresolved dependencies on the rpm database.
 
-=item B<--requires-recursive>
+=item B<-d>, B<--requires-recursive>
 
 Print dependencies (maximal closure).
 
-=item B<--whatprovides>
+=item B<-p>, B<--whatprovides>
 
 Search in provides to find package.
 
@@ -294,26 +290,6 @@ Reverse search to what requires the package given.
 
 Reverse search to what requires recursively the package given
 (looking through virtual packages).
-
-=item B<-S>
-
-Same as B<--summary>.
-
-=item B<-y>
-
-This is the same as B<--fuzzy>.
-
-=item B<-Y>
-
-Like B<-y>, but forces to match case-insensitively.
-
-=item B<-s>
-
-This is the same as B<--src>.
-
-=item B<-p>
-
-This is the same as B<--whatprovides>.
 
 =item B<-i>
 
