@@ -350,8 +350,8 @@ sub do_install_3 () {
         success_summary => sub { $mainw->set_progresslabel(N("Installation finished")) },
         pre_check_sig => \&gurpm::RPMProgressDialog::callback_pre_check_sig,
         uninst => \&gurpm::RPMProgressDialog::callback_inst,
-        inst => \&gurpm::RPMProgressDialog::callback_inst,
-        trans => \&gurpm::RPMProgressDialog::callback_inst,
+        inst =>   \&gurpm::RPMProgressDialog::callback_inst,
+        trans =>  \&gurpm::RPMProgressDialog::callback_inst,
     }
                      );
 
