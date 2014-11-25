@@ -82,72 +82,9 @@ machine (e.g. C<media/main>).
 
 =head1 OPTIONS
 
+=head2 Media Search and Selection
+
 =over
-
-=item B<--wget>
-
-Use wget only for downloading distant files. By default curl is used if
-available.
-
-=item B<--curl>
-
-Use curl only for downloading distant files. This is the default if curl
-is available.
-
-=item B<--curl-options> I<'options'>
-
-=item B<--rsync-options> I<'options'>
-
-=item B<--wget-options> I<'options'>
-
-Specify additional command-line options to be passed to curl, rsync or
-wget when retrieving files. If several options are to be passed, separate
-them with spaces and enclose them in quotes.
-
-Note that the rsync options will also be used for ssh media.
-
-=item B<--limit-rate I<rate>>
-
-Try to limit the download speed, I<rate> is given in bytes/sec. This option
-is not active by default.
-
-=item B<--proxy> I<proxyhost[:port|1080]>
-
-Use specified HTTP proxy.
-
-=item B<--proxy-user> I<user:password>
-
-Use specified user and password to use for proxy authentication.
-Specifying B<--proxy-user=ask> will cause C<urpmi.addmedia> to prompt for a
-username and a password.
-
-=item B<--update>
-
-Adds a media which will be taken into account by B<MageiaUpdate> or by
-C<urpmi --update> when looking for updates.
-
-If used together with B<--distrib>, it will only add media flagged "update".
-
-=item B<--verify-rpm>
-
-=item B<--no-verify-rpm>
-
-Activate or deactivate rpm signature checking of newly added media.
-It's activated by default, and can be overriden in global configuration.
-
-=item B<--xml-info>
-
-Use the specific policy for downloading xml info files. 
-It must be one of: never, on-demand, update-only, always.
-See urpmi.cfg(5) for more information.
-
-=item B<--probe-synthesis>
-
-Use synthesis file.
-
-=item B<--probe-rpms>
-
-Use rpm files (instead of synthesis).
 
 =item B<--mirrorlist>
 
@@ -190,14 +127,41 @@ will attempt to add all media it finds. By default, it won't add media
 containing source rpms, or media corresponding to supplementary CD-ROMs
 on distributions.
 
-=item B<--urpmi-root> I<directory>
 
-Use the file system tree rooted for urpmi database and rpm install. Contrary
-to B<--root>, the urpmi configuration comes from the rooted tree.
+=back
 
-=item B<--wait-lock>
+=head2 Media Handling
 
-If the urpmi or rpm db is busy, wait until it is available
+=over
+
+=item B<--update>
+
+Adds a media which will be taken into account by B<MageiaUpdate> or by
+C<urpmi --update> when looking for updates.
+
+If used together with B<--distrib>, it will only add media flagged "update".
+
+=item B<--verify-rpm>
+
+=item B<--no-verify-rpm>
+
+Activate or deactivate rpm signature checking of newly added media.
+It's activated by default, and can be overriden in global configuration.
+
+=item B<--xml-info>
+
+Use the specific policy for downloading xml info files. 
+It must be one of: never, on-demand, update-only, always.
+See urpmi.cfg(5) for more information.
+
+=item B<--probe-synthesis>
+
+Use synthesis file.
+
+=item B<--probe-rpms>
+
+Use rpm files (instead of synthesis).
+
 
 =item B<--virtual>
 
@@ -213,6 +177,67 @@ with C<urpmi.update>; it's ignored until then.
 =item B<--nopubkey>
 
 Don't import pubkey of added media.
+
+
+=back
+
+=head2 Download Options
+
+=over
+
+=item B<--wget>
+
+Use wget only for downloading distant files. By default curl is used if
+available.
+
+=item B<--curl>
+
+Use curl only for downloading distant files. This is the default if curl
+is available.
+
+=item B<--curl-options> I<'options'>
+
+=item B<--rsync-options> I<'options'>
+
+=item B<--wget-options> I<'options'>
+
+Specify additional command-line options to be passed to curl, rsync or
+wget when retrieving files. If several options are to be passed, separate
+them with spaces and enclose them in quotes.
+
+Note that the rsync options will also be used for ssh media.
+
+=item B<--limit-rate I<rate>>
+
+Try to limit the download speed, I<rate> is given in bytes/sec. This option
+is not active by default.
+
+=item B<--proxy> I<proxyhost[:port|1080]>
+
+Use specified HTTP proxy.
+
+=item B<--proxy-user> I<user:password>
+
+Use specified user and password to use for proxy authentication.
+Specifying B<--proxy-user=ask> will cause C<urpmi.addmedia> to prompt for a
+username and a password.
+
+
+=back
+
+=head2 Database Options
+
+=over
+
+=item B<--urpmi-root> I<directory>
+
+Use the file system tree rooted for urpmi database and rpm install. Contrary
+to B<--root>, the urpmi configuration comes from the rooted tree.
+
+=item B<--wait-lock>
+
+If the urpmi or rpm db is busy, wait until it is available
+
 
 =back
 
