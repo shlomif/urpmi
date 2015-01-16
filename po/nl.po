@@ -10,15 +10,15 @@
 # Hendrik-Jan Heins <hjh@passys.nl>, 2003,2004.
 # Rob Teng <mandrake.tips@free.fr>, 2004, 2005, 2007.
 # Remco Rijnders <remco@webconquest.com>, 2012, 2013.
-# Marja van Waes <marja@mageia.org>, 2013
+# Marja van Waes <marja@mageia.org>, 2013, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-13 21:15+0200\n"
-"PO-Revision-Date: 2013-12-03 18:43+0100\n"
+"PO-Revision-Date: 2015-01-16 22:35+0100\n"
 "Last-Translator: Marja van Waes <marja@mageia.org>\n"
-"Language-Team: Nederlands <vertaling@vrijschrift.org>\n"
+"Language-Team: Nederlands <i18n-nl@ml.mageia.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -386,7 +386,7 @@ msgstr "Gelieve het medium genaamd \"%s\" te plaatsen"
 #: ../gurpmi2:307
 #, c-format
 msgid "An error occurred:"
-msgstr ""
+msgstr "Er is een fout opgetreden"
 
 #: ../gurpmi2:319
 #, c-format
@@ -1076,14 +1076,18 @@ msgid "ignoring non-free medium `%s'"
 msgstr "negeren van non-free medium \"%s\""
 
 #: ../urpm/media.pm:795
-#, fuzzy, c-format
+#, c-format
 msgid "un-ignoring non-free medium `%s' b/c nonfree packages are installed"
-msgstr "negeren van non-free medium \"%s\""
+msgstr ""
+"inschakelen van non-free medium `%s' want nonfree pakketten zijn "
+"geïnstalleerd"
 
 #: ../urpm/media.pm:799
 #, c-format
 msgid "un-ignoring tainted medium `%s' b/c tainted packages are installed"
 msgstr ""
+"inschakelen van tainted medium `%s' want tainted pakketten zijn "
+"geïnstalleerd"
 
 #: ../urpm/media.pm:827
 #, c-format
@@ -1371,7 +1375,7 @@ msgstr "Arch"
 #: ../urpm/msg.pm:170
 #, c-format
 msgid "(recommended)"
-msgstr ""
+msgstr "(aanbevolen)"
 
 #: ../urpm/msg.pm:185
 #, c-format
@@ -1992,7 +1996,7 @@ msgstr "  --conffiles    - configuratieestanden\n"
 #: ../urpmf:60
 #, c-format
 msgid "  --conflicts    - conflict tags\n"
-msgstr "  --conflicts     - conflict-tags\n"
+msgstr "  --conflicts     - conflicts('botst')-tags\n"
 
 #: ../urpmf:61
 #, c-format
@@ -2037,7 +2041,7 @@ msgstr "  --name          - pakketnaam\n"
 #: ../urpmf:69
 #, c-format
 msgid "  --obsoletes    - obsoletes tags\n"
-msgstr "  --obsoletes     - obsoletes ('verouderd')-tags\n"
+msgstr "  --obsoletes     - obsoletes('maakt overbodig')-tags\n"
 
 #: ../urpmf:70
 #, c-format
@@ -2047,12 +2051,12 @@ msgstr "  --packager     - pakketsamensteller.\n"
 #: ../urpmf:71
 #, c-format
 msgid "  --provides     - provides tags\n"
-msgstr "  --provides      - provides ('levert')-tags\n"
+msgstr "  --provides      - provides('levert')-tags\n"
 
 #: ../urpmf:72
 #, c-format
 msgid "  --requires     - requires tags\n"
-msgstr "  --requires      - requires ('vereisten')-tags\n"
+msgstr "  --requires      - requires('vereist')-tags\n"
 
 #: ../urpmf:73
 #, c-format
@@ -2065,9 +2069,9 @@ msgid "  --sourcerpm    - source rpm name\n"
 msgstr "  --sourcerpm    - naam van de broncode-rpm.\n"
 
 #: ../urpmf:75
-#, fuzzy, c-format
+#, c-format
 msgid "  --recommends   - recommends tags\n"
-msgstr "  --requires      - requires ('vereisten')-tags\n"
+msgstr "  --recommends    - recommends('beveelt aan')-tags\n"
 
 #: ../urpmf:76
 #, c-format
@@ -2141,9 +2145,9 @@ msgid "  --auto-orphans - remove orphans without asking\n"
 msgstr "  --auto-orphans - wezen verwijderen zonder bevestiging\n"
 
 #: ../urpmi:80 ../urpmq:52
-#, fuzzy, c-format
+# c-format
 msgid "  --no-recommends - do not auto select \"recommended\" packages.\n"
-msgstr "  --no-suggests  - \"suggested\"-pakketten niet auto-selecteren.\n"
+msgstr "  --no-recommends - aanbevolen pakketten niet auto-selecteren.\n"
 
 #: ../urpmi:81
 #, c-format
@@ -2249,9 +2253,9 @@ msgstr ""
 "                   integriteitscontrole.\n"
 
 #: ../urpmi:105
-#, fuzzy, c-format
+# c-format
 msgid "  --allow-recommends - auto select \"recommended\" packages.\n"
-msgstr "  --allow-suggests  - \"suggested\"-pakketten autoselecteren.\n"
+msgstr "  --allow-recommends  - aanbevolen pakketten autoselecteren.\n"
 
 #: ../urpmi:109
 #, c-format
@@ -3091,12 +3095,12 @@ msgstr "  --changelog    - geeft wijzigingslogboek weer.\n"
 #: ../urpmq:80
 #, c-format
 msgid "  --conflicts    - print conflicts.\n"
-msgstr "  --conflicts     - conflict-tags afdrukken.\n"
+msgstr "  --conflicts     - conflicts ('botst') afdrukken.\n"
 
 #: ../urpmq:81
 #, c-format
 msgid "  --obsoletes    - print obsoletes.\n"
-msgstr "  --obsoletes    - obsoletes ('maakt achterhaald') afdrukken.\n"
+msgstr "  --obsoletes    - obsoletes ('maakt overbodig') afdrukken.\n"
 
 #: ../urpmq:82
 #, c-format
@@ -3109,9 +3113,9 @@ msgid "  --requires     - print requires.\n"
 msgstr "  --requires      - requires ('vereisten') afdrukken.\n"
 
 #: ../urpmq:84
-#, fuzzy, c-format
+#, c-format
 msgid "  --recommends   - print recommends.\n"
-msgstr "  --requires      - requires ('vereisten') afdrukken.\n"
+msgstr "  --recommends    - recommends ('beveelt aan') afdrukken.\n"
 
 #: ../urpmq:85
 #, c-format
@@ -3275,11 +3279,11 @@ msgstr "Grafische schil voor het installeren van RPM bestanden"
 
 #: ../polkit/org.mageia.gurpmi2.policy.in.h:1
 msgid "Run Mageia Package Installer"
-msgstr ""
+msgstr "Start de Mageia-pakketinstallatie"
 
 #: ../polkit/org.mageia.gurpmi2.policy.in.h:2
 msgid "Authentication is required to run Mageia Package Installer"
-msgstr ""
+msgstr "Authenticatie is nodig om de Mageia-pakketinstallatie te starten"
 
 #~ msgid "(suggested)"
 #~ msgstr "(aangeraden)"
