@@ -301,8 +301,18 @@ sub _get_callbacks {
 
     $options->{callback_error} ||= sub {
 	my ($urpm, undef, $id, $subtype) = @_;
-	my $n = $urpm->{depslist}[$id]->fullname;
-	$urpm->{error}("ERROR: '$subtype' failed for $n: ");
+	my $n;
+	if (defined($id)) {
+	    $n = $urpm->{depslist}[$id]->fullname;
+	} else {
+	    # We don't know which package :(
+	    if ($trans->NElements() == 1) {
+		$n = $trans->Element_fullname(0);
+	    } else {
+		$n = "some package of current transaction";
+	    }
+	}
+	$urpm->{error}("ERROR: '$subtype' failed for $n");
     };
 
     if ($options->{verbose} >= 0 && $have_pkgs) {
