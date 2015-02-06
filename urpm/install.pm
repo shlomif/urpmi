@@ -309,7 +309,7 @@ sub _get_callbacks {
 	    if ($trans->NElements() == 1) {
 		$n = $trans->Element_fullname(0);
 	    } else {
-		$n = "some package of current transaction";
+		$n = "(unknown)";
 	    }
 	}
 	$urpm->{error}("ERROR: '$subtype' failed for $n");
