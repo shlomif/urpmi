@@ -300,19 +300,8 @@ sub _get_callbacks {
     $options->{callback_uninst} ||= $options->{verbose} >= 0 ? \&install_logger : $erase_logger;
 
     $options->{callback_error} ||= sub {
-	my ($urpm, undef, $id, $subtype) = @_;
-	my $n;
-	if (defined($id)) {
-	    $n = $urpm->{depslist}[$id]->fullname;
-	} else {
-	    # We don't know which package :(
-	    if ($trans->NElements() == 1) {
-		$n = $trans->Element_fullname(0);
-	    } else {
-		$n = "(unknown)";
-	    }
-	}
-	$urpm->{error}("ERROR: '$subtype' failed for $n");
+	my ($urpm, undef, $id, $subtype, undef, undef, $fullname) = @_;
+	$urpm->{error}("ERROR: '$subtype' failed for $fullname");
     };
 
     if ($options->{verbose} >= 0 && $have_pkgs) {
