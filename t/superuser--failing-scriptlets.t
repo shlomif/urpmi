@@ -30,6 +30,11 @@ sub test_install_rpm {
     system_("rpm --root $::pwd/root -i media/$medium_name/$name-*.rpm");
     check_installed_fullnames_and_remove("$name-1-1");
 }
+sub test_install_rpm_no_remove {
+    my ($name) = @_;
+    system_("rpm --root $::pwd/root -i media/$medium_name/$name-*.rpm");
+    check_installed_fullnames("$name-1-1");
+}
 sub test_install_rpm_fail {
     my ($name) = @_;
     system_should_fail("rpm --root $::pwd/root -i media/$medium_name/$name-*.rpm");
