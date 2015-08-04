@@ -6,7 +6,6 @@ Name: multi-linux-macro
 Version: 1
 Release: 1
 License: x
-Group: x
 
 %clean
 rm -rf $RPM_BUILD_ROOT

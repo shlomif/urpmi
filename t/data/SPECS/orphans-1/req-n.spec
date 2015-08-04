@@ -3,7 +3,6 @@ Name: req-n
 Version: 1
 Release: 1
 License: x
-Group: x
 Requires: n
 
 %description

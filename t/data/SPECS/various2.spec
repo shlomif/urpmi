@@ -3,7 +3,6 @@ Name: various2
 Version: 1
 Release: 1
 License: x
-Group: x
 
 %prep
 echo foo > foo

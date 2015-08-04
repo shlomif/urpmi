@@ -3,7 +3,6 @@ Name: a-strict
 Version: 2
 Release: 1
 License: x
-Group: x
 Requires: b >= 2
 
 %description

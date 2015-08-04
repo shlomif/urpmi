@@ -3,7 +3,6 @@ Name: b1
 Version: 1
 Release: 1
 License: x
-Group: x
 Provides: cc = 1
 Provides: dd = 2
 Provides: ee = 3

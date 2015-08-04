@@ -3,7 +3,6 @@ Name: arch_to_noarch
 Version: 3
 Release: 1
 License: x
-Group: x
 BuildArch: noarch
 
 %prep
