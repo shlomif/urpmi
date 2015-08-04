@@ -7,8 +7,8 @@ License: x
 %description
 x
 
-%pretrans -p <lua>
-print("%{name}-%{version}")
-exit(1)
+%pretrans
+print "%{name}-%{version}"
+exit 1
 
 %files

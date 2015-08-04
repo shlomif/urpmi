@@ -7,8 +7,8 @@ License: x
 %description
 x
 
-%posttrans -p <lua>
-print("%{name}-%{version}")
-exit(1)
+%posttrans
+print "%{name}-%{version}"
+exit 1
 
 %files

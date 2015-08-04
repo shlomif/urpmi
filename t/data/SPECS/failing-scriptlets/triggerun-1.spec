@@ -7,8 +7,8 @@ License: x
 %description
 x
 
-%triggerun -p <lua> -- triggerun > 0
-print("%{name}-%{version}")
-exit(1)
+%triggerun -- triggerun > 0
+print "%{name}-%{version}"
+exit 1
 
 %files

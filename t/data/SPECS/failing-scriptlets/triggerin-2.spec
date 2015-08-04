@@ -7,8 +7,8 @@ License: x
 %description
 x
 
-%triggerin -p <lua> -- triggerin > 0
-print("%{name}-%{version}")
-exit(1)
+%triggerin -- triggerin > 0
+print "%{name}-%{version}"
+exit 1
 
 %files

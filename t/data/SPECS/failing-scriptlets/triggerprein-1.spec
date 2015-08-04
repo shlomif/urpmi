@@ -7,8 +7,8 @@ License: x
 %description
 x
 
-%triggerprein -p <lua> -- triggerprein > 0
-print("%{name}-%{version}")
-exit(1)
+%triggerprein -- triggerprein > 0
+print "%{name}-%{version}"
+exit 1
 
 %files
