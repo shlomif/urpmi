@@ -1,3 +1,6 @@
+# fix warnings:
+%define debug_package %{nil}
+
 Summary: x
 Name: rpm-query-in-scriptlet
 Version: 1
