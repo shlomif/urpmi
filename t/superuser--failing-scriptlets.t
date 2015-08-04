@@ -27,8 +27,9 @@ test_install_upgrade_rpm('triggerpostun');
 
 sub test_install_rpm {
     my ($name) = @_;
+    test_install_rpm_no_remove('sh');
     system_("rpm --root $::pwd/root -i media/$medium_name/$name-*.rpm");
-    check_installed_fullnames_and_remove("$name-1-1");
+    check_installed_fullnames_and_remove("$name-1-1", "sh-1-1");
 }
 sub test_install_rpm_no_remove {
     my ($name) = @_;
@@ -37,15 +38,17 @@ sub test_install_rpm_no_remove {
 }
 sub test_install_rpm_fail {
     my ($name) = @_;
+    test_install_rpm_no_remove('sh');
     system_should_fail("rpm --root $::pwd/root -i media/$medium_name/$name-*.rpm");
-    check_nothing_installed();
+    check_installed_fullnames_and_remove("sh-1-1");
 }
 
 sub test_install_upgrade_rpm {
     my ($name) = @_;
 
+    test_install_rpm_no_remove('sh');
     system_("rpm --root $::pwd/root -i media/$medium_name/$name-1-*.rpm");
-    check_installed_fullnames("$name-1-1");
+    check_installed_fullnames("$name-1-1", "sh-1-1");
     system_("rpm --root $::pwd/root -U media/$medium_name/$name-2-*.rpm");
-    check_installed_fullnames_and_remove("$name-2-1");
+    check_installed_fullnames_and_remove("$name-2-1", "sh-1-1");
 }
