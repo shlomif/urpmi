@@ -8,7 +8,6 @@ Url: x
 Provides: cc = 2
 Provides: dd = 3
 Provides: ee = 1
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

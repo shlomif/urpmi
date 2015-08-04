@@ -6,7 +6,6 @@ License: x
 Group: x
 Url: x
 Provides: virtual1
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

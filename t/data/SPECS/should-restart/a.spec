@@ -6,7 +6,6 @@ License: x
 Group: x
 Url: x
 Provides: should-restart = system
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

@@ -7,7 +7,6 @@ Group: x
 Url: x
 Provides: f
 Conflicts: a = 2
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

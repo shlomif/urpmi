@@ -6,7 +6,6 @@ License: x
 Group: x
 Url: x
 Recommends: invalid
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

@@ -7,7 +7,6 @@ Group: x
 Url: x
 Provides: j
 Requires: k
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

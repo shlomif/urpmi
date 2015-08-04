@@ -6,7 +6,6 @@ License: x
 Group: x
 Url: x
 Requires: ff1
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

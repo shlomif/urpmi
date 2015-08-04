@@ -7,7 +7,6 @@ Group: x
 Url: x
 Requires: c = %{version}
 Obsoletes: bb
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

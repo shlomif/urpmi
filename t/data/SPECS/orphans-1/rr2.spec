@@ -6,7 +6,6 @@ License: x
 Group: x
 Url: x
 Provides: rr
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

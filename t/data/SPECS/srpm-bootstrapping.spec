@@ -6,7 +6,6 @@ License: x
 Group: x
 Url: x
 BuildRequires: %{name}
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

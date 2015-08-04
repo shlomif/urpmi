@@ -6,7 +6,6 @@ License: x
 Group: x
 Url: x
 Provides: c = %{version}
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

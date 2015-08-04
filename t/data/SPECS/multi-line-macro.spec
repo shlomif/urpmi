@@ -8,7 +8,6 @@ Release: 1
 License: x
 Group: x
 Url: x
-BuildRoot: %{_tmppath}/%{name}
 
 %install
 rm -rf $RPM_BUILD_ROOT

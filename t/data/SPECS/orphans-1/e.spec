@@ -6,7 +6,6 @@ License: x
 Group: x
 Url: x
 Requires: ee1
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

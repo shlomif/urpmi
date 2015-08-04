@@ -6,7 +6,6 @@ License: x
 Group: x
 Url: x
 Conflicts: g > 1
-BuildRoot: %{_tmppath}/%{name}
 
 %description
 x

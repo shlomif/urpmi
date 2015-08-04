@@ -10,7 +10,6 @@ Group: x
 Url: x
 Provides: /bin/a
 BuildRequires: gcc
-BuildRoot: %{_tmppath}/%{name}
 
 %prep
 %setup -c -T
