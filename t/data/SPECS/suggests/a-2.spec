@@ -4,7 +4,6 @@ Version: 2
 Release: 1
 License: x
 Group: x
-Url: x
 Recommends: suggested_b
 Recommends: suggested_c
 
