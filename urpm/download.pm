@@ -278,7 +278,7 @@ sub set_proxy {
 	if (my ($http_proxy) = $p->{http_proxy} && parse_http_proxy($p->{http_proxy})) {
 	    my $allproxy = $p->{user}; 
 	    $allproxy .= ":" . $p->{pwd} if $p->{pwd}; 
-	    $allproxy .= "@";
+	    $allproxy .= "@" if $p->{user};
 	    $allproxy .= $http_proxy;
 	    @res = ("--all-proxy=http://$allproxy");
 	}
