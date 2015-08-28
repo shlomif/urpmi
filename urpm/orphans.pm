@@ -49,6 +49,12 @@ sub unrequested_list__file {
     ($urpm->{env_dir} || "$urpm->{root}/var/lib/rpm") . '/installed-through-deps.list';
 }
 
+=item unrequested_list($urpm)
+
+Returns the list of potentiel files (ake files installed as requires for others)
+
+=cut
+
 #- side-effects: none
 sub unrequested_list {
     my ($urpm) = @_;
@@ -89,6 +95,20 @@ sub mark_as_requested {
     }
 }
 
+=item _installed_req_and_unreq($urpm)
+
+Returns :
+
+=over
+
+=item * req: list of installed packages that were installed as requires of others 
+
+=item * unreq: list of installed packages that were not installed as requres of others (ie the ones that were explicitely selected for install)
+
+=back
+
+=cut
+
 #- side-effects:
 #-   + those of _installed_req_and_unreq_and_update_unrequested_list (<root>/var/lib/rpm/installed-through-deps.list)
 sub _installed_req_and_unreq {
@@ -96,6 +116,20 @@ sub _installed_req_and_unreq {
     my ($req, $unreq, $_unrequested) = _installed_req_and_unreq_and_update_unrequested_list($urpm);
     ($req, $unreq);
 }
+
+=item _installed_and_unrequested_lists($urpm)
+
+Returns :
+
+=over
+
+=item * pkgs: list of installed packages
+
+=item * unrequested: list of packages that were installed as requires of others (the sum of the previous lists)
+
+=back
+
+=cut
 
 #- side-effects:
 #-   + those of _installed_req_and_unreq_and_update_unrequested_list (<root>/var/lib/rpm/installed-through-deps.list)
@@ -117,6 +151,22 @@ sub _write_unrequested_list__file {
 		join('', sort map { $_ . "\n" } @$unreq),
 		".old") if !$urpm->{env_dir};
 }
+
+=item _installed_req_and_unreq_and_update_unrequested_list ($urpm)
+
+Returns :
+
+=over
+
+=item * req: list of installed packages that were installed as requires of others 
+
+=item * unreq: list of installed packages that were not installed as requres of others (ie the ones that were explicitely selected for install)
+
+=item * unrequested: list of packages that were installed as requires of others (the sum of the previous lists)
+
+=back
+
+=cut
 
 #- side-effects: those of _write_unrequested_list__file
 sub _installed_req_and_unreq_and_update_unrequested_list {
