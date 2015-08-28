@@ -494,6 +494,7 @@ sub _all_unrequested_orphans {
     my ($urpm, $req, $unreq) = @_;
 
     my (%l, %provides);
+    # 1- list explicit provides (not files) from installed packages:
     foreach my $pkg (@$unreq) {
 	$l{$pkg->name} = $pkg;
 	push @{$provides{$_}}, $pkg foreach $pkg->provides_nosense;
@@ -502,6 +503,7 @@ sub _all_unrequested_orphans {
 
     my ($current_kernel_version, $current_kernel) = _get_current_kernel_package();
 
+    # 2- check if "unrequested" packages are still needed:
     while (my $pkg = shift @$req) {
         # do not do anything regarding kernels if we failed to detect the running one (ie: chroot)
  	_kernel_callback($pkg, $unreq_list) if $current_kernel;
