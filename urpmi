@@ -583,7 +583,9 @@ if (@to_install && $options{auto_orphans}) {
 #-     - this also takes care of removing packages from 
 #-       installed-through-deps if the package was first installed as a 
 #-       dep of another package, then removed and then explicitly installed
-urpm::orphans::mark_as_requested($urpm, $state, $test);
+if (!$urpm->{options}{downgrade}) {
+    urpm::orphans::mark_as_requested($urpm, $state, $test);
+}
 
 foreach my $pkg (@to_install) {
     #- reflect change in flag usage, now requested is set whatever a package is selected or not,
