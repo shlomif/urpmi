@@ -1,6 +1,5 @@
 package urpm::cdrom;
 
-# $Id: cdrom.pm 257782 2009-06-05 14:51:02Z cfergeau $
 
 use strict;
 use urpm::msg;

@@ -1,6 +1,5 @@
 package urpm::select;
 
-# $Id: select.pm 258637 2009-07-28 13:14:16Z cfergeau $
 
 use strict;
 use urpm::msg;

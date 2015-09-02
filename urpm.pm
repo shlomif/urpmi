@@ -1,6 +1,5 @@
 package urpm;
 
-# $Id: urpm.pm 271301 2010-11-22 00:50:49Z eugeni $
 
 no warnings 'utf8';
 use strict;

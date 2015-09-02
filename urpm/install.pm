@@ -1,6 +1,5 @@
 package urpm::install; 
 
-# $Id: install.pm 261966 2009-10-15 11:00:35Z tv $
 
 use strict;
 use urpm;

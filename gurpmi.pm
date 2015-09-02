@@ -2,7 +2,6 @@ package gurpmi;
 
 #- Copyright (C) 2005 MandrakeSoft SA
 #- Copyright (C) 2005-2010 Mandriva SA
-#- $Id: gurpmi.pm 271299 2010-11-21 15:54:30Z peroyvind $
 
 #- This is needed because text printed by Gtk3 will always be encoded
 #- in UTF-8; we first check if LC_ALL is defined, because if it is,

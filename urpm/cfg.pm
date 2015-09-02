@@ -1,6 +1,5 @@
 package urpm::cfg;
 
-# $Id: cfg.pm 271299 2010-11-21 15:54:30Z peroyvind $
 
 use strict;
 use warnings;

@@ -5,7 +5,6 @@ use urpm::util qw(add2hash_ append_to_file cat_ output_safe partition put_in_has
 use urpm::msg;
 use urpm;
 
-# $Id: select.pm 243120 2008-07-01 12:24:34Z pixel $
 
 my $fullname2name_re = qr/^(.*)-[^\-]*-[^\-]*\.[^\.\-]*$/;
 
