@@ -815,11 +815,13 @@ END {
 
 #- get the width of the terminal
 my $wchar = 79;
-eval {
+if (-t STDOUT) {
+  eval {
     require Term::ReadKey;
     ($wchar) = Term::ReadKey::GetTerminalSize();
     --$wchar;
-};
+  };
+}
 
 sub progress_text {
     my ($mode, $percent, $total, $eta, $speed) = @_;

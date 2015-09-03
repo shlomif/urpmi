@@ -21,12 +21,14 @@ urpm::install - Package installation transaction routines for urpmi
 
 # size of the installation progress bar
 my $progress_size = 45;
-eval {
+if (-t STDOUT) {
+  eval {
     require Term::ReadKey;
     ($progress_size) = Term::ReadKey::GetTerminalSize();
     $progress_size -= 35;
     $progress_size < 5 and $progress_size = 5;
-};
+  };
+}
 
 
 sub _hash_intersect_list {
