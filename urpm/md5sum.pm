@@ -1,3 +1,4 @@
+package urpm::md5sum;
 
 use strict;
 use urpm::util qw(cat_ file_size);
