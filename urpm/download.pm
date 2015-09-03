@@ -815,7 +815,7 @@ END {
 
 #- get the width of the terminal
 my $wchar = 79;
-if (-t STDOUT) {
+if (-t *STDOUT) {
   eval {
     require Term::ReadKey;
     ($wchar) = Term::ReadKey::GetTerminalSize();

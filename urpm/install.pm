@@ -21,7 +21,7 @@ urpm::install - Package installation transaction routines for urpmi
 
 # size of the installation progress bar
 my $progress_size = 45;
-if (-t STDOUT) {
+if (-t *STDOUT) {
   eval {
     require Term::ReadKey;
     ($progress_size) = Term::ReadKey::GetTerminalSize();
