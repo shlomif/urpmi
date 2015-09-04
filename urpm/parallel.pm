@@ -1,3 +1,4 @@
+package urpm::parallel;
 
 use strict;
 use urpm;
