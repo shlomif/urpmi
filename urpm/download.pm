@@ -9,6 +9,9 @@ use Cwd;
 use Exporter;
 # perl_checker: require urpm
 
+# help perl_checker:
+sub getcwd { goto &Cwd::getcwd }
+
 our @ISA = 'Exporter';
 our @EXPORT = qw(get_proxy
 	propagate_sync_callback
