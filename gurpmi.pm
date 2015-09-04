@@ -34,7 +34,7 @@ our @EXPORT = qw(create_scrolled_window fatal but cancel_n_quit quit add_button_
 
 =head1 NAME
 
-gurpmi - Mageia perl tools to handle the urpmi database
+gurpmi - Graphical routines for gurpmi GUI
 
 =head1 DESCRIPTION
 
