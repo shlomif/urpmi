@@ -58,12 +58,16 @@ sub install {
     my $inherited = shift->SUPER::install(@_);
     # Take into account scripts in sbin under blib
     # and new manpage sections
-    $inherited =~ s/\$\(INST_BIN\) \$\(DESTINSTALL(\w*)BIN\)/$& \$(INST_SBIN) \$(DESTINSTALL$1SBIN) \$(INST_LIBEXEC) \$(DESTINSTALLLIBEXECDIR) \$(INST_MAN5DIR) \$(DESTINSTALLMAN5DIR) \$(INST_MAN8DIR) \$(DESTINSTALLMAN8DIR)/g;
+    if ($inherited !~ s/"\$\(INST_BIN\)" "\$\(DESTINSTALL(\w*)BIN\)"/$& "\$(INST_SBIN)" "\$(DESTINSTALL$1SBIN)" "\$(INST_LIBEXEC)" "\$(DESTINSTALLLIBEXECDIR)" "\$(INST_MAN5DIR)" "\$(DESTINSTALLMAN5DIR)" "\$(INST_MAN8DIR)" "\$(DESTINSTALLMAN8DIR)"/g) {
+        die "Could not replace INST_SBIN!";
+    }
     # install files under /etc and /var
     my $po = $with_po ? ' installpo' : '';
     my $polkit = $with_polkit ? ' installpolkit' : '';
     my $gui = $with_gui ? ' installgurpmi2' : '';
-    $inherited =~ s/^install ::/$& installconfigfiles installstatedir$po$polkit$gui/gm;
+    if ($inherited !~ s/^install ::/$& installconfigfiles installstatedir$po$polkit$gui/gm) {
+        die "Could not replace install.";
+    }
     $inherited;
 }
 
