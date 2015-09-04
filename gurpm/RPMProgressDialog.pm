@@ -2,7 +2,7 @@ package gurpm::RPMProgressDialog;
 
 #- Copyright (C) 2005 MandrakeSoft SA
 #- Copyright (C) 2005-2010 Mandriva SA
-#- Copyright (C) 2013 Mageia
+#- Copyright (C) 2015 Mageia
 
 # Sharing code from gurpmi2 && Rpmdrake::gurpm
 # Gtk3 only (no ugtk3/mygtk3) as it's used by gurpmi too...
