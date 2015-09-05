@@ -162,7 +162,6 @@ sub _blist_first_url {
 
 1;
 
-__END__
 
 =back
 

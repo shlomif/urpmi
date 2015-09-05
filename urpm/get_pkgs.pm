@@ -300,7 +300,6 @@ sub _download_packages_of_distant_media {
 
 1;
 
-__END__
 
 =back
 

@@ -211,7 +211,6 @@ sub localtime2changelog { scalar(localtime($_[0])) =~ /(.*) \S+ (\d{4})$/ && "$1
 
 1;
 
-__END__
 
 =head1 NAME
 

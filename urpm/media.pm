@@ -2249,7 +2249,6 @@ sub clean {
 
 1;
 
-__END__
 
 =back
 

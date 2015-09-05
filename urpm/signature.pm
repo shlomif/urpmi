@@ -122,7 +122,6 @@ sub _check {
 
 1;
 
-__END__
 
 =back
 

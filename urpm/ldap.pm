@@ -232,7 +232,6 @@ sub load_ldap_media {
 
 1;
 
-__END__
 
 =back
 

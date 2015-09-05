@@ -100,7 +100,6 @@ sub compute {
 
 1;
 
-__END__
 
 =back
 

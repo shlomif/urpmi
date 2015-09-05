@@ -254,7 +254,6 @@ sub dump_config_raw {
 
 1;
 
-__END__
 
 =back
 

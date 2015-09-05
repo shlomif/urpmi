@@ -70,7 +70,6 @@ sub copy_requested {
 
 1;
 
-__END__
 
 =back
 

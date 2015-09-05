@@ -217,7 +217,6 @@ sub append_to_file {
 
 1;
 
-__END__
 
 =head1 NAME
 

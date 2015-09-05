@@ -137,7 +137,6 @@ sub DESTROY {
     my ($lock) = @_;
     unlock($lock) if $lock->{fh};
 }
-__END__
 
 =back
 

@@ -1092,7 +1092,6 @@ sub _create_metalink_ {
 
 1;
 
-__END__
 
 =back
 

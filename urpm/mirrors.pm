@@ -351,7 +351,6 @@ sub parse_LDAP_namespace_structure {
 
 1;
 
-__END__
 
 =back
 
