@@ -5,6 +5,22 @@ use urpm;
 use urpm::util qw(any basename cat_);
 use urpm::msg;
 
+=head1 NAME
+
+urpm::parallel - Run an urpmi command in parallel on a number of hosts
+
+=head1 SYNOPSIS
+
+This enables to run urpmi command on several computers at once.
+
+Two backends are available: L<urpm::parallel_ka_run> and L <urpm::parallel_ssh>
+
+=head1 DESCRIPTION
+
+=over
+
+=cut
+
 
 sub configure {
     my ($urpm, $alias) = @_;
@@ -306,3 +322,13 @@ sub parallel_install {
 }
 
 1;
+
+=back
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005-2010 Mandriva SA
+
+Copyright (C) 2010-2015 Mageia
