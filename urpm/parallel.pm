@@ -71,7 +71,12 @@ sub resolve_dependencies {
     $urpm->{parallel_handler}->parallel_resolve_dependencies($file, $urpm, $state, $requested, %options);
 }
 
-#- remove packages from node as remembered according to resolving done.
+=item remove($urpm, $remove, %options)
+
+remove packages from node as remembered according to resolving done.
+
+=cut
+
 sub remove {
     my ($urpm, $remove, %options) = @_;
     my $state = {};
@@ -83,7 +88,12 @@ sub remove {
 						   );
 }
 
-#- parallel find_packages_to_remove
+=item parallel_find_remove($parallel, $urpm, $state, $l, %options)
+
+parallel find_packages_to_remove
+
+=cut
+
 sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
 
@@ -122,7 +132,12 @@ sub parallel_find_remove {
 }
 
 
-#- parallel copy
+=item parallel_register_rpms($parallel, $urpm, @files)
+
+parallel copy
+
+=cut
+
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
 
@@ -211,7 +226,12 @@ sub _parse_urpmq_output {
     }
 }
 
-#- parallel resolve_dependencies
+=item parallel_resolve_dependencies($parallel, $synthesis, $urpm, $state, $requested, %options)
+
+parallel resolve_dependencies on each node
+
+=cut
+
 sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
 
@@ -243,7 +263,12 @@ sub parallel_resolve_dependencies {
     $parallel->{line} = join(' ', $line, keys %chosen);
 }
 
-#- compute command line of urpm? tools.
+=item _simple_resolve_dependencies($parallel, $urpm, $state, $requested, %options)
+
+Compute command line of urpm? tools
+
+=cut
+
 sub _simple_resolve_dependencies {
     my ($parallel, $urpm, $state, $requested, %options) = @_;
 
