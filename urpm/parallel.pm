@@ -357,3 +357,5 @@ Copyright (C) 2005 MandrakeSoft SA
 Copyright (C) 2005-2010 Mandriva SA
 
 Copyright (C) 2010-2015 Mageia
+
+=cut
