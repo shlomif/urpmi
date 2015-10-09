@@ -1,3 +1,4 @@
+package urpm::bug_report;
 
 use strict;
 use urpm;
