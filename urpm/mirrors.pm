@@ -276,7 +276,9 @@ sub add_proximity_and_sort {
 	$_->{proximity_corrected} *= _between_country_correction($country_code, $_->{country}) if $best;
 	$_->{proximity_corrected} *= _between_continent_correction($best->{continent}, $_->{continent}) if $best;
     }
-    @$mirrors = sort { $a->{proximity_corrected} <=> $b->{proximity_corrected} } @$mirrors;
+    # prefer http mirrors by sorting them to the beginning
+    @$mirrors = sort { ($b->{url} =~ m!^http://!) <=> ($a->{url} =~ m!^http://!)
+		       || $a->{proximity_corrected} <=> $b->{proximity_corrected} } @$mirrors;
 }
 
 # add +/- 5% random
