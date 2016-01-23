@@ -359,6 +359,7 @@ sub install {
 
 	_get_callbacks($urpm, $db, $trans, \%options, $install, $upgrade, scalar @trans_pkgs);
 
+	local $ENV{LD_PRELOAD}; # fix eatmydata & co
 	local $urpm->{trans} = $trans;
 	@errors = $trans->run($urpm, %options);
 	delete $urpm->{trans};
