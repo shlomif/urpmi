@@ -305,8 +305,8 @@ sub _get_callbacks {
 	$current_pkg = $trans->Element_fullname($idx);
     };
     $options->{callback_error} ||= sub {
-	my ($urpm, undef, $id, $subtype, undef, undef, $fullname) = @_;
-	$urpm->{error}("ERROR: '$subtype' failed for $fullname");
+	my ($urpm, undef, $id, $subtype, undef, undef) = @_;
+	$urpm->{error}("ERROR: '$subtype' failed for $current_pkg");
     };
 
     if ($options->{verbose} >= 0 && $have_pkgs) {
