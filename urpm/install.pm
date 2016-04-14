@@ -94,7 +94,7 @@ See L<URPM> for parameters
 =cut
 
 # install logger callback
-my ($erase_logger, $index, $total_pkg, $uninst_count);
+my ($erase_logger, $index, $total_pkg, $uninst_count, $current_pkg);
 sub install_logger {
     my ($urpm, $type, undef, $subtype, $amount, $total) = @_;
     local $| = 1;
@@ -113,7 +113,7 @@ sub install_logger {
 	    if ($type eq 'uninst') {
 		$total_pkg = $urpm->{trans}->NElements - $index if !$uninst_count;
 		$cnt = ++$uninst_count;
-		$pname = N("removing %s", $urpm->{trans}->Element_fullname($index));
+		$pname = N("removing %s", $current_pkg);
 		$erase_logger->($urpm, undef, undef, $subtype);
 	    } else {
 		$pname = $urpm->{trans}->Element_name($index);
@@ -285,14 +285,14 @@ sub _get_callbacks {
 	my ($urpm, undef, undef, $subtype) = @_;
 
 	if ($subtype eq 'start') {
-	    my ($name, $fullname) = ($trans->Element_name($index), $trans->Element_fullname($index));
+	    my $name = $trans->Element_name($index);
 	    my @previous = map { $trans->Element_name($_) } 0 .. ($index - 1);
 	    # looking at previous packages in transaction
 	    # we should be looking only at installed packages, but it should not give a different result
 	    if (member($name, @previous)) {
-		$urpm->{log}("removing upgraded package $fullname");
+		$urpm->{log}("removing upgraded package $current_pkg");
 	    } else {
-		$urpm->{print}(N("removing package %s", $fullname)) if $verbose >= 0;
+		$urpm->{print}(N("removing package %s", $current_pkg)) if $verbose >= 0;
 	    }
 	}
     };
@@ -302,6 +302,7 @@ sub _get_callbacks {
     $options->{callback_elem} ||= sub {
 	my (undef, undef, undef, undef, $idx, undef) = @_;
 	$index = $idx;
+	$current_pkg = $trans->Element_fullname($idx);
     };
     $options->{callback_error} ||= sub {
 	my ($urpm, undef, $id, $subtype, undef, undef, $fullname) = @_;
