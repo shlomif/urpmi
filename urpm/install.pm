@@ -120,7 +120,6 @@ sub install_logger {
 		++$urpm->{logger_count} if $pname;
 		$cnt = $pname ? $urpm->{logger_count} : '-';
 	    }
-	    $index++;
 	    my $s = sprintf("%9s: %-22s", $cnt . "/" . $total_pkg, $pname);
 	    print $s;
 	    $s =~ / $/ or printf "\n%9s  %-22s", '', '';
@@ -300,6 +299,10 @@ sub _get_callbacks {
 
     $options->{callback_uninst} ||= $options->{verbose} >= 0 ? \&install_logger : $erase_logger;
 
+    $options->{callback_elem} ||= sub {
+	my (undef, undef, undef, undef, $idx, undef) = @_;
+	$index = $idx;
+    };
     $options->{callback_error} ||= sub {
 	my ($urpm, undef, $id, $subtype, undef, undef, $fullname) = @_;
 	$urpm->{error}("ERROR: '$subtype' failed for $fullname");
