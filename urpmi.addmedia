@@ -95,7 +95,7 @@ if ($options{'xml-info'}) {
     member($options{'xml-info'}, urpm::xml_info_policies()) or die N("known xml-info policies are %s", join(', ', urpm::xml_info_policies())) . "\n";
 }
 
-our ($name, $url, $with, $relative_synthesis) = our @cmdline;
+our ($name, $url, $with, $relative_synthesis) = our @cmdline;  #- set by urpm::args
 my $with_dir;
 
 $options{quiet} = 1 if $options{verbose} < 0;
