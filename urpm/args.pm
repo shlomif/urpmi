@@ -18,7 +18,7 @@ our @EXPORT = '%options';
 
 # Configuration of Getopt. urpmf is a special case, because we need to
 # parse non-alphanumerical options (-! -( -))
-my @configuration = qw(bundling gnu_compat permute);
+my @configuration = qw(gnu_compat bundling no_ignore_case permute);
 push @configuration, 'pass_through'
     if $tool eq 'urpmf' || $tool eq 'urpmi.addmedia';
 Getopt::Long::Configure(@configuration);
